@@ -1,6 +1,10 @@
 //
 // Created by jfgar on 01/04/2021.
 //
+#ifndef MAIN_C_STRUCTS_H
+#define MAIN_C_STRUCTS_H
+
+#include <semaphore.h>
 
 #define CAR_RACE_STATUS 0
 #define CAR_SAFETY_STATUS 1
@@ -12,10 +16,7 @@
 #define BOX_RESERVED_STATUS 1
 #define BOX_OCCUPIED_STATUS 2
 
-#ifndef MAIN_C_STRUCTS_H
-#define MAIN_C_STRUCTS_H
-
-#endif //MAIN_C_STRUCTS_H
+#define MUTEX "MUTEX"
 
 typedef struct shared_memory shared_memory;
 typedef struct race_car race_car;
@@ -24,6 +25,10 @@ typedef struct race_team race_team;
 typedef struct box_status box_status;
 typedef struct box box;
 typedef struct race_team race_team;
+
+int shmid;
+shared_memory * mem_struct;
+sem_t * mutex;
 
 struct shared_memory {
     //race_config configs;
@@ -60,3 +65,5 @@ struct box{
 struct box_status {
     int team_id, status;
 };
+
+#endif //MAIN_C_STRUCTS_H
