@@ -123,140 +123,32 @@ RaceSimulator/fast:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/build
 .PHONY : RaceSimulator/fast
 
-IPCManager.o: IPCManager.c.o
+ipc_manager.o: ipc_manager.c.o
 
-.PHONY : IPCManager.o
-
-# target to build an object file
-IPCManager.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/IPCManager.c.o
-.PHONY : IPCManager.c.o
-
-IPCManager.i: IPCManager.c.i
-
-.PHONY : IPCManager.i
-
-# target to preprocess a source file
-IPCManager.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/IPCManager.c.i
-.PHONY : IPCManager.c.i
-
-IPCManager.s: IPCManager.c.s
-
-.PHONY : IPCManager.s
-
-# target to generate assembly for a file
-IPCManager.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/IPCManager.c.s
-.PHONY : IPCManager.c.s
-
-MalfunctionManager.o: MalfunctionManager.c.o
-
-.PHONY : MalfunctionManager.o
+.PHONY : ipc_manager.o
 
 # target to build an object file
-MalfunctionManager.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.o
-.PHONY : MalfunctionManager.c.o
+ipc_manager.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.o
+.PHONY : ipc_manager.c.o
 
-MalfunctionManager.i: MalfunctionManager.c.i
+ipc_manager.i: ipc_manager.c.i
 
-.PHONY : MalfunctionManager.i
-
-# target to preprocess a source file
-MalfunctionManager.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.i
-.PHONY : MalfunctionManager.c.i
-
-MalfunctionManager.s: MalfunctionManager.c.s
-
-.PHONY : MalfunctionManager.s
-
-# target to generate assembly for a file
-MalfunctionManager.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.s
-.PHONY : MalfunctionManager.c.s
-
-RaceManager.o: RaceManager.c.o
-
-.PHONY : RaceManager.o
-
-# target to build an object file
-RaceManager.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/RaceManager.c.o
-.PHONY : RaceManager.c.o
-
-RaceManager.i: RaceManager.c.i
-
-.PHONY : RaceManager.i
+.PHONY : ipc_manager.i
 
 # target to preprocess a source file
-RaceManager.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/RaceManager.c.i
-.PHONY : RaceManager.c.i
+ipc_manager.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.i
+.PHONY : ipc_manager.c.i
 
-RaceManager.s: RaceManager.c.s
+ipc_manager.s: ipc_manager.c.s
 
-.PHONY : RaceManager.s
-
-# target to generate assembly for a file
-RaceManager.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/RaceManager.c.s
-.PHONY : RaceManager.c.s
-
-TeamManager.o: TeamManager.c.o
-
-.PHONY : TeamManager.o
-
-# target to build an object file
-TeamManager.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/TeamManager.c.o
-.PHONY : TeamManager.c.o
-
-TeamManager.i: TeamManager.c.i
-
-.PHONY : TeamManager.i
-
-# target to preprocess a source file
-TeamManager.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/TeamManager.c.i
-.PHONY : TeamManager.c.i
-
-TeamManager.s: TeamManager.c.s
-
-.PHONY : TeamManager.s
+.PHONY : ipc_manager.s
 
 # target to generate assembly for a file
-TeamManager.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/TeamManager.c.s
-.PHONY : TeamManager.c.s
-
-error_handler.o: error_handler.c.o
-
-.PHONY : error_handler.o
-
-# target to build an object file
-error_handler.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/error_handler.c.o
-.PHONY : error_handler.c.o
-
-error_handler.i: error_handler.c.i
-
-.PHONY : error_handler.i
-
-# target to preprocess a source file
-error_handler.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/error_handler.c.i
-.PHONY : error_handler.c.i
-
-error_handler.s: error_handler.c.s
-
-.PHONY : error_handler.s
-
-# target to generate assembly for a file
-error_handler.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/error_handler.c.s
-.PHONY : error_handler.c.s
+ipc_manager.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.s
+.PHONY : ipc_manager.c.s
 
 main.o: main.c.o
 
@@ -285,6 +177,33 @@ main.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/main.c.s
 .PHONY : main.c.s
 
+malfunction_manager.o: malfunction_manager.c.o
+
+.PHONY : malfunction_manager.o
+
+# target to build an object file
+malfunction_manager.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o
+.PHONY : malfunction_manager.c.o
+
+malfunction_manager.i: malfunction_manager.c.i
+
+.PHONY : malfunction_manager.i
+
+# target to preprocess a source file
+malfunction_manager.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/malfunction_manager.c.i
+.PHONY : malfunction_manager.c.i
+
+malfunction_manager.s: malfunction_manager.c.s
+
+.PHONY : malfunction_manager.s
+
+# target to generate assembly for a file
+malfunction_manager.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/malfunction_manager.c.s
+.PHONY : malfunction_manager.c.s
+
 race_config_reader.o: race_config_reader.c.o
 
 .PHONY : race_config_reader.o
@@ -312,59 +231,140 @@ race_config_reader.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_reader.c.s
 .PHONY : race_config_reader.c.s
 
-read_line.o: read_line.c.o
+race_manager.o: race_manager.c.o
 
-.PHONY : read_line.o
-
-# target to build an object file
-read_line.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.o
-.PHONY : read_line.c.o
-
-read_line.i: read_line.c.i
-
-.PHONY : read_line.i
-
-# target to preprocess a source file
-read_line.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.i
-.PHONY : read_line.c.i
-
-read_line.s: read_line.c.s
-
-.PHONY : read_line.s
-
-# target to generate assembly for a file
-read_line.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.s
-.PHONY : read_line.c.s
-
-to_float.o: to_float.c.o
-
-.PHONY : to_float.o
+.PHONY : race_manager.o
 
 # target to build an object file
-to_float.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.o
-.PHONY : to_float.c.o
+race_manager.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_manager.c.o
+.PHONY : race_manager.c.o
 
-to_float.i: to_float.c.i
+race_manager.i: race_manager.c.i
 
-.PHONY : to_float.i
+.PHONY : race_manager.i
 
 # target to preprocess a source file
-to_float.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.i
-.PHONY : to_float.c.i
+race_manager.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_manager.c.i
+.PHONY : race_manager.c.i
 
-to_float.s: to_float.c.s
+race_manager.s: race_manager.c.s
 
-.PHONY : to_float.s
+.PHONY : race_manager.s
 
 # target to generate assembly for a file
-to_float.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.s
-.PHONY : to_float.c.s
+race_manager.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_manager.c.s
+.PHONY : race_manager.c.s
+
+team_manager.o: team_manager.c.o
+
+.PHONY : team_manager.o
+
+# target to build an object file
+team_manager.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/team_manager.c.o
+.PHONY : team_manager.c.o
+
+team_manager.i: team_manager.c.i
+
+.PHONY : team_manager.i
+
+# target to preprocess a source file
+team_manager.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/team_manager.c.i
+.PHONY : team_manager.c.i
+
+team_manager.s: team_manager.c.s
+
+.PHONY : team_manager.s
+
+# target to generate assembly for a file
+team_manager.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/team_manager.c.s
+.PHONY : team_manager.c.s
+
+util/error_handler.o: util/error_handler.c.o
+
+.PHONY : util/error_handler.o
+
+# target to build an object file
+util/error_handler.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/error_handler.c.o
+.PHONY : util/error_handler.c.o
+
+util/error_handler.i: util/error_handler.c.i
+
+.PHONY : util/error_handler.i
+
+# target to preprocess a source file
+util/error_handler.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/error_handler.c.i
+.PHONY : util/error_handler.c.i
+
+util/error_handler.s: util/error_handler.c.s
+
+.PHONY : util/error_handler.s
+
+# target to generate assembly for a file
+util/error_handler.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/error_handler.c.s
+.PHONY : util/error_handler.c.s
+
+util/read_line.o: util/read_line.c.o
+
+.PHONY : util/read_line.o
+
+# target to build an object file
+util/read_line.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line.c.o
+.PHONY : util/read_line.c.o
+
+util/read_line.i: util/read_line.c.i
+
+.PHONY : util/read_line.i
+
+# target to preprocess a source file
+util/read_line.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line.c.i
+.PHONY : util/read_line.c.i
+
+util/read_line.s: util/read_line.c.s
+
+.PHONY : util/read_line.s
+
+# target to generate assembly for a file
+util/read_line.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line.c.s
+.PHONY : util/read_line.c.s
+
+util/to_float.o: util/to_float.c.o
+
+.PHONY : util/to_float.o
+
+# target to build an object file
+util/to_float.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/to_float.c.o
+.PHONY : util/to_float.c.o
+
+util/to_float.i: util/to_float.c.i
+
+.PHONY : util/to_float.i
+
+# target to preprocess a source file
+util/to_float.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/to_float.c.i
+.PHONY : util/to_float.c.i
+
+util/to_float.s: util/to_float.c.s
+
+.PHONY : util/to_float.s
+
+# target to generate assembly for a file
+util/to_float.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/to_float.c.s
+.PHONY : util/to_float.c.s
 
 # Help Target
 help:
@@ -375,33 +375,33 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
 	@echo "... edit_cache"
-	@echo "... IPCManager.o"
-	@echo "... IPCManager.i"
-	@echo "... IPCManager.s"
-	@echo "... MalfunctionManager.o"
-	@echo "... MalfunctionManager.i"
-	@echo "... MalfunctionManager.s"
-	@echo "... RaceManager.o"
-	@echo "... RaceManager.i"
-	@echo "... RaceManager.s"
-	@echo "... TeamManager.o"
-	@echo "... TeamManager.i"
-	@echo "... TeamManager.s"
-	@echo "... error_handler.o"
-	@echo "... error_handler.i"
-	@echo "... error_handler.s"
+	@echo "... ipc_manager.o"
+	@echo "... ipc_manager.i"
+	@echo "... ipc_manager.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... malfunction_manager.o"
+	@echo "... malfunction_manager.i"
+	@echo "... malfunction_manager.s"
 	@echo "... race_config_reader.o"
 	@echo "... race_config_reader.i"
 	@echo "... race_config_reader.s"
-	@echo "... read_line.o"
-	@echo "... read_line.i"
-	@echo "... read_line.s"
-	@echo "... to_float.o"
-	@echo "... to_float.i"
-	@echo "... to_float.s"
+	@echo "... race_manager.o"
+	@echo "... race_manager.i"
+	@echo "... race_manager.s"
+	@echo "... team_manager.o"
+	@echo "... team_manager.i"
+	@echo "... team_manager.s"
+	@echo "... util/error_handler.o"
+	@echo "... util/error_handler.i"
+	@echo "... util/error_handler.s"
+	@echo "... util/read_line.o"
+	@echo "... util/read_line.i"
+	@echo "... util/read_line.s"
+	@echo "... util/to_float.o"
+	@echo "... util/to_float.i"
+	@echo "... util/to_float.s"
 .PHONY : help
 
 

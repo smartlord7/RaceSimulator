@@ -3,4 +3,4 @@ project(RaceSimulator C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(RaceSimulator main.c global_header.h RaceManager.c TeamManager.c MalfunctionManager.c race_config_reader.c error_handler.c error_handler.h read_line.c read_line.h to_float.c to_float.h IPCManager.c)
+add_executable(RaceSimulator main.c global.h race_manager.c team_manager.c malfunction_manager.c race_config_reader.c util/error_handler.c util/error_handler.h util/read_line.c util/read_line.h util/to_float.c util/to_float.h ipc_manager.c structs/race_config.h structs/race_car.h structs/race_team.h structs/race_box.h structs/shared_memory.h)

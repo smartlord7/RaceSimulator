@@ -1,18 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "error_handler.h"
-#include "read_line.h"
-#include "to_float.h"
-#include "race_config.h"
+#include "util/error_handler.h"
+#include "util/read_line.h"
+#include "util/to_float.h"
+#include "structs/race_config.h"
 #include <stdarg.h>
 
 #define MAX_CONFIG_FILE_LINE_SIZE 20
 #define CONFIG_FILE_NUM_LINES 7
 #define MIN_NUM_TEAMS 3
 #define FIELD_DELIMITER ","
-#define true 1
-#define false 0
 
 static char * config_file_path = NULL;
 static int current_line;
@@ -57,7 +55,7 @@ static void error_at_line(const char * error_msg, ...) {
     char buffer2[MAX_ERROR_MSG_SIZE * 2];
 
     snprintf(buffer2, sizeof(buffer2), "%s %s", ERROR_AT_LINE, buffer);
-    throw_error(true, buffer2, current_line + 1, config_file_path);
+    throw_error(buffer2, current_line + 1, config_file_path);
 
     va_end(args);
 }
@@ -79,11 +77,11 @@ race_config * read_race_config() {
     race_config * config = NULL;
 
     if ((config_file = fopen(config_file_path, "r")) == NULL) {
-        throw_error(true, ERROR_FILE_OPENING, config_file_path);
+        throw_error(ERROR_FILE_OPENING, config_file_path);
     }
 
     if ((config = malloc(sizeof(race_config))) == NULL) {
-        throw_error(true, ERROR_MEMORY_ALLOCATION, "race config object");
+        throw_error(ERROR_MEMORY_ALLOCATION, "race config object");
     }
 
     current_line = 0;
@@ -101,7 +99,7 @@ race_config * read_race_config() {
        int read_feedback = read_line(buffer, config_file, MAX_CONFIG_FILE_LINE_SIZE);
 
        if (read_feedback == EOF && buffer[0] == '\0') {
-           throw_error(true, ERROR_INSUFFICIENT_NUM_LINES, config_file_path, CONFIG_FILE_NUM_LINES);
+           throw_error(ERROR_INSUFFICIENT_NUM_LINES, config_file_path, CONFIG_FILE_NUM_LINES);
        } else if (read_feedback == BUFFER_SIZE_EXCEEDED) {
            error_at_line(ERROR_BUFFER_SIZE_EXCEEDED, CONFIG_FILE_NUM_LINES);
        }
