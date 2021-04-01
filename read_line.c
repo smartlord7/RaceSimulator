@@ -17,7 +17,7 @@ int read_line(char * buffer, FILE * file, int buffer_size) {
         
         buffer[i++] = chr; 
     }
-    
+
     buffer[i] = '\0';
 
     if (chr == (char) EOF) {

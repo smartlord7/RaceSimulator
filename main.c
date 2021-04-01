@@ -1,7 +1,12 @@
-#include <stdio.h>
-#include "global_header.h"
+#include <stdlib.h>
+#include "race_config_reader.h"
 
 int main() {
-    printf("Hello, World!\n");
-    return 0;
+    race_config_reader_init("test.txt");
+    race_config * cfg = read_race_config();
+    race_config_reader_reset();
+
+    show_race_config(cfg);
+
+    free(cfg);
 }
