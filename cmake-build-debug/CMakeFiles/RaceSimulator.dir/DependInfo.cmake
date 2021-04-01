@@ -4,7 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/main.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/main.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/MalfunctionManager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/RaceManager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/RaceManager.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/TeamManager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/TeamManager.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/main.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

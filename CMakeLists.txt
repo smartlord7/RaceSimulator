@@ -3,4 +3,4 @@ project(RaceSimulator C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(RaceSimulator main.c)
+add_executable(RaceSimulator main.c global_header.h RaceManager.c TeamManager.c MalfunctionManager.c)
