@@ -2,6 +2,10 @@
 #define RACESIMULATOR_RACE_BOX_H
 
 #include "race_team.h"
+#include "race_car.h"
+
+typedef struct race_team race_team;
+typedef struct race_car race_car;
 
 #define BOX_FREE_STATE 0
 #define BOX_RESERVED_STATE 1

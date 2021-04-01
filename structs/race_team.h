@@ -1,10 +1,9 @@
 #ifndef RACESIMULATOR_RACE_TEAM_H
 #define RACESIMULATOR_RACE_TEAM_H
 
-#include "race_car.h"
 #include "race_box.h"
 
-#define MAX_TEAM_NAME_SIZE 20
+#define MAX_TEAM_NAME_SIZE 50
 
 typedef struct race_team race_team;
 

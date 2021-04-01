@@ -3,10 +3,9 @@
 
 #include <semaphore.h>
 
-#define MAX_TEAM_NAME_SIZE 50
-
 #define true 1
 #define false 0
+#define DEBUG true
 
 #define MUTEX "MUTEX"
 

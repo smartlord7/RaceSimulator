@@ -1,7 +1,7 @@
 #ifndef RACESIMULATOR_RACE_CONFIG_H
 #define RACESIMULATOR_RACE_CONFIG_H
 
-typedef struct race_config race_config ;
+typedef struct race_config race_config;
 
 struct race_config {
     float time_units_per_sec,

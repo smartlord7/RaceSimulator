@@ -150,33 +150,6 @@ ipc_manager.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.s
 .PHONY : ipc_manager.c.s
 
-main.o: main.c.o
-
-.PHONY : main.o
-
-# target to build an object file
-main.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/main.c.o
-.PHONY : main.c.o
-
-main.i: main.c.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/main.c.i
-.PHONY : main.c.i
-
-main.s: main.c.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/main.c.s
-.PHONY : main.c.s
-
 malfunction_manager.o: malfunction_manager.c.o
 
 .PHONY : malfunction_manager.o
@@ -258,6 +231,33 @@ race_manager.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_manager.c.s
 .PHONY : race_manager.c.s
 
+race_simulator.o: race_simulator.c.o
+
+.PHONY : race_simulator.o
+
+# target to build an object file
+race_simulator.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_simulator.c.o
+.PHONY : race_simulator.c.o
+
+race_simulator.i: race_simulator.c.i
+
+.PHONY : race_simulator.i
+
+# target to preprocess a source file
+race_simulator.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_simulator.c.i
+.PHONY : race_simulator.c.i
+
+race_simulator.s: race_simulator.c.s
+
+.PHONY : race_simulator.s
+
+# target to generate assembly for a file
+race_simulator.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_simulator.c.s
+.PHONY : race_simulator.c.s
+
 team_manager.o: team_manager.c.o
 
 .PHONY : team_manager.o
@@ -284,6 +284,33 @@ team_manager.s: team_manager.c.s
 team_manager.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/team_manager.c.s
 .PHONY : team_manager.c.s
+
+util/debug.o: util/debug.c.o
+
+.PHONY : util/debug.o
+
+# target to build an object file
+util/debug.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/debug.c.o
+.PHONY : util/debug.c.o
+
+util/debug.i: util/debug.c.i
+
+.PHONY : util/debug.i
+
+# target to preprocess a source file
+util/debug.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/debug.c.i
+.PHONY : util/debug.c.i
+
+util/debug.s: util/debug.c.s
+
+.PHONY : util/debug.s
+
+# target to generate assembly for a file
+util/debug.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/debug.c.s
+.PHONY : util/debug.c.s
 
 util/error_handler.o: util/error_handler.c.o
 
@@ -378,9 +405,6 @@ help:
 	@echo "... ipc_manager.o"
 	@echo "... ipc_manager.i"
 	@echo "... ipc_manager.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
 	@echo "... malfunction_manager.o"
 	@echo "... malfunction_manager.i"
 	@echo "... malfunction_manager.s"
@@ -390,9 +414,15 @@ help:
 	@echo "... race_manager.o"
 	@echo "... race_manager.i"
 	@echo "... race_manager.s"
+	@echo "... race_simulator.o"
+	@echo "... race_simulator.i"
+	@echo "... race_simulator.s"
 	@echo "... team_manager.o"
 	@echo "... team_manager.i"
 	@echo "... team_manager.s"
+	@echo "... util/debug.o"
+	@echo "... util/debug.i"
+	@echo "... util/debug.s"
 	@echo "... util/error_handler.o"
 	@echo "... util/error_handler.i"
 	@echo "... util/error_handler.s"

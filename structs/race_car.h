@@ -14,15 +14,15 @@ typedef struct race_car race_car;
 struct race_car{
     race_team * team;
     int car_id,
-            completed_laps,
-            num__box_stops,
-            num_malfunctions,
-            num_of_refuels,
-            status;
+        completed_laps,
+        num__box_stops,
+        num_malfunctions,
+        num_of_refuels,
+        status;
     float remaining_fuel,
-            consumption,
-            speed,
-            reliability;
+          consumption,
+          speed,
+          reliability;
 };
 
 #endif //RACESIMULATOR_RACE_CAR_H

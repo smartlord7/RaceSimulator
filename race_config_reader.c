@@ -16,7 +16,7 @@ static char * config_file_path = NULL;
 static int current_line;
 
 void race_config_reader_init(char * cfg_file_path) {
-    config_file_path =  cfg_file_path;
+    config_file_path = cfg_file_path;
     current_line = -1;
 }
 

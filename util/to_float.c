@@ -2,7 +2,7 @@
 #include <float.h>
 #include <stdlib.h>
 
-int to_float(char num_string[], float * num_float){
+int to_float(char * num_string, float * num_float){
     double num_d;
     char * tail;
     errno = 0;
