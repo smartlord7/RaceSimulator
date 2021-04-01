@@ -129,23 +129,92 @@ CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/projeto_SO/RaceSimulator/MalfunctionManager.c -o CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.s
 
+CMakeFiles/RaceSimulator.dir/race_config_reader.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/race_config_reader.c.o: ../race_config_reader.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/RaceSimulator.dir/race_config_reader.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_config_reader.c.o   -c /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_config_reader.c
+
+CMakeFiles/RaceSimulator.dir/race_config_reader.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/race_config_reader.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_config_reader.c > CMakeFiles/RaceSimulator.dir/race_config_reader.c.i
+
+CMakeFiles/RaceSimulator.dir/race_config_reader.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/race_config_reader.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_config_reader.c -o CMakeFiles/RaceSimulator.dir/race_config_reader.c.s
+
+CMakeFiles/RaceSimulator.dir/error_handler.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/error_handler.c.o: ../error_handler.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/RaceSimulator.dir/error_handler.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/error_handler.c.o   -c /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/error_handler.c
+
+CMakeFiles/RaceSimulator.dir/error_handler.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/error_handler.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/error_handler.c > CMakeFiles/RaceSimulator.dir/error_handler.c.i
+
+CMakeFiles/RaceSimulator.dir/error_handler.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/error_handler.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/error_handler.c -o CMakeFiles/RaceSimulator.dir/error_handler.c.s
+
+CMakeFiles/RaceSimulator.dir/read_line.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/read_line.c.o: ../read_line.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/RaceSimulator.dir/read_line.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/read_line.c.o   -c /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/read_line.c
+
+CMakeFiles/RaceSimulator.dir/read_line.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/read_line.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/read_line.c > CMakeFiles/RaceSimulator.dir/read_line.c.i
+
+CMakeFiles/RaceSimulator.dir/read_line.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/read_line.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/read_line.c -o CMakeFiles/RaceSimulator.dir/read_line.c.s
+
+CMakeFiles/RaceSimulator.dir/to_float.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/to_float.c.o: ../to_float.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/RaceSimulator.dir/to_float.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/to_float.c.o   -c /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/to_float.c
+
+CMakeFiles/RaceSimulator.dir/to_float.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/to_float.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/to_float.c > CMakeFiles/RaceSimulator.dir/to_float.c.i
+
+CMakeFiles/RaceSimulator.dir/to_float.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/to_float.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/Users/Sancho/Projetos/RaceSimulator/to_float.c -o CMakeFiles/RaceSimulator.dir/to_float.c.s
+
 # Object files for target RaceSimulator
 RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/main.c.o" \
+<<<<<<< Updated upstream
 "CMakeFiles/RaceSimulator.dir/RaceManager.c.o" \
 "CMakeFiles/RaceSimulator.dir/TeamManager.c.o" \
 "CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.o"
+=======
+"CMakeFiles/RaceSimulator.dir/race_config_reader.c.o" \
+"CMakeFiles/RaceSimulator.dir/error_handler.c.o" \
+"CMakeFiles/RaceSimulator.dir/read_line.c.o" \
+"CMakeFiles/RaceSimulator.dir/to_float.c.o"
+>>>>>>> Stashed changes
 
 # External object files for target RaceSimulator
 RaceSimulator_EXTERNAL_OBJECTS =
 
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/main.c.o
+<<<<<<< Updated upstream
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/RaceManager.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/TeamManager.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/MalfunctionManager.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/build.make
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable RaceSimulator.exe"
+=======
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/race_config_reader.c.o
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/error_handler.c.o
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/read_line.c.o
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/to_float.c.o
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/build.make
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable RaceSimulator.exe"
+>>>>>>> Stashed changes
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RaceSimulator.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

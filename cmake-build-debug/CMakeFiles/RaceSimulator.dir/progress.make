@@ -3,4 +3,8 @@ CMAKE_PROGRESS_2 = 2
 CMAKE_PROGRESS_3 = 3
 CMAKE_PROGRESS_4 = 4
 CMAKE_PROGRESS_5 = 5
+<<<<<<< Updated upstream
+=======
+CMAKE_PROGRESS_6 = 6
+>>>>>>> Stashed changes
 

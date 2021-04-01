@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 C:\Users\jfgar\AppData\Local\JetBrains\CLion2020.3\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/c/projeto_SO/RaceSimulator
+=======
+C:\Users\Sancho\AppData\Local\JetBrains\CLion2020.1\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/c/Users/Sancho/Projetos/RaceSimulator
+>>>>>>> Stashed changes
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug

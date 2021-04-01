@@ -74,6 +74,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+<<<<<<< Updated upstream
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/MalfunctionManager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -90,6 +91,33 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/CMakeLists.txt">
+=======
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/error_handler.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/error_handler.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/main.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_config_reader.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/read_line.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/read_line.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/to_float.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/to_float.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/CMakeLists.txt">
+>>>>>>> Stashed changes
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

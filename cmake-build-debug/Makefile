@@ -143,6 +143,7 @@ RaceSimulator/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/build
 .PHONY : RaceSimulator/fast
 
+<<<<<<< Updated upstream
 MalfunctionManager.o: MalfunctionManager.c.o
 
 .PHONY : MalfunctionManager.o
@@ -223,6 +224,34 @@ TeamManager.s: TeamManager.c.s
 TeamManager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/TeamManager.c.s
 .PHONY : TeamManager.c.s
+=======
+error_handler.o: error_handler.c.o
+
+.PHONY : error_handler.o
+
+# target to build an object file
+error_handler.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/error_handler.c.o
+.PHONY : error_handler.c.o
+
+error_handler.i: error_handler.c.i
+
+.PHONY : error_handler.i
+
+# target to preprocess a source file
+error_handler.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/error_handler.c.i
+.PHONY : error_handler.c.i
+
+error_handler.s: error_handler.c.s
+
+.PHONY : error_handler.s
+
+# target to generate assembly for a file
+error_handler.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/error_handler.c.s
+.PHONY : error_handler.c.s
+>>>>>>> Stashed changes
 
 main.o: main.c.o
 
@@ -251,6 +280,87 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/main.c.s
 .PHONY : main.c.s
 
+race_config_reader.o: race_config_reader.c.o
+
+.PHONY : race_config_reader.o
+
+# target to build an object file
+race_config_reader.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_reader.c.o
+.PHONY : race_config_reader.c.o
+
+race_config_reader.i: race_config_reader.c.i
+
+.PHONY : race_config_reader.i
+
+# target to preprocess a source file
+race_config_reader.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_reader.c.i
+.PHONY : race_config_reader.c.i
+
+race_config_reader.s: race_config_reader.c.s
+
+.PHONY : race_config_reader.s
+
+# target to generate assembly for a file
+race_config_reader.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_reader.c.s
+.PHONY : race_config_reader.c.s
+
+read_line.o: read_line.c.o
+
+.PHONY : read_line.o
+
+# target to build an object file
+read_line.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.o
+.PHONY : read_line.c.o
+
+read_line.i: read_line.c.i
+
+.PHONY : read_line.i
+
+# target to preprocess a source file
+read_line.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.i
+.PHONY : read_line.c.i
+
+read_line.s: read_line.c.s
+
+.PHONY : read_line.s
+
+# target to generate assembly for a file
+read_line.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.s
+.PHONY : read_line.c.s
+
+to_float.o: to_float.c.o
+
+.PHONY : to_float.o
+
+# target to build an object file
+to_float.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.o
+.PHONY : to_float.c.o
+
+to_float.i: to_float.c.i
+
+.PHONY : to_float.i
+
+# target to preprocess a source file
+to_float.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.i
+.PHONY : to_float.c.i
+
+to_float.s: to_float.c.s
+
+.PHONY : to_float.s
+
+# target to generate assembly for a file
+to_float.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.s
+.PHONY : to_float.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -260,6 +370,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
+<<<<<<< Updated upstream
 	@echo "... MalfunctionManager.o"
 	@echo "... MalfunctionManager.i"
 	@echo "... MalfunctionManager.s"
@@ -269,9 +380,24 @@ help:
 	@echo "... TeamManager.o"
 	@echo "... TeamManager.i"
 	@echo "... TeamManager.s"
+=======
+	@echo "... edit_cache"
+	@echo "... error_handler.o"
+	@echo "... error_handler.i"
+	@echo "... error_handler.s"
+>>>>>>> Stashed changes
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... race_config_reader.o"
+	@echo "... race_config_reader.i"
+	@echo "... race_config_reader.s"
+	@echo "... read_line.o"
+	@echo "... read_line.i"
+	@echo "... read_line.s"
+	@echo "... to_float.o"
+	@echo "... to_float.i"
+	@echo "... to_float.s"
 .PHONY : help
 
 
