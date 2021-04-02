@@ -1,9 +1,9 @@
 #ifndef RACESIMULATOR_RACE_CONFIG_H
 #define RACESIMULATOR_RACE_CONFIG_H
 
-typedef struct race_config race_config;
+typedef struct race_config_t race_config_t;
 
-struct race_config {
+struct race_config_t {
     float time_units_per_sec,
             lap_distance,
             malfunction_interval,

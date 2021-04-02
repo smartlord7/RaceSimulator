@@ -1,0 +1,6 @@
+#ifndef GLOBAL_HEADER_H_TEAM_MANAGER_H
+#define GLOBAL_HEADER_H_TEAM_MANAGER_H
+
+void team_manager();
+
+#endif //GLOBAL_HEADER_H_TEAM_MANAGER_H

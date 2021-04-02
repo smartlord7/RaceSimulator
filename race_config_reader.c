@@ -4,7 +4,7 @@
 #include "util/error_handler.h"
 #include "util/read_line.h"
 #include "util/to_float.h"
-#include "structs/race_config.h"
+#include "structs/race_config_t.h"
 #include <stdarg.h>
 
 #define true 1
@@ -39,7 +39,7 @@ void race_config_reader_reset() {
     current_line = -1;
 }
 
-void show_race_config(race_config * cfg) {
+char * show_race_config(race_config_t * cfg) {
     printf("Time units per second: %.2ftu\n"
            "Lap distance: %.2fm\n"
            "Number of laps per race: %d\n"
@@ -82,20 +82,20 @@ static void to_float_wrapper(int feedback, const char * field_name) {
     }
 }
 
-race_config * read_race_config() {
+race_config_t * read_race_config() {
     if (config_file_path == NULL) {
         return NULL;
     }
 
     FILE * config_file = NULL;
-    race_config * config = NULL;
+    race_config_t * config = NULL;
 
     if ((config_file = fopen(config_file_path, "r")) == NULL) {
         throw_error_end_exit(ERROR_FILE_OPENING, config_file_path);
     }
 
-    if ((config = malloc(sizeof(race_config))) == NULL) {
-        throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "race config object");
+    if ((config = malloc(sizeof(race_config_t))) == NULL) {
+        throw_error(ERROR_MEMORY_ALLOCATION, "race config object");
     }
 
     current_line = 0;

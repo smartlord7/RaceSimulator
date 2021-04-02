@@ -5,7 +5,7 @@
 #include <string.h>
 #include "util/error_handler.h"
 #include <time.h>
-#include "structs/race_car.h"
+#include "structs/race_car_t.h"
 #include "global.h"
 #include <stdio.h>
 
@@ -38,7 +38,7 @@ char * get_time(){
 void write_log_entry(char * entry);
 
 void generate_log_entry(int mode, void * data){
-    race_car * car;
+    race_car_t * car;
     char * entry = get_time();
 
     switch(mode){
@@ -69,7 +69,7 @@ void generate_log_entry(int mode, void * data){
             }
             break;
         case CAR_LOADED:
-            car = (race_car *) data;
+            car = (race_car_t *) data;
             if(strcat(entry, " CAR LOADED => ") == NULL){
                 throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "CAR LOADED");
             }
@@ -78,7 +78,7 @@ void generate_log_entry(int mode, void * data){
             }
             break;
         case CAR_MALFUNCTION:
-            car = (race_car *) data;
+            car = (race_car_t *) data;
             if(strcat(entry, " NEW PROBLEM IN CAR") == NULL){
                 throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "CAR MALFUNCTION");
             }
@@ -98,7 +98,7 @@ void generate_log_entry(int mode, void * data){
             }
             break;
         case RACE_WIN:
-            car = (race_car *) data;
+            car = (race_car_t *) data;
             if(strcat(entry, " CAR ") == NULL){
                 throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "RACE WIN");
             }

@@ -10,4 +10,9 @@ CMAKE_PROGRESS_9 = 9
 CMAKE_PROGRESS_10 = 10
 CMAKE_PROGRESS_11 = 11
 CMAKE_PROGRESS_12 = 12
+<<<<<<< Updated upstream
+=======
+CMAKE_PROGRESS_13 = 13
+CMAKE_PROGRESS_14 = 14
+>>>>>>> Stashed changes
 

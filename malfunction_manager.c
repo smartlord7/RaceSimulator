@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include "util/error_handler.h"
 
-#define MALFUNCTION_MANAGER "MALFUNCTION MANAGER"
-
-int malfunction_manager(){
-    throw_error_end_exit(ERROR_NOT_IMPLEMENTED, MALFUNCTION_MANAGER);
+void malfunction_manager(void * data){
+    throw_error(ERROR_NOT_IMPLEMENTED, MALFUNCTION_MANAGER);
 }

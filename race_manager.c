@@ -1,27 +1,37 @@
-#include "global.h"
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include "global.h"
 #include "util/error_handler.h"
+#include "util/process_manager.h"
 
-#define TEAM "TEAM"
+#if DEBUG
+#include "util/debug.h"
+#endif
 
-int start_team_manager();
+void race_manager(void * data){
+    DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
 
-int race_manager(){
-    if(start_team_manager() == EXIT_FAILURE){
-        throw_error_end_exit(ERROR_CREATE_PROCESS, TEAM);
-        return EXIT_FAILURE;
+    int num_teams = mem_struct->cfg->num_teams, i = 0;
+    race_team_t * teams;
+
+    if ((teams = (race_team_t *) malloc(num_teams * sizeof(race_team_t))) == NULL) {
+        throw_error(ERROR_MEMORY_ALLOCATION, "TEAMS LIST!");
     }
-}
 
-int start_team_manager(){
-    pid_t child;
+    mem_struct->race_teams = teams;
 
-    child = fork();
-    if(child < 0) return EXIT_FAILURE;
-    else if(child == 0){
-        team_manager();
-        exit(EXIT_SUCCESS);
+    while (i < num_teams) {
+        race_team_t * team;
+        char team_name[MAX_TEAM_LABEL_SIZE];
+        snprintf(team_name, MAX_TEAM_LABEL_SIZE * sizeof(char), "%s_%d", RACE_TEAM, i);
+
+        strcpy(teams[i].team_name, team_name);
+
+        create_process(RACE_MANAGER, team_manager, (void *) team);
+        i++;
     }
-    return EXIT_SUCCESS;
+
+    wait_all();
 }
