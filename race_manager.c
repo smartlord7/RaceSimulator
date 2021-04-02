@@ -17,7 +17,7 @@ void race_manager(void * data){
     race_team_t * teams;
 
     if ((teams = (race_team_t *) malloc(num_teams * sizeof(race_team_t))) == NULL) {
-        throw_error(ERROR_MEMORY_ALLOCATION, "TEAMS LIST!");
+        throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "TEAMS LIST!");
     }
 
     mem_struct->race_teams = teams;

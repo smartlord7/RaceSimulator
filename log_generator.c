@@ -1,6 +1,3 @@
-//
-// Created by jfgar on 02/04/2021.
-//
 #include "log_generator.h"
 #include <string.h>
 #include "util/error_handler.h"

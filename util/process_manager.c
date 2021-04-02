@@ -18,5 +18,3 @@ void create_process(const char * proc_name, void (* worker)(void *), void * para
 void wait_all() {
     while (wait(NULL) != -1);
 }
-
-

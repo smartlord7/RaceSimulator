@@ -8,7 +8,7 @@ race_team_t * race_team(const char * team_name) {
     race_team_t * new;
 
     if ((new = (race_team_t *) calloc(1, sizeof(race_team_t))) == NULL) {
-        throw_error(ERROR_MEMORY_ALLOCATION, RACE_TEAM);
+        throw_error_end_exit(ERROR_MEMORY_ALLOCATION, RACE_TEAM);
     }
 
     strcpy(new->team_name, team_name);
