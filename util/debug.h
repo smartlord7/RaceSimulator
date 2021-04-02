@@ -12,6 +12,8 @@
 
 #define RACE_CONFIG_CREATED "CREATED RACE CONFIGURATION!"
 
+#define DEBUG_MSG(msg, ...) if (DEBUG) debug_msg(__FILE__, __LINE__, msg, __VA_ARGS__);
+
 void debug_msg(const char * file, int line, const char * msg, ...);
 
 #endif //RACESIMULATOR_DEBUG_H

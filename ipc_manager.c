@@ -7,10 +7,8 @@
 #include <fcntl.h>
 #include <semaphore.h>
 
-#if DEBUG
 #include "util/debug.h"
-#define DEBUG_MSG(msg, ...) if (DEBUG) debug_msg(__FILE__, __LINE__, msg, __VA_ARGS__);
-#endif
+
 
 void create_ipcs(void){
     if ((shm_id = shmget(IPC_PRIVATE, sizeof(shared_memory), IPC_CREAT | 0700)) < 0){
