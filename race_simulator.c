@@ -4,8 +4,10 @@
 #include "race_config_reader.h"
 #include "ipc_manager.h"
 #include <unistd.h>
+#include "log_generator.h"
 
 #define CONFIG_FILE_NAME "config.txt"
+#define LOG_FILE_NAME "log.txt"
 #define RACE_MANAGER "RACE MANAGER"
 #define MALFUNCTION_MANAGER "MALFUNCTION MANAGER"
 
@@ -19,6 +21,9 @@ int start_malfunction_manager();
 
 int main(int argc, char * argv[]) {
 
+    log_init(LOG_FILE_NAME);
+    generate_log_entry(SIMULATION_START, NULL);
+
     race_config_reader_init(CONFIG_FILE_NAME);
     race_config * cfg = read_race_config();
     race_config_reader_reset();
@@ -26,9 +31,9 @@ int main(int argc, char * argv[]) {
     DEBUG_MSG(RACE_CONFIG_CREATED, "")
     show_race_config(cfg);
 
-    create_ipcs();
+    //create_ipcs();
 
-    if(start_race_manager() == EXIT_FAILURE){
+    /*if(start_race_manager() == EXIT_FAILURE){
         throw_error(FATAL_ERROR_CREATE_PROCESS, RACE_MANAGER);
         return EXIT_FAILURE;
     }
@@ -36,10 +41,12 @@ int main(int argc, char * argv[]) {
     if(start_malfunction_manager() == EXIT_FAILURE){
         throw_error(FATAL_ERROR_CREATE_PROCESS, MALFUNCTION_MANAGER);
         return EXIT_FAILURE;
-    }
+    }*/
 
 
-    destroy_ipcs();
+    //destroy_ipcs();
+
+    generate_log_entry(SIMULATION_END, NULL);
 
     free(cfg);
     return EXIT_SUCCESS;

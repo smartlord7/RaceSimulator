@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/ipc_manager.c.o"
+  "CMakeFiles/RaceSimulator.dir/log_generator.c.o"
   "CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o"
   "CMakeFiles/RaceSimulator.dir/race_config_reader.c.o"
   "CMakeFiles/RaceSimulator.dir/race_manager.c.o"

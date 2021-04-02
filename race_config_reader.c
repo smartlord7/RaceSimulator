@@ -7,10 +7,24 @@
 #include "structs/race_config.h"
 #include <stdarg.h>
 
+#define true 1
+#define false 0
+
 #define MAX_CONFIG_FILE_LINE_SIZE 20
 #define CONFIG_FILE_NUM_LINES 7
 #define MIN_NUM_TEAMS 3
 #define FIELD_DELIMITER ","
+#define MIN_VALUE 0
+
+#define MAX_TIME_UNIT_PER_SEC 60
+#define MAX_LAP_DISTANCE 50000
+#define MAX_LAPS_PER_RACE 25
+#define MAX_NUM_TEAMS 15
+#define MAX_CARS_PER_TEAM 10
+#define MAX_MALFUNCT_TIME 300
+#define MAX_T_BOX_MIN 60
+#define MAX_T_BOX_MAX 180
+#define MAX_DEPOSIT_CAPACITY 100
 
 static char * config_file_path = NULL;
 static int current_line;
@@ -55,7 +69,7 @@ static void error_at_line(const char * error_msg, ...) {
     char buffer2[MAX_ERROR_MSG_SIZE * 2];
 
     snprintf(buffer2, sizeof(buffer2), "%s %s", ERROR_AT_LINE, buffer);
-    throw_error(buffer2, current_line + 1, config_file_path);
+    throw_error_end_exit(buffer2, current_line + 1, config_file_path);
 
     va_end(args);
 }
@@ -77,11 +91,11 @@ race_config * read_race_config() {
     race_config * config = NULL;
 
     if ((config_file = fopen(config_file_path, "r")) == NULL) {
-        throw_error(ERROR_FILE_OPENING, config_file_path);
+        throw_error_end_exit(ERROR_FILE_OPENING, config_file_path);
     }
 
     if ((config = malloc(sizeof(race_config))) == NULL) {
-        throw_error(ERROR_MEMORY_ALLOCATION, "race config object");
+        throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "race config object");
     }
 
     current_line = 0;
@@ -99,7 +113,7 @@ race_config * read_race_config() {
        int read_feedback = read_line(buffer, config_file, MAX_CONFIG_FILE_LINE_SIZE);
 
        if (read_feedback == EOF && buffer[0] == '\0') {
-           throw_error(ERROR_INSUFFICIENT_NUM_LINES, config_file_path, CONFIG_FILE_NUM_LINES);
+           throw_error_end_exit(ERROR_INSUFFICIENT_NUM_LINES, config_file_path, CONFIG_FILE_NUM_LINES);
        } else if (read_feedback == BUFFER_SIZE_EXCEEDED) {
            error_at_line(ERROR_BUFFER_SIZE_EXCEEDED, CONFIG_FILE_NUM_LINES);
        }
@@ -108,8 +122,10 @@ race_config * read_race_config() {
            case 0:
                to_float_wrapper(to_float(buffer, &time_units_per_sec), "time_units_per_sec");
 
-               if (time_units_per_sec <= 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "time_units_per_sec", 0);
+               if (time_units_per_sec <= MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "time_units_per_sec", MIN_VALUE);
+               } else if (time_units_per_sec > MAX_TIME_UNIT_PER_SEC) {
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "time_units_per_sec", MAX_TIME_UNIT_PER_SEC);
                }
 
                config->time_units_per_sec = time_units_per_sec;
@@ -122,8 +138,10 @@ race_config * read_race_config() {
 
                to_float_wrapper(to_float(token, &lap_distance), "lap_distance");
 
-               if (lap_distance <= 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "lap_distance", 0);
+               if (lap_distance <= MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "lap_distance", MIN_VALUE);
+               } else if (lap_distance > MAX_LAP_DISTANCE) {
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "lap_distance", MAX_LAP_DISTANCE);
                }
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
@@ -134,8 +152,10 @@ race_config * read_race_config() {
                    error_at_line(ERROR_INT_CONVERSION, "laps_per_race");
                }
 
-               if (laps_per_race <= 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "laps_per_race", 0);
+               if (laps_per_race <= MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "laps_per_race", MIN_VALUE);
+               } else if (laps_per_race > MAX_LAPS_PER_RACE) {
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "laps_per_race", MAX_LAPS_PER_RACE);
                }
 
                config->lap_distance = lap_distance;
@@ -149,6 +169,8 @@ race_config * read_race_config() {
 
                if (num_teams < MIN_NUM_TEAMS) {
                    error_at_line(ERROR_MIN_VALUE_VIOLATED, "num_teams", MIN_NUM_TEAMS);
+               } else if (num_teams > MAX_NUM_TEAMS){
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "num_teams", MAX_NUM_TEAMS);
                }
 
                config->num_teams = num_teams;
@@ -159,8 +181,10 @@ race_config * read_race_config() {
                    error_at_line(ERROR_INT_CONVERSION, "cars_per_team");
                }
 
-               if (cars_per_team < 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "num_teams", MIN_NUM_TEAMS);
+               if (cars_per_team < MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "cars_per_team", MIN_NUM_TEAMS);
+               } else if (cars_per_team > MAX_CARS_PER_TEAM){
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "cars_per_team", MAX_CARS_PER_TEAM);
                }
 
                config->max_cars_per_team = cars_per_team;
@@ -169,8 +193,10 @@ race_config * read_race_config() {
            case 4:
                to_float_wrapper(to_float(buffer, &malfunction_interval), "malfunction_interval");
 
-               if (malfunction_interval <= 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "malfunction_interval", 0);
+               if (malfunction_interval <= MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "malfunction_interval", MIN_VALUE);
+               } else if (malfunction_interval > MAX_MALFUNCT_TIME) {
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "malfunction_interval", MAX_MALFUNCT_TIME);
                }
 
                config->malfunction_interval = malfunction_interval;
@@ -185,8 +211,10 @@ race_config * read_race_config() {
                    error_at_line(ERROR_INT_CONVERSION, "min_repair_time");
                }
 
-               if (repair_min_time <= 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "min_repair_time", 0);
+               if (repair_min_time <= MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "min_repair_time", MIN_VALUE);
+               } else if (repair_min_time > MAX_T_BOX_MIN){
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "min_repair_time", MAX_T_BOX_MIN);
                }
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
@@ -197,8 +225,14 @@ race_config * read_race_config() {
                    error_at_line(ERROR_INT_CONVERSION, "max_repair_time");
                }
 
-               if (repair_max_time <= 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "max_repair_time", 0);
+               if (repair_max_time <= MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "max_repair_time", MIN_VALUE);
+               } else if (repair_max_time > MAX_T_BOX_MAX){
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "max_repair_time", MAX_T_BOX_MAX);
+               }
+
+               if(repair_max_time < repair_min_time){
+                   throw_error_end_exit(ERROR_INVALID_TIME_INTERVAL, "max_repair_time", "min_repair_time");
                }
 
                config->min_repair_time = repair_min_time;
@@ -208,8 +242,10 @@ race_config * read_race_config() {
            case 6:
                to_float_wrapper(to_float(buffer, &fuel_tank_capacity), "fuel_tank_capacity");
 
-               if (fuel_tank_capacity <= 0) {
-                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "fuel_tank_capacity", 0);
+               if (fuel_tank_capacity <= MIN_VALUE) {
+                   error_at_line(ERROR_MIN_VALUE_VIOLATED, "fuel_tank_capacity", MIN_VALUE);
+               } else if (fuel_tank_capacity > MAX_DEPOSIT_CAPACITY){
+                   error_at_line(ERROR_MAX_VALUE_VIOLATED, "fuel_tank_capacity", MAX_DEPOSIT_CAPACITY);
                }
 
                config->fuel_tank_capacity = fuel_tank_capacity;

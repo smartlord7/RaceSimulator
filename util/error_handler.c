@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-void throw_error(const char * error_msg, ...) {
+void throw_error(int exit_process, const char * error_msg, ...) {
 
     va_list args;
     va_start(args, error_msg);
@@ -12,7 +12,9 @@ void throw_error(const char * error_msg, ...) {
 
     va_end(args);
 
-    exit(EXIT_FAILURE);
+    if (exit_process) {
+        exit(EXIT_FAILURE);
+    }
 }
 
 

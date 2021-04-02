@@ -12,13 +12,13 @@
 
 void create_ipcs(void){
     if ((shm_id = shmget(IPC_PRIVATE, sizeof(shared_memory), IPC_CREAT | 0700)) < 0){
-        throw_error(ERROR_SHM_CREATION);
+        throw_error_end_exit(ERROR_SHM_CREATION, NULL);
     }
 
     DEBUG_MSG(SHM_CREATED, shm_id)
 
     if ((mem_struct = (shared_memory *) shmat(shm_id, NULL, 0)) == (void *) - 1){
-        throw_error(ERROR_MEMORY_ATTACHMENT, shm_id);
+        throw_error_end_exit(ERROR_MEMORY_ATTACHMENT, shm_id);
     }
 
     DEBUG_MSG(SHM_ATTACHED, shm_id)
@@ -26,7 +26,7 @@ void create_ipcs(void){
     sem_unlink(MUTEX);
 
     if ((mutex = sem_open(MUTEX, O_CREAT|O_EXCL, 0700, 1)) == SEM_FAILED){
-        throw_error(ERROR_SEM_CREATION, MUTEX);
+        throw_error_end_exit(ERROR_SEM_CREATION, MUTEX);
     }
 
     DEBUG_MSG(SEM_CREATED, MUTEX)
@@ -34,25 +34,25 @@ void create_ipcs(void){
 
 void destroy_ipcs(void){
     if(shmdt(mem_struct) == -1){
-        throw_error(ERROR_MEMORY_DETACHMENT, shm_id);
+        throw_error_end_exit(ERROR_MEMORY_DETACHMENT, shm_id);
     }
 
     DEBUG_MSG(SHM_DETACHED, shm_id)
 
     if (shmctl(shm_id, IPC_RMID, NULL) == -1){
-        throw_error(ERROR_MEMORY_RM, shm_id);
+        throw_error_end_exit(ERROR_MEMORY_RM, shm_id);
     }
 
     DEBUG_MSG(SHM_REMOVED, shm_id)
 
     if (sem_close(mutex) == -1){
-        throw_error(ERROR_SEM_CLOSE, MUTEX);
+        throw_error_end_exit(ERROR_SEM_CLOSE, MUTEX);
     }
 
     DEBUG_MSG(SEM_CLOSED, MUTEX)
 
     if (sem_unlink(MUTEX) == -1){
-        throw_error(ERROR_UNLINK_SEM, MUTEX);
+        throw_error_end_exit(ERROR_UNLINK_SEM, MUTEX);
     }
 
     DEBUG_MSG(SEM_UNLINKED, MUTEX);

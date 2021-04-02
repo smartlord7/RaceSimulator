@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/ipc_manager.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/log_generator.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/log_generator.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/race_config_reader.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_config_reader.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/race_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_manager.c.o"

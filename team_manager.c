@@ -9,7 +9,7 @@
 int start_data();
 void * create_car(void * car_info){
     race_car car = *((race_car *) car_info);
-    throw_error(ERROR_NOT_IMPLEMENTED, CAR_THREAD);
+    throw_error_end_exit(ERROR_NOT_IMPLEMENTED, CAR_THREAD);
 }
 
 

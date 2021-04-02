@@ -7,5 +7,5 @@
 #define MALFUNCTION_MANAGER "MALFUNCTION MANAGER"
 
 int malfunction_manager(){
-    throw_error(ERROR_NOT_IMPLEMENTED, MALFUNCTION_MANAGER);
+    throw_error_end_exit(ERROR_NOT_IMPLEMENTED, MALFUNCTION_MANAGER);
 }

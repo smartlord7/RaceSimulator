@@ -83,6 +83,12 @@
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/log_generator.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/log_generator.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>

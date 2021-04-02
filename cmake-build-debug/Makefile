@@ -170,6 +170,33 @@ ipc_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.s
 .PHONY : ipc_manager.c.s
 
+log_generator.o: log_generator.c.o
+
+.PHONY : log_generator.o
+
+# target to build an object file
+log_generator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/log_generator.c.o
+.PHONY : log_generator.c.o
+
+log_generator.i: log_generator.c.i
+
+.PHONY : log_generator.i
+
+# target to preprocess a source file
+log_generator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/log_generator.c.i
+.PHONY : log_generator.c.i
+
+log_generator.s: log_generator.c.s
+
+.PHONY : log_generator.s
+
+# target to generate assembly for a file
+log_generator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/log_generator.c.s
+.PHONY : log_generator.c.s
+
 malfunction_manager.o: malfunction_manager.c.o
 
 .PHONY : malfunction_manager.o
@@ -425,6 +452,9 @@ help:
 	@echo "... ipc_manager.o"
 	@echo "... ipc_manager.i"
 	@echo "... ipc_manager.s"
+	@echo "... log_generator.o"
+	@echo "... log_generator.i"
+	@echo "... log_generator.s"
 	@echo "... malfunction_manager.o"
 	@echo "... malfunction_manager.i"
 	@echo "... malfunction_manager.s"

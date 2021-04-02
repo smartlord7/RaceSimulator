@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/projeto_SO/RaceSimulator/global.h
+semaphore.h
+-
+
+/cygdrive/c/projeto_SO/RaceSimulator/log_generator.c
+log_generator.h
+/cygdrive/c/projeto_SO/RaceSimulator/log_generator.h
+string.h
+-
+util/error_handler.h
+/cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.h
+time.h
+-
+structs/race_car.h
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_car.h
+global.h
+/cygdrive/c/projeto_SO/RaceSimulator/global.h
+stdio.h
+-
+
+/cygdrive/c/projeto_SO/RaceSimulator/log_generator.h
+
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_box.h
+race_team.h
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team.h
+race_car.h
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_car.h
+
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_car.h
+race_team.h
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team.h
+
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team.h
+race_box.h
+/cygdrive/c/projeto_SO/RaceSimulator/structs/race_box.h
+
+/cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.h
+

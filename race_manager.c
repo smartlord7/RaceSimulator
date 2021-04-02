@@ -9,7 +9,7 @@ int start_team_manager();
 
 int race_manager(){
     if(start_team_manager() == EXIT_FAILURE){
-        throw_error(ERROR_CREATE_PROCESS, TEAM);
+        throw_error_end_exit(ERROR_CREATE_PROCESS, TEAM);
         return EXIT_FAILURE;
     }
 }
