@@ -17,5 +17,9 @@ static int shm_id;
 static shared_memory * mem_struct;
 static sem_t * mutex;
 
+int race_manager();
+int malfunction_manager();
+int team_manager();
+
 
 #endif // RACESIMULATOR_GLOBAL_H
