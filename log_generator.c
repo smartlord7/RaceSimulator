@@ -17,8 +17,7 @@ void log_init(char * lg_file_path) {
 char * get_time(){
     time_t t;
     int i;
-    char * current_time, * token;
-    char * buffer = ctime(&t);
+    char * current_time, * token, * buffer = ctime(&t);
 
     if ((token = strtok(buffer, TIMESTAMP_DELIMITER)) == NULL) {
         throw_error_end_stay(ERROR_STRTOK, "OF TIMESTAMP");

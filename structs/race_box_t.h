@@ -6,12 +6,12 @@
 
 typedef struct race_team_t race_team_t;
 typedef struct race_car_t race_car_t;
+typedef struct race_box_t race_box_t;
 
 #define BOX_FREE_STATE 0
 #define BOX_RESERVED_STATE 1
 #define BOX_OCCUPIED_STATE 2
 
-typedef struct race_box_t race_box_t;
 
 struct race_box_t{
     int state;

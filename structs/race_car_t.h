@@ -10,6 +10,7 @@
 #include "race_team_t.h"
 
 typedef struct race_car_t race_car_t;
+typedef struct race_team_t race_team_t;
 
 struct race_car_t{
     race_team_t * team;

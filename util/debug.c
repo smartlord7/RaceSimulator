@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdarg.h>
+#include "../global.h"
 
 void debug_msg(const char * file, int line, const char * msg, ...) {
     va_list args;
