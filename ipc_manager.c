@@ -47,12 +47,12 @@ void destroy_shm(int shmid, void * shared_mem) {
     DEBUG_MSG(SHM_REMOVED, shmid)
 }
 
-sem_t * create_sem(const char * sem_name) {
+sem_t * create_sem(const char * sem_name, int value) {
     sem_t * sem;
 
     sem_unlink(sem_name);
 
-    if ((sem = sem_open(sem_name, O_CREAT | O_EXCL, USER_PERMS_ALL, 1)) == SEM_FAILED){
+    if ((sem = sem_open(sem_name, O_CREAT | O_EXCL, USER_PERMS_ALL, value)) == SEM_FAILED){
         throw_error_end_exit(ERROR_SEM_CREATION, sem_name);
     }
 
@@ -73,7 +73,7 @@ void destroy_sem(const char * sem_name, sem_t * sem) {
     DEBUG_MSG(SEM_UNLINKED, sem_name);
 }
 
-sem_t ** create_sem_array(int num, const char * sem_name_prefix) {
+sem_t ** create_sem_array(int num, const char * sem_name_prefix, int value) {
     sem_t ** sem_array;
 
     if ((sem_array = (sem_t **) malloc(num * sizeof(sem_t *))) == NULL) {
@@ -86,7 +86,7 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix) {
         char sem_name[MAX_LABEL_SIZE];
         snprintf(sem_name, sizeof(sem_name), "%s%d", sem_name_prefix, i);
 
-        sem_array[i] = create_sem(sem_name);
+        sem_array[i] = create_sem(sem_name, value);
 
         DEBUG_MSG(SEM_CREATED, sem_name)
 
@@ -112,26 +112,36 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
 void create_ipcs(int num_teams){
     mem_struct = create_shm(sizeof(shared_memory), &shm_id);
 
-    mutex = create_sem(MUTEX);
+    output_mutex = create_sem(OUTPUT_MUTEX, 1);
 
-    DEBUG_MSG(SEM_CREATED, MUTEX)
+    DEBUG_MSG(SEM_CREATED, OUTPUT_MUTEX)
 
-    race_start = create_sem(RACE_START);
+    shm_mutex = create_sem(SHM_MUTEX, 1);
+
+    DEBUG_MSG(SEM_CREATED, OUTPUT_MUTEX)
+
+    race_start = create_sem(RACE_START, 0);
 
     DEBUG_MSG(SEM_CREATED, RACE_START)
 
-    boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX);
+    malfunction_mng_start = create_sem(MALFUNCTION_MNG_START, 0);
 
-    DEBUG_MSG(SEM_CREATED, BOX_SEM_PREFIX)
+    DEBUG_MSG(SEM_CREATED, MALFUNCTION_MNG_START)
+
+    boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX, 1);
 }
 
 void destroy_ipcs(int num_teams){
 
     destroy_shm(shm_id, mem_struct);
 
-    destroy_sem(MUTEX, mutex);
+    destroy_sem(OUTPUT_MUTEX, output_mutex);
+
+    destroy_sem(SHM_MUTEX, shm_mutex);
 
     destroy_sem(RACE_START, race_start);
+
+    destroy_sem(MALFUNCTION_MNG_START, malfunction_mng_start);
 
     destroy_sem_array(boxes_availability, num_teams, BOX_SEM_PREFIX);
 }

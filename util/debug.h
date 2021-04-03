@@ -1,6 +1,8 @@
 #ifndef RACESIMULATOR_DEBUG_H
 #define RACESIMULATOR_DEBUG_H
 
+#include <semaphore.h>
+
 #define SHM_CREATED "CREATED SHARED MEMORY WITH ID %d!"
 #define SHM_ATTACHED "ATTACHED SHARED MEMORY WITH ID %d TO CURRENT PROCESS ADDRESSING ZONE!"
 #define SEM_CREATED "CREATED SEMAPHORE NAMED %s!"
@@ -17,9 +19,8 @@
 #define EXITING_PROCESS "EXITING PROCESS %s..."
 #define EXITING_THREAD "EXITING THREAD %s..."
 
-#define DEFAULT_MSG "HERE"
-
 #define DEBUG_MSG(msg, ...) if (DEBUG) debug_msg(__FILE__, __LINE__, msg, __VA_ARGS__);
+#define SYNC_DEBUG_MSG(mutex, msg, ...) if (DEBUG) { sem_wait(mutex); debug_msg(__FILE__, __LINE__, msg, __VA_ARGS__); sem_post(mutex); }
 
 void debug_msg(const char * file, int line, const char * msg, ...);
 

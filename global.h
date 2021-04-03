@@ -2,6 +2,7 @@
 #define RACESIMULATOR_GLOBAL_H
 
 #include <semaphore.h>
+#include "util/debug.h"
 #include "structs/shared_memory.h"
 
 #define MAX_BUFFER_SIZE 512
@@ -19,13 +20,19 @@
 #define RACE_CAR "RACE_CAR"
 #define CAR_THREAD "CAR_THREAD"
 
-#define MUTEX "MUTEX"
+#define OUTPUT_MUTEX "OUTPUT_MUTEX"
+#define SHM_MUTEX "SHM_MUTEX"
 #define RACE_START "RACE_START"
+#define MALFUNCTION_MNG_START "MALFUNCTION_MNG_START"
 #define BOX_SEM_PREFIX "BOX_"
+
+#define S_DEBUG_MSG(msg, ...) SYNC_DEBUG_MSG(output_mutex, msg, __VA_ARGS__)
+#define s_throw_error_end_exit(msg, ...) sync_throw_error_end_exit(output_mutex, msg, __VA_ARGS__)
+#define s_throw_error_end_stay(msg, ...) sync_throw_error_end_stay(output_mutex, msg, __VA_ARGS__)
 
 int shm_id;
 shared_memory * mem_struct;
-sem_t * mutex, * race_start, ** boxes_availability;
+sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
 
 void race_manager(void * data);
 void malfunction_manager(void * data);

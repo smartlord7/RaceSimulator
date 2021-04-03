@@ -12,7 +12,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/util/error_handler.c.o"
   "CMakeFiles/RaceSimulator.dir/util/process_manager.c.o"
   "CMakeFiles/RaceSimulator.dir/util/read_line.c.o"
-  "CMakeFiles/RaceSimulator.dir/util/str_concat.c.o"
   "CMakeFiles/RaceSimulator.dir/util/to_float.c.o"
   "RaceSimulator.exe"
   "RaceSimulator.pdb"

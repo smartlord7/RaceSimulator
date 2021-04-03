@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "global.h"
 #include "util/process_manager.h"
-#include "util/debug.h"
 #include "ipc_manager.h"
 #include "race_config_reader.h"
 #include "log_generator.h"

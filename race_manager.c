@@ -5,16 +5,15 @@
 #include "global.h"
 #include "util/error_handler.h"
 #include "util/process_manager.h"
-#include "util/debug.h"
 
 void race_manager(void * data){
-    DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
+    S_DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
 
     int num_teams = mem_struct->cfg->num_teams, i = 0;
     race_team_t * teams;
 
     if ((teams = (race_team_t *) malloc(num_teams * sizeof(race_team_t))) == NULL) {
-        throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "TEAMS LIST!");
+        s_throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "TEAMS LIST!");
     }
 
     mem_struct->race_teams = teams;
@@ -31,7 +30,7 @@ void race_manager(void * data){
 
     wait_all();
 
-    DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
+    S_DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
 
     exit(EXIT_SUCCESS);
 }

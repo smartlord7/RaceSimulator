@@ -1,6 +1,8 @@
 #ifndef RACESIMULATOR_ERROR_HANDLER_H
 #define RACESIMULATOR_ERROR_HANDLER_H
 
+#include <semaphore.h>
+
 #define ERROR_FILE_OPENING "ERROR: COULDN'T OPEN FILE WITH PATH %s!"
 #define ERROR_FILE_WRITE "ERROR: COULDN'T WRITE ON FILE WITH PATH %s!"
 #define ERROR_FILE_CLOSING "ERROR: COULDN'T CLOSE FILE WITH PATH %s!"
@@ -31,13 +33,16 @@
 #define ERROR_CREATE_THREAD "ERROR: COULDN'T CREATE THREAD %s!"
 
 #define ERROR_GENERATE_LOG_ENTRY "ERROR: COULDN'T GENERATE %s LOG ENTRY!"
-#define ERROR_LOG_ENTRY_NOT_SUPPORTED "ERROR: %s LOG ENTRY NOT SUPPORTED!"
+#define ERROR_LOG_MODE_NOT_SUPPORTED "ERROR: %s LOG ENTRY NOT SUPPORTED!"
 
 #define MAX_ERROR_MSG_SIZE 100
 
+#define sync_throw_error_end_exit(mutex, error_msg, ...) sync_throw_error(mutex, true, error_msg, __VA_ARGS__)
+#define sync_throw_error_end_stay(mutex, error_msg, ...) sync_throw_error(mutex, false, error_msg, __VA_ARGS__)
 #define throw_error_end_exit(error_msg, ...) throw_error(true, error_msg, __VA_ARGS__)
 #define throw_error_end_stay(error_msg, ...) throw_error(false, error_msg, __VA_ARGS__)
 
+void sync_throw_error(sem_t * sem, int exit_process, const char * error_msg, ...);
 void throw_error(int exit_process, const char * error_msg, ...);
 
 #endif //RACESIMULATOR_ERROR_HANDLER_H
