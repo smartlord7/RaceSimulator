@@ -494,6 +494,33 @@ util/read_line.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line.c.s
 .PHONY : util/read_line.c.s
 
+util/str_concat.o: util/str_concat.c.o
+
+.PHONY : util/str_concat.o
+
+# target to build an object file
+util/str_concat.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/str_concat.c.o
+.PHONY : util/str_concat.c.o
+
+util/str_concat.i: util/str_concat.c.i
+
+.PHONY : util/str_concat.i
+
+# target to preprocess a source file
+util/str_concat.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/str_concat.c.i
+.PHONY : util/str_concat.c.i
+
+util/str_concat.s: util/str_concat.c.s
+
+.PHONY : util/str_concat.s
+
+# target to generate assembly for a file
+util/str_concat.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/str_concat.c.s
+.PHONY : util/str_concat.c.s
+
 util/to_float.o: util/to_float.c.o
 
 .PHONY : util/to_float.o
@@ -569,6 +596,9 @@ help:
 	@echo "... util/read_line.o"
 	@echo "... util/read_line.i"
 	@echo "... util/read_line.s"
+	@echo "... util/str_concat.o"
+	@echo "... util/str_concat.i"
+	@echo "... util/str_concat.s"
 	@echo "... util/to_float.o"
 	@echo "... util/to_float.i"
 	@echo "... util/to_float.s"

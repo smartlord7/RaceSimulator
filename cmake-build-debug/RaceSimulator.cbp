@@ -155,6 +155,12 @@
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/read_line.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/str_concat.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/str_concat.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/to_float.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
