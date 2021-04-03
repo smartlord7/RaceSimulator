@@ -10,105 +10,58 @@
 
 static char * log_file_path = NULL;
 
+char * get_time();
+
+void write_log_entry(char * entry);
+
+char * str_concat(char * stringA, char * stringB, char * error_context);
+
 void log_init(char * lg_file_path) {
     log_file_path = lg_file_path;
 }
 
-char * get_time(){
-    time_t t;
-    int i;
-    char * current_time, * token, * buffer = ctime(&t);
-
-    if ((token = strtok(buffer, TIMESTAMP_DELIMITER)) == NULL) {
-        throw_error_end_stay(ERROR_STRTOK, "OF TIMESTAMP");
-    }
-    for(i = 0; i < 3; i++){
-        if ((token = strtok(NULL, TIMESTAMP_DELIMITER)) == NULL) {
-            throw_error_end_stay(ERROR_STRTOK, "OF TIMESTAMP");
-        }
-    }
-    current_time = token;
-    return current_time;
-}
-
-void write_log_entry(char * entry);
-
-void generate_log_entry(int mode, void * data){
+void generate_log_entry(char * mode, void * data){
     race_car_t * car;
     char * entry = get_time();
 
-    switch(mode){
-        case SIMULATION_START:
-            if(strcat(entry, " SIMULATOR STARTING") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "SIMULATION START");
-            }
-            break;
-        case SIMULATION_END:
-            if(strcat(entry, " SIMULATOR CLOSING") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "SIMULATION END");
-            }
-            break;
-        case COMMAND_RECEIVED:
-            if(strcat(entry, " NEW COMMAND RECEIVED: ") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "COMMAND RECEIVED");
-            }
-            if(strcat(entry, (char *) data) == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "COMMAND RECEIVED");
-            }
-            break;
-        case COMMAND_ERROR:
-            if(strcat(entry, " WRONG COMMAND => ") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "WRONG COMMAND");
-            }
-            if(strcat(entry, (char *) data) == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "WRONG COMMAND");
-            }
-            break;
-        case CAR_LOADED:
-            car = (race_car_t *) data;
-            if(strcat(entry, " CAR LOADED => ") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "CAR LOADED");
-            }
-            if(strcat(entry, " 0X ") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "WRONG COMMAND");
-            }
-            break;
-        case CAR_MALFUNCTION:
-            car = (race_car_t *) data;
-            if(strcat(entry, " NEW PROBLEM IN CAR") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "CAR MALFUNCTION");
-            }
-            if(strcat(entry, " 0X ") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "WRONG COMMAND");
-            }
-            break;
-        case SIGNAL_RECEIVED:
-            if(strcat(entry, " SIGNAL") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "SIGNAL RECEIVED");
-            }
-            if(strcat(entry, (char *) data) == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "SIGNAL RECEIVED");
-            }
-            if(strcat(entry, " RECEIVED") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "SIGNAL RECEIVED");
-            }
-            break;
-        case RACE_WIN:
-            car = (race_car_t *) data;
-            if(strcat(entry, " CAR ") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "RACE WIN");
-            }
-            if(strcat(entry, " 0X ") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "RACE WIN");
-            }
-            if(strcat(entry, " WINS THE RACE") == NULL){
-                throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "RACE WIN");
-            }
-            break;
-    }
-    if(strcat(entry, "\0") == NULL){
-        throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, "");
-    }
+    if (strcmp(mode, I_SIMULATION_START) == 0){
+        entry = str_concat(entry, O_SIMULATION_STARTING, I_SIMULATION_START);
+
+    } else if (strcmp(mode, I_SIMULATION_END) == 0){
+        entry = str_concat(entry, O_SIMULATION_CLOSING, I_SIMULATION_END);
+
+    } else if (strcmp(mode, I_COMMAND_RECEIVED) == 0){
+        entry = str_concat(entry, O_NEW_COMMAND_RECEIVED, I_COMMAND_RECEIVED);
+        entry = str_concat(entry, (char *) data, I_COMMAND_RECEIVED);
+
+    } else if(strcmp(mode, I_COMMAND_ERROR) == 0){
+        entry = str_concat(entry, O_WRONG_COMMAND, I_COMMAND_ERROR);
+        entry = str_concat(entry, (char *) data, I_COMMAND_ERROR);
+
+    } else if(strcmp(mode, I_CAR_LOADED) == 0){
+        car = (race_car_t *) data;
+        entry = str_concat(entry,O_CAR_LOADED, I_CAR_LOADED);
+        entry = str_concat(entry, O_TEMP_NUM, I_CAR_LOADED);
+
+    } else if(strcmp(mode, I_CAR_MALFUNCTION) == 0){
+        car = (race_car_t *) data;
+        entry = str_concat(entry, O_NEW_CAR_PROBLEM, I_CAR_MALFUNCTION);
+        entry = str_concat(entry, O_TEMP_NUM, I_CAR_MALFUNCTION);
+
+    } else if(strcmp(mode, I_SIGNAL_RECEIVED) == 0){
+        entry = str_concat(entry, O_SIGNAL, I_SIGNAL_RECEIVED);
+        entry = str_concat(entry, (char *) data, I_SIGNAL_RECEIVED);
+        entry = str_concat(entry, O_RECEIVED, I_SIGNAL_RECEIVED);
+
+    } else if(strcmp(mode, I_RACE_WIN) == 0){
+        car = (race_car_t *) data;
+        entry = str_concat(entry, O_CAR, I_RACE_WIN);
+        entry = str_concat(entry, O_TEMP_NUM, I_RACE_WIN);
+        entry = str_concat(entry, O_RACE_WON, I_RACE_WIN);
+
+    } else throw_error_end_stay(ERROR_LOG_ENTRY_NOT_SUPPORTED, mode);
+
+    entry = str_concat(entry, O_TERMINATOR, NULL);
 
     //sem_wait(mutex);
 
@@ -116,6 +69,15 @@ void generate_log_entry(int mode, void * data){
     write_log_entry(entry);
 
     //sem_post(mutex);
+}
+
+char * str_concat(char * stringA, char * stringB, char * error_context){
+
+    if(strcat(stringA, stringB) == NULL){
+        throw_error_end_stay(ERROR_GENERATE_LOG_ENTRY, error_context);
+    }
+
+    return stringA;
 }
 
 void write_log_entry(char * entry){
@@ -133,4 +95,24 @@ void write_log_entry(char * entry){
         throw_error_end_stay(ERROR_FILE_CLOSING, log_file_path);
     }
     
+}
+
+char * get_time(){
+    time_t current_time;
+    char * buffer, * token, * result;
+    int i;
+
+    current_time = time(NULL);
+    buffer = asctime(localtime(&current_time));
+
+    if ((token = strtok(buffer, TIMESTAMP_DELIMITER)) == NULL) {
+        throw_error_end_stay(ERROR_STRTOK, "OF TIMESTAMP");
+    }
+    for(i = 0; i < 3; i++){
+        if ((token = strtok(NULL, TIMESTAMP_DELIMITER)) == NULL) {
+            throw_error_end_stay(ERROR_STRTOK, "OF TIMESTAMP");
+        }
+    }
+    result = token;
+    return result;
 }

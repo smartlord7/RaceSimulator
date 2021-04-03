@@ -4,33 +4,20 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-<<<<<<< Updated upstream
   "/cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/ipc_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/log_generator.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/log_generator.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/race_config_reader.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_config_reader.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/race_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/race_simulator.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_simulator.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/structs/race_car_t.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/structs/race_car_t.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team_t.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/structs/race_team_t.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/team_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/team_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/debug.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/debug.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/error_handler.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/util/process_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/process_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/read_line.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/read_line.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/to_float.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/to_float.c.o"
-=======
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/ipc_manager.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/ipc_manager.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/malfunction_manager.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_config_reader.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_config_reader.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_manager.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_manager.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_simulator.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_simulator.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_car_t.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/structs/race_car_t.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_team_t.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/structs/race_team_t.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/team_manager.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/team_manager.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/debug.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/debug.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/error_handler.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/error_handler.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/process_manager.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/process_manager.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/read_line.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/read_line.c.o"
-  "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/to_float.c" "/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/to_float.c.o"
->>>>>>> Stashed changes
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

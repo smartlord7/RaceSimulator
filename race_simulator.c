@@ -32,7 +32,7 @@ int main() {
     mem_struct->cfg = cfg; // There are no other application processes, no MUTEX needed.
 
     log_init(LOG_FILE_NAME);
-    generate_log_entry(SIMULATION_START, NULL);
+    generate_log_entry(I_SIMULATION_START, NULL);
 
     create_process(RACE_MANAGER, race_manager, NULL);
 
@@ -41,7 +41,7 @@ int main() {
     wait_all();
     destroy_ipcs(cfg->num_teams);
 
-    generate_log_entry(SIMULATION_END, NULL);
+    generate_log_entry(I_SIMULATION_END, NULL);
 
     return EXIT_SUCCESS;
 }
