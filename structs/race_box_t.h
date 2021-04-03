@@ -12,7 +12,6 @@ typedef struct race_box_t race_box_t;
 #define BOX_RESERVED_STATE 1
 #define BOX_OCCUPIED_STATE 2
 
-
 struct race_box_t{
     int state;
     race_team_t * team;

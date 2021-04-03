@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#define BUFFER_SIZE_EXCEEDED -2
+#define LINE_READ_SUCCESSFULLY 1
+
 int read_line(char * buffer, FILE * file, int buffer_size) {
     int i = 0; 
     char chr;
@@ -12,7 +15,7 @@ int read_line(char * buffer, FILE * file, int buffer_size) {
                 if (chr == EOF) break; 
             }
             
-            return -2;
+            return BUFFER_SIZE_EXCEEDED;
         }
         
         buffer[i++] = chr; 
@@ -28,6 +31,5 @@ int read_line(char * buffer, FILE * file, int buffer_size) {
 
     ungetc(chr, file);
 
-    return 1;
+    return LINE_READ_SUCCESSFULLY;
 }
-

@@ -1,18 +1,27 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <pthread.h>
-#include <signal.h>
+#include <string.h>
 #include "global.h"
+#include "util/process_manager.h"
 #include "util/error_handler.h"
 #include "util/debug.h"
 
-static int num_of_cars;
+static int num_cars;
 static race_car_t * team_cars;
 static pthread_t * car_threads;
 
 void * race_car_worker(void * race_car){
     race_car_t car = *((race_car_t *) race_car);
 
-    DEBUG_MSG(RUNNING_THREAD, RACE_CAR)
+    #if DEBUG
+    char buffer[MAX_LABEL_SIZE];
+    snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, car.car_id);
+    #endif
+
+    DEBUG_MSG(RUNNING_THREAD, buffer)
+
+    DEBUG_MSG(EXITING_THREAD, buffer)
 
     throw_error_end_exit(ERROR_NOT_IMPLEMENTED, CAR_THREAD);
 
@@ -22,29 +31,28 @@ void * race_car_worker(void * race_car){
 void team_manager(void * data){
     race_team_t * team = (race_team_t *) data;
 
-    sem_wait(mutex);
     DEBUG_MSG(RUNNING_PROCESS, team->team_name)
-    sem_post(mutex);
 
     int i = 0, temp_num_cars = mem_struct->cfg->max_cars_per_team;
-    num_of_cars = temp_num_cars;
+    num_cars = temp_num_cars;
     car_threads = (pthread_t *) malloc(temp_num_cars * sizeof(pthread_t));
+
+
+
     race_car_t * temp_car = race_car(team, 0, 3.5f, 120, 0.5f);
+    char buffer[MAX_LABEL_SIZE];
+    snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
+
+    strcpy(temp_car->name, buffer);
 
     while (i < temp_num_cars) {
-        pthread_create(&car_threads[i], NULL, race_car_worker, (void *) temp_car);
+        create_thread(temp_car->name, &car_threads[i], race_car_worker, (void *) temp_car);
         i++;
     }
 
-    i = 0;
+    kill_all_threads(num_cars, car_threads);
 
-    while (i < temp_num_cars) {
-        pthread_join(car_threads[i], NULL);
-        pthread_kill(car_threads[i], SIGKILL);
-
-        i++;
-    }
+    DEBUG_MSG(EXITING_PROCESS, TEAM_MANAGER)
 
     exit(EXIT_SUCCESS);
 }
-

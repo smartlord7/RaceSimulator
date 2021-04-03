@@ -31,5 +31,7 @@ void race_manager(void * data){
 
     wait_all();
 
+    DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
+
     exit(EXIT_SUCCESS);
 }

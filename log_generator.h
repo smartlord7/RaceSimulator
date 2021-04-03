@@ -1,7 +1,3 @@
-//
-// Created by jfgar on 02/04/2021.
-//
-
 #ifndef RACE_SIMULATOR_C_LOG_GENERATOR_H
 #define RACE_SIMULATOR_C_LOG_GENERATOR_H
 

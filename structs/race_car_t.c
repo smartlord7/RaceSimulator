@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "../global.h"
 #include "../util/error_handler.h"
 
@@ -30,11 +31,13 @@ char * race_car_to_string(race_car_t * car) {
     char * buffer = (char *) malloc(MAX_BUFFER_SIZE * sizeof(char));
 
     snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "RACE CAR NO: %d, "
+                                                     "NAME: %s, "
                                                       "TEAM: %s, "
                                                       "CONSUMPTION: %.2f, "
                                                       "SPEED: %.2f, "
                                                       "RELIABILITY: %.2f, ",
                                                       car->car_id,
+                                                      car->name,
                                                       car->team->team_name,
                                                       car->consumption,
                                                       car->speed,

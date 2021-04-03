@@ -7,8 +7,9 @@ void throw_error(int exit_process, const char * error_msg, ...) {
     va_list args;
     va_start(args, error_msg);
 
-    vfprintf(stderr, error_msg, args);
     fprintf(stderr, "\n");
+    vfprintf(stderr, error_msg, args);
+    fprintf(stderr, "\n\n");
 
     va_end(args);
 
@@ -16,6 +17,4 @@ void throw_error(int exit_process, const char * error_msg, ...) {
         exit(EXIT_FAILURE);
     }
 }
-
-
 

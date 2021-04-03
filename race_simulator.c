@@ -43,6 +43,7 @@ int main() {
 
     generate_log_entry(I_SIMULATION_END, NULL);
 
+    DEBUG_MSG(EXITING_PROCESS, RACE_SIMULATOR)
+
     return EXIT_SUCCESS;
 }
-
