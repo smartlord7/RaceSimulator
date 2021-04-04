@@ -2,9 +2,9 @@
 #include <string.h>
 #include "util/exception_handler.h"
 #include <time.h>
-#include "structs/race_car_t.h"
 #include "global.h"
 #include <stdio.h>
+#include "ipc_manager.h"
 
 #define TIMESTAMP_DELIMITER " "
 
@@ -63,12 +63,12 @@ void generate_log_entry(char * mode, void * data){
 
     entry = str_concat(entry, O_TERMINATOR, NULL);
 
-    //sem_wait(mutex);
+    wait_sem(output_mutex, OUTPUT_MUTEX);
 
     printf("\n%s\n", entry);
     write_log_entry(entry);
 
-    //sem_post(mutex);
+    post_sem(output_mutex, OUTPUT_MUTEX);
 }
 
 char * str_concat(char * stringA, char * stringB, char * exception_context){

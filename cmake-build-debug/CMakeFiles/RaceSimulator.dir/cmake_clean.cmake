@@ -9,7 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/structs/race_team_t.c.o"
   "CMakeFiles/RaceSimulator.dir/team_manager.c.o"
   "CMakeFiles/RaceSimulator.dir/util/debug.c.o"
-  "CMakeFiles/RaceSimulator.dir/util/error_handler.c.o"
+  "CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o"
   "CMakeFiles/RaceSimulator.dir/util/process_manager.c.o"
   "CMakeFiles/RaceSimulator.dir/util/read_line.c.o"
   "CMakeFiles/RaceSimulator.dir/util/to_float.c.o"

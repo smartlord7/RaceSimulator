@@ -137,10 +137,10 @@
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/debug.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.c">
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.h">
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/process_manager.c">

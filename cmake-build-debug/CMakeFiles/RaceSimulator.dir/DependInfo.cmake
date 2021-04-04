@@ -14,7 +14,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team_t.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/structs/race_team_t.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/team_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/team_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/debug.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/debug.c.o"
-  "/cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/error_handler.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/process_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/process_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/read_line.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/read_line.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/util/to_float.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/util/to_float.c.o"

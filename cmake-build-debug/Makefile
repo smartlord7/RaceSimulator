@@ -413,32 +413,32 @@ util/debug.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/debug.c.s
 .PHONY : util/debug.c.s
 
-util/error_handler.o: util/error_handler.c.o
+util/exception_handler.o: util/exception_handler.c.o
 
-.PHONY : util/error_handler.o
+.PHONY : util/exception_handler.o
 
 # target to build an object file
-util/error_handler.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/error_handler.c.o
-.PHONY : util/error_handler.c.o
+util/exception_handler.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o
+.PHONY : util/exception_handler.c.o
 
-util/error_handler.i: util/error_handler.c.i
+util/exception_handler.i: util/exception_handler.c.i
 
-.PHONY : util/error_handler.i
+.PHONY : util/exception_handler.i
 
 # target to preprocess a source file
-util/error_handler.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/error_handler.c.i
-.PHONY : util/error_handler.c.i
+util/exception_handler.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler.c.i
+.PHONY : util/exception_handler.c.i
 
-util/error_handler.s: util/error_handler.c.s
+util/exception_handler.s: util/exception_handler.c.s
 
-.PHONY : util/error_handler.s
+.PHONY : util/exception_handler.s
 
 # target to generate assembly for a file
-util/error_handler.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/error_handler.c.s
-.PHONY : util/error_handler.c.s
+util/exception_handler.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler.c.s
+.PHONY : util/exception_handler.c.s
 
 util/process_manager.o: util/process_manager.c.o
 
@@ -560,9 +560,9 @@ help:
 	@echo "... util/debug.o"
 	@echo "... util/debug.i"
 	@echo "... util/debug.s"
-	@echo "... util/error_handler.o"
-	@echo "... util/error_handler.i"
-	@echo "... util/error_handler.s"
+	@echo "... util/exception_handler.o"
+	@echo "... util/exception_handler.i"
+	@echo "... util/exception_handler.s"
 	@echo "... util/process_manager.o"
 	@echo "... util/process_manager.i"
 	@echo "... util/process_manager.s"

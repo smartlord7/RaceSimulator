@@ -142,18 +142,18 @@ CMakeFiles/RaceSimulator.dir/race_config_reader.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/race_config_reader.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/projeto_SO/RaceSimulator/race_config_reader.c -o CMakeFiles/RaceSimulator.dir/race_config_reader.c.s
 
-CMakeFiles/RaceSimulator.dir/util/error_handler.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/util/error_handler.c.o: ../util/error_handler.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/RaceSimulator.dir/util/error_handler.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/util/error_handler.c.o   -c /cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.c
+CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o: ../util/exception_handler.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o   -c /cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.c
 
-CMakeFiles/RaceSimulator.dir/util/error_handler.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/util/error_handler.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.c > CMakeFiles/RaceSimulator.dir/util/error_handler.c.i
+CMakeFiles/RaceSimulator.dir/util/exception_handler.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/util/exception_handler.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.c > CMakeFiles/RaceSimulator.dir/util/exception_handler.c.i
 
-CMakeFiles/RaceSimulator.dir/util/error_handler.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/util/error_handler.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/projeto_SO/RaceSimulator/util/error_handler.c -o CMakeFiles/RaceSimulator.dir/util/error_handler.c.s
+CMakeFiles/RaceSimulator.dir/util/exception_handler.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/util/exception_handler.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.c -o CMakeFiles/RaceSimulator.dir/util/exception_handler.c.s
 
 CMakeFiles/RaceSimulator.dir/util/read_line.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/util/read_line.c.o: ../util/read_line.c
@@ -266,7 +266,7 @@ RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/team_manager.c.o" \
 "CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o" \
 "CMakeFiles/RaceSimulator.dir/race_config_reader.c.o" \
-"CMakeFiles/RaceSimulator.dir/util/error_handler.c.o" \
+"CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/read_line.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/to_float.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipc_manager.c.o" \
@@ -284,7 +284,7 @@ RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/race_manager.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/team_manager.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/race_config_reader.c.o
-RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/error_handler.c.o
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/read_line.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/to_float.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/ipc_manager.c.o
