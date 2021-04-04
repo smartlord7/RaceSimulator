@@ -12,6 +12,22 @@
 #define USER_PERMS_ALL 0700
 #define ALL_PERMS_RW 0666
 
+void wait_sem(sem_t * sem, const char * sem_name) {
+    assert(sem != NULL && sem_name != NULL);
+
+    if (sem_wait(sem) == -1) {
+        s_throw_exception_end_exit(SEM_WAIT_EXCEPTION, sem_name);
+    }
+}
+
+void post_sem(sem_t * sem, const char * sem_name) {
+    assert(sem != NULL && sem_name != NULL);
+
+    if (sem_post(sem) == -1) {
+        s_throw_exception_end_exit(SEM_POST_EXCEPTION, sem_name);
+    }
+}
+
 void * create_shm(size_t size, int * shm_id_p) {
     assert(size != 0 && shm_id_p != NULL);
 
@@ -75,7 +91,7 @@ void destroy_sem(const char * sem_name, sem_t * sem) {
     DEBUG_MSG(SEM_CLOSED, sem_name)
 
     if (sem_unlink(sem_name) == -1){
-        throw_exception_and_exit(UNLINK_SEM_EXCEPTION, sem_name);
+        throw_exception_and_exit(SEM_UNLINK_EXCEPTION, sem_name);
     }
 
     DEBUG_MSG(SEM_UNLINKED, sem_name);

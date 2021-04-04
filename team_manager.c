@@ -9,6 +9,7 @@
 static int num_cars;
 static race_car_t ** team_cars;
 static pthread_t * car_threads;
+//static pthread_mutex_t thread_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void * race_car_worker(void * race_car){
     race_car_t car = *((race_car_t *) race_car);
@@ -20,6 +21,7 @@ void * race_car_worker(void * race_car){
     S_DEBUG_MSG(RUNNING_THREAD, buffer)
 
     S_DEBUG_MSG(EXITING_THREAD, buffer)
+
     #endif
 
     s_throw_exception_end_stay(NOT_IMPLEMENTED_EXCEPTION, CAR_THREAD);
