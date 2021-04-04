@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "../global.h"
-#include "../util/error_handler.h"
+#include "../util/exception_handler.h"
 
 race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability) {
     race_car_t * new;
 
     if ((new = (race_car_t *) calloc(1, sizeof(race_car_t))) == NULL) {
-        throw_error_end_exit(ERROR_MEMORY_ALLOCATION, RACE_CAR);
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, RACE_CAR);
     }
 
     new->car_id = car_id;

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "global.h"
-#include "util/error_handler.h"
+#include "util/exception_handler.h"
 #include "util/process_manager.h"
 
 void race_manager(){
@@ -13,7 +13,7 @@ void race_manager(){
     race_team_t * teams;
 
     if ((teams = (race_team_t *) malloc(num_teams * sizeof(race_team_t))) == NULL) {
-        s_throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "TEAMS LIST!");
+        s_throw_exception_end_exit(MEMORY_ALLOCATION_EXCEPTION, "TEAMS LIST!");
     }
 
     mem_struct->race_teams = teams;

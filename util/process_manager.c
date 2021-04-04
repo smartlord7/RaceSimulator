@@ -3,7 +3,7 @@
 #include <signal.h>
 #include <pthread.h>
 #include <sys/wait.h>
-#include "error_handler.h"
+#include "exception_handler.h"
 
 #define true 1
 #define false 0
@@ -16,7 +16,7 @@ void create_process(const char * proc_name, void (* worker)(void *), void * para
     if ((child_proc_id = fork()) == 0) {
         worker(params);
     } else if (child_proc_id < 0) {
-        throw_error_end_exit(ERROR_CREATE_PROCESS, proc_name);
+        throw_exception_and_exit(CREATION_PROCESS_EXCEPTION, proc_name);
     }
 }
 
@@ -28,7 +28,7 @@ void create_thread(const char * thread_name, pthread_t * thread_p, void * (* wor
     assert(thread_name != NULL && thread_p != NULL && worker != NULL);
 
     if (pthread_create(thread_p, NULL, worker, (void *) params) != 0) {
-        throw_error_end_exit(ERROR_CREATE_THREAD, thread_name);
+        throw_exception_and_exit(CREATION_THREAD_EXCEPTION, thread_name);
     }
 }
 

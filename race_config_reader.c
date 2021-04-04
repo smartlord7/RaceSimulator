@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "util/error_handler.h"
+#include "util/exception_handler.h"
 #include "util/read_line.h"
 #include "util/to_float.h"
 #include "structs/race_config_t.h"
@@ -82,30 +82,30 @@ static void error_at_line(const char * error_msg, ...) {
     va_list args;
     va_start(args, error_msg);
 
-    char buffer[MAX_ERROR_MSG_SIZE];
+    char buffer[MAX_EXCEPTION_MSG_SIZE];
     vsnprintf(buffer, sizeof(buffer), error_msg, args);
-    char buffer2[MAX_ERROR_MSG_SIZE * 2];
+    char buffer2[MAX_EXCEPTION_MSG_SIZE * 2];
 
     va_end(args);
 
     snprintf(buffer2, sizeof(buffer2), "%s %s", ERROR_AT_LINE, buffer);
-    throw_error_end_exit(buffer2, current_line + 1, config_file_path);
+    throw_exception_and_exit(buffer2, current_line + 1, config_file_path);
 
 }
 
 void validate_interval(float value, const char * field_name, float min, float max) {
     if (value < min) {
-        error_at_line(ERROR_MIN_VALUE_VIOLATED, field_name, min);
+        error_at_line(MIN_VALUE_EXCEPTION, field_name, min);
     } else if (value > max) {
-        error_at_line(ERROR_MAX_VALUE_VIOLATED, field_name, max);
+        error_at_line(MAX_VALUE_EXCEPTION, field_name, max);
     }
 }
 
 static void to_float_wrapper(int feedback, const char * field_name) {
     if (feedback == FLOAT_SIZE_EXCEEDED) {
-        error_at_line(ERROR_FLOAT_SIZE_EXCEEDED, field_name);
+        error_at_line(FLOAT_SIZE_EXCEEDED_EXCEPTION, field_name);
     } else if (feedback == FLOAT_CONVERSION_FAILURE) {
-        error_at_line(ERROR_FLOAT_CONVERSION, field_name);
+        error_at_line(FLOAT_CONVERSION_EXCEPTION, field_name);
     }
 }
 
@@ -118,11 +118,11 @@ race_config_t * read_race_config() {
     race_config_t * config = NULL;
 
     if ((config_file = fopen(config_file_path, "r")) == NULL) {
-        throw_error_end_exit(ERROR_FILE_OPENING, config_file_path);
+        throw_exception_and_exit(FILE_OPENING_EXCEPTION, config_file_path);
     }
 
     if ((config = malloc(sizeof(race_config_t))) == NULL) {
-        throw_error_end_exit(ERROR_MEMORY_ALLOCATION, RACE_CONFIG);
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, RACE_CONFIG);
     }
 
     current_line = 0;
@@ -140,9 +140,9 @@ race_config_t * read_race_config() {
        int read_feedback = read_line(buffer, config_file, MAX_CONFIG_FILE_LINE_SIZE);
 
        if (read_feedback == EOF && buffer[0] == '\0') {
-           throw_error_end_exit(ERROR_INSUFFICIENT_NUM_LINES, config_file_path, CONFIG_FILE_NUM_LINES);
+           throw_exception_and_exit(INSUFFICIENT_NUM_LINES_EXCEPTION, config_file_path, CONFIG_FILE_NUM_LINES);
        } else if (read_feedback == BUFFER_SIZE_EXCEEDED) {
-           error_at_line(ERROR_BUFFER_SIZE_EXCEEDED, MAX_CONFIG_FILE_LINE_SIZE);
+           error_at_line(BUFFER_SIZE_EXCEEDED_EXCEPTION, MAX_CONFIG_FILE_LINE_SIZE);
        }
 
        switch(current_line) {
@@ -156,7 +156,7 @@ race_config_t * read_race_config() {
                break;
            case 1:
                if ((token = strtok(buffer, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(ERROR_STRTOK, LAP_DISTANCE);
+                   error_at_line(TOKENIZING_EXCEPTION, LAP_DISTANCE);
                }
 
                to_float_wrapper(to_float(token, &lap_distance), LAP_DISTANCE);
@@ -164,11 +164,11 @@ race_config_t * read_race_config() {
                validate_interval(lap_distance, LAP_DISTANCE, MIN_LAP_DISTANCE, MAX_LAP_DISTANCE);
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(ERROR_STRTOK, LAPS_PER_RACE);
+                   error_at_line(TOKENIZING_EXCEPTION, LAPS_PER_RACE);
                }
 
                if (!(laps_per_race = atoi(token))) {
-                   error_at_line(ERROR_INT_CONVERSION, LAPS_PER_RACE);
+                   error_at_line(INT_CONVERSION_EXCEPTION, LAPS_PER_RACE);
                }
 
                validate_interval((float) laps_per_race, LAPS_PER_RACE, MIN_LAPS_PER_RACE, MAX_LAPS_PER_RACE);
@@ -179,7 +179,7 @@ race_config_t * read_race_config() {
                break;
            case 2:
                if (!(num_teams = atoi(buffer))) {
-                   error_at_line(ERROR_INT_CONVERSION, NUM_TEAMS);
+                   error_at_line(INT_CONVERSION_EXCEPTION, NUM_TEAMS);
                }
 
                validate_interval((float) num_teams, NUM_TEAMS, MIN_NUM_TEAMS, MAX_NUM_TEAMS);
@@ -189,7 +189,7 @@ race_config_t * read_race_config() {
                break;
            case 3:
                if (!(max_cars_per_team = atoi(buffer))) {
-                   error_at_line(ERROR_INT_CONVERSION, MAX_CARS_PER_TEAM);
+                   error_at_line(INT_CONVERSION_EXCEPTION, MAX_CARS_PER_TEAM);
                }
 
                validate_interval((float) max_cars_per_team, MAX_CARS_PER_TEAM, MIN_MAX_CARS_PER_TEAM, MAX_MAX_CARS_PER_TEAM);
@@ -207,21 +207,21 @@ race_config_t * read_race_config() {
                break;
            case 5:
                if ((token = strtok(buffer, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(ERROR_STRTOK, MIN_REPAIR_TIME);
+                   error_at_line(TOKENIZING_EXCEPTION, MIN_REPAIR_TIME);
                }
 
                if (!(repair_min_time = atoi(token))) {
-                   error_at_line(ERROR_INT_CONVERSION, MIN_REPAIR_TIME);
+                   error_at_line(INT_CONVERSION_EXCEPTION, MIN_REPAIR_TIME);
                }
 
                validate_interval(repair_min_time, MIN_REPAIR_TIME, MIN_MIN_REPAIR_TIME, MAX_MIN_REPAIR_TIME);
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(ERROR_STRTOK, MAX_REPAIR_TIME);
+                   error_at_line(TOKENIZING_EXCEPTION, MAX_REPAIR_TIME);
                }
 
                if (!(repair_max_time = atoi(token))) {
-                   error_at_line(ERROR_INT_CONVERSION, MAX_REPAIR_TIME);
+                   error_at_line(INT_CONVERSION_EXCEPTION, MAX_REPAIR_TIME);
                }
 
                validate_interval(repair_max_time, MAX_REPAIR_TIME, MIN_MAX_REPAIR_TIME, MAX_MAX_REPAIR_TIME);
@@ -247,7 +247,7 @@ race_config_t * read_race_config() {
    }
 
     if (fclose(config_file) != 0) {
-        throw_error_end_exit(ERROR_FILE_CLOSING, config_file_path);
+        throw_exception_and_exit(FILE_CLOSING_EXCEPTION, config_file_path);
     }
 
     return config;

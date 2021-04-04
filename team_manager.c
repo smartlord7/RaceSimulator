@@ -4,7 +4,7 @@
 #include <string.h>
 #include "global.h"
 #include "util/process_manager.h"
-#include "util/error_handler.h"
+#include "util/exception_handler.h"
 
 static int num_cars;
 static race_car_t ** team_cars;
@@ -22,7 +22,7 @@ void * race_car_worker(void * race_car){
     S_DEBUG_MSG(EXITING_THREAD, buffer)
     #endif
 
-    s_throw_error_end_stay(ERROR_NOT_IMPLEMENTED, CAR_THREAD);
+    s_throw_exception_end_stay(NOT_IMPLEMENTED_EXCEPTION, CAR_THREAD);
 
     pthread_exit(EXIT_SUCCESS);
 }
@@ -36,11 +36,11 @@ void team_manager(void * data){
     num_cars = temp_num_cars;
 
     if ((car_threads = (pthread_t *) malloc(temp_num_cars * sizeof(pthread_t))) == NULL) {
-        s_throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "car threads");
+        s_throw_exception_end_exit(MEMORY_ALLOCATION_EXCEPTION, "car threads");
     }
 
     if ((team_cars = (race_car_t **) malloc(num_cars * sizeof(race_car_t *))) == NULL) {
-        s_throw_error_end_exit(ERROR_MEMORY_ALLOCATION, "team race cars");
+        s_throw_exception_end_exit(MEMORY_ALLOCATION_EXCEPTION, "team race cars");
     }
 
     race_car_t * temp_car = race_car(team, 0, 3.5f, 120, 0.5f);
