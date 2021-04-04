@@ -1,20 +1,30 @@
+/*
+ * Authors:
+ *  - Joao Filipe Guiomar Artur, 2019217853
+ *  - Sancho Amaral Simoes, 2019217590
+ *
+ * Date of creation: 02/04/2021
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include "util/exception_handler.h"
 #include "util/read_line.h"
 #include "util/to_float.h"
 #include "structs/race_config_t.h"
-#include <stdarg.h>
 
 #define true 1
 #define false 0
 
+//used to read the config file
 #define MAX_CONFIG_FILE_LINE_SIZE 20
 #define CONFIG_FILE_NUM_LINES 7
 #define FIELD_DELIMITER ","
 #define MAX_BUFFER_SIZE 512
 
+//used to define an internal interval to each of the various types of value
 #define MIN_TIME_UNITS_PER_SEC 1
 #define MIN_LAP_DISTANCE 1000
 #define MIN_LAPS_PER_RACE 1
@@ -34,6 +44,7 @@
 #define MAX_MAX_REPAIR_TIME 180
 #define MAX_FUEL_TANK_CAPACITY 100
 
+//used to define the meaning of the different values
 #define RACE_CONFIG "race_config"
 #define TIME_UNITS_PER_SEC "time_units_per_sec"
 #define LAP_DISTANCE "lap_distance"
@@ -45,43 +56,36 @@
 #define MAX_REPAIR_TIME "max_repair_time"
 #define FUEL_TANK_CAPACITY "fuel_tank_capacity"
 
+/**
+ * Shows the line and the file name where a parsing error occurred.
+ * @param error_msg Formatted error message.
+ * @param ... Formatting arguments.
+ */
+static void error_at_line(const char * error_msg, ...);
+
+/**
+* Check the nature of the feedback after attempting to convert a string to float.
+* @param feedback
+* @param field_name Meaning of the value.
+*/
+static void to_float_wrapper(int feedback, const char * field_name);
+
+/**
+ * Check if a given value belongs to a given interval for acceptable values.
+ * @param value Value to be validated.
+ * @param field_name Meaning of the value.
+ * @param min Minimum value of the interval.
+ * @param max Maximum value of the interval.
+ */
+void validate_interval(float value, const char * field_name, float min, float max);
+
+/** Variables */
 static char * config_file_path = NULL;
 static int current_line;
 
 void race_config_reader_init(char * cfg_file_path) {
     config_file_path = cfg_file_path;
     current_line = -1;
-}
-
-static void error_at_line(const char * error_msg, ...) {
-    va_list args;
-    va_start(args, error_msg);
-
-    char buffer[MAX_EXCEPTION_MSG_SIZE];
-    vsnprintf(buffer, sizeof(buffer), error_msg, args);
-    char buffer2[MAX_EXCEPTION_MSG_SIZE * 2];
-
-    va_end(args);
-
-    snprintf(buffer2, sizeof(buffer2), "%s %s", ERROR_AT_LINE, buffer);
-    throw_exception_and_exit(buffer2, current_line + 1, config_file_path);
-
-}
-
-void validate_interval(float value, const char * field_name, float min, float max) {
-    if (value < min) {
-        error_at_line(MIN_VALUE_EXCEPTION, field_name, min);
-    } else if (value > max) {
-        error_at_line(MAX_VALUE_EXCEPTION, field_name, max);
-    }
-}
-
-static void to_float_wrapper(int feedback, const char * field_name) {
-    if (feedback == FLOAT_SIZE_EXCEEDED) {
-        error_at_line(FLOAT_SIZE_EXCEEDED_EXCEPTION, field_name);
-    } else if (feedback == FLOAT_CONVERSION_FAILURE) {
-        error_at_line(FLOAT_CONVERSION_EXCEPTION, field_name);
-    }
 }
 
 race_config_t * read_race_config() {
@@ -226,4 +230,35 @@ race_config_t * read_race_config() {
     }
 
     return config;
+}
+
+static void error_at_line(const char * error_msg, ...) {
+    va_list args;
+    va_start(args, error_msg);
+
+    char buffer[MAX_EXCEPTION_MSG_SIZE];
+    vsnprintf(buffer, sizeof(buffer), error_msg, args);
+    char buffer2[MAX_EXCEPTION_MSG_SIZE * 2];
+
+    va_end(args);
+
+    snprintf(buffer2, sizeof(buffer2), "%s %s", ERROR_AT_LINE, buffer);
+    throw_exception_and_exit(buffer2, current_line + 1, config_file_path);
+
+}
+
+static void to_float_wrapper(int feedback, const char * field_name) {
+    if (feedback == FLOAT_SIZE_EXCEEDED) {
+        error_at_line(FLOAT_SIZE_EXCEEDED_EXCEPTION, field_name);
+    } else if (feedback == FLOAT_CONVERSION_FAILURE) {
+        error_at_line(FLOAT_CONVERSION_EXCEPTION, field_name);
+    }
+}
+
+void validate_interval(float value, const char * field_name, float min, float max) {
+    if (value < min) {
+        error_at_line(MIN_VALUE_EXCEPTION, field_name, min);
+    } else if (value > max) {
+        error_at_line(MAX_VALUE_EXCEPTION, field_name, max);
+    }
 }

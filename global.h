@@ -1,3 +1,11 @@
+/*
+ * Authors:
+ *  - Joao Filipe Guiomar Artur, 2019217853
+ *  - Sancho Amaral Simoes, 2019217590
+ *
+ * Date of creation: 02/04/2021
+ */
+
 #ifndef RACESIMULATOR_GLOBAL_H
 #define RACESIMULATOR_GLOBAL_H
 
@@ -28,6 +36,7 @@
 
 #define S_DEBUG_MSG(msg, ...) SYNC_DEBUG_MSG(output_mutex, msg, __VA_ARGS__)
 
+/** Variables */
 int shm_id;
 shared_memory_t * mem_struct;
 sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;

@@ -1,3 +1,11 @@
+/*
+ * Authors:
+ *  - Joao Filipe Guiomar Artur, 2019217853
+ *  - Sancho Amaral Simoes, 2019217590
+ *
+ * Date of creation: 02/04/2021
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -6,8 +14,8 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include <stddef.h>
-#include "global.h"
-#include "util/exception_handler.h"
+#include "../global.h"
+#include "exception_handler.h"
 
 #define USER_PERMS_ALL 0700
 #define ALL_PERMS_RW 0666
@@ -137,44 +145,4 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
     }
 
     free(sem_array);
-}
-
-void create_ipcs(int num_teams){
-    assert(num_teams > 0);
-
-    mem_struct = create_shm(sizeof(shared_memory_t), &shm_id);
-
-    output_mutex = create_sem(OUTPUT_MUTEX, 1);
-
-    DEBUG_MSG(SEM_CREATED, OUTPUT_MUTEX)
-
-    shm_mutex = create_sem(SHM_MUTEX, 1);
-
-    DEBUG_MSG(SEM_CREATED, OUTPUT_MUTEX)
-
-    race_start = create_sem(RACE_START, 0);
-
-    DEBUG_MSG(SEM_CREATED, RACE_START)
-
-    malfunction_mng_start = create_sem(MALFUNCTION_MNG_START, 0);
-
-    DEBUG_MSG(SEM_CREATED, MALFUNCTION_MNG_START)
-
-    boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX, 1);
-}
-
-void destroy_ipcs(int num_teams){
-    assert(num_teams > 0);
-
-    destroy_shm(shm_id, mem_struct);
-
-    destroy_sem(OUTPUT_MUTEX, output_mutex);
-
-    destroy_sem(SHM_MUTEX, shm_mutex);
-
-    destroy_sem(RACE_START, race_start);
-
-    destroy_sem(MALFUNCTION_MNG_START, malfunction_mng_start);
-
-    destroy_sem_array(boxes_availability, num_teams, BOX_SEM_PREFIX);
 }
