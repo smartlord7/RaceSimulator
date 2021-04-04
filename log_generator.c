@@ -21,7 +21,7 @@ void log_init(char * lg_file_path) {
 }
 
 void generate_log_entry(char * mode, void * data){
-    race_car_t * car;
+    //race_car_t * car;
     char * entry = get_time();
 
     if (strcmp(mode, I_SIMULATION_START) == 0){
@@ -39,12 +39,12 @@ void generate_log_entry(char * mode, void * data){
         entry = str_concat(entry, (char *) data, I_COMMAND_ERROR);
 
     } else if(strcmp(mode, I_CAR_LOADED) == 0){
-        car = (race_car_t *) data;
+        //car = (race_car_t *) data;
         entry = str_concat(entry,O_CAR_LOADED, I_CAR_LOADED);
         entry = str_concat(entry, O_TEMP_NUM, I_CAR_LOADED);
 
     } else if(strcmp(mode, I_CAR_MALFUNCTION) == 0){
-        car = (race_car_t *) data;
+        //car = (race_car_t *) data;
         entry = str_concat(entry, O_NEW_CAR_PROBLEM, I_CAR_MALFUNCTION);
         entry = str_concat(entry, O_TEMP_NUM, I_CAR_MALFUNCTION);
 
@@ -54,7 +54,7 @@ void generate_log_entry(char * mode, void * data){
         entry = str_concat(entry, O_RECEIVED, I_SIGNAL_RECEIVED);
 
     } else if(strcmp(mode, I_RACE_WIN) == 0){
-        car = (race_car_t *) data;
+        //car = (race_car_t *) data;
         entry = str_concat(entry, O_CAR, I_RACE_WIN);
         entry = str_concat(entry, O_TEMP_NUM, I_RACE_WIN);
         entry = str_concat(entry, O_RACE_WON, I_RACE_WIN);

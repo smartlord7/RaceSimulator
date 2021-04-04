@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "util/error_handler.h"
 
-void malfunction_manager(void * data){
+void malfunction_manager(){
 
     S_DEBUG_MSG(EXITING_PROCESS, MALFUNCTION_MANAGER)
 

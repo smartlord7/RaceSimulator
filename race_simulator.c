@@ -10,10 +10,6 @@
 #define CONFIG_FILE_NAME "config.txt"
 #define LOG_FILE_NAME "log.txt"
 
-void free_all() {
-    free(mem_struct->cfg);
-}
-
 int main() {
     race_config_reader_init(CONFIG_FILE_NAME);
     race_config_t * cfg = read_race_config();
@@ -38,6 +34,7 @@ int main() {
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     wait_all();
+    free(mem_struct->cfg);
     destroy_ipcs(cfg->num_teams);
 
     generate_log_entry(I_SIMULATION_END, NULL);

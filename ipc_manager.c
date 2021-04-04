@@ -119,6 +119,8 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
 
         i++;
     }
+
+    free(sem_array);
 }
 
 void create_ipcs(int num_teams){

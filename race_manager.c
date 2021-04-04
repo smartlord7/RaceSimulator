@@ -6,7 +6,7 @@
 #include "util/error_handler.h"
 #include "util/process_manager.h"
 
-void race_manager(void * data){
+void race_manager(){
     S_DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
 
     int num_teams = mem_struct->cfg->num_teams, i = 0;
@@ -29,6 +29,7 @@ void race_manager(void * data){
     }
 
     wait_all();
+    free(teams);
 
     S_DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
 

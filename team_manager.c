@@ -56,6 +56,8 @@ void team_manager(void * data){
     }
 
     kill_all_threads(num_cars, car_threads);
+    free(team_cars);
+    free(car_threads);
 
     S_DEBUG_MSG(EXITING_PROCESS, TEAM_MANAGER)
 

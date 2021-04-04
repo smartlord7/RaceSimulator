@@ -34,8 +34,8 @@ int shm_id;
 shared_memory * mem_struct;
 sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
 
-void race_manager(void * data);
-void malfunction_manager(void * data);
+void race_manager();
+void malfunction_manager();
 void team_manager(void * data);
 
 #endif // RACESIMULATOR_GLOBAL_H
