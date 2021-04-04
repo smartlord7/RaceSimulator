@@ -13,4 +13,6 @@ struct race_config_t {
     int laps_per_race, num_teams, max_cars_per_team;
 };
 
+char * race_config_to_string(race_config_t * cfg);
+
 #endif //RACESIMULATOR_RACE_CONFIG_H
