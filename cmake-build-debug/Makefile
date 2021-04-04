@@ -143,33 +143,6 @@ RaceSimulator/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/build
 .PHONY : RaceSimulator/fast
 
-ipc_manager.o: ipc_manager.c.o
-
-.PHONY : ipc_manager.o
-
-# target to build an object file
-ipc_manager.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.o
-.PHONY : ipc_manager.c.o
-
-ipc_manager.i: ipc_manager.c.i
-
-.PHONY : ipc_manager.i
-
-# target to preprocess a source file
-ipc_manager.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.i
-.PHONY : ipc_manager.c.i
-
-ipc_manager.s: ipc_manager.c.s
-
-.PHONY : ipc_manager.s
-
-# target to generate assembly for a file
-ipc_manager.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.s
-.PHONY : ipc_manager.c.s
-
 log_generator.o: log_generator.c.o
 
 .PHONY : log_generator.o
@@ -440,6 +413,33 @@ util/exception_handler.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler.c.s
 .PHONY : util/exception_handler.c.s
 
+util/ipc_manager.o: util/ipc_manager.c.o
+
+.PHONY : util/ipc_manager.o
+
+# target to build an object file
+util/ipc_manager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o
+.PHONY : util/ipc_manager.c.o
+
+util/ipc_manager.i: util/ipc_manager.c.i
+
+.PHONY : util/ipc_manager.i
+
+# target to preprocess a source file
+util/ipc_manager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.i
+.PHONY : util/ipc_manager.c.i
+
+util/ipc_manager.s: util/ipc_manager.c.s
+
+.PHONY : util/ipc_manager.s
+
+# target to generate assembly for a file
+util/ipc_manager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.s
+.PHONY : util/ipc_manager.c.s
+
 util/process_manager.o: util/process_manager.c.o
 
 .PHONY : util/process_manager.o
@@ -530,9 +530,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
-	@echo "... ipc_manager.o"
-	@echo "... ipc_manager.i"
-	@echo "... ipc_manager.s"
 	@echo "... log_generator.o"
 	@echo "... log_generator.i"
 	@echo "... log_generator.s"
@@ -563,6 +560,9 @@ help:
 	@echo "... util/exception_handler.o"
 	@echo "... util/exception_handler.i"
 	@echo "... util/exception_handler.s"
+	@echo "... util/ipc_manager.o"
+	@echo "... util/ipc_manager.i"
+	@echo "... util/ipc_manager.s"
 	@echo "... util/process_manager.o"
 	@echo "... util/process_manager.i"
 	@echo "... util/process_manager.s"

@@ -7,6 +7,9 @@
 
 typedef struct shared_memory_t shared_memory_t;
 
+/**
+ * Implementation of the shared memory zone.
+ */
 struct shared_memory_t {
     race_config_t * cfg;
     race_team_t * race_teams;

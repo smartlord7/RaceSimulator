@@ -181,18 +181,18 @@ CMakeFiles/RaceSimulator.dir/util/to_float.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/util/to_float.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/projeto_SO/RaceSimulator/util/to_float.c -o CMakeFiles/RaceSimulator.dir/util/to_float.c.s
 
-CMakeFiles/RaceSimulator.dir/ipc_manager.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/ipc_manager.c.o: ../ipc_manager.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/RaceSimulator.dir/ipc_manager.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipc_manager.c.o   -c /cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.c
+CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o: ../util/ipc_manager.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o   -c /cygdrive/c/projeto_SO/RaceSimulator/util/ipc_manager.c
 
-CMakeFiles/RaceSimulator.dir/ipc_manager.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/ipc_manager.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.c > CMakeFiles/RaceSimulator.dir/ipc_manager.c.i
+CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /cygdrive/c/projeto_SO/RaceSimulator/util/ipc_manager.c > CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.i
 
-CMakeFiles/RaceSimulator.dir/ipc_manager.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/ipc_manager.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.c -o CMakeFiles/RaceSimulator.dir/ipc_manager.c.s
+CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /cygdrive/c/projeto_SO/RaceSimulator/util/ipc_manager.c -o CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.s
 
 CMakeFiles/RaceSimulator.dir/util/debug.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/util/debug.c.o: ../util/debug.c
@@ -269,7 +269,7 @@ RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/read_line.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/to_float.c.o" \
-"CMakeFiles/RaceSimulator.dir/ipc_manager.c.o" \
+"CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/debug.c.o" \
 "CMakeFiles/RaceSimulator.dir/structs/race_car_t.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/process_manager.c.o" \
@@ -287,7 +287,7 @@ RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/race_config_reader.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/read_line.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/to_float.c.o
-RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/ipc_manager.c.o
+RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/debug.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/structs/race_car_t.c.o
 RaceSimulator.exe: CMakeFiles/RaceSimulator.dir/util/process_manager.c.o
