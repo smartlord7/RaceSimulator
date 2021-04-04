@@ -9,6 +9,8 @@
 #ifndef RACE_SIMULATOR_C_LOG_GENERATOR_H
 #define RACE_SIMULATOR_C_LOG_GENERATOR_H
 
+#include <semaphore.h>
+
 //used to distinguish function input
 #define I_SIMULATION_START "SIMULATION START"
 #define I_SIMULATION_END "SIMULATION END"
@@ -44,7 +46,7 @@ void generate_log_entry(char * mode, void * data);
  * Initialize the log file functionality.
  * @param lg_file_path Path of the log file.
  */
-void log_init(char * lg_file_path);
+void log_init(char * lg_file_path, sem_t * sem);
 
 
 #endif //RACE_SIMULATOR_C_LOG_GENERATOR_H

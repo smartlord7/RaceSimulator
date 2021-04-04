@@ -11,12 +11,8 @@
 #include <stdio.h>
 #include <assert.h>
 #include "global.h"
-<<<<<<< Updated upstream
-#include "ipc_manager.h"
 #include "structs/race_config_t.h"
-=======
 #include "util/ipc_manager.h"
->>>>>>> Stashed changes
 #include "race_config_reader.h"
 #include "race_manager.h"
 #include "malfunction_manager.h"
@@ -71,7 +67,7 @@ int main() {
 
     mem_struct->cfg = cfg; // There are no other application processes, no MUTEX needed.
 
-    log_init(LOG_FILE_NAME);
+    log_init(LOG_FILE_NAME, output_mutex);
     generate_log_entry(I_SIMULATION_START, NULL);
 
     //create race manager process
@@ -85,17 +81,13 @@ int main() {
 
     //release allocated memory for configs
     free(mem_struct->cfg);
-<<<<<<< Updated upstream
-=======
-
-    //destroy interprocess communication mechanisms
-    destroy_ipcs(cfg->num_teams);
->>>>>>> Stashed changes
 
     generate_log_entry(I_SIMULATION_END, NULL);
 
+    //destroy interprocess communication mechanisms
     destroy_ipcs(cfg->num_teams);
 
+    destroy_ipcs(cfg->num_teams);
 
     DEBUG_MSG(EXITING_PROCESS, RACE_SIMULATOR)
 

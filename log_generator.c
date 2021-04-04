@@ -9,12 +9,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <semaphore.h>
 #include "util/exception_handler.h"
-#include "global.h"
 #include "util/ipc_manager.h"
 #include "log_generator.h"
 
 #define TIMESTAMP_DELIMITER " "
+#define MUTEX "MUTEX"
+#define true 1
+#define false 0
 
 /**
  * Write an entry on log file.
@@ -39,9 +42,11 @@ char * str_concat(char * stringA, char * stringB, char * exception_context);
 
 /** Variables */
 static char * log_file_path = NULL;
+static sem_t * mutex = NULL;
 
-void log_init(char * lg_file_path) {
+void log_init(char * lg_file_path, sem_t * sem) {
     log_file_path = lg_file_path;
+    mutex = sem;
 }
 
 void generate_log_entry(char * mode, void * data){
@@ -87,12 +92,12 @@ void generate_log_entry(char * mode, void * data){
 
     entry = str_concat(entry, O_TERMINATOR, NULL);
 
-    wait_sem(output_mutex, OUTPUT_MUTEX);
+    wait_sem(mutex, MUTEX);
 
     printf("\n%s\n", entry);
     write_log_entry(entry);
 
-    post_sem(output_mutex, OUTPUT_MUTEX);
+    post_sem(mutex, MUTEX);
 }
 
 void write_log_entry(char * entry){
