@@ -2,7 +2,6 @@
 #include <assert.h>
 #include "read_line.h"
 
-
 int read_line(char * buffer, FILE * file, int buffer_size) {
     assert(buffer != NULL && file != NULL && buffer_size > 0);
 
