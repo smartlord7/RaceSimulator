@@ -13,6 +13,7 @@
 #include "race_team_t.h"
 #include "race_car_t.h"
 
+typedef enum box_state box_state;
 typedef struct race_team_t race_team_t;
 typedef struct race_car_t race_car_t;
 typedef struct race_box_t race_box_t;
@@ -21,11 +22,15 @@ typedef struct race_box_t race_box_t;
 #define BOX_RESERVED_STATE 1
 #define BOX_OCCUPIED_STATE 2
 
+enum box_state {
+    FREE, RESERVED, OCCUPIED;
+};
+
 /**
  * Implementation of the concept of race box.
  */
 struct race_box_t{
-    int state;
+    box_state state;
     race_team_t * team;
     race_car_t * current_car;
 };

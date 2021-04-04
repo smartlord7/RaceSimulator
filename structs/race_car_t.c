@@ -31,7 +31,7 @@ race_car_t * race_car(race_team_t * team, int car_id, float consumption, float s
     new->reliability = reliability;
 
     new->remaining_fuel = initial_fuel;
-    new->status = CAR_RACE_STATE;
+    new->state = RACE;
 
     return new;
 }
