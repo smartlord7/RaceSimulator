@@ -4,6 +4,8 @@
 #include "global.h"
 #include "ipc_manager.h"
 #include "race_config_reader.h"
+#include "race_manager.h"
+#include "malfunction_manager.h"
 #include "log_generator.h"
 #include "util/process_manager.h"
 #include "util/exception_handler.h"

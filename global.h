@@ -27,15 +27,9 @@
 #define BOX_SEM_PREFIX "BOX_"
 
 #define S_DEBUG_MSG(msg, ...) SYNC_DEBUG_MSG(output_mutex, msg, __VA_ARGS__)
-#define s_throw_exception_end_exit(msg, ...) sync_throw_exception_end_exit(output_mutex, msg, __VA_ARGS__)
-#define s_throw_exception_end_stay(msg, ...) sync_throw_exception_end_stay(output_mutex, msg, __VA_ARGS__)
 
 int shm_id;
 shared_memory * mem_struct;
 sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
-
-void race_manager();
-void malfunction_manager();
-void team_manager(void * data);
 
 #endif // RACESIMULATOR_GLOBAL_H

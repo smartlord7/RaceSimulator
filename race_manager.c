@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "global.h"
+#include "team_manager.h"
 #include "util/exception_handler.h"
 #include "util/process_manager.h"
 
