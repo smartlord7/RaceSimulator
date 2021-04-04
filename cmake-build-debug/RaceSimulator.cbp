@@ -77,12 +77,6 @@
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/global.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/log_generator.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -92,6 +86,9 @@
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_config_reader.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -99,6 +96,9 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_simulator.c">
@@ -122,7 +122,7 @@
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/shared_memory.h">
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/shared_memory_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/team_manager.c">
@@ -141,6 +141,12 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/ipc_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/ipc_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/process_manager.c">
