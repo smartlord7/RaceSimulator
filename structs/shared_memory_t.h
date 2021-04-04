@@ -5,9 +5,9 @@
 #include "race_car_t.h"
 #include "pthread.h"
 
-typedef struct shared_memory shared_memory;
+typedef struct shared_memory_t shared_memory;
 
-struct shared_memory {
+struct shared_memory_t {
     race_config_t * cfg;
     race_team_t * race_teams;
     race_car_t * race_cars;

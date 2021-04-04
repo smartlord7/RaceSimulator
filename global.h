@@ -3,7 +3,7 @@
 
 #include <semaphore.h>
 #include "util/debug.h"
-#include "structs/shared_memory.h"
+#include "structs/shared_memory_t.h"
 
 #define MAX_BUFFER_SIZE 512
 #define MAX_LABEL_SIZE 50
@@ -29,7 +29,7 @@
 #define S_DEBUG_MSG(msg, ...) SYNC_DEBUG_MSG(output_mutex, msg, __VA_ARGS__)
 
 int shm_id;
-shared_memory * mem_struct;
+shared_memory_t * mem_struct;
 sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
 
 #endif // RACESIMULATOR_GLOBAL_H

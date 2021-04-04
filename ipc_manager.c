@@ -142,7 +142,7 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
 void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
-    mem_struct = create_shm(sizeof(shared_memory), &shm_id);
+    mem_struct = create_shm(sizeof(shared_memory_t), &shm_id);
 
     output_mutex = create_sem(OUTPUT_MUTEX, 1);
 
