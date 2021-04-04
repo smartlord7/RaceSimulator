@@ -53,7 +53,9 @@ shared_memory_t * mem_struct;
 sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
 
 int main() {
+    //initialize debugging and exception handling mechanisms
     exc_handler_init(NULL, terminate, NULL);
+    debug_init(NULL);
 
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
@@ -84,13 +86,13 @@ int main() {
     //wait for all of the child processes
     wait_all();
 
-    //release allocated memory for configs
-    free(mem_struct->cfg);
-
     generate_log_entry(I_SIMULATION_END, NULL);
 
     //destroy interprocess communication mechanisms
     destroy_ipcs(cfg->num_teams);
+
+    //release allocated memory for configs
+    free(cfg);
 
     DEBUG_MSG(EXITING_PROCESS, RACE_SIMULATOR)
 
@@ -105,6 +107,10 @@ void create_ipcs(int num_teams){
     output_mutex = create_sem(OUTPUT_MUTEX, 1);
 
     DEBUG_MSG(SEM_CREATED, OUTPUT_MUTEX)
+
+    exc_mutex = output_mutex;
+
+    deb_mutex = output_mutex;
 
     shm_mutex = create_sem(SHM_MUTEX, 1);
 
@@ -125,6 +131,8 @@ void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
 
     destroy_shm(shm_id, mem_struct);
+
+    deb_mutex = NULL;
 
     destroy_sem(OUTPUT_MUTEX, output_mutex);
 

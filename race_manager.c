@@ -16,7 +16,7 @@
 #include "util/process_manager.h"
 
 void race_manager(){
-    S_DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
+    DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
 
     int num_teams = mem_struct->cfg->num_teams, i = 0;
     race_team_t * teams;
@@ -45,7 +45,7 @@ void race_manager(){
     //free the resources
     free(teams);
 
-    S_DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
+    DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
 
     exit(EXIT_SUCCESS);
 }

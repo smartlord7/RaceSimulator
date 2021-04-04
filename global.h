@@ -34,8 +34,6 @@
 #define MALFUNCTION_MNG_START "MALFUNCTION_MNG_START"
 #define BOX_SEM_PREFIX "BOX_"
 
-#define S_DEBUG_MSG(msg, ...) SYNC_DEBUG_MSG(output_mutex, msg, __VA_ARGS__)
-
 /** Variables */
 extern int shm_id;
 extern shared_memory_t * mem_struct;

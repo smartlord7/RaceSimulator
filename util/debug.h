@@ -20,8 +20,10 @@
 #define EXITING_THREAD "EXITING THREAD %s..."
 
 #define DEBUG_MSG(msg, ...) if (DEBUG) debug_msg(__FILE__, __LINE__, msg, __VA_ARGS__);
-#define SYNC_DEBUG_MSG(mutex, msg, ...) if (DEBUG) { sem_wait(mutex); debug_msg(__FILE__, __LINE__, msg, __VA_ARGS__); sem_post(mutex); }
 
+sem_t * deb_mutex;
+
+void debug_init(sem_t * sem);
 void debug_msg(const char * file, int line, const char * msg, ...);
 
 #endif //RACESIMULATOR_DEBUG_H

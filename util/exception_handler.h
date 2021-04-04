@@ -42,11 +42,12 @@
 #define throw_exception_and_exit(exception_msg, ...) throw_exception(__FILE__, __LINE__, true, exception_msg, __VA_ARGS__)
 #define throw_exception_and_stay(exception_msg, ...) throw_exception(__FILE__, __LINE__, false, exception_msg, __VA_ARGS__)
 
-void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params);
-void throw_exception(const char * file_name, int line, int exit_process, const char * exception_msg, ...);
-
 extern sem_t * exc_mutex;
 extern void (* clean_func)(void *);
 extern void * clean_func_params;
+
+void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params);
+void throw_exception(const char * file_name, int line, int exit_process, const char * exception_msg, ...);
+
 
 #endif //RACESIMULATOR_EXCEPTION_HANDLER_H

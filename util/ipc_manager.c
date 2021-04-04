@@ -14,11 +14,15 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include <stddef.h>
-#include "../global.h"
+#include "debug.h"
 #include "exception_handler.h"
 
 #define USER_PERMS_ALL 0700
 #define ALL_PERMS_RW 0666
+#define true 1
+#define false 0
+#define DEBUG true
+#define MAX_SEM_LABEL_SIZE 20
 
 void wait_sem(sem_t * sem, const char * sem_name) {
     assert(sem != NULL && sem_name != NULL);
@@ -52,7 +56,7 @@ void * create_shm(size_t size, int * shm_id_p) {
         throw_exception_and_exit(MEMORY_ATTACHMENT_EXCEPTION, created_shm_id);
     }
 
-    DEBUG_MSG(SHM_ATTACHED, shm_id)
+    DEBUG_MSG(SHM_ATTACHED, created_shm_id)
 
     * shm_id_p = created_shm_id;
 
@@ -117,7 +121,7 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int value) {
     int i = 0;
 
     while (i < num) {
-        char sem_name[MAX_LABEL_SIZE];
+        char sem_name[MAX_SEM_LABEL_SIZE];
         snprintf(sem_name, sizeof(sem_name), "%s%d", sem_name_prefix, i);
 
         sem_array[i] = create_sem(sem_name, value);
@@ -136,7 +140,7 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
     int i = 0;
 
     while (i < num) {
-        char sem_name[MAX_LABEL_SIZE];
+        char sem_name[MAX_SEM_LABEL_SIZE];
         snprintf(sem_name, sizeof(sem_name), "%s%d", sem_name_prefix, i);
 
         destroy_sem(sem_name, sem_array[i]);

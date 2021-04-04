@@ -34,9 +34,9 @@ void * race_car_worker(void * race_car){
     char buffer[MAX_LABEL_SIZE];
     snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, car.car_id);
 
-    S_DEBUG_MSG(RUNNING_THREAD, buffer)
+    DEBUG_MSG(RUNNING_THREAD, buffer)
 
-    S_DEBUG_MSG(EXITING_THREAD, buffer)
+    DEBUG_MSG(EXITING_THREAD, buffer)
 
     #endif
 
@@ -48,7 +48,7 @@ void * race_car_worker(void * race_car){
 void team_manager(void * data){
     race_team_t * team = (race_team_t *) data;
 
-    S_DEBUG_MSG(RUNNING_PROCESS, team->team_name)
+    DEBUG_MSG(RUNNING_PROCESS, team->team_name)
 
     int i = 0, temp_num_cars = mem_struct->cfg->max_cars_per_team;
     num_cars = temp_num_cars;
@@ -77,7 +77,7 @@ void team_manager(void * data){
     free(team_cars);
     free(car_threads);
 
-    S_DEBUG_MSG(EXITING_PROCESS, TEAM_MANAGER)
+    DEBUG_MSG(EXITING_PROCESS, TEAM_MANAGER)
 
     exit(EXIT_SUCCESS);
 }

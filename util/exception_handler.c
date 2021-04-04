@@ -9,6 +9,8 @@ void (* clean_func)(void *) = NULL;
 void * clean_func_params = NULL;
 
 void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params) {
+    assert(clean_function != NULL);
+
     exc_mutex = sem;
     clean_func = clean_function;
     clean_func_params = clean_function_params;
