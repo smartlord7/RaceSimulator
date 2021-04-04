@@ -1,3 +1,11 @@
+/*
+ * Authors:
+ *  - Joao Filipe Guiomar Artur, 2019217853
+ *  - Sancho Amaral Simoes, 2019217590
+ *
+ * Date of creation: 02/04/2021
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -6,6 +14,14 @@
 #include "util/process_manager.h"
 #include "util/exception_handler.h"
 
+/**
+ * Handle the implementation of race car concept. Used for thread purposes.
+ * @param race_car Race car information.
+ * @return Void pointer. Leaves thread.
+ */
+void * race_car_worker(void * race_car);
+
+/** Variables */
 static int num_cars;
 static race_car_t ** team_cars;
 static pthread_t * car_threads;

@@ -1,3 +1,11 @@
+/*
+ * Authors:
+ *  - Joao Filipe Guiomar Artur, 2019217853
+ *  - Sancho Amaral Simoes, 2019217590
+ *
+ * Date of creation: 02/04/2021
+ */
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -7,6 +15,9 @@
 #include "util/exception_handler.h"
 #include "util/process_manager.h"
 
+/**
+ * Handle the concept of race manager and its respective tasks.
+ */
 void race_manager(){
     S_DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
 

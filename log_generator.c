@@ -1,20 +1,67 @@
-#include "log_generator.h"
-#include <string.h>
-#include "util/exception_handler.h"
-#include <time.h>
-#include "global.h"
+/*
+ * Authors:
+ *  - Joao Filipe Guiomar Artur, 2019217853
+ *  - Sancho Amaral Simoes, 2019217590
+ *
+ * Date of creation: 02/04/2021
+ */
+
 #include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include "util/exception_handler.h"
+#include "global.h"
 #include "ipc_manager.h"
 
 #define TIMESTAMP_DELIMITER " "
 
-static char * log_file_path = NULL;
+//used to distinguish function input
+#define I_SIMULATION_START "SIMULATION START"
+#define I_SIMULATION_END "SIMULATION END"
+#define I_COMMAND_RECEIVED "COMMAND RECEIVED"
+#define I_COMMAND_EXCEPTION "WRONG COMMAND"
+#define I_CAR_LOADED "CAR LOADED"
+#define I_CAR_MALFUNCTION "CAR MALFUNCTION"
+#define I_SIGNAL_RECEIVED "SIGNAL RECEIVED"
+#define I_RACE_WIN "RACE WIN"
 
-char * get_time();
+//used to distinguish function output
+#define O_SIMULATION_STARTING " SIMULATOR STARTING"
+#define O_SIMULATION_CLOSING " SIMULATOR CLOSING"
+#define O_NEW_COMMAND_RECEIVED " NEW COMMAND RECEIVED: "
+#define O_WRONG_COMMAND " WRONG COMMAND => "
+#define O_CAR_LOADED " CAR LOADED => "
+#define O_TEMP_NUM " X "
+#define O_NEW_CAR_PROBLEM " NEW PROBLEM IN CAR"
+#define O_SIGNAL " SIGNAL "
+#define O_RECEIVED " RECEIVED"
+#define O_CAR " CAR "
+#define O_RACE_WON " WINS THE RACE"
+#define O_TERMINATOR "\0"
 
+/**
+ * Write an entry on log file.
+ * @param entry C String to be written on log file.
+ */
 void write_log_entry(char * entry);
 
+/**
+ * Get the local system time.
+ * @return Current local system time in hh:mm:ss format.
+ */
+char * get_time();
+
+/**
+ * Concatenate two given strings.
+ * @param stringA String to be the first part and to store the result.
+ * @param stringB String to be concatenated.
+ * @param exception_context Context in which the exception might have occurred.
+ * @return Return Result of the concatenated strings.
+ */
 char * str_concat(char * stringA, char * stringB, char * exception_context);
+
+/** Variables */
+static char * log_file_path = NULL;
 
 void log_init(char * lg_file_path) {
     log_file_path = lg_file_path;
@@ -71,30 +118,30 @@ void generate_log_entry(char * mode, void * data){
     post_sem(output_mutex, OUTPUT_MUTEX);
 }
 
-char * str_concat(char * stringA, char * stringB, char * exception_context){
-
-    if(strcat(stringA, stringB) == NULL){
-        throw_exception_and_stay(LOG_ENTRY_GENERATION_EXCEPTION, exception_context);
-    }
-
-    return stringA;
-}
-
 void write_log_entry(char * entry){
     FILE * log_file;
 
     if ((log_file = fopen(log_file_path, "a")) == NULL){
         throw_exception_and_stay(FILE_OPENING_EXCEPTION, log_file_path);
     }
-    
+
     if (fprintf(log_file, "%s\n", entry) < 0){
         throw_exception_and_stay(FILE_WRITING_EXCEPTION, log_file_path);
     }
-    
+
     if (fclose(log_file)){
         throw_exception_and_stay(FILE_CLOSING_EXCEPTION, log_file_path);
     }
-    
+
+}
+
+char * str_concat(char * stringA, char * stringB, char * exception_context) {
+
+    if (strcat(stringA, stringB) == NULL) {
+        throw_exception_and_stay(LOG_ENTRY_GENERATION_EXCEPTION, exception_context);
+    }
+
+    return stringA;
 }
 
 char * get_time(){

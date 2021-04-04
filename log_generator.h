@@ -1,3 +1,11 @@
+/*
+ * Authors:
+ *  - Joao Filipe Guiomar Artur, 2019217853
+ *  - Sancho Amaral Simoes, 2019217590
+ *
+ * Date of creation: 02/04/2021
+ */
+
 #ifndef RACE_SIMULATOR_C_LOG_GENERATOR_H
 #define RACE_SIMULATOR_C_LOG_GENERATOR_H
 
@@ -25,7 +33,17 @@
 #define O_RACE_WON " WINS THE RACE"
 #define O_TERMINATOR "\0"
 
+/**
+ * Generates an entry. Prints to screen and writes on log file the generated entry in a synchronized manner.
+ * @param mode Mode in which the function is called.
+ * @param data Additional data needed for some cases.
+ */
 void generate_log_entry(char * mode, void * data);
+
+/**
+ * Initialize the log file functionality.
+ * @param lg_file_path Path of the log file.
+ */
 void log_init(char * lg_file_path);
 
 
