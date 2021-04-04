@@ -37,8 +37,8 @@
 #define S_DEBUG_MSG(msg, ...) SYNC_DEBUG_MSG(output_mutex, msg, __VA_ARGS__)
 
 /** Variables */
-int shm_id;
-shared_memory_t * mem_struct;
-sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
+extern int shm_id;
+extern shared_memory_t * mem_struct;
+extern sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
 
 #endif // RACESIMULATOR_GLOBAL_H

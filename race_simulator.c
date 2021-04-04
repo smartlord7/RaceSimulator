@@ -47,6 +47,11 @@ void terminate();
  * Main function of the application. Simulates the behavior of the race simulator.
  * @return Exit value.
  */
+
+int shm_id;
+shared_memory_t * mem_struct;
+sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
+
 int main() {
     exc_handler_init(NULL, terminate, NULL);
 
@@ -85,8 +90,6 @@ int main() {
     generate_log_entry(I_SIMULATION_END, NULL);
 
     //destroy interprocess communication mechanisms
-    destroy_ipcs(cfg->num_teams);
-
     destroy_ipcs(cfg->num_teams);
 
     DEBUG_MSG(EXITING_PROCESS, RACE_SIMULATOR)
