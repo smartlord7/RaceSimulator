@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "global.h"
 #include "ipc_manager.h"
+#include "structs/race_config_t.h"
 #include "race_config_reader.h"
 #include "race_manager.h"
 #include "malfunction_manager.h"
@@ -58,9 +59,11 @@ int main() {
 
     wait_all();
     free(mem_struct->cfg);
-    destroy_ipcs(cfg->num_teams);
 
     generate_log_entry(I_SIMULATION_END, NULL);
+
+    destroy_ipcs(cfg->num_teams);
+
 
     DEBUG_MSG(EXITING_PROCESS, RACE_SIMULATOR)
 

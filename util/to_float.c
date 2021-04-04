@@ -2,10 +2,7 @@
 #include <float.h>
 #include <errno.h>
 #include <assert.h>
-
-#define FLOAT_SIZE_EXCEEDED -1
-#define FLOAT_CONVERSION_FAILURE 0
-#define FLOAT_CONVERSION_SUCCESS 1
+#include "to_float.h"
 
 int to_float(char * num_string, float * num_float){
     assert(num_string != NULL && num_float != NULL);

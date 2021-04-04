@@ -1,9 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../global.h"
+#include "../util/exception_handler.h"
+#include "race_config_t.h"
+
+#define true 1
+#define false 0
+#define MAX_BUFFER_SIZE 512
 
 char * race_config_to_string(race_config_t * cfg) {
-    char * buffer = (char *) malloc(MAX_BUFFER_SIZE * sizeof(char));
+    char * buffer;
+
+    if ((buffer = (char *) malloc(MAX_BUFFER_SIZE * sizeof(char))) == NULL) {
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "BUFFER");
+    }
 
     snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "\nTime units per second: %.2ftu\n"
                                                      "Lap distance: %.2fm\n"

@@ -61,7 +61,7 @@ void team_manager(void * data){
         throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "team race cars");
     }
 
-    race_car_t * temp_car = race_car(team, 0, 3.5f, 120, 0.5f);
+    race_car_t * temp_car = race_car(team, 0, 3.5f, 120, 0.5f, mem_struct->cfg->fuel_tank_capacity);
     char buffer[MAX_LABEL_SIZE];
     snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
 

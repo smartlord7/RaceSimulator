@@ -1,14 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "../global.h"
 #include "../util/exception_handler.h"
+#include "race_car_t.h"
 
-race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability) {
+#define true 1
+#define false 0
+#define MAX_BUFFER_SIZE 512
+
+race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability, float initial_fuel) {
     race_car_t * new;
 
     if ((new = (race_car_t *) calloc(1, sizeof(race_car_t))) == NULL) {
-        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, RACE_CAR);
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "BUFFER");
     }
 
     new->car_id = car_id;
@@ -17,7 +21,7 @@ race_car_t * race_car(race_team_t * team, int car_id, float consumption, float s
     new->speed = speed;
     new->reliability = reliability;
 
-    new->remaining_fuel = mem_struct->cfg->fuel_tank_capacity;
+    new->remaining_fuel = initial_fuel;
     new->status = CAR_RACE_STATE;
 
     return new;
