@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <unistd.h>
 #include <signal.h>
 #include <pthread.h>
@@ -8,6 +9,8 @@
 #define false 0
 
 void create_process(const char * proc_name, void (* worker)(void *), void * params) {
+    assert(proc_name != NULL && worker != NULL);
+
     pid_t child_proc_id;
 
     if ((child_proc_id = fork()) == 0) {
@@ -22,12 +25,16 @@ void wait_all() {
 }
 
 void create_thread(const char * thread_name, pthread_t * thread_p, void * (* worker)(void *), void * params) {
+    assert(thread_name != NULL && thread_p != NULL && worker != NULL);
+
     if (pthread_create(thread_p, NULL, worker, (void *) params) != 0) {
         throw_error_end_exit(ERROR_CREATE_THREAD, thread_name);
     }
 }
 
 void kill_all_threads(int num_threads, pthread_t * threads) {
+    assert(num_threads > 0 && threads != NULL);
+
     int i = 0;
 
     while (i < num_threads) {

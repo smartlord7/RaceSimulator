@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <semaphore.h>
@@ -7,12 +8,13 @@
 #include <stddef.h>
 #include "global.h"
 #include "util/error_handler.h"
-#include "util/debug.h"
 
 #define USER_PERMS_ALL 0700
 #define ALL_PERMS_RW 0666
 
 void * create_shm(size_t size, int * shm_id_p) {
+    assert(size != 0 && shm_id_p != NULL);
+
     int created_shm_id;
     void * shm = NULL;
 
@@ -34,6 +36,8 @@ void * create_shm(size_t size, int * shm_id_p) {
 }
 
 void destroy_shm(int shmid, void * shared_mem) {
+    assert(shared_mem != NULL);
+
     if(shmdt(shared_mem) == -1){
         throw_error_end_exit(ERROR_MEMORY_DETACHMENT, shmid);
     }
@@ -48,6 +52,8 @@ void destroy_shm(int shmid, void * shared_mem) {
 }
 
 sem_t * create_sem(const char * sem_name, int value) {
+    assert(sem_name != NULL && value >= 0);
+
     sem_t * sem;
 
     sem_unlink(sem_name);
@@ -60,6 +66,8 @@ sem_t * create_sem(const char * sem_name, int value) {
 }
 
 void destroy_sem(const char * sem_name, sem_t * sem) {
+    assert(sem_name != NULL && sem != NULL);
+
     if (sem_close(sem) == -1){
         throw_error_end_exit(ERROR_SEM_CLOSE, sem_name);
     }
@@ -74,6 +82,8 @@ void destroy_sem(const char * sem_name, sem_t * sem) {
 }
 
 sem_t ** create_sem_array(int num, const char * sem_name_prefix, int value) {
+    assert(num != 0 && sem_name_prefix != NULL && value > 0);
+
     sem_t ** sem_array;
 
     if ((sem_array = (sem_t **) malloc(num * sizeof(sem_t *))) == NULL) {
@@ -97,6 +107,8 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int value) {
 }
 
 void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix) {
+    assert(sem_array != NULL && num != 0 && sem_name_prefix != NULL);
+
     int i = 0;
 
     while (i < num) {
@@ -110,6 +122,8 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
 }
 
 void create_ipcs(int num_teams){
+    assert(num_teams > 0);
+
     mem_struct = create_shm(sizeof(shared_memory), &shm_id);
 
     output_mutex = create_sem(OUTPUT_MUTEX, 1);
@@ -132,6 +146,7 @@ void create_ipcs(int num_teams){
 }
 
 void destroy_ipcs(int num_teams){
+    assert(num_teams > 0);
 
     destroy_shm(shm_id, mem_struct);
 

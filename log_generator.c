@@ -108,11 +108,13 @@ char * get_time(){
     if ((token = strtok(buffer, TIMESTAMP_DELIMITER)) == NULL) {
         throw_error_end_stay(ERROR_STRTOK, "OF TIMESTAMP");
     }
+
     for(i = 0; i < 3; i++){
         if ((token = strtok(NULL, TIMESTAMP_DELIMITER)) == NULL) {
             throw_error_end_stay(ERROR_STRTOK, "OF TIMESTAMP");
         }
     }
+
     result = token;
     return result;
 }

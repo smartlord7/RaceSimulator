@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <assert.h>
 
 #define BUFFER_SIZE_EXCEEDED -2
 #define LINE_READ_SUCCESSFULLY 1
 
 int read_line(char * buffer, FILE * file, int buffer_size) {
+    assert(buffer != NULL && file != NULL && buffer_size > 0);
+
     int i = 0; 
     char chr;
     

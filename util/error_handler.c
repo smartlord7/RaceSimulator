@@ -2,18 +2,21 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <semaphore.h>
+#include <assert.h>
 
 void sync_throw_error(sem_t * sem, int exit_process, const char * error_msg, ...) {
+    assert(sem != NULL && error_msg != NULL);
+
     va_list args;
     va_start(args, error_msg);
 
-    sem_wait(sem);
+    assert(sem_wait(sem) != -1);
 
     fprintf(stderr, "\n");
     vfprintf(stderr, error_msg, args);
     fprintf(stderr, "\n");
 
-    sem_post(sem);
+    assert(sem_post(sem) != -1);
 
     va_end(args);
 
@@ -23,6 +26,8 @@ void sync_throw_error(sem_t * sem, int exit_process, const char * error_msg, ...
 }
 
 void throw_error(int exit_process, const char * error_msg, ...) {
+    assert(error_msg != NULL);
+
     va_list args;
     va_start(args, error_msg);
 
