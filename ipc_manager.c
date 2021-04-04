@@ -16,7 +16,7 @@ void wait_sem(sem_t * sem, const char * sem_name) {
     assert(sem != NULL && sem_name != NULL);
 
     if (sem_wait(sem) == -1) {
-        s_throw_exception_end_exit(SEM_WAIT_EXCEPTION, sem_name);
+        throw_exception_and_exit(SEM_WAIT_EXCEPTION, sem_name);
     }
 }
 
@@ -24,7 +24,7 @@ void post_sem(sem_t * sem, const char * sem_name) {
     assert(sem != NULL && sem_name != NULL);
 
     if (sem_post(sem) == -1) {
-        s_throw_exception_end_exit(SEM_POST_EXCEPTION, sem_name);
+        throw_exception_and_exit(SEM_POST_EXCEPTION, sem_name);
     }
 }
 

@@ -13,7 +13,7 @@ void race_manager(){
     race_team_t * teams;
 
     if ((teams = (race_team_t *) malloc(num_teams * sizeof(race_team_t))) == NULL) {
-        s_throw_exception_end_exit(MEMORY_ALLOCATION_EXCEPTION, "TEAMS LIST!");
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "TEAMS LIST!");
     }
 
     mem_struct->race_teams = teams;

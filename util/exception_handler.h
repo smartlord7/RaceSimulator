@@ -39,12 +39,14 @@
 
 #define MAX_EXCEPTION_MSG_SIZE 100
 
-#define sync_throw_exception_end_exit(mutex, exception_msg, ...) sync_throw_exception(mutex, __FILE__, __LINE__, true, exception_msg, __VA_ARGS__)
-#define sync_throw_exception_end_stay(mutex, exception_msg, ...) sync_throw_exception(mutex, __FILE__, __LINE__, false, exception_msg, __VA_ARGS__)
 #define throw_exception_and_exit(exception_msg, ...) throw_exception(__FILE__, __LINE__, true, exception_msg, __VA_ARGS__)
 #define throw_exception_and_stay(exception_msg, ...) throw_exception(__FILE__, __LINE__, false, exception_msg, __VA_ARGS__)
 
-void sync_throw_exception(sem_t * sem, const char * file_name, int line, int exit_process, const char * exception_msg, ...);
+void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params);
 void throw_exception(const char * file_name, int line, int exit_process, const char * exception_msg, ...);
+
+extern sem_t * exc_mutex;
+extern void (* clean_func)(void *);
+extern void * clean_func_params;
 
 #endif //RACESIMULATOR_EXCEPTION_HANDLER_H
