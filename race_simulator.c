@@ -167,6 +167,8 @@ static void destroy_ipcs(int num_teams){
 
     deb_mutex = NULL;
 
+    exc_mutex = NULL;
+
     destroy_sem(OUTPUT_MUTEX, output_mutex);
 
     destroy_sem(SHM_MUTEX, shm_mutex);
@@ -180,6 +182,8 @@ static void destroy_ipcs(int num_teams){
 
 static void terminate() {
     terminate_proc_grp(getpgrp());
+
+    // TODO Remove IPCs on abrupt termination.
 }
 
 // endregion private functions
