@@ -14,13 +14,15 @@
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "exception_handler.h"
-#include "read_line.h"
 #include "to_float.h"
+#include "read_line.h"
+#include "exception_handler.h"
 #include "race_config_t.h"
 #include "race_config_reader.h"
 
 // endregion dependencies
+
+// region private functions prototypes
 
 /**
  * @def error_at_line
@@ -37,7 +39,8 @@ static void error_at_line(const char * error_msg, ...);
 
 /**
  * @def to_float_wrapper
- * @brief Wrapper function that checks the nature of the feedback received after attempting to convert a string to float.
+ * @brief Wrapper function that checks the nature of the feedback received after attempting to perform
+ * a float conversion on a string.
  *
  * @param feedback
  * The float conversion feedback.
@@ -45,6 +48,11 @@ static void error_at_line(const char * error_msg, ...);
  * @param field_name
  * The name of the field.
  *
+ * @throws FloatSizeExceededException if the specified string corresponds
+ *              to a numeric value greater than the float maximum value.
+ * @throws FloatConversionException if the specified string couldn't be 
+ *              converted to a float (i.e. the string has non-numeric characters.)
+ *         
 */
 static void to_float_wrapper(int feedback, const char * field_name);
 
@@ -65,16 +73,17 @@ static void to_float_wrapper(int feedback, const char * field_name);
  * The maximum value of the interval.
  *
  * @throws MinValueException if the value is lower than the specified minimum.
- *         MaxValueException if the value is higher than the specified maximum.
+ * @throws MaxValueException if the value is higher than the specified maximum.
+ * 
  */
 void validate_interval(float value, const char * field_name, float min, float max);
 
-// region global variables
+// region private global variables
 
 static char * config_file_path = NULL;
 static int current_line = -1;
 
-// endregion global variables
+// endregion private global variables
 
 // region public functions
 
@@ -106,8 +115,8 @@ race_config_t * read_race_config() {
     float time_units_per_sec,
             lap_distance,
             malfunction_interval,
-            repair_min_time,
-            repair_max_time,
+            min_repair_time,
+            max_repair_time,
             fuel_tank_capacity;
     int num_teams, laps_per_race, max_cars_per_team;
 
@@ -125,8 +134,6 @@ race_config_t * read_race_config() {
                to_float_wrapper(to_float(buffer, &time_units_per_sec), TIME_UNITS_PER_SEC);
 
                validate_interval(time_units_per_sec, TIME_UNITS_PER_SEC, MIN_TIME_UNITS_PER_SEC, MAX_TIME_UNITS_PER_SEC);
-
-               config->time_units_per_sec = time_units_per_sec;
 
                break;
            case 1:
@@ -148,9 +155,6 @@ race_config_t * read_race_config() {
 
                validate_interval((float) laps_per_race, LAPS_PER_RACE, MIN_LAPS_PER_RACE, MAX_LAPS_PER_RACE);
 
-               config->lap_distance = lap_distance;
-               config->laps_per_race = laps_per_race;
-
                break;
            case 2:
                if (!(num_teams = atoi(buffer))) {
@@ -158,8 +162,6 @@ race_config_t * read_race_config() {
                }
 
                validate_interval((float) num_teams, NUM_TEAMS, MIN_NUM_TEAMS, MAX_NUM_TEAMS);
-
-               config->num_teams = num_teams;
 
                break;
            case 3:
@@ -169,15 +171,11 @@ race_config_t * read_race_config() {
 
                validate_interval((float) max_cars_per_team, MAX_CARS_PER_TEAM, MIN_MAX_CARS_PER_TEAM, MAX_MAX_CARS_PER_TEAM);
 
-               config->max_cars_per_team = max_cars_per_team;
-
                break;
            case 4:
                to_float_wrapper(to_float(buffer, &malfunction_interval), MALFUNCTION_INTERVAL);
 
                validate_interval(malfunction_interval, MALFUNCTION_INTERVAL, MIN_MALFUNCTION_TIME, MAX_MALFUNCTION_TIME);
-
-               config->malfunction_interval = malfunction_interval;
 
                break;
            case 5:
@@ -185,34 +183,29 @@ race_config_t * read_race_config() {
                    error_at_line(TOKENIZING_EXCEPTION, MIN_REPAIR_TIME);
                }
 
-               if (!(repair_min_time = atoi(token))) {
+               if (!(min_repair_time = atoi(token))) {
                    error_at_line(INT_CONVERSION_EXCEPTION, MIN_REPAIR_TIME);
                }
 
-               validate_interval(repair_min_time, MIN_REPAIR_TIME, MIN_MIN_REPAIR_TIME, MAX_MIN_REPAIR_TIME);
+               validate_interval(min_repair_time, MIN_REPAIR_TIME, MIN_MIN_REPAIR_TIME, MAX_MIN_REPAIR_TIME);
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
                    error_at_line(TOKENIZING_EXCEPTION, MAX_REPAIR_TIME);
                }
 
-               if (!(repair_max_time = atoi(token))) {
+               if (!(max_repair_time = atoi(token))) {
                    error_at_line(INT_CONVERSION_EXCEPTION, MAX_REPAIR_TIME);
                }
 
-               validate_interval(repair_max_time, MAX_REPAIR_TIME, MIN_MAX_REPAIR_TIME, MAX_MAX_REPAIR_TIME);
+               validate_interval(max_repair_time, MAX_REPAIR_TIME, MIN_MAX_REPAIR_TIME, MAX_MAX_REPAIR_TIME);
 
-               validate_interval(repair_min_time, MIN_REPAIR_TIME, repair_min_time, repair_max_time);
-
-               config->min_repair_time = repair_min_time;
-               config->max_repair_time = repair_max_time;
+               validate_interval(min_repair_time, MIN_REPAIR_TIME, min_repair_time, max_repair_time);
 
                break;
            case 6:
                to_float_wrapper(to_float(buffer, &fuel_tank_capacity), FUEL_TANK_CAPACITY);
 
                validate_interval(fuel_tank_capacity, FUEL_TANK_CAPACITY, MIN_FUEL_TANK_CAPACITY, MAX_FUEL_TANK_CAPACITY);
-
-               config->fuel_tank_capacity = fuel_tank_capacity;
 
                break;
        }
@@ -224,6 +217,9 @@ race_config_t * read_race_config() {
     if (fclose(config_file) != 0) {
         throw_exception_and_exit(FILE_CLOSING_EXCEPTION, config_file_path);
     }
+
+    config = race_config(time_units_per_sec, lap_distance, malfunction_interval, min_repair_time,
+    max_repair_time, fuel_tank_capacity, laps_per_race, num_teams, max_cars_per_team);
 
     return config;
 }

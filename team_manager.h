@@ -10,15 +10,25 @@
 #ifndef RACESIMULATOR_C_TEAM_MANAGER_H
 #define RACESIMULATOR_C_TEAM_MANAGER_H
 
+// region constants
+
 #define TEAM_MANAGER "TEAM_MANAGER"
 #define RACE_TEAM "RACE_TEAM"
 #define CAR_THREAD "CAR_THREAD"
 #define CAR_THREADS "CAR_THREADS"
 #define TEAM_CARS "TEAM_RACE_CARS"
 
+// endregion constants
+
+// region public functions
+
 /**
- * Handle the concept of team manager and its respective tasks.
+ * @def team_manager
+ * @brief Worker function executed when the team manager process is created.
+ *
  */
 void team_manager();
+
+// endregion public functions
 
 #endif //RACESIMULATOR_C_TEAM_MANAGER_H

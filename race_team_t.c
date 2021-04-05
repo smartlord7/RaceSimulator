@@ -9,12 +9,12 @@
 
 // region dependencies
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "race_team_t.h"
 #include "strings.h"
 #include "exception_handler.h"
+#include "race_team_t.h"
 
 // endregion dependencies
 

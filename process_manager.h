@@ -39,17 +39,16 @@
  * @param params
  * The parameters of the worker function.
  *
- *
  * @throws ProcessCreationException if the process can't be created.
  */
 void create_process(const char * proc_name, void (* worker)(void *), void * params);
 
 /**
- * @def wait_all
- * @brief Function that waits for all the child processes.
+ * @def wait_procs
+ * @brief Function that waits for all the child processes of the current process.
  *
  */
-void wait_all();
+void wait_procs();
 
 /**
  * @def terminate_proc_grp
@@ -83,17 +82,19 @@ void terminate_proc_grp(pid_t proc_group_id);
 void create_thread(const char * thread_name, pthread_t * thread_p, void * (* worker)(void *), void * params);
 
 /**
- * @def kill_threads
+ * @def wait_threads
  * @brief Function that waits for and kills an array of threads.
  *
  * @param num_threads
- * The number of threads to be waited on and killed.
+ * The number of threads to be waited for and killed.
  *
  * @param threads
  * A pointer to the threads array.
  *
+ * @throws ThreadJoinException if a thread can't be waited for.
+ *
  */
-void kill_threads(int num_threads, pthread_t * threads);
+void wait_threads(int num_threads, pthread_t * threads);
 
 // endregion public functions prototypes
 

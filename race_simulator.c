@@ -115,7 +115,7 @@ int main() {
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //wait for all of the child processes
-    wait_all();
+    wait_procs();
 
     generate_log_entry(I_SIMULATION_END, NULL);
 
@@ -129,6 +129,8 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+
+// region private functions
 
 static void create_ipcs(int num_teams){
     assert(num_teams > 0);
@@ -179,3 +181,5 @@ static void destroy_ipcs(int num_teams){
 static void terminate() {
     terminate_proc_grp(getpgrp());
 }
+
+// endregion private functions

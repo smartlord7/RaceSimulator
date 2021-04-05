@@ -19,6 +19,7 @@
 // region constants
 
 // region ipcs debug msgs
+
 #define SHM_CREATED "CREATED SHARED MEMORY WITH ID %d!"
 #define SHM_ATTACHED "ATTACHED SHARED MEMORY WITH ID %d TO CURRENT PROCESS ADDRESSING ZONE!"
 #define SEM_CREATED "CREATED SEMAPHORE NAMED %s!"
@@ -32,13 +33,14 @@
 
 // region proc/threads debug msgs
 
-#define RACE_CONFIG_CREATED "CREATED RACE CONFIGURATION!"
 #define RUNNING_PROCESS "RUNNING PROCESS %s..."
 #define RUNNING_THREAD "RUNNING THREAD %s..."
 #define EXITING_PROCESS "EXITING PROCESS %s..."
 #define EXITING_THREAD "EXITING THREAD %s..."
 
 // endregion proc/threads debug msgs
+
+#define RACE_CONFIG_CREATED "CREATED RACE CONFIGURATION %s"
 
 // endregion constants
 
@@ -61,7 +63,7 @@
 
 // region global variables
 
-extern sem_t * deb_mutex;
+extern sem_t * deb_mutex; // mutex used to provide synchronized output.
 
 // endregion global variables
 
@@ -81,7 +83,7 @@ void debug_init(sem_t * mutex);
  * @def debug_msg
  * @brief Function that presents debugging messages in stdout.
  *
- * @param file
+ * @param file_name
  * The name of the file from which this function is called.
  *
  * @param line

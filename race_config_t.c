@@ -11,9 +11,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "race_config_t.h"
 #include "strings.h"
 #include "exception_handler.h"
+#include "race_config_t.h"
 
 // endregion dependencies
 
@@ -38,8 +38,9 @@ race_config_t * race_config(float time_units_per_sec, float lap_distance, float 
     new->num_teams = num_teams;
     new->max_cars_per_team = max_cars_per_team;
 
-    return new;
+    // TODO construct fields validations.
 
+    return new;
 }
 
 char * race_config_to_string(race_config_t * cfg) {

@@ -12,12 +12,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <unistd.h>
 #include <signal.h>
+#include <unistd.h>
 #include <pthread.h>
 #include <sys/wait.h>
-#include "process_manager.h"
 #include "exception_handler.h"
+#include "process_manager.h"
 
 // endregion dependencies
 
@@ -35,11 +35,13 @@ void create_process(const char * proc_name, void (* worker)(void *), void * para
     }
 }
 
-void wait_all() {
+void wait_procs() {
     while (wait(NULL) != -1);
 }
 
 void terminate_proc_grp(pid_t proc_group_id) {
+    assert(proc_group_id > 0);
+
     char cmd[MAX_CMD_SIZE];
 
     snprintf(cmd, MAX_CMD_SIZE, "pkill -9 -g %d", proc_group_id);
@@ -55,7 +57,7 @@ void create_thread(const char * thread_name, pthread_t * thread_p, void * (* wor
     }
 }
 
-void kill_threads(int num_threads, pthread_t * threads) {
+void wait_threads(int num_threads, pthread_t * threads) {
     assert(num_threads > 0 && threads != NULL);
 
     int i = 0;

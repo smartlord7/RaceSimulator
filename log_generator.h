@@ -44,11 +44,12 @@
 #define O_RECEIVED " RECEIVED"
 #define O_CAR " CAR "
 #define O_RACE_WON " WINS THE RACE"
-#define O_TERMINATOR "\0"
 
 // endregion log_gen output msgs
 
 #define TIMESTAMP_DELIMITER " "
+#define OF_TIMESTAMP " OF TIMESTAMP"
+#define NUM_TIMESTAMP_FIELDS 3
 #define MUTEX "MUTEX"
 #define true 1
 #define false 0
@@ -78,7 +79,7 @@ void generate_log_entry(char * mode, void * data);
  * The path of the log file.
  *
  * @param sem
- * A pointer to a POSIX named semaphore that allows synchronized output.
+ * A pointer to a POSIX named semaphore that allows a synchronized output.
  *
  */
 void log_init(char * lg_file_path, sem_t * sem);

@@ -11,13 +11,13 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <pthread.h>
 #include <string.h>
-#include "global.h"
-#include "team_manager.h"
+#include <pthread.h>
+#include "exception_handler.h"
 #include "ipc_manager.h"
 #include "process_manager.h"
-#include "exception_handler.h"
+#include "team_manager.h"
+#include "global.h"
 
 // endregion dependencies
 
@@ -78,7 +78,7 @@ void team_manager(void * data){
         i++;
     }
 
-    kill_threads(team->num_cars, car_threads);
+    wait_threads(team->num_cars, car_threads);
     free(team->cars);
     free(car_threads);
 

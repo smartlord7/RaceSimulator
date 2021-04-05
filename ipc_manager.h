@@ -25,6 +25,7 @@
 #define false 0
 #define DEBUG false
 #define MAX_SEM_LABEL_SIZE 20
+#define SEM_ARRAY "SEM_ARRAY"
 
 // endregion constants
 
@@ -38,12 +39,12 @@
  * Specifies the size, in bytes, of the requested shared memory.
  *
  * @param shm_id_p
- * Pointer to int to where the shared memory zone id should stored.
+ * Pointer to int to where the shared memory zone id should be stored.
  *
  * @return a void pointer to the shared memory zone.
  *
- * @throws ShmCreationException if the shared memory zone can't be created.
- *         ShmAttachmentException if the the shared memory zone can't be attached to the current process address zone.
+ * @throws ShmCreationException if the requested shared memory zone can't be created.
+ * @throws ShmAttachmentException if the the shared memory zone can't be attached to the current process address zone.
  *
  */
 void * create_shm(size_t size, int * shm_id_p);
@@ -56,10 +57,10 @@ void * create_shm(size_t size, int * shm_id_p);
  * The id of the shared memory zone.
  *
  * @param shared_mem
- * Pointer to the shared memory zone.
+ * A ointer to the shared memory zone.
  *
  * @throws ShmAttachmentException if the the shared memory zone can't be detached from the current process address zone.
- *         ShmRemovalException if the shared memory zone can't be removed.
+ * @throws ShmRemovalException if the shared memory zone can't be removed.
  *
  */
 void destroy_shm(int shm_id, void * shared_mem);
@@ -83,7 +84,7 @@ sem_t * create_sem(const char * sem_name, int initial_value);
 
 /**
  * @def destroy_sem
- * @brief Function that closes and unlinks a POSIX name semaphores.
+ * @brief Function that closes and unlinks a POSIX name semaphore.
  *
  * @param sem_name
  * The name of the POSIX named semaphore.
@@ -105,7 +106,7 @@ void destroy_sem(const char * sem_name, sem_t * sem);
  * The number of POSIX named semaphores to be created.
  *
  * @param sem_name_prefix
- * The name prefix of the POSIX named semaphores.
+ * The name prefix of each POSIX named semaphore of the array.
  *
  * @param initial_value
  * The initial value of each POSIX named semaphore.
@@ -122,23 +123,23 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_val
  * @brief Function that closes and unlinks an array of POSIX named semaphores.
  *
  * @param sem_array
- * The array of pointers to POSIX named semaphores.
+ * A pointer to an array of pointers to POSIX named semaphores.
  *
  * @param num
  * The number of pointers to POSIX named semaphores contained in the array.
  *
  * @param sem_name_prefix
- * The prefix of the POSIX named semaphores.
+ * The prefix of each POSIX named semaphore in the array.
  *
  * @throws SemCloseException if a POSIX named semaphore can't be closed.
- *         SemUnlinkException if a POSIX named semaphore can't be unlinked.
+ * @throws SemUnlinkException if a POSIX named semaphore can't be unlinked.
  *
  */
 void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix);
 
 /**
  * @def wait_sem
- * @brief Waits on a given POSIX named semaphore.
+ * @brief Function that waits for a given POSIX named semaphore.
  *
  * @param sem
  * A pointer to a POSIX named semaphore.
@@ -146,7 +147,7 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
  * @param sem_name
  * The name of the POSIX named semaphore.
  *
- * @throws SemWaitException if the impossibility to wait on a POSIX named semaphore.
+ * @throws SemWaitException given the impossibility of waiting for the POSIX named semaphore.
  *
  */
 void wait_sem(sem_t * sem, const char * sem_name);
@@ -161,7 +162,7 @@ void wait_sem(sem_t * sem, const char * sem_name);
  * @param sem_name
  * The name of the POSIX named semaphore.
  *
- * @throws SemPostException if the impossibility to post a POSIX named semaphore.
+ * @throws SemPostException given the impossibility of posting the POSIX named semaphore.
  *
  */
 void post_sem(sem_t * sem, const char * sem_name);

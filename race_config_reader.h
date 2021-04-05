@@ -20,12 +20,12 @@
 
 #define true 1
 #define false 0
+#define FIELD_DELIMITER ","
 
 // region constraints
 
 #define MAX_CONFIG_FILE_LINE_SIZE 20
 #define CONFIG_FILE_NUM_LINES 7
-#define FIELD_DELIMITER ","
 #define MAX_BUFFER_SIZE 512
 
 #define MIN_TIME_UNITS_PER_SEC 1
@@ -49,7 +49,7 @@
 
 // endregion constraints
 
-// region fields names
+// region field names
 
 #define TIME_UNITS_PER_SEC "time_units_per_sec"
 #define LAP_DISTANCE "lap_distance"
@@ -61,7 +61,7 @@
 #define MAX_REPAIR_TIME "max_repair_time"
 #define FUEL_TANK_CAPACITY "fuel_tank_capacity"
 
-// endregion fields names
+// endregion field names
 
 /**
  * @def race_config_reader_init

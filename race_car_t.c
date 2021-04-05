@@ -12,9 +12,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "race_car_t.h"
+#include <assert.h>
 #include "strings.h"
 #include "exception_handler.h"
+#include "race_car_t.h"
 
 // endregion dependencies
 
@@ -27,14 +28,16 @@ race_car_t * race_car(race_team_t * team, int car_id, float consumption, float s
         throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, RACE_CAR);
     }
 
-    new->car_id = car_id;
+    // TODO field validations in constructor.
+
     new->team = team;
+    new->car_id = car_id;
     new->consumption = consumption;
     new->speed = speed;
     new->reliability = reliability;
 
+    set_state(new, RACE);
     new->remaining_fuel = initial_fuel;
-    new->state = RACE;
 
     return new;
 }
@@ -64,6 +67,45 @@ char * race_car_to_string(race_car_t * race_car) {
     }
 
     return buffer;
+}
+
+void set_state(race_car_t * race_car, race_car_state state) {
+    assert(race_car != NULL);
+
+    race_car->state = state;
+
+    switch (state) {
+
+        case RACE:
+            race_car->current_speed = race_car->speed;
+            race_car->current_consumption = race_car->consumption;
+
+            break;
+        case SAFETY:
+            race_car->current_consumption = SAFETY_CONSUMPTION_RATIO * race_car->consumption;
+            race_car->current_speed = SAFETY_SPEED_RATIO * race_car->speed;
+
+            break;
+        case IN_BOX_:
+            race_car->current_pos = 0;
+            race_car->current_speed = 0;
+            race_car->current_consumption = 0;
+
+            break;
+        case NON_FIT:
+            race_car->current_speed = 0;
+            race_car->current_consumption = 0;
+
+            break;
+        case FINISHED:
+            race_car->current_pos = 0;
+            race_car->current_speed = 0;
+            race_car->current_consumption = 0;
+
+            break;
+        default:
+            return;
+    }
 }
 
 // endregion public functions

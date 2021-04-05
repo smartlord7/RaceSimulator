@@ -18,18 +18,20 @@
 
 // region constants
 
-#define MAX_LABEL_SIZE 50
-#define RACE_CAR "RACE_CAR"
 #define true 1
 #define false 0
+#define RACE_CAR "RACE_CAR"
+#define MAX_LABEL_SIZE 50
 #define MAX_BUFFER_SIZE 512
 #define NULL_STR_SIZE 5
+#define SAFETY_CONSUMPTION_RATIO 0.4
+#define SAFETY_SPEED_RATIO 0.3
 
 // endregion constants
 
 // region forward declarations
 
-typedef enum car_state car_state;
+typedef enum race_car_state race_car_state;
 typedef struct race_car_t race_car_t;
 typedef struct race_team_t race_team_t;
 
@@ -38,10 +40,10 @@ typedef struct race_team_t race_team_t;
 // region structures
 
 /**
- * @enum car_state
- * @brief Enum that representes the allowed states of a race car.
+ * @enum race_car_state
+ * @brief Enum that represents the allowed states of a race car.
  */
-enum car_state {
+enum race_car_state {
    RACE, SAFETY, IN_BOX_, NON_FIT, FINISHED
 };
 
@@ -93,11 +95,14 @@ enum car_state {
  *
  * @var race_car_t::current_pos
  * The current position of the race car on the racing track.
+ *
+ * @var race_car_t::timer
+ * The time, in seconds, between the race start and when the race car crosses the finish line.
  */
 struct race_car_t{
     race_team_t * team;
     char name[MAX_LABEL_SIZE];
-    car_state state;
+    race_car_state state;
     int car_id,
             completed_laps,
             num_box_stops,
@@ -109,7 +114,8 @@ struct race_car_t{
             speed,
             current_speed,
             reliability,
-            current_pos;
+            current_pos,
+            timer;
 };
 
 // endregion structures
@@ -145,7 +151,7 @@ race_car_t * race_car(race_team_t * team, int car_id, float consumption, float s
 
 /**
  * @def race_car_to_string
- * @brief Function that retrieves a string representation of a race_car.
+ * @brief Function that retrieves a string representation of a race car.
  *
  * @param race_car
  * the race_car in question.
@@ -155,6 +161,20 @@ race_car_t * race_car(race_team_t * team, int car_id, float consumption, float s
  * @throws MemoryAllocationException if the malloc call for the string returns a NULL pointer.
  */
 char * race_car_to_string(race_car_t * race_car);
+
+/**
+ * @def set_state
+ * @brief Function that alters the current state of a race car and all its properties
+ * correlated with that same state.
+ *
+ * @param race_car
+ * The race car which will have its current state altered.
+ *
+ * @param state
+ * The new state of the race car.
+ *
+ */
+void set_state(race_car_t * race_car, race_car_state state);
 
 // endregion public functions prototypes
 

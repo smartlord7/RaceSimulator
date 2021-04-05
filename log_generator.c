@@ -12,13 +12,13 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <time.h>
 #include <semaphore.h>
-#include <assert.h>
-#include "log_generator.h"
+#include "strings.h"
 #include "exception_handler.h"
 #include "ipc_manager.h"
-#include "strings.h"
+#include "log_generator.h"
 
 // endregion dependencies
 
@@ -60,6 +60,8 @@ void log_init(char * lg_file_path, sem_t * sem) {
 }
 
 void generate_log_entry(char * mode, void * data){
+    assert(mode != NULL);
+
     //race_car_t * car;
     char * entry = get_time();
 
@@ -100,8 +102,6 @@ void generate_log_entry(char * mode, void * data){
 
     } else throw_exception_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
 
-    entry = append(entry, O_TERMINATOR);
-
     wait_sem(mutex, MUTEX);
 
     printf("\n%s\n", entry);
@@ -110,7 +110,13 @@ void generate_log_entry(char * mode, void * data){
     post_sem(mutex, MUTEX);
 }
 
+// endregion public functions
+
+// region private functions
+
 void write_log_entry(char * entry){
+    assert(entry != NULL);
+
     FILE * log_file;
 
     if ((log_file = fopen(log_file_path, "a")) == NULL){
@@ -124,7 +130,6 @@ void write_log_entry(char * entry){
     if (fclose(log_file)){
         throw_exception_and_exit(FILE_CLOSING_EXCEPTION, log_file_path);
     }
-
 }
 
 char * get_time(){
@@ -136,12 +141,12 @@ char * get_time(){
     buffer = asctime(localtime(&current_time));
 
     if ((token = strtok(buffer, TIMESTAMP_DELIMITER)) == NULL) {
-        throw_exception_and_exit(TOKENIZING_EXCEPTION, "OF TIMESTAMP");
+        throw_exception_and_exit(TOKENIZING_EXCEPTION, OF_TIMESTAMP);
     }
 
-    for(i = 0; i < 3; i++){
+    for(i = 0; i < NUM_TIMESTAMP_FIELDS; i++){
         if ((token = strtok(NULL, TIMESTAMP_DELIMITER)) == NULL) {
-            throw_exception_and_exit(TOKENIZING_EXCEPTION, "OF TIMESTAMP");
+            throw_exception_and_exit(TOKENIZING_EXCEPTION, OF_TIMESTAMP);
         }
     }
 
@@ -150,4 +155,4 @@ char * get_time(){
     return result;
 }
 
-// endregion public functions
+// endregion private functions

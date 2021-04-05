@@ -11,15 +11,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <assert.h>
+#include <semaphore.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include <semaphore.h>
 #include <fcntl.h>
-#include <stddef.h>
+#include "debug.h"
 #include "exception_handler.h"
 #include "ipc_manager.h"
-#include "debug.h"
 
 // endregion dependencies
 
@@ -48,7 +48,7 @@ void * create_shm(size_t size, int * shm_id_p) {
     void * shm = NULL;
 
     if ((created_shm_id = shmget(IPC_PRIVATE, size, IPC_CREAT | ALL_PERMS_RW)) <= 0){
-        throw_exception_and_exit(SHM_CREATION_EXCEPTION, NULL);
+        throw_exception_and_exit(SHM_CREATION_EXCEPTION, "");
     }
 
     DEBUG_MSG(SHM_CREATED, created_shm_id)
@@ -65,7 +65,7 @@ void * create_shm(size_t size, int * shm_id_p) {
 }
 
 void destroy_shm(int shm_id, void * shared_mem) {
-    assert(shared_mem != NULL);
+    assert(shm_id > 0 && shared_mem != NULL);
 
     if(shmdt(shared_mem) == -1){
         throw_exception_and_exit(SHM_DETACHMENT_EXCEPTION, shm_id);
@@ -116,7 +116,7 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_val
     sem_t ** sem_array;
 
     if ((sem_array = (sem_t **) malloc(num * sizeof(sem_t *))) == NULL) {
-        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "sem array");
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, SEM_ARRAY);
     }
 
     int i = 0;

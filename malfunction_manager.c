@@ -9,10 +9,10 @@
 
 // region dependencies
 
-#include "global.h"
 #include <stdlib.h>
-#include "malfunction_manager.h"
 #include "exception_handler.h"
+#include "global.h"
+#include "malfunction_manager.h"
 
 // endregion dependencies
 

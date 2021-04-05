@@ -22,6 +22,7 @@
  * @return a pointer to the created string.
  *
  * @throws MemoryAllocationException if the malloc call for the string returns a NULL pointer.
+ *
  */
 
 char * string(int size);
@@ -38,7 +39,8 @@ char * string(int size);
  *
  * @return a pointer to the final string.
  *
- * @throws Strcat_EXCEPTION if an internal error occurred whilst attempting to concatenate two strings.
+ * @throws StrcatException if an internal error occurred whilst attempting to concatenate two strings.
+ *
  */
 char * append(char * first, char * second);
 

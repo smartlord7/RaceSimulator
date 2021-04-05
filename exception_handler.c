@@ -12,18 +12,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <semaphore.h>
 #include <assert.h>
+#include <semaphore.h>
 
 // endregion dependencies
 
-// region dependencies
+// region global variables
 
 sem_t * exc_mutex = NULL;
 void (* clean_func)(void *) = NULL;
 void * clean_func_params = NULL;
 
-// endregion dependencies
+// endregion global variables
 
 // region public functions
 

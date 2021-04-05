@@ -12,12 +12,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "global.h"
-#include "race_box_t.h"
-#include "race_manager.h"
-#include "team_manager.h"
 #include "exception_handler.h"
 #include "process_manager.h"
+#include "global.h"
+#include "team_manager.h"
+#include "race_manager.h"
 
 // endregion dependencies
 
@@ -59,10 +58,11 @@ void race_manager(){
     }
 
     //wait for all the child processes
-    wait_all();
+    wait_procs();
 
-    //free the teams pointer
+    //free the allocated memory
     free(teams);
+    free(boxes);
 
     DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
 

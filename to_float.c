@@ -11,8 +11,8 @@
 
 #include <stdlib.h>
 #include <float.h>
-#include <errno.h>
 #include <assert.h>
+#include <errno.h>
 #include "to_float.h"
 
 // endregion dependencies

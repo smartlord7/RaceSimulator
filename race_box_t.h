@@ -60,6 +60,8 @@ struct race_box_t{
     sem_t * box_availability;
 };
 
+// TODO Constructor and toString method.
+
 // endregion structures
 
 #endif //RACESIMULATOR_C_RACE_BOX_H

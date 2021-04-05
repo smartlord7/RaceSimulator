@@ -73,7 +73,6 @@ struct race_config_t {
 
 // region public functions prototypes
 
-
 /** @def race_config
  *  @brief Function that creates a new race config (constructor).
  *

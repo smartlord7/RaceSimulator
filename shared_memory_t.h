@@ -12,8 +12,8 @@
 
 // region dependencies
 
-#include "race_config_t.h"
 #include "race_car_t.h"
+#include "race_config_t.h"
 
 // endregion dependencies
 
@@ -27,7 +27,7 @@ typedef struct shared_memory_t shared_memory_t;
 
 /**
  * @struct shared_memory_t
- * @brief Struct that holds all the information needed to be shared amongst the created processes.
+ * @brief Struct that holds all the information needed to be shared amongst the created processes of the race simulator.
  *
  * @var shared_memory_t::cfg
  * The race configuration.

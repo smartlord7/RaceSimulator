@@ -74,7 +74,7 @@
 
 /**
  * @macro throw_exception_and_exit
- * @brief Macro that calls the function throw_exception with the line number and the name of the file which it's called in. The current process will terminate since exit_process == true.
+ * @brief Macro that calls the function throw_exception with the line number and the name of the file which it's called in. Also, the current process will terminate since exit_process == true.
  *
  * @param exception_msg
  * The exception message to be presented (might be formatted).
@@ -86,7 +86,7 @@
 #define throw_exception_and_exit(exception_msg, ...) throw_exception(__FILE__, __LINE__, true, exception_msg, __VA_ARGS__)
 
 /**
- * @macro throw_exception_and_exit
+ * @macro throw_exception_and_stay
  * @brief Macro that calls the function throw_exception with the line number and the name of the file which it's called in. The current process will not terminate since exit_process == false.
  *
  * @param exception_msg
@@ -112,13 +112,14 @@ extern void * clean_func_params;
 
 /**
  * @def exc_handler_init
- * @brief Function that initializes the exception handling mechanisms with a mutex semaphore if synchronization across processes/threads is needed and a cleanup function.
+ * @brief Function that initializes the exception handling mechanisms with a mutex semaphore if synchronization across processes/threads is needed. Also a cleanup function might be provided
+ * if the exception implies the program to exit.
  *
  * @param mutex
  * The mutex that provides synchronized access to stdout.
  *
  * @param clean_function
- * The cleanup function to be executed before exiting (process/thread killing, allocation freeing).
+ * The cleanup function to be executed before exiting (process/thread killing, allocation freeing, etc.).
  *
  * @param clean_function_params
  * A pointer to the cleanup function params.

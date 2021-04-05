@@ -21,9 +21,9 @@
  * @param num_float
  * The pointer to the float variable that will hold the converted value.
  *
- * @return FLOAT_SIZE_EXCEEDED if the float size is exceeded.
- *         FLOAT_CONVERSION_FAILURE if an internal error occurred whilst converting the string.
- *         FLOAT_CONVERSION_SUCCESS if the float conversion was successful.
+ * @return -1 if the float size is exceeded.
+ *         0 if an internal error occurred whilst converting the string.
+ *         1 if the float conversion was successful.
  */
 int to_float(char * num_string, float * num_float);
 
