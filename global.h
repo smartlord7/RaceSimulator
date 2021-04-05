@@ -22,7 +22,7 @@
 
 #define true 1
 #define false 0
-#define DEBUG true
+#define DEBUG false
 #define OUTPUT_MUTEX "OUTPUT_MUTEX"
 #define SHM_MUTEX "SHM_MUTEX"
 #define RACE_START "RACE_START"

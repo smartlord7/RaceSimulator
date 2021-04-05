@@ -20,7 +20,7 @@
 
 /**
  * @def malfunction_manager
- * @brief worker function executed when the malfunction manager process is created.
+ * @brief Worker function executed when the malfunction manager process is created.
  *
  */
 void malfunction_manager();

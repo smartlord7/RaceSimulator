@@ -13,6 +13,8 @@
 #define TEAM_MANAGER "TEAM_MANAGER"
 #define RACE_TEAM "RACE_TEAM"
 #define CAR_THREAD "CAR_THREAD"
+#define CAR_THREADS "CAR_THREADS"
+#define TEAM_CARS "TEAM_RACE_CARS"
 
 /**
  * Handle the concept of team manager and its respective tasks.

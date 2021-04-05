@@ -7,43 +7,42 @@
 * @date 01/04/2021
 */
 
+// region dependencies
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
 #include <string.h>
 #include "global.h"
 #include "team_manager.h"
+#include "util/ipc_manager.h"
 #include "util/process_manager.h"
 #include "util/exception_handler.h"
 
+// endregion dependencies
+
+// region private functions prototypes
+
 /**
- * Handle the implementation of race car concept. Used for thread purposes.
- * @param race_car Race car information.
- * @return Void pointer. Leaves thread.
+ * @def race_car_worker
+ * @brief Worker function executed when the race car thread is created.
+ *
+ * @param race_car
+ * The race car information.
+ *
  */
 void * race_car_worker(void * race_car);
 
-/** Variables */
+// endregion private functions prototypes
+
+// region global variables
+
 static pthread_t * car_threads;
 //static pthread_mutex_t thread_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-void * race_car_worker(void * race_car){
-    race_car_t car = *((race_car_t *) race_car);
+// endregion global variables
 
-    #if DEBUG
-    char buffer[MAX_LABEL_SIZE];
-    snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, car.car_id);
-
-    DEBUG_MSG(RUNNING_THREAD, buffer)
-
-    DEBUG_MSG(EXITING_THREAD, buffer)
-
-    #endif
-
-    throw_exception_and_stay(NOT_IMPLEMENTED_EXCEPTION, CAR_THREAD);
-
-    pthread_exit(EXIT_SUCCESS);
-}
+// region public functions
 
 void team_manager(void * data){
     race_team_t * team = (race_team_t *) data;
@@ -54,12 +53,18 @@ void team_manager(void * data){
     team->num_cars = temp_num_cars;
 
     if ((car_threads = (pthread_t *) malloc(temp_num_cars * sizeof(pthread_t))) == NULL) {
-        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "car threads");
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, CAR_THREADS);
     }
 
     if ((team->cars = (race_car_t **) malloc(team->num_cars * sizeof(race_car_t *))) == NULL) {
-        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "team race cars");
+        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, TEAM_CARS);
     }
+
+    wait_sem(output_mutex, OUTPUT_MUTEX);
+
+    printf("%s", race_team_to_string(team));
+
+    post_sem(output_mutex, OUTPUT_MUTEX);
 
     race_car_t * temp_car = race_car(team, 0, 3.5f, 120, 0.5f, mem_struct->cfg->fuel_tank_capacity);
     char buffer[MAX_LABEL_SIZE];
@@ -81,3 +86,33 @@ void team_manager(void * data){
 
     exit(EXIT_SUCCESS);
 }
+// endregion public functions
+
+
+// region private functions
+
+void * race_car_worker(void * race_car){
+    race_car_t * car = (race_car_t *) race_car;
+
+    wait_sem(output_mutex, OUTPUT_MUTEX);
+
+    printf("%s", race_car_to_string(car));
+
+    post_sem(output_mutex, OUTPUT_MUTEX);
+
+    #if DEBUG
+    char buffer[MAX_LABEL_SIZE];
+    snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, car.car_id);
+
+    DEBUG_MSG(RUNNING_THREAD, buffer)
+
+    DEBUG_MSG(EXITING_THREAD, buffer)
+
+    #endif
+
+    throw_exception_and_stay(NOT_IMPLEMENTED_EXCEPTION, CAR_THREAD);
+
+    pthread_exit(EXIT_SUCCESS);
+}
+
+// endregion private functions

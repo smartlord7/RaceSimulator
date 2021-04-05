@@ -38,11 +38,15 @@ typedef struct shared_memory_t shared_memory_t;
  * @var shared_memory_t::race_cars
  * The cars running in the race.
  *
+ * @var shared_memory_t::race_boxes
+ * The teams boxes.
+ *
  */
 struct shared_memory_t {
     race_config_t * cfg;
     race_team_t * race_teams;
     race_car_t * race_cars;
+    race_box_t * race_boxes;
     /*int cars_on_track,
         total_num_cars,    TODO: Integrate in a stats struct.
         num_malfunctions,

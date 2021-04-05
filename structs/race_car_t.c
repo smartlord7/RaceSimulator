@@ -49,12 +49,12 @@ char * race_car_to_string(race_car_t * race_car) {
     } else {
         buffer = string(MAX_BUFFER_SIZE);
 
-        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "RACE CAR NO: %d, "
-                                                         "NAME: %s, "
-                                                         "TEAM: %s, "
-                                                         "CONSUMPTION: %.2f, "
-                                                         "SPEED: %.2f, "
-                                                         "RELIABILITY: %.2f, ",
+        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "\nRACE CAR NO: %d\n"
+                                                         "NAME: %s\n"
+                                                         "TEAM: %s\n"
+                                                         "CONSUMPTION: %.2f\n"
+                                                         "SPEED: %.2f\n"
+                                                         "RELIABILITY: %.2f\n",
                  race_car->car_id,
                  race_car->name,
                  race_car->team->team_name,

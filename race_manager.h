@@ -13,6 +13,8 @@
 // region constants
 
 #define RACE_MANAGER "RACE_MANAGER"
+#define TEAMS "TEAMS"
+#define BOXES "BOXES"
 
 // endregion constants
 
@@ -20,7 +22,7 @@
 
 /**
  * @def race_manager
- * @brief worker function executed when the race manager process is created.
+ * @brief Worker function executed when the race manager process is created.
  *
  */
 void race_manager();

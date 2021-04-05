@@ -23,7 +23,7 @@
 #define ALL_PERMS_RW 0666
 #define true 1
 #define false 0
-#define DEBUG true
+#define DEBUG false
 #define MAX_SEM_LABEL_SIZE 20
 
 // endregion constants

@@ -12,6 +12,7 @@
 
 // region dependencies
 
+#include <semaphore.h>
 #include "race_team_t.h"
 #include "race_car_t.h"
 
@@ -47,11 +48,16 @@ enum box_state {
  *
  * @var race_box_t::current_car
  * The race car that is currently in the race box (acts as a navigation property).
+ *
+ * @var box_availability
+ * A pointer to a POSIX named semaphore that allows the management of race box.
+ *
  */
 struct race_box_t{
     box_state state;
     race_team_t * team;
     race_car_t * current_car;
+    sem_t * box_availability;
 };
 
 // endregion structures

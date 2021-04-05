@@ -52,7 +52,7 @@ char * race_team_to_string(race_team_t * team) {
     } else {
         buffer = string(MAX_BUFFER_SIZE);
 
-        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "TEAM: %s ", team->team_name);
+        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "\nTEAM: %s\n", team->team_name);
     }
 
     return buffer;
