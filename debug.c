@@ -18,7 +18,7 @@
 
 // region global variables
 
-sem_t * deb_mutex;
+sem_t * deb_mutex = NULL;
 
 // endregion global variables
 

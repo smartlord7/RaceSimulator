@@ -23,7 +23,7 @@
 #define ALL_PERMS_RW 0666
 #define true 1
 #define false 0
-#define DEBUG false
+#define DEBUG true
 #define MAX_SEM_LABEL_SIZE 20
 #define SEM_ARRAY "SEM_ARRAY"
 

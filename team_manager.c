@@ -102,7 +102,7 @@ void * race_car_worker(void * race_car){
 
     #if DEBUG
     char buffer[MAX_LABEL_SIZE];
-    snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, car.car_id);
+    snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, car->car_id);
 
     DEBUG_MSG(RUNNING_THREAD, buffer)
 
