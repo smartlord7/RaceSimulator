@@ -44,7 +44,7 @@ void race_manager(){
     //create the teams' processes
     while (i < num_teams) {
         char team_name[MAX_LABEL_SIZE];
-        snprintf(team_name, MAX_LABEL_SIZE * sizeof(char), "%s_%d", RACE_TEAM, i);
+        snprintf(team_name, MAX_LABEL_SIZE * sizeof(char), "%s_%d", TEAM_MANAGER, i);
 
         strcpy(teams[i].team_name, team_name);
         teams[i].team_box = &boxes[i];
