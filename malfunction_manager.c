@@ -12,7 +12,7 @@
 #include "global.h"
 #include <stdlib.h>
 #include "malfunction_manager.h"
-#include "util/exception_handler.h"
+#include "exception_handler.h"
 
 // endregion dependencies
 

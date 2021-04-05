@@ -13,8 +13,8 @@
 // region dependencies
 
 #include <semaphore.h>
-#include "util/debug.h"
-#include "structs/shared_memory_t.h"
+#include "debug.h"
+#include "shared_memory_t.h"
 
 // endregion dependencies
 

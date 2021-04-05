@@ -14,10 +14,10 @@
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "util/exception_handler.h"
-#include "util/read_line.h"
-#include "util/to_float.h"
-#include "structs/race_config_t.h"
+#include "exception_handler.h"
+#include "read_line.h"
+#include "to_float.h"
+#include "race_config_t.h"
 #include "race_config_reader.h"
 
 // endregion dependencies

@@ -16,9 +16,9 @@
 #include <semaphore.h>
 #include <assert.h>
 #include "log_generator.h"
-#include "util/exception_handler.h"
-#include "util/ipc_manager.h"
-#include "util/strings.h"
+#include "exception_handler.h"
+#include "ipc_manager.h"
+#include "strings.h"
 
 // endregion dependencies
 

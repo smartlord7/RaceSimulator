@@ -18,9 +18,9 @@
 #include "race_config_reader.h"
 #include "race_manager.h"
 #include "malfunction_manager.h"
-#include "util/ipc_manager.h"
-#include "util/process_manager.h"
-#include "util/exception_handler.h"
+#include "ipc_manager.h"
+#include "process_manager.h"
+#include "exception_handler.h"
 
 // endregion dependencies
 

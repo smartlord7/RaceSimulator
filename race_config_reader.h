@@ -12,7 +12,7 @@
 
 // region dependencies
 
-#include "structs/race_config_t.h"
+#include "race_config_t.h"
 
 // endregion dependencies
 

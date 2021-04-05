@@ -123,6 +123,87 @@ RaceSimulator/fast:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/build
 .PHONY : RaceSimulator/fast
 
+debug.o: debug.c.o
+
+.PHONY : debug.o
+
+# target to build an object file
+debug.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/debug.c.o
+.PHONY : debug.c.o
+
+debug.i: debug.c.i
+
+.PHONY : debug.i
+
+# target to preprocess a source file
+debug.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/debug.c.i
+.PHONY : debug.c.i
+
+debug.s: debug.c.s
+
+.PHONY : debug.s
+
+# target to generate assembly for a file
+debug.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/debug.c.s
+.PHONY : debug.c.s
+
+exception_handler.o: exception_handler.c.o
+
+.PHONY : exception_handler.o
+
+# target to build an object file
+exception_handler.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/exception_handler.c.o
+.PHONY : exception_handler.c.o
+
+exception_handler.i: exception_handler.c.i
+
+.PHONY : exception_handler.i
+
+# target to preprocess a source file
+exception_handler.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/exception_handler.c.i
+.PHONY : exception_handler.c.i
+
+exception_handler.s: exception_handler.c.s
+
+.PHONY : exception_handler.s
+
+# target to generate assembly for a file
+exception_handler.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/exception_handler.c.s
+.PHONY : exception_handler.c.s
+
+ipc_manager.o: ipc_manager.c.o
+
+.PHONY : ipc_manager.o
+
+# target to build an object file
+ipc_manager.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.o
+.PHONY : ipc_manager.c.o
+
+ipc_manager.i: ipc_manager.c.i
+
+.PHONY : ipc_manager.i
+
+# target to preprocess a source file
+ipc_manager.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.i
+.PHONY : ipc_manager.c.i
+
+ipc_manager.s: ipc_manager.c.s
+
+.PHONY : ipc_manager.s
+
+# target to generate assembly for a file
+ipc_manager.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipc_manager.c.s
+.PHONY : ipc_manager.c.s
+
 log_generator.o: log_generator.c.o
 
 .PHONY : log_generator.o
@@ -177,6 +258,60 @@ malfunction_manager.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/malfunction_manager.c.s
 .PHONY : malfunction_manager.c.s
 
+process_manager.o: process_manager.c.o
+
+.PHONY : process_manager.o
+
+# target to build an object file
+process_manager.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/process_manager.c.o
+.PHONY : process_manager.c.o
+
+process_manager.i: process_manager.c.i
+
+.PHONY : process_manager.i
+
+# target to preprocess a source file
+process_manager.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/process_manager.c.i
+.PHONY : process_manager.c.i
+
+process_manager.s: process_manager.c.s
+
+.PHONY : process_manager.s
+
+# target to generate assembly for a file
+process_manager.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/process_manager.c.s
+.PHONY : process_manager.c.s
+
+race_car_t.o: race_car_t.c.o
+
+.PHONY : race_car_t.o
+
+# target to build an object file
+race_car_t.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_car_t.c.o
+.PHONY : race_car_t.c.o
+
+race_car_t.i: race_car_t.c.i
+
+.PHONY : race_car_t.i
+
+# target to preprocess a source file
+race_car_t.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_car_t.c.i
+.PHONY : race_car_t.c.i
+
+race_car_t.s: race_car_t.c.s
+
+.PHONY : race_car_t.s
+
+# target to generate assembly for a file
+race_car_t.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_car_t.c.s
+.PHONY : race_car_t.c.s
+
 race_config_reader.o: race_config_reader.c.o
 
 .PHONY : race_config_reader.o
@@ -203,6 +338,33 @@ race_config_reader.s: race_config_reader.c.s
 race_config_reader.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_reader.c.s
 .PHONY : race_config_reader.c.s
+
+race_config_t.o: race_config_t.c.o
+
+.PHONY : race_config_t.o
+
+# target to build an object file
+race_config_t.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_t.c.o
+.PHONY : race_config_t.c.o
+
+race_config_t.i: race_config_t.c.i
+
+.PHONY : race_config_t.i
+
+# target to preprocess a source file
+race_config_t.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_t.c.i
+.PHONY : race_config_t.c.i
+
+race_config_t.s: race_config_t.c.s
+
+.PHONY : race_config_t.s
+
+# target to generate assembly for a file
+race_config_t.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_config_t.c.s
+.PHONY : race_config_t.c.s
 
 race_manager.o: race_manager.c.o
 
@@ -258,86 +420,86 @@ race_simulator.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_simulator.c.s
 .PHONY : race_simulator.c.s
 
-structs/race_car_t.o: structs/race_car_t.c.o
+race_team_t.o: race_team_t.c.o
 
-.PHONY : structs/race_car_t.o
-
-# target to build an object file
-structs/race_car_t.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_car_t.c.o
-.PHONY : structs/race_car_t.c.o
-
-structs/race_car_t.i: structs/race_car_t.c.i
-
-.PHONY : structs/race_car_t.i
-
-# target to preprocess a source file
-structs/race_car_t.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_car_t.c.i
-.PHONY : structs/race_car_t.c.i
-
-structs/race_car_t.s: structs/race_car_t.c.s
-
-.PHONY : structs/race_car_t.s
-
-# target to generate assembly for a file
-structs/race_car_t.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_car_t.c.s
-.PHONY : structs/race_car_t.c.s
-
-structs/race_config_t.o: structs/race_config_t.c.o
-
-.PHONY : structs/race_config_t.o
+.PHONY : race_team_t.o
 
 # target to build an object file
-structs/race_config_t.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_config_t.c.o
-.PHONY : structs/race_config_t.c.o
+race_team_t.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_team_t.c.o
+.PHONY : race_team_t.c.o
 
-structs/race_config_t.i: structs/race_config_t.c.i
+race_team_t.i: race_team_t.c.i
 
-.PHONY : structs/race_config_t.i
+.PHONY : race_team_t.i
 
 # target to preprocess a source file
-structs/race_config_t.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_config_t.c.i
-.PHONY : structs/race_config_t.c.i
+race_team_t.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_team_t.c.i
+.PHONY : race_team_t.c.i
 
-structs/race_config_t.s: structs/race_config_t.c.s
+race_team_t.s: race_team_t.c.s
 
-.PHONY : structs/race_config_t.s
+.PHONY : race_team_t.s
 
 # target to generate assembly for a file
-structs/race_config_t.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_config_t.c.s
-.PHONY : structs/race_config_t.c.s
+race_team_t.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_team_t.c.s
+.PHONY : race_team_t.c.s
 
-structs/race_team_t.o: structs/race_team_t.c.o
+read_line.o: read_line.c.o
 
-.PHONY : structs/race_team_t.o
+.PHONY : read_line.o
 
 # target to build an object file
-structs/race_team_t.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_team_t.c.o
-.PHONY : structs/race_team_t.c.o
+read_line.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.o
+.PHONY : read_line.c.o
 
-structs/race_team_t.i: structs/race_team_t.c.i
+read_line.i: read_line.c.i
 
-.PHONY : structs/race_team_t.i
+.PHONY : read_line.i
 
 # target to preprocess a source file
-structs/race_team_t.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_team_t.c.i
-.PHONY : structs/race_team_t.c.i
+read_line.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.i
+.PHONY : read_line.c.i
 
-structs/race_team_t.s: structs/race_team_t.c.s
+read_line.s: read_line.c.s
 
-.PHONY : structs/race_team_t.s
+.PHONY : read_line.s
 
 # target to generate assembly for a file
-structs/race_team_t.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_team_t.c.s
-.PHONY : structs/race_team_t.c.s
+read_line.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/read_line.c.s
+.PHONY : read_line.c.s
+
+strings.o: strings.c.o
+
+.PHONY : strings.o
+
+# target to build an object file
+strings.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/strings.c.o
+.PHONY : strings.c.o
+
+strings.i: strings.c.i
+
+.PHONY : strings.i
+
+# target to preprocess a source file
+strings.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/strings.c.i
+.PHONY : strings.c.i
+
+strings.s: strings.c.s
+
+.PHONY : strings.s
+
+# target to generate assembly for a file
+strings.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/strings.c.s
+.PHONY : strings.c.s
 
 team_manager.o: team_manager.c.o
 
@@ -366,194 +528,32 @@ team_manager.c.s:
 	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/team_manager.c.s
 .PHONY : team_manager.c.s
 
-util/debug.o: util/debug.c.o
+to_float.o: to_float.c.o
 
-.PHONY : util/debug.o
-
-# target to build an object file
-util/debug.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/debug.c.o
-.PHONY : util/debug.c.o
-
-util/debug.i: util/debug.c.i
-
-.PHONY : util/debug.i
-
-# target to preprocess a source file
-util/debug.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/debug.c.i
-.PHONY : util/debug.c.i
-
-util/debug.s: util/debug.c.s
-
-.PHONY : util/debug.s
-
-# target to generate assembly for a file
-util/debug.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/debug.c.s
-.PHONY : util/debug.c.s
-
-util/exception_handler.o: util/exception_handler.c.o
-
-.PHONY : util/exception_handler.o
+.PHONY : to_float.o
 
 # target to build an object file
-util/exception_handler.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler.c.o
-.PHONY : util/exception_handler.c.o
+to_float.c.o:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.o
+.PHONY : to_float.c.o
 
-util/exception_handler.i: util/exception_handler.c.i
+to_float.i: to_float.c.i
 
-.PHONY : util/exception_handler.i
-
-# target to preprocess a source file
-util/exception_handler.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler.c.i
-.PHONY : util/exception_handler.c.i
-
-util/exception_handler.s: util/exception_handler.c.s
-
-.PHONY : util/exception_handler.s
-
-# target to generate assembly for a file
-util/exception_handler.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler.c.s
-.PHONY : util/exception_handler.c.s
-
-util/ipc_manager.o: util/ipc_manager.c.o
-
-.PHONY : util/ipc_manager.o
-
-# target to build an object file
-util/ipc_manager.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.o
-.PHONY : util/ipc_manager.c.o
-
-util/ipc_manager.i: util/ipc_manager.c.i
-
-.PHONY : util/ipc_manager.i
+.PHONY : to_float.i
 
 # target to preprocess a source file
-util/ipc_manager.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.i
-.PHONY : util/ipc_manager.c.i
+to_float.c.i:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.i
+.PHONY : to_float.c.i
 
-util/ipc_manager.s: util/ipc_manager.c.s
+to_float.s: to_float.c.s
 
-.PHONY : util/ipc_manager.s
-
-# target to generate assembly for a file
-util/ipc_manager.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/ipc_manager.c.s
-.PHONY : util/ipc_manager.c.s
-
-util/process_manager.o: util/process_manager.c.o
-
-.PHONY : util/process_manager.o
-
-# target to build an object file
-util/process_manager.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/process_manager.c.o
-.PHONY : util/process_manager.c.o
-
-util/process_manager.i: util/process_manager.c.i
-
-.PHONY : util/process_manager.i
-
-# target to preprocess a source file
-util/process_manager.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/process_manager.c.i
-.PHONY : util/process_manager.c.i
-
-util/process_manager.s: util/process_manager.c.s
-
-.PHONY : util/process_manager.s
+.PHONY : to_float.s
 
 # target to generate assembly for a file
-util/process_manager.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/process_manager.c.s
-.PHONY : util/process_manager.c.s
-
-util/read_line.o: util/read_line.c.o
-
-.PHONY : util/read_line.o
-
-# target to build an object file
-util/read_line.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line.c.o
-.PHONY : util/read_line.c.o
-
-util/read_line.i: util/read_line.c.i
-
-.PHONY : util/read_line.i
-
-# target to preprocess a source file
-util/read_line.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line.c.i
-.PHONY : util/read_line.c.i
-
-util/read_line.s: util/read_line.c.s
-
-.PHONY : util/read_line.s
-
-# target to generate assembly for a file
-util/read_line.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line.c.s
-.PHONY : util/read_line.c.s
-
-util/strings.o: util/strings.c.o
-
-.PHONY : util/strings.o
-
-# target to build an object file
-util/strings.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/strings.c.o
-.PHONY : util/strings.c.o
-
-util/strings.i: util/strings.c.i
-
-.PHONY : util/strings.i
-
-# target to preprocess a source file
-util/strings.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/strings.c.i
-.PHONY : util/strings.c.i
-
-util/strings.s: util/strings.c.s
-
-.PHONY : util/strings.s
-
-# target to generate assembly for a file
-util/strings.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/strings.c.s
-.PHONY : util/strings.c.s
-
-util/to_float.o: util/to_float.c.o
-
-.PHONY : util/to_float.o
-
-# target to build an object file
-util/to_float.c.o:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/to_float.c.o
-.PHONY : util/to_float.c.o
-
-util/to_float.i: util/to_float.c.i
-
-.PHONY : util/to_float.i
-
-# target to preprocess a source file
-util/to_float.c.i:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/to_float.c.i
-.PHONY : util/to_float.c.i
-
-util/to_float.s: util/to_float.c.s
-
-.PHONY : util/to_float.s
-
-# target to generate assembly for a file
-util/to_float.c.s:
-	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/to_float.c.s
-.PHONY : util/to_float.c.s
+to_float.c.s:
+	$(MAKE) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/to_float.c.s
+.PHONY : to_float.c.s
 
 # Help Target
 help:
@@ -564,54 +564,54 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
 	@echo "... edit_cache"
+	@echo "... debug.o"
+	@echo "... debug.i"
+	@echo "... debug.s"
+	@echo "... exception_handler.o"
+	@echo "... exception_handler.i"
+	@echo "... exception_handler.s"
+	@echo "... ipc_manager.o"
+	@echo "... ipc_manager.i"
+	@echo "... ipc_manager.s"
 	@echo "... log_generator.o"
 	@echo "... log_generator.i"
 	@echo "... log_generator.s"
 	@echo "... malfunction_manager.o"
 	@echo "... malfunction_manager.i"
 	@echo "... malfunction_manager.s"
+	@echo "... process_manager.o"
+	@echo "... process_manager.i"
+	@echo "... process_manager.s"
+	@echo "... race_car_t.o"
+	@echo "... race_car_t.i"
+	@echo "... race_car_t.s"
 	@echo "... race_config_reader.o"
 	@echo "... race_config_reader.i"
 	@echo "... race_config_reader.s"
+	@echo "... race_config_t.o"
+	@echo "... race_config_t.i"
+	@echo "... race_config_t.s"
 	@echo "... race_manager.o"
 	@echo "... race_manager.i"
 	@echo "... race_manager.s"
 	@echo "... race_simulator.o"
 	@echo "... race_simulator.i"
 	@echo "... race_simulator.s"
-	@echo "... structs/race_car_t.o"
-	@echo "... structs/race_car_t.i"
-	@echo "... structs/race_car_t.s"
-	@echo "... structs/race_config_t.o"
-	@echo "... structs/race_config_t.i"
-	@echo "... structs/race_config_t.s"
-	@echo "... structs/race_team_t.o"
-	@echo "... structs/race_team_t.i"
-	@echo "... structs/race_team_t.s"
+	@echo "... race_team_t.o"
+	@echo "... race_team_t.i"
+	@echo "... race_team_t.s"
+	@echo "... read_line.o"
+	@echo "... read_line.i"
+	@echo "... read_line.s"
+	@echo "... strings.o"
+	@echo "... strings.i"
+	@echo "... strings.s"
 	@echo "... team_manager.o"
 	@echo "... team_manager.i"
 	@echo "... team_manager.s"
-	@echo "... util/debug.o"
-	@echo "... util/debug.i"
-	@echo "... util/debug.s"
-	@echo "... util/exception_handler.o"
-	@echo "... util/exception_handler.i"
-	@echo "... util/exception_handler.s"
-	@echo "... util/ipc_manager.o"
-	@echo "... util/ipc_manager.i"
-	@echo "... util/ipc_manager.s"
-	@echo "... util/process_manager.o"
-	@echo "... util/process_manager.i"
-	@echo "... util/process_manager.s"
-	@echo "... util/read_line.o"
-	@echo "... util/read_line.i"
-	@echo "... util/read_line.s"
-	@echo "... util/strings.o"
-	@echo "... util/strings.i"
-	@echo "... util/strings.s"
-	@echo "... util/to_float.o"
-	@echo "... util/to_float.i"
-	@echo "... util/to_float.s"
+	@echo "... to_float.o"
+	@echo "... to_float.i"
+	@echo "... to_float.s"
 .PHONY : help
 
 

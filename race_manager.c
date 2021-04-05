@@ -13,11 +13,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "global.h"
-#include "structs/race_box_t.h"
+#include "race_box_t.h"
 #include "race_manager.h"
 #include "team_manager.h"
-#include "util/exception_handler.h"
-#include "util/process_manager.h"
+#include "exception_handler.h"
+#include "process_manager.h"
 
 // endregion dependencies
 
