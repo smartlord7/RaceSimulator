@@ -1,10 +1,10 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 01/04/2021
+* @date 01/04/2021
 */
 
 #include <stdlib.h>
@@ -12,6 +12,7 @@
 #include <pthread.h>
 #include <string.h>
 #include "global.h"
+#include "team_manager.h"
 #include "util/process_manager.h"
 #include "util/exception_handler.h"
 
@@ -23,8 +24,6 @@
 void * race_car_worker(void * race_car);
 
 /** Variables */
-static int num_cars;
-static race_car_t ** team_cars;
 static pthread_t * car_threads;
 //static pthread_mutex_t thread_mutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -52,13 +51,13 @@ void team_manager(void * data){
     DEBUG_MSG(RUNNING_PROCESS, team->team_name)
 
     int i = 0, temp_num_cars = mem_struct->cfg->max_cars_per_team;
-    num_cars = temp_num_cars;
+    team->num_cars = temp_num_cars;
 
     if ((car_threads = (pthread_t *) malloc(temp_num_cars * sizeof(pthread_t))) == NULL) {
         throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "car threads");
     }
 
-    if ((team_cars = (race_car_t **) malloc(num_cars * sizeof(race_car_t *))) == NULL) {
+    if ((team->cars = (race_car_t **) malloc(team->num_cars * sizeof(race_car_t *))) == NULL) {
         throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, "team race cars");
     }
 
@@ -69,13 +68,13 @@ void team_manager(void * data){
     strcpy(temp_car->name, buffer);
 
     while (i < temp_num_cars) {
-        team_cars[i] = temp_car;
+        team->cars[i] = temp_car;
         create_thread(temp_car->name, &car_threads[i], race_car_worker, (void *) temp_car);
         i++;
     }
 
-    kill_all_threads(num_cars, car_threads);
-    free(team_cars);
+    kill_threads(team->num_cars, car_threads);
+    free(team->cars);
     free(car_threads);
 
     DEBUG_MSG(EXITING_PROCESS, TEAM_MANAGER)

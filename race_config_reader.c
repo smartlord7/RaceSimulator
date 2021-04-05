@@ -1,4 +1,4 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
 * Authors:
 *  - Joao Filipe Guiomar Artur, 2019217853
@@ -7,46 +7,81 @@
 * Date of creation: 01/04/2021
 */
 
+// region dependencies
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <assert.h>
 #include "util/exception_handler.h"
 #include "util/read_line.h"
 #include "util/to_float.h"
 #include "structs/race_config_t.h"
 #include "race_config_reader.h"
 
+// endregion dependencies
+
 /**
- * Shows the line and the file name where a parsing error occurred.
- * @param error_msg Formatted error message.
- * @param ... Formatting arguments.
+ * @def error_at_line
+ * @brief Function that shows the file parsing error, the line and the file name where it occurred.
+ *
+ * @param error_msg
+ * The error message to be presented (might be formatted).
+ *
+ * @param ...
+ * The formatting arguments.
+ *
  */
 static void error_at_line(const char * error_msg, ...);
 
 /**
-* Check the nature of the feedback after attempting to convert a string to float.
-* @param feedback
-* @param field_name Meaning of the value.
+ * @def to_float_wrapper
+ * @brief Wrapper function that checks the nature of the feedback received after attempting to convert a string to float.
+ *
+ * @param feedback
+ * The float conversion feedback.
+ *
+ * @param field_name
+ * The name of the field.
+ *
 */
 static void to_float_wrapper(int feedback, const char * field_name);
 
 /**
- * Check if a given value belongs to a given interval for acceptable values.
- * @param value Value to be validated.
- * @param field_name Meaning of the value.
- * @param min Minimum value of the interval.
- * @param max Maximum value of the interval.
+ * @def validate_interval
+ * @brief Checks if a given value belongs to a given interval.
+ *
+ * @param value
+ * The value to be validated.
+ *
+ * @param field_name
+ * The name of the field.
+ *
+ * @param min
+ * The minimum value of the interval.
+ *
+ * @param max
+ * The maximum value of the interval.
+ *
+ * @throws MinValueException if the value is lower than the specified minimum.
+ *         MaxValueException if the value is higher than the specified maximum.
  */
 void validate_interval(float value, const char * field_name, float min, float max);
 
-/** Variables */
+// region global variables
+
 static char * config_file_path = NULL;
-static int current_line;
+static int current_line = -1;
+
+// endregion global variables
+
+// region public functions
 
 void race_config_reader_init(char * cfg_file_path) {
+    assert(cfg_file_path != NULL);
+
     config_file_path = cfg_file_path;
-    current_line = -1;
 }
 
 race_config_t * read_race_config() {
@@ -193,6 +228,10 @@ race_config_t * read_race_config() {
     return config;
 }
 
+// endregion public functions
+
+// region private functions
+
 static void error_at_line(const char * error_msg, ...) {
     va_list args;
     va_start(args, error_msg);
@@ -223,3 +262,5 @@ void validate_interval(float value, const char * field_name, float min, float ma
         error_at_line(MAX_VALUE_EXCEPTION, field_name, max);
     }
 }
+
+// endregion private functions

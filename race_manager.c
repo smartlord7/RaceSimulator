@@ -1,20 +1,26 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 01/04/2021
+* @date 01/04/2021
 */
 
+// region dependencies
+
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include "global.h"
+#include "race_manager.h"
 #include "team_manager.h"
 #include "util/exception_handler.h"
 #include "util/process_manager.h"
+
+// endregion dependencies
+
+// region public functions
 
 void race_manager(){
     DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
@@ -50,3 +56,5 @@ void race_manager(){
 
     exit(EXIT_SUCCESS);
 }
+
+// endregion public functions

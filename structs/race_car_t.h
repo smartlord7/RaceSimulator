@@ -1,29 +1,98 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 31/03/2021
+* @date 31/03/2021
 */
 
-#ifndef RACESIMULATOR_RACE_CAR_H
-#define RACESIMULATOR_RACE_CAR_H
+#ifndef RACESIMULATOR_C_RACE_CAR_H
+#define RACESIMULATOR_C_RACE_CAR_H
+
+// region dependencies
 
 #include "race_team_t.h"
 
-#define MAX_LABEL_SIZE 50
+// endregion dependencies
 
-typedef enum car_state car_state
+// region constants
+
+#define MAX_LABEL_SIZE 50
+#define RACE_CAR "RACE_CAR"
+#define true 1
+#define false 0
+#define MAX_BUFFER_SIZE 512
+#define NULL_STR_SIZE 5
+
+// endregion constants
+
+// region forward declarations
+
+typedef enum car_state car_state;
 typedef struct race_car_t race_car_t;
 typedef struct race_team_t race_team_t;
 
+// endregion forward declarations
+
+// region structures
+
+/**
+ * @enum car_state
+ * @brief Enum that representes the allowed states of a race car.
+ */
 enum car_state {
    RACE, SAFETY, IN_BOX_, NON_FIT, FINISHED
 };
 
 /**
- * Implementation of the concept of race car.
+ * @struct race_car_t
+ * @brief Struct that represents a race car.
+ *
+ * @var race_car_t::team
+ * Pointer to the team that owns the race car (acts as a navigation property).
+ *
+ * @var race_car_t::name
+ * The name of the race car.
+ *
+ * @var race_car_t::state
+ * The current state of the race car.
+ *
+ * @var race_car_t::car_id
+ * The id of the race car.
+ *
+ * @var race_car_t::completed_laps
+ * The number of completed laps of the race car.
+ *
+ * @var race_car_t::num_box_stops
+ * The number of times the race car had to stop in a race box due to a malfunction/refueling purposes.
+ *
+ * @var race_car_t::num_malfunctions
+ * The number of malfunctions the race car had.
+ *
+ * @var race_car_t::num_of_refuels
+ * The number of refuels the race car had.
+ *
+ * @var race_car_t::remaining_fuel
+ * The remaining fuel, in liters, of the race car.
+ *
+ * @var race_car_t::consumption
+ * The consumption in normal conditions, in liters per time unit, of the race car.
+ *
+ * @var race_car_t::current_consumption
+ * The current consumption of the race car, since it can change according to its current state.
+ *
+ * @var race_car_t::speed
+ * The speed in normal conditions, in meters per time unit, of the race car.
+ *
+ * @var race_car_t::current_speed
+ * The current speed of the race car, since it can change according to its current state.
+ *
+ * @var race_car_t::reliability
+ * The reliability, between 0 and 1, of the race car.
+ *
+ * @var race_car_t::current_pos
+ * The current position of the race car on the racing track.
  */
 struct race_car_t{
     race_team_t * team;
@@ -39,28 +108,54 @@ struct race_car_t{
             current_consumption,
             speed,
             current_speed,
-            current_pos,
-            reliability;
+            reliability,
+            current_pos;
 };
 
+// endregion structures
+
+// region public functions prototypes
 /**
- * Create a new car and initialize its properties.
+ * @def race_car
+ * @brief Function that creates a new race car (constructor)
  *
- * @param team Team who sponsors the car.
- * @param car_id ID to assign to car.
- * @param consumption Consumption of fuel.
- * @param speed Car speed.
- * @param reliability Reliability of the car.
- * @param initial_fuel Initial fuel value.
- * @return Return pointer to new car.
+ * @param team
+ * The team which owns the race car.
+ *
+ * @param car_id
+ * The id of the race car.
+ *
+ * @param consumption
+ * The consumption, in liters per time unit, of the race car.
+ *
+ * @param speed
+ * The speed, in meters per time unit, of the race car.
+ *
+ * @param reliability
+ * The reliability, between 0 and 1, of the race car.
+ *
+ * @param initial_fuel
+ * The fuel, in liters, the race car starts with.
+ *
+ * @return a pointer to the created car.
+ *
+ * @throws MemoryAllocationException if the malloc call for the race car returns a NULL pointer.
  */
 race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability, float initial_fuel);
 
 /**
- * Convert car's information to string.
- * @param car Car containing the informations.
- * @return String with car's information.
+ * @def race_car_to_string
+ * @brief Function that retrieves a string representation of a race_car.
+ *
+ * @param race_car
+ * the race_car in question.
+ *
+ * @return a string holding the car information.
+ *
+ * @throws MemoryAllocationException if the malloc call for the string returns a NULL pointer.
  */
-char * race_car_to_string(race_car_t * car);
+char * race_car_to_string(race_car_t * race_car);
 
-#endif //RACESIMULATOR_RACE_CAR_H
+// endregion public functions prototypes
+
+#endif //RACESIMULATOR_C_RACE_CAR_H

@@ -1,57 +1,87 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 31/03/2021
+* @date 31/03/2021
 */
+
+// region dependencies
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <assert.h>
 #include "global.h"
-#include "structs/race_config_t.h"
-#include "util/ipc_manager.h"
+#include "log_generator.h"
 #include "race_config_reader.h"
 #include "race_manager.h"
 #include "malfunction_manager.h"
-#include "log_generator.h"
+#include "util/ipc_manager.h"
 #include "util/process_manager.h"
 #include "util/exception_handler.h"
 
+// endregion dependencies
+
+// region constants
+
 #define CONFIG_FILE_NAME "config.txt"
 #define LOG_FILE_NAME "log.txt"
-#define MAX_CMD_SIZE 20
+#define RACE_SIMULATOR "RACE_SIMULATOR"
+#define BOX_SEM_PREFIX "BOX_MUTEX_"
+
+// endregion constants
+
+// region private functions prototypes
 
 /**
- * Create the mechanisms needed for interprocess communication.
- * Includes the creation of shared memory zone, POSIX named semaphores.
- * @param num_teams Number of teams competing on the race.
+ * @def create_ipcs
+ * @brief Function that creates the required IPCs for the application execution. Includes the creation of shared memory zone and POSIX named semaphores.
+ *
+ * @param num_teams
+ * The number of teams competing in the race.
+ *
  */
-void create_ipcs(int num_teams);
+static void create_ipcs(int num_teams);
 
 /**
- * Destroys the mechanisms for interprocess communication.
- * Includes the destruction of shared memory zone and POSIX named semaphores.
- * @param num_teams Number of teams competing on the race.
+ * @def destroy_ipcs
+ * @brief Function that destroys the previously created IPCs for the application execution.
+ *
+ * @param num_teams
+ * The number of teams competing on the race.
+ *
  */
-void destroy_ipcs(int num_teams);
+static void destroy_ipcs(int num_teams);
 
 /**
- * Terminate of all the processes of the group.
+ * @def terminate
+ * @brief Function that terminates the current process tree.
+ *
  */
-void terminate();
+static void terminate();
 
-/**
- * Main function of the application. Simulates the behavior of the race simulator.
- * @return Exit value.
- */
+
+// endregion private functions prototypes
+
+// region global variables
 
 int shm_id;
-shared_memory_t * mem_struct;
-sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
+shared_memory_t * mem_struct = NULL;
+sem_t * output_mutex = NULL,
+        * shm_mutex = NULL,
+        * race_start = NULL,
+        * malfunction_mng_start = NULL,
+        ** boxes_availability = NULL;
+
+// endregion global variables
+
+/**
+ * Main function of the application. Simulates the behavior of a race simulator.
+ * @return the exit value.
+ *
+ */
 
 int main() {
     //initialize debugging and exception handling mechanisms
@@ -100,7 +130,7 @@ int main() {
     return EXIT_SUCCESS;
 }
 
-void create_ipcs(int num_teams){
+static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
     mem_struct = create_shm(sizeof(shared_memory_t), &shm_id);
@@ -128,7 +158,7 @@ void create_ipcs(int num_teams){
     boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX, 1);
 }
 
-void destroy_ipcs(int num_teams){
+static void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
 
     destroy_shm(shm_id, mem_struct);
@@ -146,11 +176,6 @@ void destroy_ipcs(int num_teams){
     destroy_sem_array(boxes_availability, num_teams, BOX_SEM_PREFIX);
 }
 
-void terminate() {
-    pid_t proc_group_id = getpgrp();
-    char cmd[MAX_CMD_SIZE];
-
-    snprintf(cmd, MAX_CMD_SIZE, "pkill -9 -g %d", proc_group_id);
-
-    system(cmd);
+static void terminate() {
+    terminate_proc_grp(getpgrp());
 }

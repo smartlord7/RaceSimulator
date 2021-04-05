@@ -8,166 +8,175 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="RaceSimulator">
-				<Option output="/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/RaceSimulator.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug"/>
+				<Option output="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/RaceSimulator.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
 					<Add directory="/usr/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/../../../../lib/../include/w32api"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 RaceSimulator"/>
-					<CompileFile command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 RaceSimulator"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="RaceSimulator/fast">
-				<Option output="/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/RaceSimulator.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug"/>
+				<Option output="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/RaceSimulator.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
 					<Add directory="/usr/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/../../../../lib/../include/w32api"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 RaceSimulator/fast"/>
-					<CompileFile command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 RaceSimulator/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j12 -f &quot;/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/global.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/global.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/log_generator.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/log_generator.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/log_generator.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/log_generator.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/malfunction_manager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/malfunction_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_config_reader.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_config_reader.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_config_reader.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_config_reader.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_manager.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_manager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_manager.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/race_simulator.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/race_simulator.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/race_box_t.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_box_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/race_car_t.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_car_t.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/race_car_t.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_car_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/race_config_t.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_config_t.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team_t.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_config_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/race_team_t.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_team_t.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/structs/shared_memory_t.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/race_team_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/team_manager.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/structs/shared_memory_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/team_manager.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/team_manager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/debug.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/team_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/debug.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/debug.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/debug.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/exception_handler.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/exception_handler.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/ipc_manager.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/exception_handler.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/ipc_manager.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/ipc_manager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/process_manager.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/ipc_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/process_manager.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/process_manager.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/read_line.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/process_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/read_line.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/read_line.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/to_float.c">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/read_line.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/util/to_float.h">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/strings.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/CMakeLists.txt">
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/strings.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/to_float.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/util/to_float.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/Sancho/Projetos/RaceSimulator/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

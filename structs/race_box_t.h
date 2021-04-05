@@ -1,33 +1,52 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 31/03/2021
+* @date 31/03/2021
 */
 
-#ifndef RACESIMULATOR_RACE_BOX_H
-#define RACESIMULATOR_RACE_BOX_H
+#ifndef RACESIMULATOR_C_RACE_BOX_H
+#define RACESIMULATOR_C_RACE_BOX_H
+
+// region dependencies
 
 #include "race_team_t.h"
 #include "race_car_t.h"
+
+// endregion dependencies
+
+// region forward declarations
 
 typedef enum box_state box_state;
 typedef struct race_team_t race_team_t;
 typedef struct race_car_t race_car_t;
 typedef struct race_box_t race_box_t;
 
-#define BOX_FREE_STATE 0
-#define BOX_RESERVED_STATE 1
-#define BOX_OCCUPIED_STATE 2
+// endregion forward declarations
 
+// region structures
+/**
+ * @enum box_state
+ * Enum that represents the allowed states of a race box.
+ */
 enum box_state {
-    FREE, RESERVED, OCCUPIED;
+    FREE, RESERVED, OCCUPIED
 };
 
 /**
- * Implementation of the concept of race box.
+ * @struct race_box_t
+ * @brief Struct that represents a race box.
+ *
+ * @var race_box_t::state
+ * The current state of the race box.
+ *
+ * @var race_box_t::team
+ * The race team that owns the race box (acts as a navigation property).
+ *
+ * @var race_box_t::current_car
+ * The race car that is currently in the race box (acts as a navigation property).
  */
 struct race_box_t{
     box_state state;
@@ -35,4 +54,6 @@ struct race_box_t{
     race_car_t * current_car;
 };
 
-#endif //RACESIMULATOR_RACE_BOX_H
+// endregion structures
+
+#endif //RACESIMULATOR_C_RACE_BOX_H

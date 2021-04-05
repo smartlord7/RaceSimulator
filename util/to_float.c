@@ -1,8 +1,23 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 31/03/2021
+*/
+
+// region dependencies
+
 #include <stdlib.h>
 #include <float.h>
 #include <errno.h>
 #include <assert.h>
 #include "to_float.h"
+
+// endregion dependencies
+
+// region public functions
 
 int to_float(char * num_string, float * num_float){
     assert(num_string != NULL && num_float != NULL);
@@ -27,3 +42,5 @@ int to_float(char * num_string, float * num_float){
 
     return FLOAT_CONVERSION_SUCCESS;
 }
+
+// endregion public functions

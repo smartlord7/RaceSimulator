@@ -1,11 +1,13 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 02/04/2021
+* @date 02/04/2021
 */
+
+// region dependencies
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,15 +17,13 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include <stddef.h>
-#include "debug.h"
 #include "exception_handler.h"
+#include "ipc_manager.h"
+#include "debug.h"
 
-#define USER_PERMS_ALL 0700
-#define ALL_PERMS_RW 0666
-#define true 1
-#define false 0
-#define DEBUG true
-#define MAX_SEM_LABEL_SIZE 20
+// endregion dependencies
+
+// region public functions
 
 void wait_sem(sem_t * sem, const char * sem_name) {
     assert(sem != NULL && sem_name != NULL);
@@ -54,7 +54,7 @@ void * create_shm(size_t size, int * shm_id_p) {
     DEBUG_MSG(SHM_CREATED, created_shm_id)
 
     if ((shm = shmat(created_shm_id, NULL, 0)) == (void *) - 1){
-        throw_exception_and_exit(MEMORY_ATTACHMENT_EXCEPTION, created_shm_id);
+        throw_exception_and_exit(SHM_ATTACHMENT_EXCEPTION, created_shm_id);
     }
 
     DEBUG_MSG(SHM_ATTACHED, created_shm_id)
@@ -64,30 +64,30 @@ void * create_shm(size_t size, int * shm_id_p) {
     return shm;
 }
 
-void destroy_shm(int shmid, void * shared_mem) {
+void destroy_shm(int shm_id, void * shared_mem) {
     assert(shared_mem != NULL);
 
     if(shmdt(shared_mem) == -1){
-        throw_exception_and_exit(MEMORY_DETACHMENT_EXCEPTION, shmid);
+        throw_exception_and_exit(SHM_DETACHMENT_EXCEPTION, shm_id);
     }
 
-    DEBUG_MSG(SHM_DETACHED, shmid)
+    DEBUG_MSG(SHM_DETACHED, shm_id)
 
-    if (shmctl(shmid, IPC_RMID, NULL) == -1){
-        throw_exception_and_exit(MEMORY_REMOVAL_EXCEPTION, shmid);
+    if (shmctl(shm_id, IPC_RMID, NULL) == -1){
+        throw_exception_and_exit(SHM_REMOVAL_EXCEPTION, shm_id);
     }
 
-    DEBUG_MSG(SHM_REMOVED, shmid)
+    DEBUG_MSG(SHM_REMOVED, shm_id)
 }
 
-sem_t * create_sem(const char * sem_name, int value) {
-    assert(sem_name != NULL && value >= 0);
+sem_t * create_sem(const char * sem_name, int initial_value) {
+    assert(sem_name != NULL && initial_value >= 0);
 
     sem_t * sem;
 
     sem_unlink(sem_name);
 
-    if ((sem = sem_open(sem_name, O_CREAT | O_EXCL, USER_PERMS_ALL, value)) == SEM_FAILED){
+    if ((sem = sem_open(sem_name, O_CREAT | O_EXCL, USER_PERMS_ALL, initial_value)) == SEM_FAILED){
         throw_exception_and_exit(SEM_CREATION_EXCEPTION, sem_name);
     }
 
@@ -110,8 +110,8 @@ void destroy_sem(const char * sem_name, sem_t * sem) {
     DEBUG_MSG(SEM_UNLINKED, sem_name);
 }
 
-sem_t ** create_sem_array(int num, const char * sem_name_prefix, int value) {
-    assert(num != 0 && sem_name_prefix != NULL && value > 0);
+sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_value) {
+    assert(num != 0 && sem_name_prefix != NULL && initial_value > 0);
 
     sem_t ** sem_array;
 
@@ -125,7 +125,7 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int value) {
         char sem_name[MAX_SEM_LABEL_SIZE];
         snprintf(sem_name, sizeof(sem_name), "%s%d", sem_name_prefix, i);
 
-        sem_array[i] = create_sem(sem_name, value);
+        sem_array[i] = create_sem(sem_name, initial_value);
 
         DEBUG_MSG(SEM_CREATED, sem_name)
 
@@ -151,3 +151,5 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
 
     free(sem_array);
 }
+
+// endregion public functions

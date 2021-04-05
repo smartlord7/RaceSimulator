@@ -1,18 +1,30 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 01/04/2021
+* @date 01/04/2021
 */
 
-#ifndef LOG_GENERATOR_C_RACE_MANAGER_H
-#define LOG_GENERATOR_C_RACE_MANAGER_H
+#ifndef RACESIMULATOR_C_RACE_MANAGER_H
+#define RACESIMULATOR_C_RACE_MANAGER_H
+
+// region constants
+
+#define RACE_MANAGER "RACE_MANAGER"
+
+// endregion constants
+
+// region public functions prototypes
 
 /**
- * Handle the concept of race manager and execution of its respective tasks.
+ * @def race_manager
+ * @brief worker function executed when the race manager process is created.
+ *
  */
 void race_manager();
 
-#endif //LOG_GENERATOR_C_RACE_MANAGER_H
+// endregion public functions prototypes
+
+#endif //RACESIMULATOR_C_RACE_MANAGER_H

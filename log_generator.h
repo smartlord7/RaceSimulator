@@ -1,18 +1,25 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 31/03/2021
+* @date 31/03/2021
 */
 
 #ifndef RACE_SIMULATOR_C_LOG_GENERATOR_H
 #define RACE_SIMULATOR_C_LOG_GENERATOR_H
 
+// region dependencies
+
 #include <semaphore.h>
 
-//used to distinguish function input
+// endregion dependencies
+
+// region constants
+
+// region log_gen input modes
+
 #define I_SIMULATION_START "SIMULATION START"
 #define I_SIMULATION_END "SIMULATION END"
 #define I_COMMAND_RECEIVED "COMMAND RECEIVED"
@@ -22,7 +29,10 @@
 #define I_SIGNAL_RECEIVED "SIGNAL RECEIVED"
 #define I_RACE_WIN "RACE WIN"
 
-//used to distinguish function output
+// endregion log_gen input modes
+
+// region log_gen output msgs
+
 #define O_SIMULATION_STARTING " SIMULATOR STARTING"
 #define O_SIMULATION_CLOSING " SIMULATOR CLOSING"
 #define O_NEW_COMMAND_RECEIVED " NEW COMMAND RECEIVED: "
@@ -36,18 +46,50 @@
 #define O_RACE_WON " WINS THE RACE"
 #define O_TERMINATOR "\0"
 
+// endregion log_gen output msgs
+
+#define TIMESTAMP_DELIMITER " "
+#define MUTEX "MUTEX"
+#define true 1
+#define false 0
+
+// endregion constants
+
+// region public functions prototypes
+
 /**
- * Generates an entry. Prints to screen and writes on log file the generated entry in a synchronized manner.
- * @param mode Mode in which the function is called.
- * @param data Additional data needed for some cases.
+ * @def generate_log_entry
+ * @brief Function that generates a log entry. This entry is then printed to the screen and written to the specified log file synchronously.
+ *
+ * @param mode
+ * The mode in which the function is called.
+ *
+ * @param data
+ * Additional data needed for some cases.
+ *
  */
 void generate_log_entry(char * mode, void * data);
 
 /**
- * Initialize the log file functionality.
- * @param lg_file_path Path of the log file.
+ * @def log_init
+ * @brief Function that initializes the log generator.
+ *
+ * @param lg_file_path
+ * The path of the log file.
+ *
+ * @param sem
+ * A pointer to a POSIX named semaphore that allows synchronized output.
+ *
  */
 void log_init(char * lg_file_path, sem_t * sem);
 
+// endregion public functions prototypes
+
+// region global variables
+
+extern char * log_file_path;
+extern sem_t * mutex;
+
+// endregion global variables
 
 #endif //RACE_SIMULATOR_C_LOG_GENERATOR_H

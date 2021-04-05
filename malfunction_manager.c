@@ -1,15 +1,22 @@
-/* Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @author
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 01/04/2021
+* @date 01/04/2021
 */
+
+// region dependencies
 
 #include "global.h"
 #include <stdlib.h>
+#include "malfunction_manager.h"
 #include "util/exception_handler.h"
+
+// endregion dependencies
+
+// region public functions
 
 void malfunction_manager(){
 
@@ -19,3 +26,5 @@ void malfunction_manager(){
 
     exit(EXIT_SUCCESS);
 }
+
+// endregion public functions

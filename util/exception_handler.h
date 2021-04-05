@@ -1,13 +1,24 @@
-#ifndef RACESIMULATOR_EXCEPTION_HANDLER_H
-#define RACESIMULATOR_EXCEPTION_HANDLER_H
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 31/03/2021
+*/
+
+#ifndef RACESIMULATOR_C_EXCEPTION_HANDLER_H
+#define RACESIMULATOR_C_EXCEPTION_HANDLER_H
+
+// region dependencies
 
 #include <semaphore.h>
 
-#define FILE_OPENING_EXCEPTION "FILE_OPENING_EXCEPTION: COULDN'T OPEN FILE WITH PATH %s!"
-#define FILE_WRITING_EXCEPTION "FILE_WRITING_EXCEPTION: COULDN'T WRITE ON FILE WITH PATH %s!"
-#define FILE_CLOSING_EXCEPTION "FILE_CLOSING_EXCEPTION: COULDN'T CLOSE FILE WITH PATH %s!"
+// endregion dependencies
 
-#define MEMORY_ALLOCATION_EXCEPTION "MEMORY_ALLOCATION_EXCEPTION: COULDN'T PERFORM MEMORY ALLOCATION FOR %s!"
+// region constants
+
+// region parsing exceptions msgs
 
 #define ERROR_AT_LINE "ERROR WHILE PARSING LINE %d OF FILE %s!"
 #define INSUFFICIENT_NUM_LINES_EXCEPTION "INSUFFICIENT_NUM_LINES_EXCEPTION: INSUFFICIENT NUMBER OF LINES AT FILE %s! IT MUST BE %d!"
@@ -18,36 +29,125 @@
 #define INT_CONVERSION_EXCEPTION "INT_CONVERSION_EXCEPTION: FIELD %s COULDN'T BE CONVERTED TO INT"
 #define FLOAT_SIZE_EXCEEDED_EXCEPTION "FLOAT_SIZE_EXCEEDED_EXCEPTION: FIELD %s EXCEEDS FLOAT MAX SIZE!"
 #define FLOAT_CONVERSION_EXCEPTION "FLOAT_CONVERSION_EXCEPTION: FIELD %s COULDN'T BE CONVERTED TO FLOAT!"
+#define STRCAT_EXCEPTION "STRCAT_EXCEPTION: COULDN'T CONCATENATE STRINGS!"
 
+// endregion parsing exceptions msgs
+
+// region resources exceptions msgs
+
+#define FILE_OPENING_EXCEPTION "FILE_OPENING_EXCEPTION: COULDN'T OPEN FILE WITH PATH %s!"
+#define FILE_WRITING_EXCEPTION "FILE_WRITING_EXCEPTION: COULDN'T WRITE ON FILE WITH PATH %s!"
+#define FILE_CLOSING_EXCEPTION "FILE_CLOSING_EXCEPTION: COULDN'T CLOSE FILE WITH PATH %s!"
+#define MEMORY_ALLOCATION_EXCEPTION "MEMORY_ALLOCATION_EXCEPTION: COULDN'T PERFORM MEMORY ALLOCATION FOR %s!"
 #define SHM_CREATION_EXCEPTION "SHM_CREATION_EXCEPTION: COULDN'T CREATE SHARED MEMORY!"
-#define MEMORY_ATTACHMENT_EXCEPTION "MEMORY_ATTACHMENT_EXCEPTION: COULDN'T ATTACH MEMORY WITH ID %d!"
-#define MEMORY_DETACHMENT_EXCEPTION "MEMORY_DETACHMENT_EXCEPTION: COULDN'T DETACH MEMORY WITH ID %d!"
-#define MEMORY_REMOVAL_EXCEPTION "MEMORY_REMOVAL_EXCEPTION: COULDN'T REMOVE MEMORY WITH ID %d!"
+#define SHM_ATTACHMENT_EXCEPTION "SHM_ATTACHMENT_EXCEPTION: COULDN'T ATTACH MEMORY WITH ID %d!"
+#define SHM_DETACHMENT_EXCEPTION "SHM_DETACHMENT_EXCEPTION: COULDN'T DETACH MEMORY WITH ID %d!"
+#define SHM_REMOVAL_EXCEPTION "SHM_REMOVAL_EXCEPTION: COULDN'T REMOVE MEMORY WITH ID %d!"
 #define SEM_CREATION_EXCEPTION "SEM_CREATION_EXCEPTION: COULDN'T CREATE SEMAPHORE NAMED %s!"
 #define SEM_CLOSE_EXCEPTION "SEM_CLOSE_EXCEPTION: COULDN'T CLOSE SEMAPHORE NAMED %s!"
 #define SEM_UNLINK_EXCEPTION "SEM_UNLINK_EXCEPTION: COULDN'T UNLINK SEMAPHORE NAMED %s!"
 #define SEM_WAIT_EXCEPTION "WAIT_SEM_EXCEPTION: COULDN'T PERFORM WAIT OPERATION ON SEMAPHORE NAMED %s!"
 #define SEM_POST_EXCEPTION "WAIT_SEM_EXCEPTION: COULDN'T PERFORM POST OPERATION ON SEMAPHORE NAMED %s!"
 
+// endregion resources exceptions msgs
+
+// region misc exceptions msgs
+
 #define NOT_IMPLEMENTED_EXCEPTION "NOT_IMPLEMENTED_EXCEPTION: %s FUNCTIONALITY IS NOT IMPLEMENTED!"
-
-#define CREATION_PROCESS_EXCEPTION "CREATION_PROCESS_EXCEPTION: COULDN'T CREATE PROCESS %s!"
-#define CREATION_THREAD_EXCEPTION "CREATION_THREAD_EXCEPTION: COULDN'T CREATE THREAD %s!"
-
-#define LOG_ENTRY_GENERATION_EXCEPTION "LOG_ENTRY_GENERATION_EXCEPTION: COULDN'T GENERATE %s LOG ENTRY!"
 #define LOG_MODE_NOT_SUPPORTED_EXCEPTION "LOG_MODE_NOT_SUPPORTED_EXCEPTION: %s LOG MODE NOT SUPPORTED!"
+
+// endregion misc exceptions msgs
+
+// region proc/threads exceptions msgs
+
+#define PROCESS_CREATION_EXCEPTION "PROCESS_CREATION_EXCEPTION: COULDN'T CREATE PROCESS %s!"
+#define THREAD_CREATION_EXCEPTION "THREAD_CREATION_EXCEPTION: COULDN'T CREATE THREAD %s!"
+#define THREAD_JOIN_EXCEPTION "THREAD_JOIN_EXCEPTION: COULDN'T JOIN THREAD!"
+
+// endregion proc/threads exceptions msgs
 
 #define MAX_EXCEPTION_MSG_SIZE 100
 
+// endregion constants
+
+// region macros
+
+/**
+ * @macro throw_exception_and_exit
+ * @brief Macro that calls the function throw_exception with the line number and the name of the file which it's called in. The current process will terminate since exit_process == true.
+ *
+ * @param exception_msg
+ * The exception message to be presented (might be formatted).
+ *
+ * @param __VA_ARGS__
+ * The formatting arguments.
+ *
+ */
 #define throw_exception_and_exit(exception_msg, ...) throw_exception(__FILE__, __LINE__, true, exception_msg, __VA_ARGS__)
+
+/**
+ * @macro throw_exception_and_exit
+ * @brief Macro that calls the function throw_exception with the line number and the name of the file which it's called in. The current process will not terminate since exit_process == false.
+ *
+ * @param exception_msg
+ * The exception message to be presented (might be formatted).
+ *
+ * @param __VA_ARGS__
+ * The formatting arguments.
+ *
+ */
 #define throw_exception_and_stay(exception_msg, ...) throw_exception(__FILE__, __LINE__, false, exception_msg, __VA_ARGS__)
+
+// endregion macros
+
+// region global variables
 
 extern sem_t * exc_mutex;
 extern void (* clean_func)(void *);
 extern void * clean_func_params;
 
+// endregion global variables
+
+// region public functions prototypes
+
+/**
+ * @def exc_handler_init
+ * @brief Function that initializes the exception handling mechanisms with a mutex semaphore if synchronization across processes/threads is needed and a cleanup function.
+ *
+ * @param mutex
+ * The mutex that provides synchronized access to stdout.
+ *
+ * @param clean_function
+ * The cleanup function to be executed before exiting (process/thread killing, allocation freeing).
+ *
+ * @param clean_function_params
+ * A pointer to the cleanup function params.
+ *
+ */
 void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params);
+
+/**
+ * @def throw_exception
+ * @brief Function that presents an exception message and exits the current process, if needed.
+ *
+ * @param file_name
+ * The name of the file from which this function is called.
+ *
+ * @param line
+ * The line of the file from which this function is called.
+ *
+ * @param exit_process
+ * Specifies if the process should be exited after the exception message is shown.
+ *
+ * @param exception_msg
+ * The exception message to be presented (might be formatted).
+ *
+ * @param ...
+ * The formatting arguments.
+ *
+ */
 void throw_exception(const char * file_name, int line, int exit_process, const char * exception_msg, ...);
 
+// endregion public functions prototypes
 
-#endif //RACESIMULATOR_EXCEPTION_HANDLER_H
+#endif //RACESIMULATOR_C_EXCEPTION_HANDLER_H

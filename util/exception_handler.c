@@ -1,12 +1,31 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 31/03/2021
+*/
+
+// region dependencies
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <semaphore.h>
 #include <assert.h>
 
+// endregion dependencies
+
+// region dependencies
+
 sem_t * exc_mutex = NULL;
 void (* clean_func)(void *) = NULL;
 void * clean_func_params = NULL;
+
+// endregion dependencies
+
+// region public functions
 
 void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params) {
     assert(clean_function != NULL);
@@ -41,3 +60,5 @@ void throw_exception(const char * file_name, int line, int exit_process, const c
         exit(EXIT_FAILURE);
     }
 }
+
+// endregion public functions
