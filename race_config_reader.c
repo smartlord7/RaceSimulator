@@ -105,10 +105,6 @@ race_config_t * read_race_config() {
         throw_exception_and_exit(FILE_OPENING_EXCEPTION, config_file_path);
     }
 
-    if ((config = malloc(sizeof(race_config_t))) == NULL) {
-        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, RACE_CONFIG);
-    }
-
     current_line = 0;
 
     char buffer[MAX_CONFIG_FILE_LINE_SIZE], * token = NULL;

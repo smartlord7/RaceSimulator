@@ -44,7 +44,7 @@ typedef struct race_team_t race_team_t;
  * @brief Enum that represents the allowed states of a race car.
  */
 enum race_car_state {
-   RACE, SAFETY, IN_BOX_, NON_FIT, FINISHED
+   RACE, SAFETY, IN_BOX, NON_FIT, FINISHED
 };
 
 /**

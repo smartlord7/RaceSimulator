@@ -86,7 +86,7 @@ void set_state(race_car_t * race_car, race_car_state state) {
             race_car->current_speed = SAFETY_SPEED_RATIO * race_car->speed;
 
             break;
-        case IN_BOX_:
+        case IN_BOX:
             race_car->current_pos = 0;
             race_car->current_speed = 0;
             race_car->current_consumption = 0;
