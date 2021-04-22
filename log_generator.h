@@ -73,7 +73,7 @@ void generate_log_entry(char * mode, void * data);
 
 /**
  * @def log_init
- * @brief Function that initializes the log generator.
+ * @brief Function that initializes the log generator and opens log file.
  *
  * @param lg_file_path
  * The path of the log file.
@@ -83,6 +83,12 @@ void generate_log_entry(char * mode, void * data);
  *
  */
 void log_init(char * lg_file_path, sem_t * sem);
+
+/**
+ * @def log_init
+ * @brief Function that closes the log file.
+ */
+void log_close();
 
 // endregion public functions prototypes
 

@@ -47,6 +47,7 @@ char * get_time();
 
 char * log_file_path = NULL;
 sem_t * mutex = NULL;
+FILE * log_file;
 
 // endregion global variables
 
@@ -55,8 +56,20 @@ sem_t * mutex = NULL;
 void log_init(char * lg_file_path, sem_t * sem) {
     assert(lg_file_path != NULL && sem != NULL);
 
+    if ((log_file = fopen(log_file_path, "a")) == NULL){
+        throw_exception_and_exit(FILE_OPENING_EXCEPTION, log_file_path);
+    }
+
     log_file_path = lg_file_path;
     mutex = sem;
+}
+
+void log_close(){
+
+    if (fclose(log_file)){
+        throw_exception_and_exit(FILE_CLOSING_EXCEPTION, log_file_path);
+    }
+
 }
 
 void generate_log_entry(char * mode, void * data){
@@ -117,18 +130,8 @@ void generate_log_entry(char * mode, void * data){
 void write_log_entry(char * entry){
     assert(entry != NULL);
 
-    FILE * log_file;
-
-    if ((log_file = fopen(log_file_path, "a")) == NULL){
-        throw_exception_and_exit(FILE_OPENING_EXCEPTION, log_file_path);
-    }
-
     if (fprintf(log_file, "%s\n", entry) < 0){
         throw_exception_and_exit(FILE_WRITING_EXCEPTION, log_file_path);
-    }
-
-    if (fclose(log_file)){
-        throw_exception_and_exit(FILE_CLOSING_EXCEPTION, log_file_path);
     }
 }
 
