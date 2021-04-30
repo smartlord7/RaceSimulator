@@ -278,6 +278,33 @@ malfunction_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/malfunction_manager.c.s
 .PHONY : malfunction_manager.c.s
 
+message_qeue.o: message_qeue.c.o
+
+.PHONY : message_qeue.o
+
+# target to build an object file
+message_qeue.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/message_qeue.c.o
+.PHONY : message_qeue.c.o
+
+message_qeue.i: message_qeue.c.i
+
+.PHONY : message_qeue.i
+
+# target to preprocess a source file
+message_qeue.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/message_qeue.c.i
+.PHONY : message_qeue.c.i
+
+message_qeue.s: message_qeue.c.s
+
+.PHONY : message_qeue.s
+
+# target to generate assembly for a file
+message_qeue.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/message_qeue.c.s
+.PHONY : message_qeue.c.s
+
 priority_qeue.o: priority_qeue.c.o
 
 .PHONY : priority_qeue.o
@@ -626,6 +653,9 @@ help:
 	@echo "... malfunction_manager.o"
 	@echo "... malfunction_manager.i"
 	@echo "... malfunction_manager.s"
+	@echo "... message_qeue.o"
+	@echo "... message_qeue.i"
+	@echo "... message_qeue.s"
 	@echo "... priority_qeue.o"
 	@echo "... priority_qeue.i"
 	@echo "... priority_qeue.s"

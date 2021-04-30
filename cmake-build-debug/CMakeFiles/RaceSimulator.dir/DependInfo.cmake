@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/cygdrive/c/projeto_SO/RaceSimulator/ipc_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/ipc_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/log_generator.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/log_generator.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/malfunction_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/malfunction_manager.c.o"
+  "/cygdrive/c/projeto_SO/RaceSimulator/message_qeue.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/message_qeue.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/priority_qeue.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/priority_qeue.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/process_manager.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/process_manager.c.o"
   "/cygdrive/c/projeto_SO/RaceSimulator/race_car_t.c" "/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir/race_car_t.c.o"
