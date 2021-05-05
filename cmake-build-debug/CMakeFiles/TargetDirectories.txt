@@ -1,3 +1,0 @@
-/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/RaceSimulator.dir
-/cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles/edit_cache.dir
