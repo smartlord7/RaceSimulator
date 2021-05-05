@@ -39,7 +39,11 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
+<<<<<<< Updated upstream
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
+=======
+  set(CMAKE_OBJDUMP "/usr/bin/objdump.exe")
+>>>>>>> Stashed changes
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

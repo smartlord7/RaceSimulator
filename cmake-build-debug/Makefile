@@ -58,10 +58,17 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
+<<<<<<< Updated upstream
 CMAKE_COMMAND = /snap/clion/151/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
 RM = /snap/clion/151/bin/cmake/linux/bin/cmake -E rm -f
+=======
+CMAKE_COMMAND = /cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/bin/cmake.exe
+
+# The command to remove a file.
+RM = /cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/bin/cmake.exe -E rm -f
+>>>>>>> Stashed changes
 
 # Escaping for special characters.
 EQUALS = =
@@ -78,7 +85,11 @@ CMAKE_BINARY_DIR = /home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-deb
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+<<<<<<< Updated upstream
 	/snap/clion/151/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+=======
+	/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/bin/cmake.exe --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+>>>>>>> Stashed changes
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -89,7 +100,11 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+<<<<<<< Updated upstream
 	/snap/clion/151/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+=======
+	/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/bin/cmake.exe -E echo No\ interactive\ CMake\ dialog\ available.
+>>>>>>> Stashed changes
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -99,7 +114,11 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
+<<<<<<< Updated upstream
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug/CMakeFiles /home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug//CMakeFiles/progress.marks
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug/CMakeFiles /cygdrive/c/projeto_SO/RaceSimulator/cmake-build-debug//CMakeFiles/progress.marks
+>>>>>>> Stashed changes
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug/CMakeFiles 0
 .PHONY : all
@@ -276,33 +295,6 @@ malfunction_manager.s: malfunction_manager.c.s
 malfunction_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/malfunction_manager.c.s
 .PHONY : malfunction_manager.c.s
-
-message_qeue.o: message_qeue.c.o
-
-.PHONY : message_qeue.o
-
-# target to build an object file
-message_qeue.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/message_qeue.c.o
-.PHONY : message_qeue.c.o
-
-message_qeue.i: message_qeue.c.i
-
-.PHONY : message_qeue.i
-
-# target to preprocess a source file
-message_qeue.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/message_qeue.c.i
-.PHONY : message_qeue.c.i
-
-message_qeue.s: message_qeue.c.s
-
-.PHONY : message_qeue.s
-
-# target to generate assembly for a file
-message_qeue.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/message_qeue.c.s
-.PHONY : message_qeue.c.s
 
 priority_qeue.o: priority_qeue.c.o
 
@@ -652,9 +644,6 @@ help:
 	@echo "... malfunction_manager.o"
 	@echo "... malfunction_manager.i"
 	@echo "... malfunction_manager.s"
-	@echo "... message_qeue.o"
-	@echo "... message_qeue.i"
-	@echo "... message_qeue.s"
 	@echo "... priority_qeue.o"
 	@echo "... priority_qeue.i"
 	@echo "... priority_qeue.s"

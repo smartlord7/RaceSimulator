@@ -16,7 +16,9 @@
 #include <semaphore.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <sys/unistd.h>
 #include <fcntl.h>
+#include <sys/errno.h>
 #include "debug.h"
 #include "exception_handler.h"
 #include "ipc_manager.h"
@@ -152,4 +154,100 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
     free(sem_array);
 }
 
+int create_message_queue() {
+    int msgq_id;
+
+    msgq_id = msgget(IPC_PRIVATE, IPC_CREAT | 0777);
+    if(msgq_id < 0){
+        throw_exception_and_exit(MSGQ_CREATION_EXCEPTION, NULL);
+    }
+
+    return msgq_id;
+}
+
+int receive_message(int msgq_id, message_t * message, int priority) {
+
+    if(msgrcv(msgq_id, message, MESSAGE_SIZE, priority, 0) < 0){
+        throw_exception_and_stay(MSG_RECEPTION_EXCEPTION, NULL);
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int send_message(int msgq_id, message_t * message) {
+
+    if(msgsnd(msgq_id, message, MESSAGE_SIZE, 0) < 0){
+        throw_exception_and_stay(MSG_EMISSION_EXCEPTION, NULL);
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int destroy_message_queue(int msgq_id) {
+
+    if(msgctl(msgq_id, IPC_RMID, NULL) < 0) {
+        throw_exception_and_stay(MSGQ_DESTRUITION_EXCEPTION, NULL);
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int create_unnamed_pipe(int file_descriptors[]){
+    assert(file_descriptors != NULL);
+
+    if(pipe(file_descriptors) < 0){
+        throw_exception_and_exit(UNNAMED_PIPE_CREATION_EXCEPTION, NULL);
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int destroy_file_descriptor(char * context, int file_descriptors[], int num_of_file_descriptors) {
+    int i;
+
+    assert(file_descriptors != NULL);
+
+    if(num_of_file_descriptors <= 0){
+        throw_exception_and_stay(FILE_DESCRIPTOR_CLOSE_EXCEPTION, context);
+        return EXIT_FAILURE;
+    }
+
+    for(i = 0; i < num_of_file_descriptors; i++) {
+
+        if(close(file_descriptors[i]) < 0){
+            throw_exception_and_stay(FILE_DESCRIPTOR_CLOSE_EXCEPTION, context);
+            return EXIT_FAILURE;
+        }
+
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int create_named_pipe(const char * pipe_name){
+    assert(pipe_name != NULL);
+
+    if(unlink(pipe_name)){
+        throw_exception_and_exit(NAMED_PIPE_CREATION_EXCEPTION, NULL);
+    }
+
+    if((mkfifo(pipe_name, O_CREAT | O_EXCL | 0600) < 0) && (errno != EEXIST)) {
+        throw_exception_and_exit(NAMED_PIPE_CREATION_EXCEPTION, NULL);
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int open_named_pipe(char * pipe_name, int * file_descriptor, int mode) {
+    assert(file_descriptor != NULL);
+
+    if((*file_descriptor = open(pipe_name, mode)) < 0){
+        throw_exception_and_exit(NAMED_PIPE_OPENING_EXCEPTION, NULL);
+    }
+
+    return EXIT_SUCCESS;
+}
 // endregion public functions

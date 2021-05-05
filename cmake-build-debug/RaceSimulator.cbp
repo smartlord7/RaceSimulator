@@ -109,6 +109,7 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/malfunction_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+<<<<<<< Updated upstream
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/message_qeue.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -116,6 +117,9 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/priority_qeue.c">
+=======
+		<Unit filename="/cygdrive/c/projeto_SO/RaceSimulator/priority_qeue.c">
+>>>>>>> Stashed changes
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/priority_qeue.h">

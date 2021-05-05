@@ -6,5 +6,9 @@ C_DEFINES =
 
 C_INCLUDES = 
 
+<<<<<<< Updated upstream
 C_FLAGS =  -Wall -Wextra -pthread -g -std=gnu11
+=======
+C_FLAGS = -g -std=gnu11
+>>>>>>> Stashed changes
 

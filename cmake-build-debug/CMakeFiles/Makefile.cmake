@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
+<<<<<<< Updated upstream
   "../CMakeLists.txt"
   "CMakeFiles/3.19.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.19.2/CMakeSystem.cmake"
@@ -27,6 +28,31 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/snap/clion/151/bin/cmake/linux/share/cmake-3.19/Modules/Platform/Linux.cmake"
   "/snap/clion/151/bin/cmake/linux/share/cmake-3.19/Modules/Platform/UnixPaths.cmake"
   "/snap/clion/151/bin/cmake/linux/share/cmake-3.19/Modules/ProcessorCount.cmake"
+=======
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeCInformation.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeCommonLanguageInclude.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeExtraGeneratorDetermineCompilerMacrosAndIncludeDirs.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeFindCodeBlocks.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeGenericSystem.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeInitializeConfigs.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeLanguageInformation.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeRCInformation.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeSystemSpecificInformation.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/CMakeSystemSpecificInitialize.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Compiler/GNU-C.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Compiler/GNU.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Platform/CYGWIN-GNU-C.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Platform/CYGWIN-GNU.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Platform/CYGWIN-windres.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Platform/CYGWIN.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/Platform/UnixPaths.cmake"
+  "/cygdrive/c/Users/jfgar/AppData/Local/JetBrains/CLion2021.1/cygwin_cmake/share/cmake-3.19.2/Modules/ProcessorCount.cmake"
+  "../CMakeLists.txt"
+  "CMakeFiles/3.19.2/CMakeCCompiler.cmake"
+  "CMakeFiles/3.19.2/CMakeRCCompiler.cmake"
+  "CMakeFiles/3.19.2/CMakeSystem.cmake"
+>>>>>>> Stashed changes
   )
 
 # The corresponding makefile is:

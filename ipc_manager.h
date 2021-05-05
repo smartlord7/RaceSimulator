@@ -14,6 +14,7 @@
 
 #include <stddef.h>
 #include <semaphore.h>
+#include <sys/msg.h>
 
 // endregion dependencies
 
@@ -26,8 +27,17 @@
 #define DEBUG true
 #define MAX_SEM_LABEL_SIZE 20
 #define SEM_ARRAY "SEM_ARRAY"
+#define MESSAGE_SIZE sizeof(message_t) - sizeof(long)
+#define UNNAMED_PIPE "UNNAMED PIPE"
+#define NAMED PIPE "NAMED PIPE"
 
 // endregion constants
+
+typedef struct message_t message_t;
+struct message_t {
+    long priority;
+    int type_of_malfunction;
+};
 
 // region public functions
 
@@ -166,6 +176,22 @@ void wait_sem(sem_t * sem, const char * sem_name);
  *
  */
 void post_sem(sem_t * sem, const char * sem_name);
+
+int create_msg_queue();
+
+int destroy_message_queue(int msgq_id);
+
+int receive_message(int msgq_id, message_t * message, int priority);
+
+int send_message(int msgq_id, message_t * message);
+
+int create_unnamed_pipe(int file_descriptors[]);
+
+int destroy_file_descriptor(char * context, int file_descriptors[], int num_of_file_descriptors);
+
+int create_named_pipe(const char * pipe_name);
+
+int open_named_pipe(char * pipe_name, int * file_descriptor, int mode);
 
 // endregion public functions
 
