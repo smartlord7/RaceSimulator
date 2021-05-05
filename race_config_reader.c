@@ -14,6 +14,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
+#include "global.h"
 #include "to_float.h"
 #include "read_line.h"
 #include "exception_handler.h"
@@ -228,9 +229,9 @@ static void error_at_line(const char * error_msg, ...) {
     va_list args;
     va_start(args, error_msg);
 
-    char buffer[MAX_EXCEPTION_MSG_SIZE];
+    char buffer[MEDIUM_SIZE];
     vsnprintf(buffer, sizeof(buffer), error_msg, args);
-    char buffer2[MAX_EXCEPTION_MSG_SIZE * 2];
+    char buffer2[LARGE_SIZE];
 
     va_end(args);
 

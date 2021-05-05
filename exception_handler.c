@@ -13,15 +13,12 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
-#include <setjmp.h>
 #include "global.h"
 
 // endregion dependencies
 
 // region global variables
 
-jmp_buf exec_snapshot;
-int exc_value = 0;
 void (* clean_func)(void *) = NULL;
 void * clean_func_params = NULL;
 

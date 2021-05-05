@@ -110,17 +110,10 @@
  */
 #define throw_exception_and_stay(exception_msg, ...) throw_exception(__FILE__, __LINE__, false, exception_msg, __VA_ARGS__)
 
-// TODO Document macros
-#define try if ((exc_value = setjmp(exec_snapshot)) == 0)
-#
-#define catchall else
-
 // endregion macros
 
 // region global variables
 
-extern jmp_buf exec_snapshot;
-extern int exc_value;
 extern void (* clean_func)(void *);
 extern void * clean_func_params;
 
