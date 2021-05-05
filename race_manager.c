@@ -54,5 +54,12 @@ void race_manager(){
 
     exit(EXIT_SUCCESS);
 }
+/*
+int read_command(int fd, int * type, race_car_t * read_data){
+    int n;
+    char buffer[MAX_BUFFER_SIZE];
+
+
+}*/
 
 // endregion public functions
