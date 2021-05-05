@@ -45,7 +45,7 @@ char * get_time();
 
 // region global variables
 
-char * log_file_path = NULL;
+const char * log_file_path = NULL;
 sem_t * mutex = NULL;
 FILE * log_file;
 
@@ -53,11 +53,11 @@ FILE * log_file;
 
 // region public functions
 
-void log_init(char * lg_file_path, sem_t * sem) {
+void log_init(const char * lg_file_path, sem_t * sem) {
     assert(lg_file_path != NULL && sem != NULL);
 
-    if ((log_file = fopen(log_file_path, "a")) == NULL){
-        throw_exception_and_exit(FILE_OPENING_EXCEPTION, log_file_path);
+    if ((log_file = fopen(lg_file_path, "a")) == NULL){
+        throw_exception_and_exit(FILE_OPENING_EXCEPTION, lg_file_path);
     }
 
     log_file_path = lg_file_path;

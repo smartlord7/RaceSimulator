@@ -68,7 +68,7 @@ static void terminate();
 // region global variables
 
 int shm_id;
-shared_memory_t * mem_struct = NULL;
+shared_memory_t * shm = NULL;
 sem_t * output_mutex = NULL,
         * shm_mutex = NULL,
         * race_start = NULL,
@@ -85,8 +85,7 @@ sem_t * output_mutex = NULL,
 
 int main() {
     //initialize debugging and exception handling mechanisms
-    exc_handler_init(NULL, terminate, NULL);
-    debug_init(NULL);
+    exc_handler_init(terminate, NULL);
 
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
@@ -103,7 +102,7 @@ int main() {
 
     DEBUG_MSG(IPCS_CREATED, "")
 
-    mem_struct->cfg = cfg; // There are no other application processes, no MUTEX needed.
+    shm->cfg = cfg; // There are no other application processes, no MUTEX needed.
 
     log_init(LOG_FILE_NAME, output_mutex);
     generate_log_entry(I_SIMULATION_START, NULL);
@@ -135,15 +134,11 @@ int main() {
 static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
-    mem_struct = create_shm(sizeof(shared_memory_t), &shm_id);
+    shm = create_shm(sizeof(shared_memory_t), &shm_id);
 
     output_mutex = create_sem(OUTPUT_MUTEX, 1);
 
     DEBUG_MSG(SEM_CREATED, OUTPUT_MUTEX)
-
-    exc_mutex = output_mutex;
-
-    deb_mutex = output_mutex;
 
     shm_mutex = create_sem(SHM_MUTEX, 1);
 
@@ -163,11 +158,7 @@ static void create_ipcs(int num_teams){
 static void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
 
-    destroy_shm(shm_id, mem_struct);
-
-    deb_mutex = NULL;
-
-    exc_mutex = NULL;
+    destroy_shm(shm_id, shm);
 
     destroy_sem(OUTPUT_MUTEX, output_mutex);
 

@@ -12,7 +12,7 @@
 
 // region dependencies
 
-#include <semaphore.h>
+#include <setjmp.h>
 
 // endregion dependencies
 
@@ -103,11 +103,17 @@
  */
 #define throw_exception_and_stay(exception_msg, ...) throw_exception(__FILE__, __LINE__, false, exception_msg, __VA_ARGS__)
 
+// TODO Document macros
+#define try if ((exc_value = setjmp(exec_snapshot)) == 0)
+#
+#define catchall else
+
 // endregion macros
 
 // region global variables
 
-extern sem_t * exc_mutex;
+extern jmp_buf exec_snapshot;
+extern int exc_value;
 extern void (* clean_func)(void *);
 extern void * clean_func_params;
 
@@ -117,11 +123,8 @@ extern void * clean_func_params;
 
 /**
  * @def exc_handler_init
- * @brief Function that initializes the exception handling mechanisms with a mutex semaphore if synchronization across processes/threads is needed. Also a cleanup function might be provided
+ * @brief Function that initializes the exception handling mechanisms a cleanup function and its parameters.
  * if the exception implies the program to exit.
- *
- * @param mutex
- * The mutex that provides synchronized access to stdout.
  *
  * @param clean_function
  * The cleanup function to be executed before exiting (process/thread killing, allocation freeing, etc.).
@@ -130,7 +133,7 @@ extern void * clean_func_params;
  * A pointer to the cleanup function params.
  *
  */
-void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params);
+void exc_handler_init(void (* clean_function)(void *), void * clean_function_params);
 
 /**
  * @def throw_exception

@@ -19,6 +19,7 @@
 // region constants
 
 #define MAX_TEAM_NAME_SIZE 50
+#define MAX_MAX_CARS_PER_TEAM 20
 
 // endregion constants
 
@@ -52,7 +53,6 @@ struct race_team_t {
     char team_name[MAX_TEAM_NAME_SIZE];
     int num_cars;
     race_box_t * team_box;
-    race_car_t ** cars;
 };
 
 // endregion structures

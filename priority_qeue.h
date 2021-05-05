@@ -13,7 +13,7 @@ typedef struct queue_element_t queue_element;
 struct queue_element_t {
     int priority;
     race_car_t race_car;
-}
+};
 
 void insert_car_in_waiting_queue(race_car_t car);
 

@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "exception_handler.h"
 #include "process_manager.h"
 #include "global.h"
 #include "team_manager.h"
@@ -25,44 +24,31 @@
 void race_manager(){
     DEBUG_MSG(RUNNING_PROCESS, RACE_MANAGER);
 
-    int num_teams = mem_struct->cfg->num_teams, i = 0;
-    race_team_t * teams;
-    race_box_t * boxes;
-
-    //allocate memory space for the teams
-    if ((teams = (race_team_t *) malloc(num_teams * sizeof(race_team_t))) == NULL) {
-        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, TEAMS);
-    }
-
-    if ((boxes = (race_box_t *) malloc(num_teams * sizeof(race_box_t))) == NULL) {
-        throw_exception_and_exit(MEMORY_ALLOCATION_EXCEPTION, BOXES);
-    }
-
-    mem_struct->race_teams = teams;
-    mem_struct->race_boxes = boxes;
+    int num_teams = shm->cfg->num_teams, i = 0;
+    race_team_t * team = NULL;
+    race_box_t * box = NULL;
 
     //create the teams' processes
     while (i < num_teams) {
         char team_name[MAX_LABEL_SIZE];
         snprintf(team_name, MAX_LABEL_SIZE * sizeof(char), "%s_%d", TEAM_MANAGER, i);
 
-        strcpy(teams[i].team_name, team_name);
-        teams[i].team_box = &boxes[i];
-        boxes[i].state = FREE;
-        boxes[i].box_availability = boxes_availability[i];
-        boxes[i].team = &teams[i];
+        team = &shm->race_teams[i];
+        box = &shm->race_boxes[i];
 
-        create_process(TEAM_MANAGER, team_manager, (void *) &teams[i]);
+        strcpy(team->team_name, team_name);
+        team->team_box = box;
+        box->state = FREE;
+        box->box_availability = boxes_availability[i];
+        box->team = team;
+
+        create_process(TEAM_MANAGER, team_manager, (void *) team);
 
         i++;
     }
 
     //wait for all the child processes
     wait_procs();
-
-    //free the allocated memory
-    free(teams);
-    free(boxes);
 
     DEBUG_MSG(EXITING_PROCESS, RACE_MANAGER)
 

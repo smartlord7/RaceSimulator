@@ -8,7 +8,7 @@
 
 int safety_state_priority;
 int capacity;
-int queue[];
+int queue[3];
 
 void priority_queue_init(int queue_capacity, int fuel_tank_capacity){
     capacity = queue_capacity;

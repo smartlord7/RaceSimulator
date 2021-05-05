@@ -13,13 +13,15 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
-#include <semaphore.h>
+#include <setjmp.h>
+#include "global.h"
 
 // endregion dependencies
 
 // region global variables
 
-sem_t * exc_mutex = NULL;
+jmp_buf exec_snapshot;
+int exc_value = 0;
 void (* clean_func)(void *) = NULL;
 void * clean_func_params = NULL;
 
@@ -27,10 +29,9 @@ void * clean_func_params = NULL;
 
 // region public functions
 
-void exc_handler_init(sem_t * sem, void (* clean_function)(void *), void * clean_function_params) {
+void exc_handler_init(void (* clean_function)(void *), void * clean_function_params) {
     assert(clean_function != NULL);
 
-    exc_mutex = sem;
     clean_func = clean_function;
     clean_func_params = clean_function_params;
 }
@@ -41,17 +42,11 @@ void throw_exception(const char * file_name, int line, int exit_process, const c
     va_list args;
     va_start(args, exception_msg);
 
-    if (exc_mutex != NULL) {
-        assert(sem_wait(exc_mutex) != -1);
-    }
+    char buffer[MEDIUM_SIZE], buffer2[LARGE_SIZE];
 
-    fprintf(stderr, "\nEXCEPTION AT LINE %d, FILE %s\n", line, file_name);
-    vfprintf(stderr, exception_msg, args);
-    fprintf(stderr, "\n");
-
-    if (exc_mutex != NULL) {
-        assert(sem_post(exc_mutex) != -1);
-    }
+    snprintf(buffer, MEDIUM_SIZE, "\nEXCEPTION AT LINE %d, FILE %s\n", line, file_name);
+    vsnprintf(buffer2, LARGE_SIZE, exception_msg, args);
+    fprintf(stderr, "%s%s\n", buffer, buffer2);
 
     va_end(args);
 

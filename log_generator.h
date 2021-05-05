@@ -82,7 +82,7 @@ void generate_log_entry(char * mode, void * data);
  * A pointer to a POSIX named semaphore that allows a synchronized output.
  *
  */
-void log_init(char * lg_file_path, sem_t * sem);
+void log_init(const char * lg_file_path, sem_t * sem);
 
 /**
  * @def log_init
@@ -94,7 +94,7 @@ void log_close();
 
 // region global variables
 
-extern char * log_file_path;
+extern const char * log_file_path;
 extern sem_t * mutex;
 
 // endregion global variables

@@ -27,13 +27,20 @@
 #define SHM_MUTEX "SHM_MUTEX"
 #define RACE_START "RACE_START"
 #define MALFUNCTION_MNG_START "MALFUNCTION_MNG_START"
+#define SMALLEST_SIZE 16
+#define XSMALL_SIZE 32
+#define SMALL_SIZE 64
+#define MEDIUM_SIZE 128
+#define LARGE_SIZE 256
+#define XLARGE_SIZE 512
+#define LARGEST SIZE 1024
 
 // endregion constants
 
 // region global variables
 
 extern int shm_id;
-extern shared_memory_t * mem_struct;
+extern shared_memory_t * shm;
 extern sem_t * output_mutex, * shm_mutex, * race_start, * malfunction_mng_start, ** boxes_availability;
 
 // endregion global variables
