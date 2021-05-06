@@ -2,7 +2,7 @@
 #include "sys/msg.h"
 #include "assert.h"
 #include "msg_queue.h"
-#include "../../util/debug/exception_handler.h"
+#include "../../util/exception_handler/exception_handler.h"
 
 int create_msg_queue() {
     int msgq_id;

@@ -10,7 +10,7 @@
 // region dependencies
 
 #include <stdlib.h>
-#include "../../util/debug/exception_handler.h"
+#include "../../ipcs/sync/monitor/monitor.h"
 #include "../../util/global.h"
 #include "malfunction_manager.h"
 
@@ -19,10 +19,11 @@
 // region public functions
 
 void malfunction_manager(){
+    DEBUG_MSG(PROCESS_RUN, MALFUNCTION_MANAGER)
+
+    wait_condition_change();
 
     DEBUG_MSG(PROCESS_EXIT, MALFUNCTION_MANAGER)
-
-    throw_and_stay(NOT_IMPLEMENTED_EXCEPTION, MALFUNCTION_MANAGER);
 
     exit(EXIT_SUCCESS);
 }

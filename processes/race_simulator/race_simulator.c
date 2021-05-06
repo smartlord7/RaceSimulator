@@ -19,10 +19,10 @@
 #include "../race_manager/race_manager.h"
 #include "../malfunction_manager/malfunction_manager.h"
 #include "../../util/process_manager/process_manager.h"
-#include "../../util/debug/exception_handler.h"
+#include "../../util/exception_handler/exception_handler.h"
 #include "../../ipcs/shared_memory/shm.h"
 #include "../../ipcs/sync/semaphore/sem.h"
-#include "../../ipcs/sync/condition_variable/cond_var.h"
+#include "../../ipcs/sync/monitor/monitor.h"
 #include "../../ipcs/sync/mutex/mutex.h"
 
 // endregion dependencies
@@ -33,6 +33,7 @@
 #define LOG_FILE_NAME "log.txt"
 #define RACE_SIMULATOR "RACE_SIMULATOR"
 #define BOX_SEM_PREFIX "BOX_MUTEX_"
+
 
 // endregion constants
 
@@ -102,6 +103,7 @@ int main() {
     DEBUG_MSG(IPCS_CREATE, "")
 
     shm->cfg = cfg; // There are no other application processes, no MUTEX needed.
+    shm->sync_s.start = false;
 
     log_init(LOG_FILE_NAME);
     generate_log_entry(I_SIMULATION_START, NULL);
@@ -137,18 +139,29 @@ static void create_ipcs(int num_teams){
 
     shm_mutex = create_sem(SHM_MUTEX, 1);
 
-
     boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX, 1);
 
-    set_sh_cond_var(&shm->sync_s.cond);
+    monitor_init(&shm->sync_s.start, &shm->sync_s.cond, &shm->sync_s.mutex);
+
+    set_shared_proc(&shm->sync_s.cond);
 
     DEBUG_MSG(COND_VAR_CREATE, RACE_START_COND_VAR)
 
-    //set_sh_mutex(&shm->sync_s.mutex);
+    set_sh_mutex(&shm->sync_s.mutex);
+
+    DEBUG_MSG(MUTEX_CREATE, THREAD_MUTEX)
 }
 
 static void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
+
+    monitor_destroy();
+
+    DEBUG_MSG(COND_VAR_DESTROY, RACE_START_COND_VAR)
+
+    destroy_mutex(&shm->sync_s.mutex);
+
+    DEBUG_MSG(MUTEX_DESTROY, THREAD_MUTEX)
 
     destroy_shm(shm_id, shm);
 
@@ -156,7 +169,6 @@ static void destroy_ipcs(int num_teams){
 
     destroy_sem_array(boxes_availability, num_teams, BOX_SEM_PREFIX);
 
-    //destroy_cond_var(&shm->sync_s.cond);
 
     //DEBUG_MSG(COND_VAR_DESTROY, RACE_START_COND_VAR)
 }

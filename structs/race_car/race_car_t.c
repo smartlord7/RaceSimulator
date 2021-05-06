@@ -14,7 +14,7 @@
 #include <string.h>
 #include <assert.h>
 #include "../../util/strings/strings.h"
-#include "../../util/debug/exception_handler.h"
+#include "../../util/exception_handler/exception_handler.h"
 #include "race_car_t.h"
 
 // endregion dependencies

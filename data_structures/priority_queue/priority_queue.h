@@ -5,8 +5,8 @@
 #ifndef LOG_GENERATOR_C_PRIORITY_QEUE_H
 #define LOG_GENERATOR_C_PRIORITY_QEUE_H
 
-#include "structs/race_car/race_car_t.h"
-#include "structs/race_box/race_box_t.h"
+#include "../../structs/race_car/race_car_t.h"
+#include "../../structs/race_box/race_box_t.h"
 
 typedef struct queue_element_t queue_element_t;
 

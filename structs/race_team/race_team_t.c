@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../util/strings/strings.h"
-#include "../../util/debug/exception_handler.h"
+#include "../../util/exception_handler/exception_handler.h"
 #include "race_team_t.h"
 
 // endregion dependencies

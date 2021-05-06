@@ -16,7 +16,7 @@
 #include <time.h>
 #include <semaphore.h>
 #include "../strings/strings.h"
-#include "../debug/exception_handler.h"
+#include "../exception_handler/exception_handler.h"
 #include "../../ipcs/sync/semaphore/sem.h"
 #include "log_generator.h"
 

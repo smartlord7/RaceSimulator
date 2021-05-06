@@ -2,7 +2,7 @@
 #include "assert.h"
 #include <sys/shm.h>
 #include "../../util/debug/debug.h"
-#include "../../util/debug/exception_handler.h"
+#include "../../util/exception_handler/exception_handler.h"
 #include "shm.h"
 
 void * create_shm(size_t size, int * shm_id_p) {

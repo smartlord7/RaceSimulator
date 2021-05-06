@@ -17,7 +17,7 @@
 #include "../global.h"
 #include "../to_float/to_float.h"
 #include "../read_line/read_line.h"
-#include "../debug/exception_handler.h"
+#include "../exception_handler/exception_handler.h"
 #include "../../structs/race_config/race_config_t.h"
 #include "race_config_reader.h"
 

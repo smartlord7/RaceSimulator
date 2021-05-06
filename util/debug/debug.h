@@ -18,7 +18,7 @@
 
 // region constants
 
-#define DEBUG 1
+#define DEBUG 0
 
 // region ipcs debug msgs
 
@@ -32,6 +32,8 @@
 #define IPCS_CREATE "CREATED IPCS!"
 #define COND_VAR_CREATE "CREATED CONDITION VARIABLE %s!"
 #define COND_VAR_DESTROY "DESTROYED CONDITION VARIABLE %s"
+#define MUTEX_CREATE "CREATED MUTEX %s!"
+#define MUTEX_DESTROY "DESTROYED MUTEX %s"
 
 // endregion IPCS debug messages
 

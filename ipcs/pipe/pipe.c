@@ -4,7 +4,7 @@
 #include "fcntl.h"
 #include "sys/stat.h"
 #include "pipe.h"
-#include "../../util/debug/exception_handler.h"
+#include "../../util/exception_handler/exception_handler.h"
 
 void create_unn_pipe(int fds[2]){
     assert(fds != NULL);

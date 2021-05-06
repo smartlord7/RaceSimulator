@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="RaceSimulator"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RaceSimulator">
+				<Option output="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/RaceSimulator" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 RaceSimulator"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="RaceSimulator/fast">
+				<Option output="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/RaceSimulator" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 RaceSimulator/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/malfunction_manager/malfunction_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/malfunction_manager/malfunction_manager.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_manager/race_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_manager/race_manager.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_simulator/race_simulator.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_config/race_config_t.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_config/race_config_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/sync_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/global.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/race_config_reader/race_config_reader.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/race_config_reader/race_config_reader.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/read_line/read_line.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/read_line/read_line.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/to_float/to_float.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/to_float/to_float.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

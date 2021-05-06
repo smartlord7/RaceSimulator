@@ -82,13 +82,13 @@ enum race_car_state {
  * The consumption in normal conditions, in liters per time unit, of the race car.
  *
  * @var race_car_t::current_consumption
- * The current consumption of the race car, since it can change according to its current state.
+ * The current consumption of the race car, since it can change_condition according to its current state.
  *
  * @var race_car_t::speed
  * The speed in normal conditions, in meters per time unit, of the race car.
  *
  * @var race_car_t::current_speed
- * The current speed of the race car, since it can change according to its current state.
+ * The current speed of the race car, since it can change_condition according to its current state.
  *
  * @var race_car_t::reliability
  * The reliability, between 0 and 1, of the race car.

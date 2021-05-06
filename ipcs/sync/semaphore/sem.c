@@ -3,7 +3,7 @@
 #include "assert.h"
 #include "fcntl.h"
 #include "semaphore.h"
-#include "../../../util/debug/exception_handler.h"
+#include "../../../util/exception_handler/exception_handler.h"
 #include "../../../util/debug/debug.h"
 #include "sem.h"
 

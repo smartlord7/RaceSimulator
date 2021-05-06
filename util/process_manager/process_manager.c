@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/wait.h>
-#include "../debug/exception_handler.h"
+#include "../exception_handler/exception_handler.h"
 #include "process_manager.h"
 
 // endregion dependencies

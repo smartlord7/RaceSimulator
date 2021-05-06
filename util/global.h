@@ -22,9 +22,9 @@
 
 #define true 1
 #define false 0
-#define OUTPUT_MUTEX "OUTPUT_MUTEX"
 #define SHM_MUTEX "SHM_MUTEX"
 #define RACE_START_COND_VAR "RACE_START_COND_VAR"
+#define THREAD_MUTEX "THREAD_MUTEX"
 
 #define SMALLEST_SIZE 16
 #define XSMALL_SIZE 32
@@ -38,7 +38,7 @@
 
 // region global variables
 
-extern int shm_id;
+extern int shm_id, start;
 extern shared_memory_t * shm;
 extern sem_t * output_mutex, * shm_mutex, ** boxes_availability;
 

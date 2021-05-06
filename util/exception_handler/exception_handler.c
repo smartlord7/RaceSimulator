@@ -9,10 +9,12 @@
 
 // region dependencies
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <assert.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+#include "stdarg.h"
+#include "assert.h"
+#include "errno.h"
 #include "../global.h"
 
 // endregion dependencies
@@ -43,7 +45,7 @@ void throw_exception(const char * file_name, int line, int exit_process, const c
 
     snprintf(buffer, MEDIUM_SIZE, "\nEXCEPTION AT LINE %d, FILE %s\n", line, file_name);
     vsnprintf(buffer2, LARGE_SIZE, exception_msg, args);
-    fprintf(stderr, "%s%s\n", buffer, buffer2);
+    fprintf(stderr, "%s%s\n[ERRNO:%d] %s", buffer, buffer2, errno, strerror(errno));
 
     va_end(args);
 

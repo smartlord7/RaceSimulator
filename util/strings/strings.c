@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "../debug/exception_handler.h"
+#include "../exception_handler/exception_handler.h"
 
 // endregion dependencies
 
