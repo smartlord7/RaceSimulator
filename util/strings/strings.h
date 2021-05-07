@@ -44,6 +44,8 @@ char * string(int size);
  */
 char * append(char * first, char * second);
 
+char * trim_string(char * buffer, int size);
+
 // region public functions prototypes
 
 #endif //RACE_SIMULATOR_C_STRINGS_H

@@ -53,6 +53,7 @@ struct shared_memory_t {
     race_car_t race_cars[MAX_NUM_TEAMS][MAX_MAX_CARS_PER_TEAM];
     race_box_t race_boxes[MAX_NUM_TEAMS];
     sync_t sync_s;
+
     int cars_on_track,
         total_num_cars,    // TODO: Integrate in a stats struct.
         num_malfunctions,

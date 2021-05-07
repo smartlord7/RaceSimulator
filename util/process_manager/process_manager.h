@@ -78,7 +78,6 @@ void terminate_proc_grp(pid_t proc_group_id);
  * @throws ThreadCreationException if the thread can't be created.
  *
  */
-
 void create_thread(const char * thread_name, pthread_t * thread_p, void * (* worker)(void *), void * params);
 
 /**

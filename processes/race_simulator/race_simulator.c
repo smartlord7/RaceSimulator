@@ -81,7 +81,7 @@ static void show_stats(void);
 
 // region global variables
 
-int shm_id, malfunction_msg_q_id, named_pipe;
+int shm_id, malfunction_msg_q_id, fd_named_pipe;
 race_config_t config;
 pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
@@ -158,9 +158,7 @@ static void create_ipcs(int num_teams){
     monitor_init(&shm->sync_s.global_timer_start, &shm->sync_s.global_timer_start_cond, &shm->sync_s.global_timer_start_mutex, true);
     monitor_init(&shm->sync_s.global_timer_end, &shm->sync_s.global_timer_end_cond, &shm->sync_s.global_timer_end_mutex, true);
 
-    //create named pipe
-    //create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDWR);
-    //TODO: handle_named_pipe(&shm->fd_named_pipe); - create process to read input from user
+    create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDONLY);
 
 
     //set_sh_mutex(&shm->sync_s.mutex);
@@ -182,18 +180,6 @@ static void destroy_ipcs(int num_teams){
 
 static void show_stats() {
 
-}
-
-void handle_named_pipe(int * fd) {
-
-    if(pthread_create(&npipe_thread_id, NULL, (void *) watch_named_pipe, (void *) fd) != 0) {
-        throw_and_exit(THREAD_CREATE_EXCEPTION, "NAMED PIPE HANDLER");
-    }
-
-}
-
-void watch_named_pipe(void * fd) {
-    //TODO: read input from user and redirect to named pipe
 }
 
 static void terminate() {
