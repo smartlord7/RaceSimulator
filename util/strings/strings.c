@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
 #include "../exception_handler/exception_handler.h"
 
 // endregion dependencies
@@ -46,6 +47,27 @@ char * append(char * first, char * second) {
     }
 
     return first;
+}
+
+char * trim_string(char * buffer, int size){
+    int i, j;
+
+    // cleanup any white spaces before
+    i = 0;
+    while(i < size && isspace(*buffer)){
+        i++;
+        buffer++;
+    }
+
+    // cleanup any whitespace after
+    j = 0;
+    while(i < size && !isspace(buffer[j])){
+        j++;
+        i++;
+    }
+    buffer[j] = '\0';
+
+    return buffer;
 }
 
 // endregion public functions

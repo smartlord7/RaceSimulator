@@ -12,19 +12,27 @@
 
 // region constants
 
+#define DELIM_1 ","
+#define DELIM_2 ":"
+
 #define RACE_MANAGER "RACE_MANAGER"
 #define TEAMS "TEAMS"
 #define BOXES "BOXES"
 #define ADDCAR "ADDCAR"
 #define START "START"
+#define CAR "CAR"
+#define TEAM "TEAM"
+#define SPEED "SPEED"
+#define CONSUMPTION "CONSUMPTION"
+#define RELIABILITY "RELIABILITY"
+#define N_PIPE_WATCHER "NAMED PIPE WATCHER"
+#define START_RACE "START_RACE!"
 
-#define RESULT_NEW_TEAM 0
-#define RESULT_NEW_CAR 1
-#define RESULT_NOT_RECO 2
-#define RESULT_INVALID_CAR_DATA 3
-#define RESULT_INVALID_TEAM 4
-#define RESULT_NOT_ALL_TEAMS 5
-#define RESULT_RACE_STARTED 6
+#define RESULT_NOT_RECO 0
+#define RESULT_INVALID_COMMAND 1
+#define RESULT_NEW_CAR 2
+
+
 
 #define COMMAND_PREVIEW_SIZE 7
 

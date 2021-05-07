@@ -81,7 +81,7 @@ static void show_stats(void);
 
 // region global variables
 
-int shm_id, malfunction_msg_q_id, named_pipe;
+int shm_id, malfunction_msg_q_id, fd_named_pipe;
 race_config_t config;
 pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
@@ -107,6 +107,7 @@ int main() {
     race_config_t * cfg = read_race_config();
 
     config = * cfg;
+
     free(cfg);
 
     //create interprocess communication mechanisms
@@ -124,7 +125,7 @@ int main() {
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
-    signal(SIGTSTP, (_sig_func_ptr) show_stats);
+    //signal(SIGTSTP, show_stats);
 
     // handle SIGINT
     signal(SIGINT, terminate);
