@@ -4,6 +4,7 @@
 CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.c
  /home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.h
@@ -24,7 +25,15 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.c
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_config/race_config_t.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/sync_t.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
 CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
@@ -105,6 +114,7 @@ CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o
+ /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.c
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
@@ -117,6 +127,7 @@ CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.h
 CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o
+ /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.c

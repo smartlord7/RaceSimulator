@@ -15,13 +15,13 @@ void * create_shm(size_t size, int * shm_id_p) {
         throw_and_exit(SHM_CREATE_EXCEPTION, "");
     }
 
-    DEBUG_MSG(SHM_CREATE, created_shm_id)
+    DEBUG_MSG(SHM_CREATE, DEBUG_LEVEL_SETUP, created_shm_id)
 
     if ((shm = shmat(created_shm_id, NULL, 0)) == (void *) - 1){
         throw_and_exit(SHM_ATTACH_EXCEPTION, created_shm_id);
     }
 
-    DEBUG_MSG(SHM_ATTACH, created_shm_id)
+    DEBUG_MSG(SHM_ATTACH, DEBUG_LEVEL_SETUP, created_shm_id)
 
     * shm_id_p = created_shm_id;
 
@@ -35,11 +35,11 @@ void destroy_shm(int shm_id, void * shared_mem) {
         throw_and_exit(SHM_DETACH_EXCEPTION, shm_id);
     }
 
-    DEBUG_MSG(SHM_DETACH, shm_id)
+    DEBUG_MSG(SHM_DETACH, DEBUG_LEVEL_SETUP, shm_id)
 
     if (shmctl(shm_id, IPC_RMID, NULL) == -1){
         throw_and_exit(SHM_REMOVE_EXCEPTION, shm_id);
     }
 
-    DEBUG_MSG(SHM_REMOVED, shm_id)
+    DEBUG_MSG(SHM_REMOVED, DEBUG_LEVEL_SETUP, shm_id)
 }

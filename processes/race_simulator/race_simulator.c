@@ -12,11 +12,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <assert.h>
-#include <stdio.h>
-#include <assert.h>
 #include <pthread.h>
-#include <sys/fcntl.h>
 #include <signal.h>
+#include <stdio.h>
 #include "../../util/global.h"
 #include "../../util/log_generator/log_generator.h"
 #include "../../util/race_config_reader/race_config_reader.h"
@@ -43,6 +41,7 @@
 // endregion constants
 
 // region private functions prototypes
+static void init_global_clock();
 
 /**
  * @def create_ipcs
@@ -75,7 +74,7 @@ static void handle_named_pipe(int * fd);
 
 static void watch_named_pipe(void * fd);
 
-static void show_stats(void);
+static void show_stats(int signum);
 
 // endregion private functions prototypes
 
@@ -85,7 +84,7 @@ int shm_id, malfunction_msg_q_id, fd_named_pipe;
 race_config_t config;
 pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
-sem_t * shm_mutex,  ** boxes_availability = NULL;
+sem_t ** boxes_availability = NULL;
 
 // endregion global variables
 
@@ -101,6 +100,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
+    debug_init(DEBUG_LEVEL_EVENT, false);
 
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
@@ -113,7 +113,7 @@ int main() {
     //create interprocess communication mechanisms
     create_ipcs(config.num_teams);
 
-    shm->sync_s.start = false;
+    shm->sync_s.race_start = false;
 
     log_init(LOG_FILE_NAME);
     generate_log_entry(I_SIMULATION_START, NULL);
@@ -133,7 +133,7 @@ int main() {
     // test start_cond var
     sleep(1);
 
-    change_condition(true, RACE_START_MONITOR);
+    monitor_change(true, RACE_START_MONITOR);
 
     //wait for all of the child processes
     wait_procs();
@@ -155,9 +155,7 @@ static void create_ipcs(int num_teams){
 
     boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX, 1);
 
-    monitor_init(&shm->sync_s.start, &shm->sync_s.start_cond, &shm->sync_s.start_mutex, true);
-    monitor_init(&shm->sync_s.global_timer_start, &shm->sync_s.global_timer_start_cond, &shm->sync_s.global_timer_start_mutex, true);
-    monitor_init(&shm->sync_s.global_timer_end, &shm->sync_s.global_timer_end_cond, &shm->sync_s.global_timer_end_mutex, true);
+    monitor_init(&shm->sync_s.race_start, &shm->sync_s.start_cond, &shm->sync_s.mutex, true);
 
     //create named pipe
     //create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDWR);
@@ -181,7 +179,7 @@ static void destroy_ipcs(int num_teams){
     destroy_msg_queue(malfunction_msg_q_id);
 }
 
-static void show_stats() {
+static void show_stats(int signum) {
 
 }
 
@@ -198,7 +196,10 @@ void watch_named_pipe(void * fd) {
 }
 
 static void terminate() {
-    terminate_proc_grp(getpgrp());
+    destroy_ipcs(config.num_teams);
+    kill(getpid(), SIGKILL);
+
+    exit(EXIT_FAILURE);
 
     // TODO Remove IPCs on abrupt termination.
 }

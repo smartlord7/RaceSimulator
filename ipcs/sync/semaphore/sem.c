@@ -23,11 +23,11 @@ void destroy_sem(const char * sem_name, sem_t * sem) {
 
     throw_if_exit(sem_close(sem) == -1, SEM_CLOSE_EXCEPTION, sem_name);
 
-    DEBUG_MSG(SEM_CLOSE, sem_name)
+    DEBUG_MSG(SEM_CLOSE, DEBUG_LEVEL_SETUP, sem_name)
 
     throw_if_exit(sem_unlink(sem_name) == -1, SEM_UNLINK_EXCEPTION, sem_name);
 
-    DEBUG_MSG(SEM_UNLINK, sem_name);
+    DEBUG_MSG(SEM_UNLINK, DEBUG_LEVEL_SETUP, sem_name);
 }
 
 sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_value) {
@@ -45,7 +45,7 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_val
 
         sem_array[i] = create_sem(sem_name, initial_value);
 
-        DEBUG_MSG(SEM_CREATE, sem_name)
+        DEBUG_MSG(SEM_CREATE, DEBUG_LEVEL_SETUP, sem_name)
 
         i++;
     }

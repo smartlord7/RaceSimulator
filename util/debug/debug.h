@@ -18,7 +18,14 @@
 
 // region constants
 
-#define DEBUG 0
+
+#define DEBUG 1
+#define DEBUG_LEVEL_SETUP 0
+#define DEBUG_LEVEL_ENTRY 1
+#define DEBUG_LEVEL_PARAM 2
+#define DEBUG_LEVEL_GENERAL 3
+#define DEBUG_LEVEL_EVENT 4
+
 
 // region ipcs debug msgs
 
@@ -37,10 +44,15 @@
 
 // endregion IPCS debug messages
 
+#define CAR_MOVE "[CAR %d] RAN %.2fm!"
+#define CAR_FINISH "[CAR %d] FINISHED THE RACE!"
+#define GLOBAL_CLOCK "[GLOBAL_CLOCK] %d tu"
+
+
 // region proc/threads debug msgs
 
 #define PROCESS_RUN "RUNNING PROCESS %s..."
-#define THREAD_RUN "RNNING THREAD %s..."
+#define THREAD_RUN "RUNNING THREAD %s..."
 #define PROCESS_EXIT "EXITING PROCESS %s..."
 #define THREAD_EXIT "EXITING THREAD %s..."
 
@@ -63,27 +75,11 @@
  * The formatting arguments.
  *
  */
-#define DEBUG_MSG(d_msg, ...) if (DEBUG) debug_msg(__FILE__, __LINE__, d_msg, __VA_ARGS__);
+#define DEBUG_MSG(d_msg, deb_level, ...) if (DEBUG) debug_msg(__FILE__, __LINE__, d_msg, deb_level, __VA_ARGS__);
 
 // endregion macros
 
-// region global variables
-
-extern sem_t * deb_mutex; // mutex used to provide synchronized output.
-
-// endregion global variables
-
 // region public functions prototypes
-
-/**
- * @def debug_init
- * @brief Function that initializes the debugging mechanisms with a mutex semaphore if synchronization across processes/threads is needed.
- *
- * @param mutex
- * The mutex that provides synchronized access to stdout.
- *
- */
-void debug_init(sem_t * mutex);
 
 /**
  * @def debug_msg
@@ -102,7 +98,8 @@ void debug_init(sem_t * mutex);
  * The formatting arguments.
  *
  */
-void debug_msg(const char * file_name, int line, const char * msg, ...);
+extern void debug_msg(const char * file_name, int line, const char * msg, int deb_level, ...);
+extern void debug_init(int deb_level, int sh_origin);
 
 // endregion public functions prototypes
 

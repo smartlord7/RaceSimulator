@@ -67,8 +67,6 @@ void wait_threads(int num_threads, pthread_t * threads) {
             throw_and_exit(THREAD_JOIN_EXCEPTION, "");
         }
 
-        pthread_kill(threads[i], SIGKILL);
-
         i++;
     }
 }

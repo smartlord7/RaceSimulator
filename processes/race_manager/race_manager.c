@@ -51,7 +51,7 @@ pthread_t watcher_id;
 
 void race_manager(){
 
-    DEBUG_MSG(PROCESS_RUN, RACE_MANAGER);
+    DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, RACE_MANAGER);
 
     race_team_t * team = NULL;
     race_box_t * box = NULL;

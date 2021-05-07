@@ -83,13 +83,13 @@ enum race_car_state {
  * The consumption in normal conditions, in liters per time unit, of the race car.
  *
  * @var race_car_t::current_consumption
- * The current consumption of the race car, since it can change_condition according to its current state.
+ * The current consumption of the race car, since it can monitor_change according to its current state.
  *
  * @var race_car_t::speed
  * The speed in normal conditions, in meters per time unit, of the race car.
  *
  * @var race_car_t::current_speed
- * The current speed of the race car, since it can change_condition according to its current state.
+ * The current speed of the race car, since it can monitor_change according to its current state.
  *
  * @var race_car_t::reliability
  * The reliability, between 0 and 1, of the race car.
@@ -98,7 +98,7 @@ enum race_car_state {
  * The current position of the race car on the racing track.
  *
  * @var race_car_t::timer
- * The time, in seconds, between the race start and when the race car crosses the finish line.
+ * The time, in seconds, between the race race_start and when the race car crosses the finish line.
  */
 struct race_car_t{
     race_team_t * team;

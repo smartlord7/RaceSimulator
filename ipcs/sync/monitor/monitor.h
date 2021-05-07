@@ -15,17 +15,21 @@ extern void monitor_destroy_all();
 extern void monitor_destroy(int i);
 extern void set_shared_proc(int i);
 extern void monitor_wait(int i);
-extern void change_condition(int new_value, int i);
+extern void monitor_wait_(mutex_t * mutex, cond_t * cond);
+extern void monitor_change(int new_value, int i);
 extern void monitor_broadcast(int i);
-extern void wait_condition_change(int i);
+extern void monitor_wait_change(int i);
 extern void set_condition(int * condit, int i);
 extern void set_cond_var(cond_t * cond_var, int i);
 extern void set_mutex(mutex_t * cond_mutex, int i);
+extern void cond_var_wait(cond_t * cond_var, mutex_t * cond_mutex);
 
 struct monitor_t {
     int shared_proc, * condition;
     cond_t * cond_var;
     mutex_t * mutex;
+    void (* func)(void *);
+    void * func_args;
 };
 
 #endif //IPCS_COND_VAR_H

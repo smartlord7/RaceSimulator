@@ -9,9 +9,9 @@
 
 // region dependencies
 
+#include <unistd.h>
 #include "stdio.h"
 #include "stdlib.h"
-#include "unistd.h"
 #include "math.h"
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../ipcs/message_queue/msg_queue.h"
@@ -39,37 +39,34 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 // region public functions
 
 void malfunction_manager(){
-    DEBUG_MSG(PROCESS_RUN, MALFUNCTION_MANAGER)
+    DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, MALFUNCTION_MANAGER)
 
-    wait_condition_change(RACE_START_MONITOR);
-
-    uint malfunction_interval = tu_to_usec(config.malfunction_interval);
+    uint malfunction_interval = tu_to_nsec(config.malfunction_interval);
     int i, j, rdm_index;
     float prob_malfunction;
     race_car_t * car;
     malfunction_t msg;
-    sleep(1); // TODO REMOVE
+
+    struct timespec tim, tim2;
+    tim.tv_sec = 0;
+    tim.tv_nsec = malfunction_interval;
+
+    monitor_wait_change(RACE_START_MONITOR);
 
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
             for (j = 0; j < shm->race_teams[i].num_cars; j++) {
                 car = &shm->race_cars[i][j];
 
-                SYNC_CAR
                 if (car->state == IN_BOX || car->state == SAFETY) {
-                    END_SYNC_CAR
                     continue;
                 }
-                END_SYNC_CAR
 
                 prob_malfunction = 1 - car->reliability;
 
                 if (random_uniform_event(prob_malfunction)) {
-
-                    SYNC
                     shm->cars_on_track--;
                     shm->num_malfunctions++;
-                    END_SYNC
 
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
@@ -79,10 +76,10 @@ void malfunction_manager(){
             }
         }
 
-        usleep(malfunction_interval);
+        nanosleep(&tim, &tim2);
     }
 
-    DEBUG_MSG(PROCESS_EXIT, MALFUNCTION_MANAGER)
+    DEBUG_MSG(PROCESS_EXIT, DEBUG_LEVEL_ENTRY, MALFUNCTION_MANAGER)
 
     exit(EXIT_SUCCESS);
 }
