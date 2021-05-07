@@ -71,11 +71,11 @@ static void destroy_ipcs(int num_teams);
  */
 static void terminate();
 
-void handle_named_pipe(int * fd);
+static void handle_named_pipe(int * fd);
 
-void watch_named_pipe(void * fd);
+static void watch_named_pipe(void * fd);
 
-void print_stats(void);
+static void show_stats(void);
 
 // endregion private functions prototypes
 
@@ -96,6 +96,8 @@ sem_t * shm_mutex,  ** boxes_availability = NULL;
  */
 
 int main() {
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
@@ -104,18 +106,11 @@ int main() {
     race_config_reader_init(CONFIG_FILE_NAME);
     race_config_t * cfg = read_race_config();
 
-    DEBUG_MSG(RACE_CONFIG_CREATED, "")
-
-    #if DEBUG
-    printf("%s", race_config_to_string(config));
-    #endif
-
-    config = * cfg; // There are no other application processes, no MUTEX needed.
+    config = * cfg;
+    free(cfg);
 
     //create interprocess communication mechanisms
     create_ipcs(config.num_teams);
-
-    DEBUG_MSG(IPCS_CREATE, "")
 
     shm->sync_s.start = false;
 
@@ -129,15 +124,15 @@ int main() {
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
-    //signal(SIGTSTP, (_sig_func_ptr) print_stats);
+    signal(SIGTSTP, (_sig_func_ptr) show_stats);
 
     // handle SIGINT
     signal(SIGINT, terminate);
 
-    // test cond var
+    // test start_cond var
     sleep(1);
 
-    change_condition(true);
+    change_condition(true, RACE_START_MONITOR);
 
     //wait for all of the child processes
     wait_procs();
@@ -146,11 +141,6 @@ int main() {
 
     //destroy interprocess communication mechanisms
     destroy_ipcs(config.num_teams);
-
-    //release allocated memory for configs
-    free(cfg);
-
-    DEBUG_MSG(PROCESS_EXIT, RACE_SIMULATOR)
 
     return EXIT_SUCCESS;
 }
@@ -162,19 +152,12 @@ static void create_ipcs(int num_teams){
 
     shm = create_shm(sizeof(shared_memory_t), &shm_id);
 
-    shm_mutex = create_sem(SHM_MUTEX, 1);
-
     boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX, 1);
 
-    monitor_init(&shm->sync_s.start, &shm->sync_s.cond, &shm->sync_s.mutex);
+    monitor_init(&shm->sync_s.start, &shm->sync_s.start_cond, &shm->sync_s.start_mutex, true);
+    monitor_init(&shm->sync_s.global_timer_start, &shm->sync_s.global_timer_start_cond, &shm->sync_s.global_timer_start_mutex, true);
+    monitor_init(&shm->sync_s.global_timer_end, &shm->sync_s.global_timer_end_cond, &shm->sync_s.global_timer_end_mutex, true);
 
-    set_shared_proc(&shm->sync_s.cond);
-
-    DEBUG_MSG(COND_VAR_CREATE, RACE_START_COND_VAR)
-
-    set_sh_mutex(&shm->sync_s.mutex);
-
-    DEBUG_MSG(MUTEX_CREATE, THREAD_MUTEX)
     //create named pipe
     //create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDWR);
     //TODO: handle_named_pipe(&shm->fd_named_pipe); - create process to read input from user
@@ -188,24 +171,17 @@ static void create_ipcs(int num_teams){
 static void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
 
-    monitor_destroy();
-
-    DEBUG_MSG(COND_VAR_DESTROY, RACE_START_COND_VAR)
-
-    destroy_mutex(&shm->sync_s.mutex);
-
-    DEBUG_MSG(MUTEX_DESTROY, THREAD_MUTEX)
+    monitor_destroy_all();
 
     destroy_shm(shm_id, shm);
-
-    destroy_sem(SHM_MUTEX, shm_mutex);
 
     destroy_sem_array(boxes_availability, num_teams, BOX_SEM_PREFIX);
 
     destroy_msg_queue(malfunction_msg_q_id);
+}
 
+static void show_stats() {
 
-    //DEBUG_MSG(COND_VAR_DESTROY, RACE_START_COND_VAR)
 }
 
 void handle_named_pipe(int * fd) {

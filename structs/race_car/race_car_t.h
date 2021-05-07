@@ -13,6 +13,7 @@
 // region dependencies
 
 #include "../race_team/race_team_t.h"
+#include "../../ipcs/sync/mutex/mutex.h"
 
 // endregion dependencies
 
@@ -103,6 +104,7 @@ struct race_car_t{
     race_team_t * team;
     char name[MAX_LABEL_SIZE];
     race_car_state state;
+    mutex_t mutex;
     int car_id,
             completed_laps,
             num_box_stops,

@@ -94,12 +94,6 @@ void race_manager(){
 int get_named_pipe_fd() {
     int aux;
 
-    //get named pipe file descriptor in mutual exclusion
-    sem_wait(shm_mutex);
-
-    //aux = fd_named_pipe;
-
-    sem_post(shm_mutex);
 
     return aux;
 }
@@ -107,12 +101,9 @@ int get_named_pipe_fd() {
 int get_num_teams() {
     int aux;
 
-    //get named pipe file descriptor in mutual exclusion
-    sem_wait(shm_mutex);
 
     aux = config.num_teams;
 
-    sem_post(shm_mutex);
 
     return aux;
 }

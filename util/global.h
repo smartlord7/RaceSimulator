@@ -26,9 +26,14 @@
 #define SHM_MUTEX "SHM_MUTEX"
 #define RACE_START_COND_VAR "RACE_START_COND_VAR"
 #define THREAD_MUTEX "THREAD_MUTEX"
+#define RACE_START_MONITOR 0
+#define GLOBAL_TIMER_START 1
+#define GLOBAL_TIMER_END 2
 
-#define SYNC lock_mutex(&shm->sync_s.mutex);
-#define END_SYNC unlock_mutex(&shm->sync_s.mutex);
+#define SYNC lock_mutex(&shm->sync_s.start_mutex);
+#define END_SYNC unlock_mutex(&shm->sync_s.start_mutex);
+#define SYNC_CAR lock_mutex(&car->mutex);
+#define END_SYNC_CAR unlock_mutex(&car->mutex);
 #define tu_to_usec(t) (unsigned int) ((t) / config.time_units_per_sec * pow(10, 6))
 
 #define SMALLEST_SIZE 16
@@ -43,10 +48,10 @@
 
 // region global variables
 
-extern int shm_id, fd_named_pipe, malfunction_msg_q_id;
+extern int shm_id, malfunction_msg_q_id;
 extern shared_memory_t * shm;
 extern race_config_t config;
-extern sem_t * shm_mutex, ** boxes_availability;
+extern sem_t ** boxes_availability;
 
 // endregion global variables
 

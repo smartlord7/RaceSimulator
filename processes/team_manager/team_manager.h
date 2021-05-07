@@ -12,6 +12,7 @@
 
 // region constants
 
+#define MIN_FUEL_LAPS 2
 #define TEAM_MANAGER "TEAM_MANAGER"
 #define RACE_TEAM "RACE_TEAM"
 #define CAR_THREAD "CAR_THREAD"

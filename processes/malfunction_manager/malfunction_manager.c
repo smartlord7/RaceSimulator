@@ -41,28 +41,28 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 void malfunction_manager(){
     DEBUG_MSG(PROCESS_RUN, MALFUNCTION_MANAGER)
 
-    wait_condition_change();
+    wait_condition_change(RACE_START_MONITOR);
 
     uint malfunction_interval = tu_to_usec(config.malfunction_interval);
     int i, j, rdm_index;
     float prob_malfunction;
-    race_car_t current_car;
+    race_car_t * car;
     malfunction_t msg;
     sleep(1); // TODO REMOVE
 
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
             for (j = 0; j < shm->race_teams[i].num_cars; j++) {
-                current_car = shm->race_cars[i][j];
+                car = &shm->race_cars[i][j];
 
-                SYNC
-                if (current_car.state == IN_BOX || current_car.state == SAFETY) {
-                    END_SYNC
+                SYNC_CAR
+                if (car->state == IN_BOX || car->state == SAFETY) {
+                    END_SYNC_CAR
                     continue;
                 }
-                END_SYNC
+                END_SYNC_CAR
 
-                prob_malfunction = 1 - current_car.reliability;
+                prob_malfunction = 1 - car->reliability;
 
                 if (random_uniform_event(prob_malfunction)) {
 
@@ -72,8 +72,8 @@ void malfunction_manager(){
                     END_SYNC
 
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
-                    snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], current_car.car_id);
-                    msg.car_id = current_car.car_id;
+                    snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
+                    msg.car_id = car->car_id;
                     snd_msg(malfunction_msg_q_id, (void *) &msg, sizeof(msg));
                 }
             }
