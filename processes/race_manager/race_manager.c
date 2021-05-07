@@ -34,7 +34,7 @@ void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, RACE_MANAGER);
 
-    int num_teams = get_num_teams(), i = 0;
+    int num_teams = config.num_teams, i = 0;
     race_team_t * team = NULL;
     race_box_t * box = NULL;
     race_car_t * car = NULL;
@@ -52,6 +52,7 @@ void race_manager(){
         box = &shm->race_boxes[i];
 
         strcpy(team->team_name, team_name);
+        team->team_id = i;
         team->team_box = box;
         box->state = FREE;
         box->box_availability = boxes_availability[i];
@@ -96,7 +97,7 @@ int get_named_pipe_fd() {
     //get named pipe file descriptor in mutual exclusion
     sem_wait(shm_mutex);
 
-    aux = shm->fd_named_pipe;
+    //aux = fd_named_pipe;
 
     sem_post(shm_mutex);
 
@@ -109,7 +110,7 @@ int get_num_teams() {
     //get named pipe file descriptor in mutual exclusion
     sem_wait(shm_mutex);
 
-    aux = shm->cfg->num_teams;
+    aux = config.num_teams;
 
     sem_post(shm_mutex);
 

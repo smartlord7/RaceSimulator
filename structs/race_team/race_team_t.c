@@ -30,7 +30,7 @@
 
 // region public functions
 
-race_team_t * race_team(const char * team_name) {
+race_team_t * race_team(int team_id, const char * team_name) {
     race_team_t * new;
 
     if ((new = (race_team_t *) calloc(1, sizeof(race_team_t))) == NULL) {
@@ -38,6 +38,7 @@ race_team_t * race_team(const char * team_name) {
     }
 
     strcpy(new->team_name, team_name);
+    new->team_id = team_id;
 
     return new;
 }

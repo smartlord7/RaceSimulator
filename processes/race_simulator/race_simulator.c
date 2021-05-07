@@ -11,10 +11,12 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <assert.h>
 #include <stdio.h>
 #include <assert.h>
 #include <pthread.h>
 #include <sys/fcntl.h>
+#include <signal.h>
 #include "../../util/global.h"
 #include "../../util/log_generator/log_generator.h"
 #include "../../util/race_config_reader/race_config_reader.h"
@@ -24,13 +26,8 @@
 #include "../../util/exception_handler/exception_handler.h"
 #include "../../ipcs/shared_memory/shm.h"
 #include "../../ipcs/sync/semaphore/sem.h"
-<<<<<<< Updated upstream
-#include "../../ipcs/sync/monitor/monitor.h"
-=======
-#include "../../ipcs/sync/condition_variable/cond_var.h"
+#include "../../ipcs/message_queue/msg_queue.h"
 #include "../../ipcs/pipe/pipe.h"
->>>>>>> Stashed changes
-#include "../../ipcs/sync/mutex/mutex.h"
 
 // endregion dependencies
 
@@ -84,7 +81,8 @@ void print_stats(void);
 
 // region global variables
 
-int shm_id, fd_named_pipe;
+int shm_id, malfunction_msg_q_id, named_pipe;
+race_config_t config;
 pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
 sem_t * shm_mutex,  ** boxes_availability = NULL;
@@ -109,15 +107,16 @@ int main() {
     DEBUG_MSG(RACE_CONFIG_CREATED, "")
 
     #if DEBUG
-    printf("%s", race_config_to_string(cfg));
+    printf("%s", race_config_to_string(config));
     #endif
 
+    config = * cfg; // There are no other application processes, no MUTEX needed.
+
     //create interprocess communication mechanisms
-    create_ipcs(cfg->num_teams);
+    create_ipcs(config.num_teams);
 
     DEBUG_MSG(IPCS_CREATE, "")
 
-    shm->cfg = cfg; // There are no other application processes, no MUTEX needed.
     shm->sync_s.start = false;
 
     log_init(LOG_FILE_NAME);
@@ -130,10 +129,15 @@ int main() {
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
-    signal(SIGTSTP, (_sig_func_ptr) print_stats);
+    //signal(SIGTSTP, (_sig_func_ptr) print_stats);
 
     // handle SIGINT
     signal(SIGINT, terminate);
+
+    // test cond var
+    sleep(1);
+
+    change_condition(true);
 
     //wait for all of the child processes
     wait_procs();
@@ -141,7 +145,7 @@ int main() {
     generate_log_entry(I_SIMULATION_END, NULL);
 
     //destroy interprocess communication mechanisms
-    destroy_ipcs(cfg->num_teams);
+    destroy_ipcs(config.num_teams);
 
     //release allocated memory for configs
     free(cfg);
@@ -168,18 +172,17 @@ static void create_ipcs(int num_teams){
 
     DEBUG_MSG(COND_VAR_CREATE, RACE_START_COND_VAR)
 
-<<<<<<< Updated upstream
     set_sh_mutex(&shm->sync_s.mutex);
 
     DEBUG_MSG(MUTEX_CREATE, THREAD_MUTEX)
-=======
     //create named pipe
-    create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDWR);
+    //create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDWR);
     //TODO: handle_named_pipe(&shm->fd_named_pipe); - create process to read input from user
 
 
     //set_sh_mutex(&shm->sync_s.mutex);
->>>>>>> Stashed changes
+
+    malfunction_msg_q_id = create_msg_queue();
 }
 
 static void destroy_ipcs(int num_teams){
@@ -198,6 +201,8 @@ static void destroy_ipcs(int num_teams){
     destroy_sem(SHM_MUTEX, shm_mutex);
 
     destroy_sem_array(boxes_availability, num_teams, BOX_SEM_PREFIX);
+
+    destroy_msg_queue(malfunction_msg_q_id);
 
 
     //DEBUG_MSG(COND_VAR_DESTROY, RACE_START_COND_VAR)

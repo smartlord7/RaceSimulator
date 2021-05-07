@@ -35,10 +35,12 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o
+ /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/malfunction_manager/malfunction_manager.c
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/malfunction_manager/malfunction_manager.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/structs/malfunction/malfunction_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_config/race_config_t.h
@@ -47,6 +49,7 @@ CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c
  /home/sancho/Documents/GitRepos/RaceSimulator/sync_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.h
 CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
@@ -63,6 +66,8 @@ CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o
+ /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
@@ -83,11 +88,13 @@ CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/race_config_reader/race_config_reader.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o
+ /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.c
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/structs/malfunction/malfunction_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_config/race_config_t.h
@@ -95,7 +102,6 @@ CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/sync_t.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h
- /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o
@@ -147,6 +153,9 @@ CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.c
  /home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.h
+CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o
+ /home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.c
+ /home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.h
 CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.c

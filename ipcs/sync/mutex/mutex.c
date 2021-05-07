@@ -17,7 +17,6 @@ void set_sh_mutex(mutex_t * mutex) {
 void destroy_mutex(mutex_t * mutex) {
     assert(mutex != NULL);
 
-<<<<<<< Updated upstream
     throw_if_exit(pthread_mutex_destroy(mutex) != 0, MUTEX_CLOSE_EXCEPTION, "");
 }
 
@@ -36,9 +35,4 @@ void unlock_mutex(mutex_t * mutex) {
 
     throw_if_exit(ret != 0 && ret != EINVAL, MUTEX_UNLOCK_EXCEPTION, "");
 }
-=======
-    if (pthread_mutex_destroy(mutex) != 0) {
-        throw_and_exit(MUTEX_CLOSE_EXCEPTION, "");
-    }
-}
->>>>>>> Stashed changes
+

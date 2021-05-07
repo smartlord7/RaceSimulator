@@ -6,23 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
 
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.c
-stdio.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/stdio.h
-errno.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/errno.h
-assert.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/assert.h
-pthread.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/pthread.h
-../../../util/exception_handler/exception_handler.h
-/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h
-../mutex/mutex.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
-monitor.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.h
+
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
 ../mutex/mutex.h
@@ -41,9 +29,17 @@ stdlib.h
 -
 unistd.h
 -
+assert.h
+-
 stdio.h
 -
 assert.h
+-
+pthread.h
+-
+sys/fcntl.h
+-
+signal.h
 -
 ../../util/global.h
 /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
@@ -63,10 +59,10 @@ assert.h
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.h
 ../../ipcs/sync/semaphore/sem.h
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
-../../ipcs/sync/monitor/monitor.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h
-../../ipcs/sync/mutex/mutex.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
+../../ipcs/message_queue/msg_queue.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
+../../ipcs/pipe/pipe.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
 semaphore.h
@@ -111,8 +107,10 @@ setjmp.h
 -
 
 /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
+math.h
+/home/sancho/Documents/GitRepos/RaceSimulator/util/math.h
 semaphore.h
--
+/home/sancho/Documents/GitRepos/RaceSimulator/util/semaphore.h
 debug/debug.h
 /home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h
 ../structs/shared_memory/shared_memory_t.h

@@ -50,8 +50,8 @@ typedef struct race_box_t race_box_t;
  * An array of pointers to the cars owned by the race team (acts as an array of navigation properties).
  */
 struct race_team_t {
+    int team_id, num_cars;
     char team_name[MAX_TEAM_NAME_SIZE];
-    int num_cars;
     race_box_t * team_box;
 };
 
@@ -68,7 +68,7 @@ struct race_team_t {
  *
  * @throws MemoryAllocationException if the malloc call for the race car returns a NULL pointer.
  */
-race_team_t * race_team(const char * team_name);
+race_team_t * race_team(int team_id, const char * team_name);
 
 /**
  * @def race_team_to_string

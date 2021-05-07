@@ -9,15 +9,17 @@
 
 // region dependencies
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <pthread.h>
-#include "../../util/exception_handler/exception_handler.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+#include "pthread.h"
+#include "unistd.h"
+#include "../../structs/malfunction/malfunction_t.h"
 #include "../../util/process_manager/process_manager.h"
-#include "team_manager.h"
 #include "../../util/global.h"
+#include "../../ipcs/message_queue/msg_queue.h"
 #include "../../ipcs/sync/semaphore/sem.h"
+#include "team_manager.h"
 
 // endregion dependencies
 
@@ -31,29 +33,24 @@
  * The race car information.
  *
  */
-void * race_car_worker(void * race_car);
+void * race_car_worker(void * data);
 
 // endregion private functions prototypes
-
-// region global variables
-
-//static mutex_t thread_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-// endregion global variables
 
 // region public functions
 
 void team_manager(void * data){
     pthread_t car_threads[MAX_MAX_CARS_PER_TEAM];
-
     race_team_t * team = (race_team_t *) data;
+    race_car_t * temp_car;
+    int i, temp_num_cars;
 
     DEBUG_MSG(PROCESS_RUN, team->team_name)
 
-    int i = 0, temp_num_cars = shm->cfg->max_cars_per_team;
+    i = 0, temp_num_cars = config.max_cars_per_team;
     team->num_cars = temp_num_cars;
 
-    race_car_t * temp_car = race_car(team, 0, 3.5f, 120, 0.5f, shm->cfg->fuel_tank_capacity);
+    temp_car = race_car(team, 0, 3.5f, 120, 0.80f, config.fuel_tank_capacity);
 
     char buffer[MAX_LABEL_SIZE];
     snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
@@ -63,7 +60,13 @@ void team_manager(void * data){
     wait_condition_change();
 
     while (i < temp_num_cars) {
-        create_thread(temp_car->name, &car_threads[i], race_car_worker, (void *) temp_car);
+        shm->race_cars[team->team_id][i] = * temp_car;
+        SYNC
+        shm->race_cars[team->team_id][i].car_id = ++shm->total_num_cars;
+        END_SYNC
+
+        create_thread(temp_car->name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
+
         i++;
     }
 
@@ -75,24 +78,31 @@ void team_manager(void * data){
 }
 // endregion public functions
 
-
 // region private functions
 
-void * race_car_worker(void * race_car){
-    race_car_t * car = (race_car_t *) race_car;
+void * race_car_worker(void * data){
+    race_car_t * car = (race_car_t *) data;
+    malfunction_t malfunction_msg;
+    uint time_step;
 
-    #if DEBUG
-    printf("%s", race_car_to_string(car));
-    char buffer[MAX_LABEL_SIZE];
-    snprintf(buffer, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, car->car_id);
+    DEBUG_MSG(THREAD_RUN, car->name)
 
-    DEBUG_MSG(THREAD_RUN, buffer)
+    time_step = tu_to_usec(1);
 
-    DEBUG_MSG(THREAD_EXIT, buffer)
+    while (true) {
+        if (rcv_msg(malfunction_msg_q_id, &malfunction_msg, sizeof(malfunction_t), car->car_id) > 0) {
 
-    #endif
+            SYNC
+            set_state(car, SAFETY);
+            END_SYNC
 
-    throw_and_stay(NOT_IMPLEMENTED_EXCEPTION, CAR_THREAD);
+            printf("%s\n", malfunction_msg.malfunction_msg);
+        }
+
+        usleep(time_step);
+    }
+
+    DEBUG_MSG(THREAD_EXIT, car->name)
 
     pthread_exit(EXIT_SUCCESS);
 }

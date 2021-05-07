@@ -139,6 +139,9 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/malfunction/malfunction_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -185,6 +188,12 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.c">

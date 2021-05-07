@@ -37,8 +37,6 @@ typedef struct shared_memory_t shared_memory_t;
  * @struct shared_memory_t
  * @brief Struct that holds all the information needed to be shared amongst the created processes of the race simulator.
  *
- * @var shared_memory_t::cfg
- * The race configuration.
  *
  * @var shared_memory_t::race_teams
  * The teams participating in the race.
@@ -51,18 +49,14 @@ typedef struct shared_memory_t shared_memory_t;
  *
  */
 struct shared_memory_t {
-    race_config_t * cfg;
     race_team_t race_teams[MAX_NUM_TEAMS];
     race_car_t race_cars[MAX_NUM_TEAMS][MAX_MAX_CARS_PER_TEAM];
     race_box_t race_boxes[MAX_NUM_TEAMS];
     sync_t sync_s;
-    int msgq_id;
-    int fd_named_pipe;
-    int fd_unnamed_pipe[MAX_NUM_TEAMS];
-    /*int cars_on_track,
-        total_num_cars,    TODO: Integrate in a stats struct.
+    int cars_on_track,
+        total_num_cars,    // TODO: Integrate in a stats struct.
         num_malfunctions,
-        num_refuels;*/
+        num_refuels;
 };
 
 // endregion structures

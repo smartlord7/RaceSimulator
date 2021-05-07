@@ -28,8 +28,6 @@
 
 #define COMMAND_PREVIEW_SIZE 7
 
-#define
-
 // endregion constants
 
 // region public functions prototypes

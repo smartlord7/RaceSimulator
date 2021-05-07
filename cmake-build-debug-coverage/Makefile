@@ -601,6 +601,33 @@ util/log_generator/log_generator.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.s
 .PHONY : util/log_generator/log_generator.c.s
 
+util/numbers/numbers.o: util/numbers/numbers.c.o
+
+.PHONY : util/numbers/numbers.o
+
+# target to build an object file
+util/numbers/numbers.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o
+.PHONY : util/numbers/numbers.c.o
+
+util/numbers/numbers.i: util/numbers/numbers.c.i
+
+.PHONY : util/numbers/numbers.i
+
+# target to preprocess a source file
+util/numbers/numbers.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.i
+.PHONY : util/numbers/numbers.c.i
+
+util/numbers/numbers.s: util/numbers/numbers.c.s
+
+.PHONY : util/numbers/numbers.s
+
+# target to generate assembly for a file
+util/numbers/numbers.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.s
+.PHONY : util/numbers/numbers.c.s
+
 util/process_manager/process_manager.o: util/process_manager/process_manager.c.o
 
 .PHONY : util/process_manager/process_manager.o
@@ -796,6 +823,9 @@ help:
 	@echo "... util/log_generator/log_generator.o"
 	@echo "... util/log_generator/log_generator.i"
 	@echo "... util/log_generator/log_generator.s"
+	@echo "... util/numbers/numbers.o"
+	@echo "... util/numbers/numbers.i"
+	@echo "... util/numbers/numbers.s"
 	@echo "... util/process_manager/process_manager.o"
 	@echo "... util/process_manager/process_manager.i"
 	@echo "... util/process_manager/process_manager.s"
