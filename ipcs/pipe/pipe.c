@@ -30,5 +30,5 @@ void create_named_pipe(const char * pipe_name, int * fd, int mode){
 
     throw_if_exit(mkfifo(pipe_name, O_CREAT | O_EXCL | 0600) == -1 || (errno == EEXIST), NAMED_PIPE_CREATE_EXCEPTION, pipe_name);
 
-    throw_if_exit((* fd = open(pipe_name, mode)) == -1, NAMED_PIPE_OPEN_EXCEPTION, pipe_name);
+    throw_if_exit((*fd = open(pipe_name, mode)) == -1, NAMED_PIPE_OPEN_EXCEPTION, pipe_name);
 }

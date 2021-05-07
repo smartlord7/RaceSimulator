@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/unistd.h>
 #include "../../util/process_manager/process_manager.h"
 #include "../../util/global.h"
 #include "../team_manager/team_manager.h"
@@ -21,12 +22,26 @@
 
 // region public functions
 
+int get_named_pipe_fd();
+int get_num_teams();
+int read_command(int fd, char * buffer, int size);
+
+int interpret_command(char *buffer, race_car_t *pCar, race_team_t *pTeam);
+
+int n_pipe_fd;
+
 void race_manager(){
+
     DEBUG_MSG(PROCESS_RUN, RACE_MANAGER);
 
-    int num_teams = shm->cfg->num_teams, i = 0;
+    int num_teams = get_num_teams(), i = 0;
     race_team_t * team = NULL;
     race_box_t * box = NULL;
+    race_car_t * car = NULL;
+
+
+    int n_pipe_fd = get_named_pipe_fd();
+    int result_type;
 
     //create the teams' processes
     while (i < num_teams) {
@@ -43,9 +58,29 @@ void race_manager(){
         box->team = team;
 
         create_process(TEAM_MANAGER, team_manager, (void *) team);
-
         i++;
     }
+
+    // cria thread watch pipe
+
+    // wait pela var final;
+    char buffer[MAX_BUFFER_SIZE];
+    while(true) {
+
+        if(read_command(n_pipe_fd, buffer, sizeof(buffer))) {
+
+            result_type = interpret_command(buffer, car, team);
+
+            switch (result_type) {
+
+            }
+
+        }
+    }
+
+
+
+    //register
 
     //wait for all the child processes
     wait_procs();
@@ -54,12 +89,55 @@ void race_manager(){
 
     exit(EXIT_SUCCESS);
 }
-/*
-int read_command(int fd, int * type, race_car_t * read_data){
+
+int get_named_pipe_fd() {
+    int aux;
+
+    //get named pipe file descriptor in mutual exclusion
+    sem_wait(shm_mutex);
+
+    aux = shm->fd_named_pipe;
+
+    sem_post(shm_mutex);
+
+    return aux;
+}
+
+int get_num_teams() {
+    int aux;
+
+    //get named pipe file descriptor in mutual exclusion
+    sem_wait(shm_mutex);
+
+    aux = shm->cfg->num_teams;
+
+    sem_post(shm_mutex);
+
+    return aux;
+}
+
+int read_command(int fd, char * buffer, int size){
     int n;
-    char buffer[MAX_BUFFER_SIZE];
 
+    do {
+        n = read(fd, buffer, size);
+    } while(n > 0);
 
-}*/
+    if(n < 0) return EXIT_FAILURE;
+    return EXIT_SUCCESS;
+}
+
+int interpret_command(char *buffer, race_car_t *pCar, race_team_t *pTeam) {
+    char command_preview[COMMAND_PREVIEW_SIZE];
+
+    memcpy(command_preview, buffer, sizeof(command_preview) - sizeof(char));
+    command_preview[COMMAND_PREVIEW_SIZE - 1] = '\0';
+
+    if(strcasecmp(command_preview, START) == 0) {
+
+    } else if(strcasecmp(command_preview, START) == 0) {
+
+    } else return RESULT_NOT_RECO;
+}
 
 // endregion public functions

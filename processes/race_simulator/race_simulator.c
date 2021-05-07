@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <assert.h>
+#include <pthread.h>
+#include <sys/fcntl.h>
 #include "../../util/global.h"
 #include "../../util/log_generator/log_generator.h"
 #include "../../util/race_config_reader/race_config_reader.h"
@@ -22,7 +24,12 @@
 #include "../../util/exception_handler/exception_handler.h"
 #include "../../ipcs/shared_memory/shm.h"
 #include "../../ipcs/sync/semaphore/sem.h"
+<<<<<<< Updated upstream
 #include "../../ipcs/sync/monitor/monitor.h"
+=======
+#include "../../ipcs/sync/condition_variable/cond_var.h"
+#include "../../ipcs/pipe/pipe.h"
+>>>>>>> Stashed changes
 #include "../../ipcs/sync/mutex/mutex.h"
 
 // endregion dependencies
@@ -33,6 +40,7 @@
 #define LOG_FILE_NAME "log.txt"
 #define RACE_SIMULATOR "RACE_SIMULATOR"
 #define BOX_SEM_PREFIX "BOX_MUTEX_"
+#define PIPE_NAME "PIPE_NAME"
 
 
 // endregion constants
@@ -66,12 +74,18 @@ static void destroy_ipcs(int num_teams);
  */
 static void terminate();
 
+void handle_named_pipe(int * fd);
+
+void watch_named_pipe(void * fd);
+
+void print_stats(void);
 
 // endregion private functions prototypes
 
 // region global variables
 
-int shm_id;
+int shm_id, fd_named_pipe;
+pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
 sem_t * shm_mutex,  ** boxes_availability = NULL;
 
@@ -84,6 +98,7 @@ sem_t * shm_mutex,  ** boxes_availability = NULL;
  */
 
 int main() {
+
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
 
@@ -113,6 +128,12 @@ int main() {
 
     //create malfuncion manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
+
+    //handle SIGTSTP
+    signal(SIGTSTP, (_sig_func_ptr) print_stats);
+
+    // handle SIGINT
+    signal(SIGINT, terminate);
 
     //wait for all of the child processes
     wait_procs();
@@ -147,9 +168,18 @@ static void create_ipcs(int num_teams){
 
     DEBUG_MSG(COND_VAR_CREATE, RACE_START_COND_VAR)
 
+<<<<<<< Updated upstream
     set_sh_mutex(&shm->sync_s.mutex);
 
     DEBUG_MSG(MUTEX_CREATE, THREAD_MUTEX)
+=======
+    //create named pipe
+    create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDWR);
+    //TODO: handle_named_pipe(&shm->fd_named_pipe); - create process to read input from user
+
+
+    //set_sh_mutex(&shm->sync_s.mutex);
+>>>>>>> Stashed changes
 }
 
 static void destroy_ipcs(int num_teams){
@@ -171,6 +201,18 @@ static void destroy_ipcs(int num_teams){
 
 
     //DEBUG_MSG(COND_VAR_DESTROY, RACE_START_COND_VAR)
+}
+
+void handle_named_pipe(int * fd) {
+
+    if(pthread_create(&npipe_thread_id, NULL, (void *) watch_named_pipe, (void *) fd) != 0) {
+        throw_and_exit(THREAD_CREATE_EXCEPTION, "NAMED PIPE HANDLER");
+    }
+
+}
+
+void watch_named_pipe(void * fd) {
+    //TODO: read input from user and redirect to named pipe
 }
 
 static void terminate() {

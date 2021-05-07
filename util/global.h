@@ -38,7 +38,11 @@
 
 // region global variables
 
+<<<<<<< Updated upstream
 extern int shm_id, start;
+=======
+extern int shm_id, fd_named_pipe;
+>>>>>>> Stashed changes
 extern shared_memory_t * shm;
 extern sem_t * output_mutex, * shm_mutex, ** boxes_availability;
 
