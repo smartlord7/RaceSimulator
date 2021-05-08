@@ -50,9 +50,8 @@ void team_manager(void * data){
     i = 0, temp_num_cars = config.max_cars_per_team;
     team->num_cars = temp_num_cars;
 
-
     while (i < temp_num_cars) {
-        temp_car = race_car(team, ++shm->total_num_cars, 3.5f, 20, 0.8f, 40);
+        temp_car = race_car(team, ++shm->total_num_cars, 0.02f, 20, 0.8f, 40);
         snprintf(temp_car->name, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
         shm->race_cars[team->team_id][i] = * temp_car;
 
@@ -85,8 +84,9 @@ void * race_car_worker(void * data){
 
 void simulate_car(race_car_t * car) {
     DEBUG_MSG(race_car_to_string(car), DEBUG_LEVEL_PARAM, "")
+    set_sh_proc_mutex(&car->mutex);
+    init_cond(&car->start_cond, true);
 
-    set_sh_mutex(&car->mutex);
     malfunction_t malfunction_msg;
     long int time_step;
     int box_needed;
@@ -100,19 +100,21 @@ void simulate_car(race_car_t * car) {
     tim1.tv_sec = time_step;
     tim2.tv_nsec = 0;
 
-    monitor_wait_change(RACE_START_MONITOR);
+
+    wait_cond(&car->start_cond, &car->mutex);
 
     while(true) {
         if (box_needed) {
-            set_state(car, IN_BOX);
 
-            DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)
+
+            /**set_state(car, IN_BOX);
+            DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)**/
 
             // IN BOX
         }
 
-        if (rcv_msg(malfunction_msg_q_id, (void *) &malfunction_msg, sizeof(malfunction_msg), car->car_id) > 0) {
-            DEBUG_MSG(malfunction_msg.malfunction_msg, DEBUG_LEVEL_EVENT, "")
+        if (rcv_msg(malfunction_q_id, (void *) &malfunction_msg, sizeof(malfunction_msg), car->car_id) > 0) {
+            printf("%s\n", malfunction_msg.malfunction_msg);
 
             set_state(car, SAFETY);
             box_needed = true;

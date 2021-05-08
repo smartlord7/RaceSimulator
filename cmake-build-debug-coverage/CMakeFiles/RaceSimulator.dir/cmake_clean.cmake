@@ -3,7 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o"
-  "CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o"
+  "CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o"
   "CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o"

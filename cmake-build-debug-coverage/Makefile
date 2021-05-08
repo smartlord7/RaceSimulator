@@ -250,32 +250,32 @@ ipcs/shared_memory/shm.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.s
 .PHONY : ipcs/shared_memory/shm.c.s
 
-ipcs/sync/monitor/monitor.o: ipcs/sync/monitor/monitor.c.o
+ipcs/sync/cond_var/cond_var.o: ipcs/sync/cond_var/cond_var.c.o
 
-.PHONY : ipcs/sync/monitor/monitor.o
+.PHONY : ipcs/sync/cond_var/cond_var.o
 
 # target to build an object file
-ipcs/sync/monitor/monitor.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o
-.PHONY : ipcs/sync/monitor/monitor.c.o
+ipcs/sync/cond_var/cond_var.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o
+.PHONY : ipcs/sync/cond_var/cond_var.c.o
 
-ipcs/sync/monitor/monitor.i: ipcs/sync/monitor/monitor.c.i
+ipcs/sync/cond_var/cond_var.i: ipcs/sync/cond_var/cond_var.c.i
 
-.PHONY : ipcs/sync/monitor/monitor.i
+.PHONY : ipcs/sync/cond_var/cond_var.i
 
 # target to preprocess a source file
-ipcs/sync/monitor/monitor.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.i
-.PHONY : ipcs/sync/monitor/monitor.c.i
+ipcs/sync/cond_var/cond_var.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.i
+.PHONY : ipcs/sync/cond_var/cond_var.c.i
 
-ipcs/sync/monitor/monitor.s: ipcs/sync/monitor/monitor.c.s
+ipcs/sync/cond_var/cond_var.s: ipcs/sync/cond_var/cond_var.c.s
 
-.PHONY : ipcs/sync/monitor/monitor.s
+.PHONY : ipcs/sync/cond_var/cond_var.s
 
 # target to generate assembly for a file
-ipcs/sync/monitor/monitor.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.s
-.PHONY : ipcs/sync/monitor/monitor.c.s
+ipcs/sync/cond_var/cond_var.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.s
+.PHONY : ipcs/sync/cond_var/cond_var.c.s
 
 ipcs/sync/mutex/mutex.o: ipcs/sync/mutex/mutex.c.o
 
@@ -784,9 +784,9 @@ help:
 	@echo "... ipcs/shared_memory/shm.o"
 	@echo "... ipcs/shared_memory/shm.i"
 	@echo "... ipcs/shared_memory/shm.s"
-	@echo "... ipcs/sync/monitor/monitor.o"
-	@echo "... ipcs/sync/monitor/monitor.i"
-	@echo "... ipcs/sync/monitor/monitor.s"
+	@echo "... ipcs/sync/cond_var/cond_var.o"
+	@echo "... ipcs/sync/cond_var/cond_var.i"
+	@echo "... ipcs/sync/cond_var/cond_var.s"
 	@echo "... ipcs/sync/mutex/mutex.o"
 	@echo "... ipcs/sync/mutex/mutex.i"
 	@echo "... ipcs/sync/mutex/mutex.s"

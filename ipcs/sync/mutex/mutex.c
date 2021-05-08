@@ -5,7 +5,7 @@
 #include "../../../util/exception_handler/exception_handler.h"
 #include "mutex.h"
 
-void set_sh_mutex(mutex_t * mutex) {
+void set_sh_proc_mutex(mutex_t * mutex) {
     assert(mutex != NULL);
 
     pthread_mutexattr_t attr;

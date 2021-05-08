@@ -13,6 +13,7 @@
 // region dependencies
 
 #include "../race_team/race_team_t.h"
+#include "../../ipcs/sync/cond_var/cond_var.h"
 #include "../../ipcs/sync/mutex/mutex.h"
 
 // endregion dependencies
@@ -68,7 +69,7 @@ enum race_car_state {
  * The number of completed laps of the race car.
  *
  * @var race_car_t::num_box_stops
- * The number of times the race car had to stop in a race box due to a malfunction/refueling purposes.
+ * The number of times the race car had to stop in a race box due to a malfunction_q_id/refueling purposes.
  *
  * @var race_car_t::num_malfunctions
  * The number of malfunctions the race car had.
@@ -105,6 +106,7 @@ struct race_car_t{
     char name[MAX_LABEL_SIZE];
     race_car_state state;
     mutex_t mutex;
+    cond_t start_cond;
     int car_id,
             completed_laps,
             num_box_stops,

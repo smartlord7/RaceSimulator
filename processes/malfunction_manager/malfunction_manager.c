@@ -9,10 +9,8 @@
 
 // region dependencies
 
-#include <unistd.h>
 #include "stdio.h"
 #include "stdlib.h"
-#include "math.h"
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../util/numbers/numbers.h"
@@ -59,6 +57,8 @@ void malfunction_manager(){
 // region private functions
 
 static void generateMalfunctions(void) {
+    init_cond(&shm->sync_s.start_cond, true);
+
     int i, j, rdm_index;
     long int malfunction_interval;
     float prob_malfunction;
@@ -70,7 +70,7 @@ static void generateMalfunctions(void) {
     tim1.tv_sec = malfunction_interval;
     tim2.tv_nsec = 0;
 
-    monitor_wait(RACE_START_MONITOR);
+    wait_cond(&shm->sync_s.start_cond, &shm->sync_s.mutex);
 
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
@@ -90,7 +90,7 @@ static void generateMalfunctions(void) {
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], current_car.car_id);
                     msg.car_id = current_car.car_id;
-                    snd_msg(malfunction_msg_q_id, (void *) &msg, sizeof(msg));
+                    snd_msg(malfunction_q_id, (void *) &msg, sizeof(msg));
                 }
             }
         }

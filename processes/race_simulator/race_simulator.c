@@ -41,7 +41,6 @@
 // endregion constants
 
 // region private functions prototypes
-static void init_global_clock();
 
 /**
  * @def create_ipcs
@@ -68,6 +67,9 @@ static void destroy_ipcs(int num_teams);
  * @brief Function that terminates the current process tree.
  *
  */
+
+static void notify_start_race();
+
 static void terminate();
 
 static void handle_named_pipe(int * fd);
@@ -80,7 +82,7 @@ static void show_stats(int signum);
 
 // region global variables
 
-int shm_id, malfunction_msg_q_id, fd_named_pipe;
+int shm_id, malfunction_q_id, fd_named_pipe;
 race_config_t config;
 pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
@@ -121,7 +123,7 @@ int main() {
     //create race manager process
     create_process(RACE_MANAGER, race_manager, NULL);
 
-    //create malfunction manager process
+    //create malfunction_q_id manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
@@ -130,10 +132,7 @@ int main() {
     // handle SIGINT
     signal(SIGINT, terminate);
 
-    // test start_cond var
-    sleep(2);
-
-    monitor_change(true, RACE_START_MONITOR);
+    notify_start_race();
 
     //wait for all of the child processes
     wait_procs();
@@ -148,35 +147,37 @@ int main() {
 
 // region private functions
 
+static void notify_start_race() {
+    sleep(3);
+
+    int i, j;
+    for (i = 0; i < config.num_teams; i++) {
+        for (j = 0; j < shm->race_teams[i].num_cars; j++) {
+            race_car_t * current_car = &shm->race_cars[i][j];
+
+            lock_mutex(&current_car->mutex);
+
+            notify_cond(&current_car->start_cond);
+
+            unlock_mutex(&current_car->mutex);
+        }
+    }
+
+    notify_cond(&shm->sync_s.start_cond);
+}
+
 static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
-    shm = create_shm(sizeof(shared_memory_t), &shm_id);
-
-    boxes_availability = create_sem_array(num_teams, BOX_SEM_PREFIX, 1);
-
-    monitor_init(&shm->sync_s.race_start, &shm->sync_s.start_cond, &shm->sync_s.mutex, true);
-
-    //create named pipe
-    //create_named_pipe(PIPE_NAME, &fd_named_pipe, O_RDWR);
-    //TODO: handle_named_pipe(&shm->fd_named_pipe); - create process to read input from user
-
-
-    //set_sh_mutex(&shm->sync_s.mutex);
-
-    malfunction_msg_q_id = create_msg_queue();
+    shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
+    malfunction_q_id = create_msg_queue();
 }
 
 static void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
 
-    monitor_destroy_all();
-
     destroy_shm(shm_id, shm);
-
-    destroy_sem_array(boxes_availability, num_teams, BOX_SEM_PREFIX);
-
-    destroy_msg_queue(malfunction_msg_q_id);
+    destroy_msg_queue(malfunction_q_id);
 }
 
 static void show_stats(int signum) {

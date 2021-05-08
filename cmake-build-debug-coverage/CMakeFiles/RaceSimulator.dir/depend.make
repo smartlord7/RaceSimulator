@@ -3,6 +3,7 @@
 
 CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: ../data_structures/priority_queue/priority_queue.c
 CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: ../data_structures/priority_queue/priority_queue.h
+CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: ../structs/race_box/race_box_t.h
 CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: ../structs/race_car/race_car_t.h
@@ -21,18 +22,10 @@ CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o: ../ipcs/shared_memory/s
 CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o: ../util/debug/debug.h
 CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o: ../util/exception_handler/exception_handler.h
 
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../ipcs/sync/monitor/monitor.c
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../ipcs/sync/monitor/monitor.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../ipcs/sync/mutex/mutex.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../structs/race_box/race_box_t.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../structs/race_car/race_car_t.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../structs/race_config/race_config_t.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../structs/race_team/race_team_t.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../structs/shared_memory/shared_memory_t.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../sync_t.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../util/debug/debug.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../util/exception_handler/exception_handler.h
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../util/global.h
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: ../ipcs/sync/cond_var/cond_var.c
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: ../ipcs/sync/cond_var/cond_var.h
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: ../ipcs/sync/mutex/mutex.h
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: ../util/exception_handler/exception_handler.h
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o: ../ipcs/sync/mutex/mutex.c
 CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o: ../ipcs/sync/mutex/mutex.h
@@ -44,7 +37,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o: ../util/debug/debug.h
 CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o: ../util/exception_handler/exception_handler.h
 
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../ipcs/message_queue/msg_queue.h
-CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../ipcs/sync/monitor/monitor.h
+CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../processes/malfunction_manager/malfunction_manager.c
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../processes/malfunction_manager/malfunction_manager.h
@@ -59,7 +52,7 @@ CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../util/global.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../util/numbers/numbers.h
 
-CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../ipcs/sync/monitor/monitor.h
+CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../processes/race_manager/race_manager.c
 CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../processes/race_manager/race_manager.h
@@ -79,7 +72,7 @@ CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../util/to
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/message_queue/msg_queue.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/pipe/pipe.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/shared_memory/shm.h
-CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/sync/monitor/monitor.h
+CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/sync/semaphore/sem.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../processes/malfunction_manager/malfunction_manager.h
@@ -99,7 +92,7 @@ CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../uti
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../util/race_config_reader/race_config_reader.h
 
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/message_queue/msg_queue.h
-CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/sync/monitor/monitor.h
+CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/sync/semaphore/sem.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../processes/team_manager/team_manager.c
@@ -115,6 +108,7 @@ CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../util/de
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../util/global.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../util/process_manager/process_manager.h
 
+CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../structs/race_box/race_box_t.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../structs/race_car/race_car_t.c
@@ -128,6 +122,7 @@ CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o: ../structs/r
 CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o: ../util/exception_handler/exception_handler.h
 CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o: ../util/strings/strings.h
 
+CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o: ../structs/race_box/race_box_t.h
 CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o: ../structs/race_car/race_car_t.h
@@ -136,7 +131,7 @@ CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o: ../structs/race_
 CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o: ../util/exception_handler/exception_handler.h
 CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o: ../util/strings/strings.h
 
-CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../ipcs/sync/monitor/monitor.h
+CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../structs/race_box/race_box_t.h
 CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../structs/race_car/race_car_t.h
@@ -148,7 +143,7 @@ CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../util/debug/debug.c
 CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../util/debug/debug.h
 CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o: ../util/global.h
 
-CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o: ../ipcs/sync/monitor/monitor.h
+CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o: ../structs/race_box/race_box_t.h
 CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o: ../structs/race_car/race_car_t.h
@@ -173,7 +168,7 @@ CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o: ../util/e
 CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o: ../util/process_manager/process_manager.c
 CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o: ../util/process_manager/process_manager.h
 
-CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.o: ../ipcs/sync/monitor/monitor.h
+CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.o: ../ipcs/sync/mutex/mutex.h
 CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.o: ../structs/race_box/race_box_t.h
 CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.o: ../structs/race_car/race_car_t.h

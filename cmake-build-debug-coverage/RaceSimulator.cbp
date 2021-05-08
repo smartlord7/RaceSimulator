@@ -100,10 +100,10 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.c">
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.h">
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c">

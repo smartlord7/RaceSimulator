@@ -336,22 +336,9 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c -o CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.s
 
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o: ../ipcs/sync/monitor/monitor.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.c
-
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.c > CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.i
-
-CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/monitor/monitor.c -o CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.s
-
 CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o: ../ipcs/sync/semaphore/sem.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.i: cmake_force
@@ -364,7 +351,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o: ../util/numbers/numbers.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.c
 
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.i: cmake_force
@@ -374,6 +361,19 @@ CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.i: cmake_force
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.c -o CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.s
+
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: ../ipcs/sync/cond_var/cond_var.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.c
+
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.c > CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.i
+
+CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.c -o CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.s
 
 # Object files for target RaceSimulator
 RaceSimulator_OBJECTS = \
@@ -397,9 +397,9 @@ RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o" \
-"CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o" \
-"CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o"
+"CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o" \
+"CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o"
 
 # External object files for target RaceSimulator
 RaceSimulator_EXTERNAL_OBJECTS =
@@ -424,9 +424,9 @@ RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o
-RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/sync/monitor/monitor.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o
+RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/build.make
 RaceSimulator: CMakeFiles/RaceSimulator.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Linking C executable RaceSimulator"

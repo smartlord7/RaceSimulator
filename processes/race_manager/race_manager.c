@@ -68,9 +68,6 @@ void race_manager(){
     watcher_id = (pthread_t) 1;
     //create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, n_pipe_fd);
 
-
-
-
     //register
 
     //wait for all the child processes
@@ -96,10 +93,6 @@ void create_teams(int num_teams) {
         strcpy(team->team_name, team_name);
         team->team_id = i;
         team->team_box = box;
-        box->state = FREE;
-        box->box_availability = boxes_availability[i];
-        box->team = team;
-
         create_process(TEAM_MANAGER, team_manager, (void *) team);
         i++;
     }
