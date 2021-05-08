@@ -74,6 +74,8 @@ CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
  /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.h
+ /home/sancho/Documents/GitRepos/RaceSimulator/util/to_float/to_float.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.h

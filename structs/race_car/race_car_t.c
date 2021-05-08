@@ -21,8 +21,9 @@
 
 // region public functions
 
-race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability, float initial_fuel) {
-    race_car_t * new = NULL;
+race_car_t *
+race_car(race_team_t *team, int car_id, float consumption, float speed, float reliability, float initial_fuel) {
+    race_car_t *new = NULL;
 
     if ((new = (race_car_t *) calloc(1, sizeof(race_car_t))) == NULL) {
         throw_and_exit(MEMORY_ALLOCATE_EXCEPTION, RACE_CAR);
@@ -42,8 +43,8 @@ race_car_t * race_car(race_team_t * team, int car_id, float consumption, float s
     return new;
 }
 
-char * race_car_to_string(race_car_t * race_car) {
-    char * buffer = NULL;
+char *race_car_to_string(race_car_t *race_car) {
+    char *buffer = NULL;
 
     if (race_car == NULL) {
         buffer = string(NULL_STR_SIZE);
@@ -52,24 +53,35 @@ char * race_car_to_string(race_car_t * race_car) {
     } else {
         buffer = string(MAX_BUFFER_SIZE);
 
-        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "\nRACE CAR NO: %d\n"
-                                                         "NAME: %s\n"
-                                                         "TEAM: %s\n"
-                                                         "CONSUMPTION: %.2f\n"
-                                                         "SPEED: %.2f\n"
-                                                         "RELIABILITY: %.2f\n",
+        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char),
+                 "\n-----INITIAL PROPS-----\n"
+                 "RACE CAR NO: %d\n"
+                 "NAME: %s\n"
+                 "TEAM: %s\n"
+                 "CONSUMPTION: %.2f\n"
+                 "SPEED: %.2f\n"
+                 "RELIABILITY: %.2f\n"
+                 "-----REAL-TIME PROPS-----\n"
+                 "CURRENT STATE: %d\n"
+                 "CURRENT POSITION: %.2f\n"
+                 "CURRENT CONSUMPTION: %.2f\n"
+                 "CURRENT SPEED: %.2f\n",
                  race_car->car_id,
                  race_car->name,
                  race_car->team->team_name,
                  race_car->consumption,
                  race_car->speed,
-                 race_car->reliability);
+                 race_car->reliability,
+                 race_car->state,
+                 race_car->current_pos,
+                 race_car->current_consumption,
+                 race_car->current_speed);
     }
 
     return buffer;
 }
 
-void set_state(race_car_t * race_car, race_car_state state) {
+void set_state(race_car_t *race_car, race_car_state state) {
     assert(race_car != NULL);
 
     race_car->state = state;
@@ -87,22 +99,10 @@ void set_state(race_car_t * race_car, race_car_state state) {
 
             break;
         case IN_BOX:
-            race_car->current_pos = 0;
-            race_car->current_speed = 0;
-            race_car->current_consumption = 0;
-
-            break;
         case NON_FIT:
-            race_car->current_speed = 0;
-            race_car->current_consumption = 0;
-
-            break;
         case FINISHED:
-            race_car->current_pos = 0;
             race_car->current_speed = 0;
             race_car->current_consumption = 0;
-
-            break;
         default:
             return;
     }

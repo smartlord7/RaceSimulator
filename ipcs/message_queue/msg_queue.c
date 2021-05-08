@@ -1,6 +1,7 @@
 #include "stdlib.h"
 #include "sys/msg.h"
 #include "assert.h"
+#include "errno.h"
 #include "msg_queue.h"
 #include "../../util/exception_handler/exception_handler.h"
 
@@ -16,9 +17,9 @@ int create_msg_queue() {
 
 int rcv_msg(int msgq_id, void * msg, size_t msg_size, long type) {
     assert(msg != NULL);
-    int nread = 0;
+    int nread;
 
-    throw_if_exit((nread = msgrcv(msgq_id, msg, msg_size - sizeof(long), type, 0)) == -1, MSG_QUEUE_RECEIVE_EXCEPTION, msgq_id);
+    throw_if_exit((nread = msgrcv(msgq_id, msg, msg_size - sizeof(long), type, IPC_NOWAIT)) == -1 && errno != ENOMSG, MSG_QUEUE_RECEIVE_EXCEPTION, msgq_id);
 
     return nread;
 }

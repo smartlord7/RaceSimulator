@@ -66,7 +66,7 @@ void race_manager(){
 
     // cria thread watch pipe
     watcher_id = (pthread_t) 1;
-    create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, n_pipe_fd);
+    //create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, n_pipe_fd);
 
 
 
@@ -76,7 +76,7 @@ void race_manager(){
     //wait for all the child processes
     wait_procs();
 
-    DEBUG_MSG(PROCESS_EXIT, RACE_MANAGER)
+    DEBUG_MSG(PROCESS_EXIT, DEBUG_LEVEL_ENTRY, RACE_MANAGER)
 
     exit(EXIT_SUCCESS);
 }
@@ -85,7 +85,6 @@ void create_teams(int num_teams) {
     int i;
     race_team_t * team = NULL;
     race_box_t * box = NULL;
-    race_car_t * car = NULL;
 
     while (i < num_teams) {
         char team_name[MAX_LABEL_SIZE];

@@ -73,6 +73,8 @@ CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../sync_t.
 CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../util/debug/debug.h
 CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../util/global.h
 CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../util/process_manager/process_manager.h
+CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../util/strings/strings.h
+CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o: ../util/to_float/to_float.h
 
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/message_queue/msg_queue.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/pipe/pipe.h

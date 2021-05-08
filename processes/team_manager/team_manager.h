@@ -12,12 +12,15 @@
 
 // region constants
 
-#define MIN_FUEL_LAPS 2
-#define TEAM_MANAGER "TEAM_MANAGER"
-#define RACE_TEAM "RACE_TEAM"
-#define CAR_THREAD "CAR_THREAD"
-#define CAR_THREADS "CAR_THREADS"
-#define TEAM_CARS "TEAM_RACE_CARS"
+#define REFUEL_MIN_LAPS1 4
+#define REFUEL_MIN_LAPS2 2
+#define TEAM_MANAGER "" "TEAM_MANAGER"
+#define RACE_CAR_SAY "[RACE_CAR %d] "
+#define CAR_MOVE RACE_CAR_SAY "" "RAN %.2fm!"
+#define CAR_FINISH RACE_CAR_SAY "" "FINISHED THE RACE!"
+#define CAR_STATE_CHANGE RACE_CAR_SAY "" "CHANGED TO STATE %d!"
+#define CAR_COMPLETE_LAP RACE_CAR_SAY "" "COMPLETED %d LAP!"
+#define GLOBAL_CLOCK "[GLOBAL_CLOCK] %d tu"
 
 // endregion constants
 

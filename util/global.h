@@ -34,7 +34,7 @@
 #define END_SYNC unlock_mutex(&shm->sync_s.mutex);
 #define SYNC_CAR lock_mutex(&car->mutex);
 #define END_SYNC_CAR unlock_mutex(&car->mutex);
-#define tu_to_nsec(t) (unsigned int) ((t) / config.time_units_per_sec * pow(10, 9))
+#define tu_to_sec(t) (uint) ((t) / config.time_units_per_sec)
 
 #define SMALLEST_SIZE 16
 #define XSMALL_SIZE 32

@@ -44,10 +44,6 @@
 
 // endregion IPCS debug messages
 
-#define CAR_MOVE "[CAR %d] RAN %.2fm!"
-#define CAR_FINISH "[CAR %d] FINISHED THE RACE!"
-#define GLOBAL_CLOCK "[GLOBAL_CLOCK] %d tu"
-
 
 // region proc/threads debug msgs
 

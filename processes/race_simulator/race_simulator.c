@@ -121,7 +121,7 @@ int main() {
     //create race manager process
     create_process(RACE_MANAGER, race_manager, NULL);
 
-    //create malfuncion manager process
+    //create malfunction manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
@@ -131,7 +131,7 @@ int main() {
     signal(SIGINT, terminate);
 
     // test start_cond var
-    sleep(1);
+    sleep(2);
 
     monitor_change(true, RACE_START_MONITOR);
 
@@ -196,7 +196,7 @@ void watch_named_pipe(void * fd) {
 }
 
 static void terminate() {
-    destroy_ipcs(config.num_teams);
+    //destroy_ipcs(config.num_teams);
     kill(getpid(), SIGKILL);
 
     exit(EXIT_FAILURE);
