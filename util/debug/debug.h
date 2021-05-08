@@ -94,6 +94,8 @@
  * The formatting arguments.
  *
  */
+#define HERE printf("--------HERE---------\n");
+
 extern void debug_msg(const char * file_name, int line, const char * msg, int deb_level, ...);
 extern void debug_init(int deb_level, int sh_origin);
 

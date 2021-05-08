@@ -6,7 +6,7 @@
 
 typedef pthread_mutex_t mutex_t;
 
-extern void set_sh_proc_mutex(mutex_t * mutex);
+extern void init_mutex(mutex_t * mutex, int proc_shared);
 extern void destroy_mutex(mutex_t * mutex);
 extern void lock_mutex(mutex_t * mutex);
 extern void unlock_mutex(mutex_t * mutex);

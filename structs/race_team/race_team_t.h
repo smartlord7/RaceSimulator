@@ -52,7 +52,7 @@ typedef struct race_box_t race_box_t;
 struct race_team_t {
     int team_id, num_cars;
     char team_name[MAX_TEAM_NAME_SIZE];
-    race_box_t * team_box;
+    race_box_t team_box;
 };
 
 // endregion structures

@@ -148,7 +148,7 @@ int main() {
 // region private functions
 
 static void notify_start_race() {
-    sleep(3);
+    sleep(2);
 
     int i, j;
     for (i = 0; i < config.num_teams; i++) {

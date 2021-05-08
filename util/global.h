@@ -51,7 +51,6 @@
 extern int shm_id, malfunction_q_id, fd_named_pipe;
 extern shared_memory_t * shm;
 extern race_config_t config;
-extern sem_t ** boxes_availability;
 
 // endregion global variables
 

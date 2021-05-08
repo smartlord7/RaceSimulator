@@ -53,10 +53,6 @@ void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, RACE_MANAGER);
 
-    race_team_t * team = NULL;
-    race_box_t * box = NULL;
-    race_car_t * car = NULL;
-
     int num_teams = config.num_teams;
 
     //create the teams' processes
@@ -81,18 +77,14 @@ void race_manager(){
 void create_teams(int num_teams) {
     int i;
     race_team_t * team = NULL;
-    race_box_t * box = NULL;
 
     while (i < num_teams) {
         char team_name[MAX_LABEL_SIZE];
         snprintf(team_name, MAX_LABEL_SIZE * sizeof(char), "%s_%d", TEAM_MANAGER, i);
-
         team = &shm->race_teams[i];
-        box = &shm->race_boxes[i];
 
         strcpy(team->team_name, team_name);
         team->team_id = i;
-        team->team_box = box;
         create_process(TEAM_MANAGER, team_manager, (void *) team);
         i++;
     }

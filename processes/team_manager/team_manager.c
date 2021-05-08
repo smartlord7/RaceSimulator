@@ -84,7 +84,7 @@ void * race_car_worker(void * data){
 
 void simulate_car(race_car_t * car) {
     DEBUG_MSG(race_car_to_string(car), DEBUG_LEVEL_PARAM, "")
-    set_sh_proc_mutex(&car->mutex);
+    init_mutex(&car->mutex, true);
     init_cond(&car->start_cond, true);
 
     malfunction_t malfunction_msg;

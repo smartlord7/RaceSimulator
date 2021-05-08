@@ -6,6 +6,8 @@
 
 #IncludeRegexTransform: 
 
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
+
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.h
 pthread.h
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/pthread.h
@@ -14,31 +16,35 @@ pthread.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
 
-/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_manager/race_manager.c
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
+
+/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.c
+unistd.h
+-
 stdlib.h
--
+/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/stdlib.h
 stdio.h
--
+/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/stdio.h
 string.h
--
-sys/unistd.h
--
+/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/string.h
+pthread.h
+/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/pthread.h
+../../structs/malfunction/malfunction_t.h
+/home/sancho/Documents/GitRepos/RaceSimulator/structs/malfunction/malfunction_t.h
 ../../util/process_manager/process_manager.h
 /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
+../../ipcs/message_queue/msg_queue.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
+../../ipcs/sync/semaphore/sem.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
+team_manager.h
+/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
+
+/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
+
+/home/sancho/Documents/GitRepos/RaceSimulator/structs/malfunction/malfunction_t.h
 ../../util/global.h
 /home/sancho/Documents/GitRepos/RaceSimulator/util/global.h
-../team_manager/team_manager.h
-/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
-race_manager.h
-/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_manager/race_manager.h
-../../util/to_float/to_float.h
-/home/sancho/Documents/GitRepos/RaceSimulator/util/to_float/to_float.h
-../../util/strings/strings.h
-/home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.h
-
-/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_manager/race_manager.h
-
-/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
 semaphore.h
@@ -47,6 +53,8 @@ semaphore.h
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.h
 ../race_car/race_car_t.h
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
+../../ipcs/sync/mutex/mutex.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
 ../race_team/race_team_t.h
@@ -95,8 +103,4 @@ debug/debug.h
 /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
 pthread.h
 -
-
-/home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.h
-
-/home/sancho/Documents/GitRepos/RaceSimulator/util/to_float/to_float.h
 

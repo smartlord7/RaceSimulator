@@ -15,6 +15,7 @@
 #include <semaphore.h>
 #include "../race_team/race_team_t.h"
 #include "../race_car/race_car_t.h"
+#include "../../ipcs/sync/mutex/mutex.h"
 
 // endregion dependencies
 
@@ -57,7 +58,7 @@ struct race_box_t{
     box_state state;
     race_team_t * team;
     race_car_t * current_car;
-    sem_t * box_availability;
+    mutex_t mutex;
 };
 
 // TODO Constructor and toString method.

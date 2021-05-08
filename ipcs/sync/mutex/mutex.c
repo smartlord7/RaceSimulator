@@ -5,12 +5,12 @@
 #include "../../../util/exception_handler/exception_handler.h"
 #include "mutex.h"
 
-void set_sh_proc_mutex(mutex_t * mutex) {
-    assert(mutex != NULL);
-
+void init_mutex(mutex_t * mutex, int proc_shared) {
     pthread_mutexattr_t attr;
 
-    throw_if_exit(pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED) != 0, MUTEX_SHARE_EXCEPTION, "");
+    if (proc_shared) {
+        throw_if_exit(pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED) != 0, MUTEX_SHARE_EXCEPTION, "");
+    }
 
     throw_if_exit(pthread_mutex_init(mutex, &attr) != 0, MUTEX_INITIALIZE_EXCEPTION, "");
 }
