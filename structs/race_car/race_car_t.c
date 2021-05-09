@@ -16,6 +16,7 @@
 #include "../../util/strings/strings.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "race_car_t.h"
+#include "../../util/debug/debug.h"
 
 // endregion dependencies
 
@@ -37,7 +38,7 @@ race_car(race_team_t *team, int car_id, float consumption, float speed, float re
     new->speed = speed;
     new->reliability = reliability;
 
-    set_state(new, RACE);
+    new->state = NONE;
     new->remaining_fuel = initial_fuel;
 
     return new;

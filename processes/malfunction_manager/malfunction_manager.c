@@ -15,12 +15,13 @@
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../util/numbers/numbers.h"
 #include "malfunction_manager.h"
+#include "../../util/exception_handler/exception_handler.h"
 
 // endregion dependencies
 
 // region private functions prototypes
 
-static void generateMalfunctions(void);
+static void generate_malfunctions(void);
 
 // endregion private functions prototypes
 
@@ -45,7 +46,7 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 void malfunction_manager(){
     DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, MALFUNCTION_MANAGER)
 
-    generateMalfunctions();
+    generate_malfunctions();
 
     DEBUG_MSG(PROCESS_EXIT, DEBUG_LEVEL_ENTRY, MALFUNCTION_MANAGER)
 
@@ -56,21 +57,23 @@ void malfunction_manager(){
 
 // region private functions
 
-static void generateMalfunctions(void) {
+static void generate_malfunctions(void) {
     init_cond(&shm->sync_s.start_cond, true);
+    init_mutex(&shm->sync_s.mutex, true);
 
     int i, j, rdm_index;
     long int malfunction_interval;
     float prob_malfunction;
     race_car_t current_car;
     malfunction_t msg;
-    struct timespec tim1, tim2;
 
-    malfunction_interval = tu_to_sec(config.malfunction_interval);
-    tim1.tv_sec = malfunction_interval;
-    tim2.tv_nsec = 0;
+    malfunction_interval = tu_to_msec(config.malfunction_interval);
 
-    wait_cond(&shm->sync_s.start_cond, &shm->sync_s.mutex);
+    lock_mutex(&shm->sync_s.mutex);
+    while (!shm->sync_s.race_start) {
+        wait_cond(&shm->sync_s.start_cond, &shm->sync_s.mutex);
+    }
+    unlock_mutex(&shm->sync_s.mutex);
 
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
@@ -83,7 +86,6 @@ static void generateMalfunctions(void) {
                 prob_malfunction = 1 - current_car.reliability;
 
                 if (random_uniform_event(prob_malfunction)) {
-
                     shm->cars_on_track--;
                     shm->num_malfunctions++;
 
@@ -95,7 +97,7 @@ static void generateMalfunctions(void) {
             }
         }
 
-        nanosleep(&tim1, &tim2);
+        ms_sleep(malfunction_interval);
     }
 }
 

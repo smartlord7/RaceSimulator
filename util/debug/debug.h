@@ -54,8 +54,6 @@
 
 // endregion proc/threads debug msgs
 
-#define RACE_CONFIG_CREATED "CREATED RACE CONFIGURATION %s"
-
 // endregion constants
 
 // region macros
@@ -94,7 +92,7 @@
  * The formatting arguments.
  *
  */
-#define HERE printf("--------HERE---------\n");
+#define HERE(msg) printf("--------HERE--------- %s\n", msg);
 
 extern void debug_msg(const char * file_name, int line, const char * msg, int deb_level, ...);
 extern void debug_init(int deb_level, int sh_origin);

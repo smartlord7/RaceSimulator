@@ -13,13 +13,16 @@ void wait_cond(cond_t * cond, mutex_t * mutex) {
 }
 
 void init_cond(cond_t * cond, int proc_shared) {
+
     if (proc_shared) {
         pthread_condattr_t attr;
+        pthread_condattr_init(&attr);
         throw_if_exit(pthread_condattr_setpshared(&attr, PTHREAD_PROCESS_SHARED) != 0, COND_VAR_SHARE_EXCEPTION, "");
         throw_if_exit(pthread_cond_init(cond, &attr) != 0, COND_VAR_INITIALIZE_EXCEPTION, "");
     } else {
         throw_if_exit(pthread_cond_init(cond, NULL) != 0, COND_VAR_INITIALIZE_EXCEPTION, "");
     }
+
 }
 
 void destroy_cond(cond_t * cond) {

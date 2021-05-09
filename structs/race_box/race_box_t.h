@@ -16,6 +16,7 @@
 #include "../race_team/race_team_t.h"
 #include "../race_car/race_car_t.h"
 #include "../../ipcs/sync/mutex/mutex.h"
+#include "../../ipcs/sync/cond_var/cond_var.h"
 
 // endregion dependencies
 
@@ -58,7 +59,8 @@ struct race_box_t{
     box_state state;
     race_team_t * team;
     race_car_t * current_car;
-    mutex_t mutex;
+    mutex_t available, car_in;
+    cond_t cond;
 };
 
 // TODO Constructor and toString method.

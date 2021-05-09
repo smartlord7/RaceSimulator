@@ -19,7 +19,9 @@ pthread.h
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.c
-unistd.h
+asm-generic/errno.h
+-
+errno.h
 -
 stdlib.h
 /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/stdlib.h
@@ -39,6 +41,8 @@ pthread.h
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
 team_manager.h
 /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
+../../util/numbers/numbers.h
+/home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
 
@@ -55,6 +59,8 @@ semaphore.h
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
 ../../ipcs/sync/mutex/mutex.h
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
+../../ipcs/sync/cond_var/cond_var.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h
 ../race_team/race_team_t.h
@@ -99,6 +105,8 @@ debug/debug.h
 /home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.h
 ../structs/shared_memory/shared_memory_t.h
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h
+
+/home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
 pthread.h

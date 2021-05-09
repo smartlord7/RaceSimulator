@@ -78,6 +78,8 @@ static void watch_named_pipe(void * fd);
 
 static void show_stats(int signum);
 
+static void segfault_handler(int signum);
+
 // endregion private functions prototypes
 
 // region global variables
@@ -99,6 +101,7 @@ sem_t ** boxes_availability = NULL;
 int main() {
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
+    signal(SIGSEGV, segfault_handler);
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
@@ -148,22 +151,26 @@ int main() {
 // region private functions
 
 static void notify_start_race() {
-    sleep(2);
+    sleep(1);
 
     int i, j;
+    race_car_t * current_car;
+
     for (i = 0; i < config.num_teams; i++) {
         for (j = 0; j < shm->race_teams[i].num_cars; j++) {
-            race_car_t * current_car = &shm->race_cars[i][j];
+            current_car = &shm->race_cars[i][j];
 
             lock_mutex(&current_car->mutex);
-
-            notify_cond(&current_car->start_cond);
-
+            set_state(current_car, RACE);
+            notify_all_cond(&current_car->start_cond);
             unlock_mutex(&current_car->mutex);
         }
     }
 
-    notify_cond(&shm->sync_s.start_cond);
+    lock_mutex(&shm->sync_s.mutex);
+    shm->sync_s.race_start = true;
+    notify_all_cond(&shm->sync_s.start_cond);
+    unlock_mutex(&shm->sync_s.mutex);
 }
 
 static void create_ipcs(int num_teams){
@@ -182,6 +189,10 @@ static void destroy_ipcs(int num_teams){
 
 static void show_stats(int signum) {
 
+}
+
+static void segfault_handler(int signum) {
+    printf("WELL... THAT ESCALATED QUICKLY...\n");
 }
 
 void handle_named_pipe(int * fd) {

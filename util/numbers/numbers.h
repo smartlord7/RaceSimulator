@@ -7,5 +7,6 @@
 
 extern int random_int(int min, int max);
 extern int random_uniform_event(float probability);
+extern void ms_sleep(uint ms);
 
 #endif //UTIL_NUMBERS_H

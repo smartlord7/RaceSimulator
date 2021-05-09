@@ -9,7 +9,8 @@
 
 // region dependencies
 
-#include <unistd.h>
+#include <asm-generic/errno.h>
+#include <errno.h>
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
@@ -17,8 +18,8 @@
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../util/process_manager/process_manager.h"
 #include "../../ipcs/message_queue/msg_queue.h"
-#include "../../ipcs/sync/semaphore/sem.h"
 #include "team_manager.h"
+#include "../../util/numbers/numbers.h"
 
 // endregion dependencies
 
@@ -32,8 +33,9 @@
  * The race car information.
  *
  */
-void * race_car_worker(void * data);
-void simulate_car(race_car_t * car);
+_Noreturn static void manage_box(race_box_t * box);
+static void * race_car_worker(void * data);
+static void simulate_car(race_car_t * car);
 
 // endregion private functions prototypes
 
@@ -50,6 +52,11 @@ void team_manager(void * data){
     i = 0, temp_num_cars = config.max_cars_per_team;
     team->num_cars = temp_num_cars;
 
+    init_mutex(&team->team_box.car_in, true);
+    init_mutex(&team->team_box.available, true);
+    init_cond(&team->team_box.cond, true);
+    team->team_box.team = team;
+
     while (i < temp_num_cars) {
         temp_car = race_car(team, ++shm->total_num_cars, 0.02f, 20, 0.8f, 40);
         snprintf(temp_car->name, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
@@ -61,6 +68,8 @@ void team_manager(void * data){
         i++;
     }
 
+    manage_box(&team->team_box);
+
     wait_threads(team->num_cars, car_threads);
 
     DEBUG_MSG(PROCESS_EXIT, DEBUG_LEVEL_ENTRY, TEAM_MANAGER)
@@ -70,6 +79,47 @@ void team_manager(void * data){
 // endregion public functions
 
 // region private functions
+
+_Noreturn void manage_box(race_box_t * box) {
+    race_car_t * car = NULL;
+    uint fuel_time, repair_time;
+
+    fuel_time = tu_to_msec(REFUEL_TIME_FACTOR * config.time_units_per_sec);
+    box->current_car = NULL;
+    box->state = FREE;
+
+    while (true) {
+
+        lock_mutex(&box->car_in);
+        while (box->current_car == NULL) {
+            wait_cond(&box->cond, &box->car_in);
+        }
+        unlock_mutex(&box->car_in);
+
+        box->state = OCCUPIED;
+
+        car = box->current_car;
+
+        DEBUG_MSG(CAR_FIX, DEBUG_LEVEL_EVENT, box->team->team_id, car->car_id)
+
+        repair_time = (uint) random_int(config.min_repair_time, config.max_repair_time);
+        ms_sleep(repair_time);
+
+        DEBUG_MSG(CAR_REFUEL, DEBUG_LEVEL_EVENT, box->team->team_id, car->car_id)
+
+        //tim1.tv_sec = fuel_time;
+        ms_sleep(fuel_time);
+
+        lock_mutex(&car->mutex);
+        car->state = RACE; // Good to go :-)
+        notify_cond(&car->start_cond);
+        unlock_mutex(&car->mutex);
+        box->current_car = NULL;
+
+        box->state = FREE;
+        unlock_mutex(&box->available);
+    }
+}
 
 void * race_car_worker(void * data){
     race_car_t * car = (race_car_t *) data;
@@ -83,7 +133,6 @@ void * race_car_worker(void * data){
 }
 
 void simulate_car(race_car_t * car) {
-    DEBUG_MSG(race_car_to_string(car), DEBUG_LEVEL_PARAM, "")
     init_mutex(&car->mutex, true);
     init_cond(&car->start_cond, true);
 
@@ -91,26 +140,41 @@ void simulate_car(race_car_t * car) {
     long int time_step;
     int box_needed;
     float min_fuel1, min_fuel2;
-    struct timespec tim1, tim2;
 
     box_needed = false;
     min_fuel1 = REFUEL_MIN_LAPS1 * config.lap_distance / car->speed * car->consumption;
     min_fuel2 = REFUEL_MIN_LAPS2 * config.lap_distance / car->speed * car->consumption;
-    time_step = tu_to_sec(config.time_units_per_sec);
-    tim1.tv_sec = time_step;
-    tim2.tv_nsec = 0;
+    time_step = tu_to_msec(config.time_units_per_sec);
 
 
-    wait_cond(&car->start_cond, &car->mutex);
+    lock_mutex(&car->mutex);
+    while (car->state == NONE) {
+        wait_cond(&car->start_cond, &car->mutex);
+    }
+    unlock_mutex(&car->mutex);
 
     while(true) {
+        DEBUG_MSG(race_car_to_string(car), DEBUG_LEVEL_PARAM, "")
+
         if (box_needed) {
+            race_box_t * box = &car->team->team_box;
+            if (pthread_mutex_trylock(&box->available)) {
+
+                set_state(car, IN_BOX);
+
+                lock_mutex(&box->car_in);
+                car->team->team_box.current_car = car;
+                notify_cond(&box->cond);
+                unlock_mutex(&box->car_in);
 
 
-            /**set_state(car, IN_BOX);
-            DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)**/
-
-            // IN BOX
+                lock_mutex(&car->mutex);
+                while (car->state == IN_BOX) {
+                    wait_cond(&car->start_cond, &car->mutex);
+                }
+                unlock_mutex(&car->mutex);
+                box_needed = false;
+            }
         }
 
         if (rcv_msg(malfunction_q_id, (void *) &malfunction_msg, sizeof(malfunction_msg), car->car_id) > 0) {
@@ -160,7 +224,7 @@ void simulate_car(race_car_t * car) {
             DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)
         }
 
-        nanosleep(&tim1, &tim2);
+        ms_sleep(time_step);
     }
 }
 

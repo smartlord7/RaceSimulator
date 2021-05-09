@@ -49,6 +49,7 @@ CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../structs/shared_memory/shared_memory_t.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../sync_t.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../util/debug/debug.h
+CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../util/exception_handler/exception_handler.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../util/global.h
 CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o: ../util/numbers/numbers.h
 
@@ -106,6 +107,7 @@ CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../structs
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../sync_t.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../util/debug/debug.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../util/global.h
+CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../util/numbers/numbers.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../util/process_manager/process_manager.h
 
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../ipcs/sync/cond_var/cond_var.h
@@ -114,6 +116,7 @@ CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../structs/race_bo
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../structs/race_car/race_car_t.c
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../structs/race_car/race_car_t.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../structs/race_team/race_team_t.h
+CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../util/debug/debug.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../util/exception_handler/exception_handler.h
 CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o: ../util/strings/strings.h
 
@@ -161,6 +164,7 @@ CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.o: ../util/log_g
 CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.o: ../util/log_generator/log_generator.h
 CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.o: ../util/strings/strings.h
 
+CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o: ../util/exception_handler/exception_handler.h
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o: ../util/numbers/numbers.c
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o: ../util/numbers/numbers.h
 
