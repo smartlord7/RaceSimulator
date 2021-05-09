@@ -16,13 +16,7 @@ pthread.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
 
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
-
 /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.c
-asm-generic/errno.h
--
-errno.h
--
 stdlib.h
 /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/stdlib.h
 stdio.h
@@ -37,8 +31,6 @@ pthread.h
 /home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h
 ../../ipcs/message_queue/msg_queue.h
 /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
-../../ipcs/sync/semaphore/sem.h
-/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
 team_manager.h
 /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
 ../../util/numbers/numbers.h

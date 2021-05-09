@@ -58,9 +58,6 @@ void malfunction_manager(){
 // region private functions
 
 static void generate_malfunctions(void) {
-    init_cond(&shm->sync_s.start_cond, true);
-    init_mutex(&shm->sync_s.mutex, true);
-
     int i, j, rdm_index;
     long int malfunction_interval;
     float prob_malfunction;
@@ -71,7 +68,7 @@ static void generate_malfunctions(void) {
 
     lock_mutex(&shm->sync_s.mutex);
     while (!shm->sync_s.race_start) {
-        wait_cond(&shm->sync_s.start_cond, &shm->sync_s.mutex);
+        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
     }
     unlock_mutex(&shm->sync_s.mutex);
 
@@ -86,7 +83,7 @@ static void generate_malfunctions(void) {
                 prob_malfunction = 1 - current_car.reliability;
 
                 if (random_uniform_event(prob_malfunction)) {
-                    shm->cars_on_track--;
+                    shm->num_cars_on_track--;
                     shm->num_malfunctions++;
 
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);

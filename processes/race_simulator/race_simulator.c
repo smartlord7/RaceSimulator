@@ -169,7 +169,7 @@ static void notify_start_race() {
 
     lock_mutex(&shm->sync_s.mutex);
     shm->sync_s.race_start = true;
-    notify_all_cond(&shm->sync_s.start_cond);
+    notify_all_cond(&shm->sync_s.cond);
     unlock_mutex(&shm->sync_s.mutex);
 }
 
@@ -177,6 +177,8 @@ static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
+    init_cond(&shm->sync_s.cond, true);
+    init_mutex(&shm->sync_s.mutex, true);
     malfunction_q_id = create_msg_queue();
 }
 

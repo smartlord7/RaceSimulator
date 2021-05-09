@@ -50,7 +50,7 @@ typedef struct race_box_t race_box_t;
  * An array of pointers to the cars owned by the race team (acts as an array of navigation properties).
  */
 struct race_team_t {
-    int team_id, num_cars;
+    int team_id, num_cars, num_cars_safety;
     char team_name[MAX_TEAM_NAME_SIZE];
     race_box_t team_box;
 };

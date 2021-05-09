@@ -22,7 +22,8 @@
 
 // region forward declarations
 
-typedef enum box_state box_state;
+typedef enum work_reason_t work_reason_t;
+typedef enum box_state_t box_state_t;
 typedef struct race_team_t race_team_t;
 typedef struct race_car_t race_car_t;
 typedef struct race_box_t race_box_t;
@@ -30,11 +31,12 @@ typedef struct race_box_t race_box_t;
 // endregion forward declarations
 
 // region structures
+
 /**
- * @enum box_state
+ * @enum box_state_t
  * Enum that represents the allowed states of a race box.
  */
-enum box_state {
+enum box_state_t {
     FREE, RESERVED, OCCUPIED
 };
 
@@ -56,10 +58,10 @@ enum box_state {
  *
  */
 struct race_box_t{
-    box_state state;
+    box_state_t state;
     race_team_t * team;
     race_car_t * current_car;
-    mutex_t available, car_in;
+    mutex_t available, mutex;
     cond_t cond;
 };
 

@@ -1,4 +1,3 @@
-#include "errno.h"
 #include "assert.h"
 #include "pthread.h"
 #include "cond_var.h"
@@ -7,9 +6,7 @@
 void wait_cond(cond_t * cond, mutex_t * mutex) {
     assert(cond != NULL && mutex != NULL);
 
-    int ret = pthread_cond_wait(cond, mutex);
-
-    throw_if_exit(ret != 0 && ret != EINVAL, COND_VAR_WAIT_EXCEPTION, "");
+    throw_if_exit(pthread_cond_wait(cond, mutex) != 0, COND_VAR_WAIT_EXCEPTION, "");
 }
 
 void init_cond(cond_t * cond, int proc_shared) {

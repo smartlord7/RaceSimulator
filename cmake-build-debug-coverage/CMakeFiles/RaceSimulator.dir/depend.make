@@ -95,7 +95,6 @@ CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../uti
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/message_queue/msg_queue.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/sync/mutex/mutex.h
-CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../ipcs/sync/semaphore/sem.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../processes/team_manager/team_manager.c
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../processes/team_manager/team_manager.h
 CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o: ../structs/malfunction/malfunction_t.h

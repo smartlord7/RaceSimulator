@@ -9,8 +9,6 @@
 
 // region dependencies
 
-#include <asm-generic/errno.h>
-#include <errno.h>
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
@@ -52,13 +50,14 @@ void team_manager(void * data){
     i = 0, temp_num_cars = config.max_cars_per_team;
     team->num_cars = temp_num_cars;
 
-    init_mutex(&team->team_box.car_in, true);
+    init_mutex(&team->team_box.mutex, true);
     init_mutex(&team->team_box.available, true);
     init_cond(&team->team_box.cond, true);
     team->team_box.team = team;
+    team->num_cars_safety = 0;
 
     while (i < temp_num_cars) {
-        temp_car = race_car(team, ++shm->total_num_cars, 0.02f, 20, 0.8f, 40);
+        temp_car = race_car(team, ++shm->total_num_cars, 0.02f, 60, 0.8f, 40);
         snprintf(temp_car->name, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
         shm->race_cars[team->team_id][i] = * temp_car;
 
@@ -90,19 +89,22 @@ _Noreturn void manage_box(race_box_t * box) {
 
     while (true) {
 
-        lock_mutex(&box->car_in);
+        lock_mutex(&box->mutex);
         while (box->current_car == NULL) {
-            wait_cond(&box->cond, &box->car_in);
+            wait_cond(&box->cond, &box->mutex);
         }
-        unlock_mutex(&box->car_in);
+        unlock_mutex(&box->mutex);
 
+        SYNC
+        shm->num_cars_on_track--;
+        END_SYNC
         box->state = OCCUPIED;
 
         car = box->current_car;
 
         DEBUG_MSG(CAR_FIX, DEBUG_LEVEL_EVENT, box->team->team_id, car->car_id)
 
-        repair_time = (uint) random_int(config.min_repair_time, config.max_repair_time);
+        repair_time = (uint) random_int(tu_to_msec(config.min_repair_time), tu_to_msec(config.max_repair_time));
         ms_sleep(repair_time);
 
         DEBUG_MSG(CAR_REFUEL, DEBUG_LEVEL_EVENT, box->team->team_id, car->car_id)
@@ -110,13 +112,15 @@ _Noreturn void manage_box(race_box_t * box) {
         //tim1.tv_sec = fuel_time;
         ms_sleep(fuel_time);
 
-        lock_mutex(&car->mutex);
-        car->state = RACE; // Good to go :-)
+        box->state = FREE;
+
+        SYNC_CAR
+        set_state(car, RACE);
         notify_cond(&car->start_cond);
-        unlock_mutex(&car->mutex);
+        END_SYNC_CAR
+
         box->current_car = NULL;
 
-        box->state = FREE;
         unlock_mutex(&box->available);
     }
 }
@@ -139,13 +143,13 @@ void simulate_car(race_car_t * car) {
     malfunction_t malfunction_msg;
     long int time_step;
     int box_needed;
-    float min_fuel1, min_fuel2;
+    float fuel_per_lap, min_fuel1, min_fuel2;
 
     box_needed = false;
-    min_fuel1 = REFUEL_MIN_LAPS1 * config.lap_distance / car->speed * car->consumption;
-    min_fuel2 = REFUEL_MIN_LAPS2 * config.lap_distance / car->speed * car->consumption;
+    fuel_per_lap = config.lap_distance / car->speed * car->consumption;
+    min_fuel1 = REFUEL_MIN_LAPS1 * fuel_per_lap;
+    min_fuel2 = REFUEL_MIN_LAPS2 * fuel_per_lap;
     time_step = tu_to_msec(config.time_units_per_sec);
-
 
     lock_mutex(&car->mutex);
     while (car->state == NONE) {
@@ -156,29 +160,35 @@ void simulate_car(race_car_t * car) {
     while(true) {
         DEBUG_MSG(race_car_to_string(car), DEBUG_LEVEL_PARAM, "")
 
-        if (box_needed) {
-            race_box_t * box = &car->team->team_box;
-            if (pthread_mutex_trylock(&box->available)) {
+        if (box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box) {
 
+            race_box_t * box = &car->team->team_box;
+
+            if (pthread_mutex_trylock(&box->available) == 0) {
+                car->remaining_fuel -= (config.lap_distance - car->current_pos) * config.time_units_per_sec;
                 set_state(car, IN_BOX);
 
-                lock_mutex(&box->car_in);
+                DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)
+
+                lock_mutex(&box->mutex);
                 car->team->team_box.current_car = car;
                 notify_cond(&box->cond);
-                unlock_mutex(&box->car_in);
+                unlock_mutex(&box->mutex);
 
-
-                lock_mutex(&car->mutex);
+                SYNC_CAR
                 while (car->state == IN_BOX) {
                     wait_cond(&car->start_cond, &car->mutex);
                 }
-                unlock_mutex(&car->mutex);
+                END_SYNC_CAR
+
+                DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)
+
                 box_needed = false;
-            }
+            } 
         }
 
         if (rcv_msg(malfunction_q_id, (void *) &malfunction_msg, sizeof(malfunction_msg), car->car_id) > 0) {
-            printf("%s\n", malfunction_msg.malfunction_msg);
+            DEBUG_MSG(malfunction_msg.malfunction_msg, DEBUG_LEVEL_EVENT, "");
 
             set_state(car, SAFETY);
             box_needed = true;
@@ -186,12 +196,8 @@ void simulate_car(race_car_t * car) {
             DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)
         }
 
-        car->remaining_fuel -= car->current_consumption * config.time_units_per_sec;
-        car->current_pos += car->current_speed * config.time_units_per_sec;
-
-        DEBUG_MSG(CAR_MOVE, DEBUG_LEVEL_EVENT, car->car_id, car->current_pos)
-
-        if (car->current_pos >= config.lap_distance) {
+        if (car->current_pos + car->current_speed * config.time_units_per_sec >= config.lap_distance) {
+            car->remaining_fuel -= (config.lap_distance - car->current_pos) * config.time_units_per_sec;
             car->completed_laps++;
             car->current_pos = 0;
 
@@ -203,8 +209,17 @@ void simulate_car(race_car_t * car) {
                 DEBUG_MSG(CAR_STATE_CHANGE, DEBUG_LEVEL_EVENT, car->car_id, car->state)
 
                 DEBUG_MSG(CAR_FINISH, DEBUG_LEVEL_EVENT, car->car_id)
+
+                break;
             }
+
+            continue;
         }
+
+        car->remaining_fuel -= car->current_consumption * config.time_units_per_sec;
+        car->current_pos += car->current_speed * config.time_units_per_sec;
+
+        DEBUG_MSG(CAR_MOVE, DEBUG_LEVEL_EVENT, car->car_id, car->current_pos)
 
         if (car->remaining_fuel <= 0) {
             set_state(car, NON_FIT);

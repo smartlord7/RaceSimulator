@@ -96,7 +96,6 @@ CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
- /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.c
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h
  /home/sancho/Documents/GitRepos/RaceSimulator/structs/malfunction/malfunction_t.h
