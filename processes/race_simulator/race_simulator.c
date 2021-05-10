@@ -68,10 +68,6 @@ static void notify_race_start();
 
 static void terminate();
 
-static void handle_named_pipe(int * fd);
-
-static void watch_named_pipe(void * fd);
-
 static void show_stats(int signum);
 
 static void segfault_handler(int signum);
@@ -80,7 +76,7 @@ static void segfault_handler(int signum);
 
 // region global variables
 
-int shm_id, malfunction_q_id, named_pipe_fd;
+int shm_id, malfunction_q_id, fd_named_pipe;
 race_config_t config;
 pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
@@ -95,9 +91,9 @@ sem_t ** boxes_availability = NULL;
  */
 
 int main() {
-    signal(SIGINT, SIG_IGN);
-    signal(SIGTSTP, SIG_IGN);
-    signal(SIGSEGV, segfault_handler);
+    //signal(SIGINT, SIG_IGN);
+    //signal(SIGTSTP, SIG_IGN);
+    //signal(SIGSEGV, segfault_handler);
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
@@ -121,6 +117,7 @@ int main() {
 
     //create race manager process
     create_process(RACE_MANAGER, race_manager, NULL);
+    while(1);
 
     //create malfunction_q_id manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
@@ -173,7 +170,7 @@ static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
-    named_pipe_fd = create_named_pipe(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
+    fd_named_pipe = create_named_pipe(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
     init_cond(&shm->sync_s.cond, true);
     init_mutex(&shm->sync_s.mutex, true);
     malfunction_q_id = create_msg_queue();
@@ -194,18 +191,6 @@ static void show_stats(int signum) {
 
 static void segfault_handler(int signum) {
     printf("WELL... THAT ESCALATED QUICKLY...\n");
-}
-
-void handle_named_pipe(int * fd) {
-
-    if(pthread_create(&npipe_thread_id, NULL, (void *) watch_named_pipe, (void *) fd) != 0) {
-        throw_and_exit(THREAD_CREATE_EXCEPTION, "NAMED PIPE HANDLER");
-    }
-
-}
-
-void watch_named_pipe(void * fd) {
-    //TODO: read input from user and redirect to named pipe
 }
 
 static void terminate() {

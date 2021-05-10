@@ -58,9 +58,12 @@ void race_manager(){
     //create the teams' processes
     create_teams(num_teams);
 
-
+    n_pipe_fd = fd_named_pipe;
     // cria thread watch pipe
-    create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, n_pipe_fd);
+    printf("Começa a observar named pipe\n");
+    create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, (void *) &n_pipe_fd);
+    printf("um\n");
+    while(1);
 
     //register
 
@@ -89,22 +92,23 @@ void create_teams(int num_teams) {
 }
 
 void watch_pipe(void * fd) {
-    int result_type, pipe_fd = * (int *) fd;
+    int result_type, pipe_fd = *(int *) fd;
     char buffer[MAX_BUFFER_SIZE];
-    race_team_t * team = NULL;
     race_car_t * car = NULL;
+
+    printf("entrou\n");
 
     while(true) {
 
         if(read_command(pipe_fd, buffer, sizeof(buffer))) {
-
+            printf("lido: %s\n", buffer);
             result_type = interpret_command(buffer, car);
 
             switch (result_type) {
 
             }
 
-        }
+        } else printf("nao li nada\n");
     }
 }
 
@@ -114,6 +118,8 @@ int read_command(int fd, char * buffer, int size){
     do {
         n = read(fd, buffer, size);
     } while(n > 0);
+
+    printf("buffer: %s\n", buffer);
 
     if(n < 0) return EXIT_FAILURE;
     return EXIT_SUCCESS;
@@ -143,6 +149,7 @@ int interpret_command(char * buffer, race_car_t * car_data) {
 
 int check_start_conditions() {
 
+    return 1;
 }
 
 race_team_t * get_team(char * team_name) {
@@ -156,12 +163,7 @@ race_team_t * get_team(char * team_name) {
 }
 
 int validate_add(char * buffer, race_car_t * read_data) {
-    int result;
-    char * token, * tokenB;
-
-    char * speed, * speed_value;
-    char * consumption, * consumption_value;
-    char * reliability, * reliabilty_value;
+    char * token;
 
     // validate team name
     if((token = strtok(buffer, DELIM_1)) == NULL) {
@@ -173,8 +175,7 @@ int validate_add(char * buffer, race_car_t * read_data) {
     if((token = strtok(NULL, DELIM_1)) == NULL) {
         return false;
     }
-    result = validate_car_id(token, read_data);
-    if(result == false) return result;
+    if(validate_car_id(token, read_data) == false) return false;
 
     //validate speed
     if((token = strtok(NULL, DELIM_1)) == NULL) {
@@ -221,14 +222,16 @@ int validate_team(char * buffer, race_car_t * read_data) {
 
 int check_unique_id(int car_id, race_car_t * car_data) {
     int i;
-    race_car_t * car_A = car_data, *car_B;
+    race_car_t * car_B;
 
     for(i = 0; i < MAX_NUM_TEAMS && shm->race_cars[i] != NULL; i++) {
 
         car_B = shm->race_cars[i];
-        if(car_B->team->team_id == car_A->team->team_id && car_B->car_id == car_A->car_id) return false;
+        if(car_B->team->team_id == car_data->team->team_id && car_B->car_id == car_id) return false;
 
     }
+
+    car_data->car_id = car_id;
 
     return true;
 }
@@ -246,6 +249,7 @@ int validate_int(char * buffer, char * expected_cmd, int * result) {
             value_field = trim_string(value_field, strlen(value_field));
 
             if(!(value = atoi(value_field)) || value <= 0) return false;
+            *result = value;
 
             return true;
 
