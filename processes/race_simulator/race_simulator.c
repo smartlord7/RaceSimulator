@@ -72,6 +72,8 @@ static void segfault_handler(int signum);
 
 // region global variables
 
+void shm_init();
+
 int shm_id, malfunction_q_id;
 race_config_t config;
 shared_memory_t * shm = NULL;
@@ -103,8 +105,7 @@ int main() {
 
     //create interprocess communication mechanisms
     create_ipcs(config.num_teams);
-
-    shm->sync_s.race_start = false;
+    shm_init();
 
     log_init(LOG_FILE_NAME);
     generate_log_entry(I_SIMULATION_START, NULL);
@@ -130,6 +131,17 @@ int main() {
     destroy_ipcs(config.num_teams);
 
     return EXIT_SUCCESS;
+}
+
+void shm_init() {
+
+    shm->sync_s.race_running = false;
+    shm->global_time = 0;
+    shm->num_cars_on_track = 0;
+    shm->num_malfunctions = 0;
+    shm->num_refuels = 0;
+    shm->total_num_cars = 0;
+
 }
 
 // region private functions

@@ -37,7 +37,7 @@ set_state(car, state); \
 END_SYNC_CAR \
 lock_mutex(&team->pipe_mutex);  \
 write_stream(unn_pipe_fds[1], &car_state_change, sizeof(race_car_state_change_t));\
-unlock_mutex(&team->pipe_mutex);
+unlock_mutex(&team->pipe_mutex)
 
 // endregion constants
 

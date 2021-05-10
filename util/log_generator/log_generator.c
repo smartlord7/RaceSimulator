@@ -70,6 +70,7 @@ void log_close(){
 
 void generate_log_entry(char * mode, void * data){
     assert(mode != NULL);
+    // TODO: replace cases with int values and use snprintf
 
     //race_car_t * car;
     char * entry = get_time();
@@ -140,12 +141,12 @@ char * get_time(){
     buffer = asctime(localtime(&current_time));
 
     if ((token = strtok(buffer, TIMESTAMP_DELIMITER)) == NULL) {
-        throw_and_exit(TOKENIZING_EXCEPTION, OF_TIMESTAMP);
+        throw_and_exit(TOKENIZE_EXCEPTION, OF_TIMESTAMP);
     }
 
     for(i = 0; i < NUM_TIMESTAMP_FIELDS; i++){
         if ((token = strtok(NULL, TIMESTAMP_DELIMITER)) == NULL) {
-            throw_and_exit(TOKENIZING_EXCEPTION, OF_TIMESTAMP);
+            throw_and_exit(TOKENIZE_EXCEPTION, OF_TIMESTAMP);
         }
     }
 

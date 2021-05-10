@@ -98,7 +98,7 @@ typedef enum race_car_state {
  * The current position of the race car on the racing track.
  *
  * @var race_car_t::timer
- * The time, in seconds, between the race race_start and when the race car crosses the finish line.
+ * The time, in seconds, between the race race_running and when the race car crosses the finish line.
  */
 typedef struct race_car_t{
     race_team_t * team;

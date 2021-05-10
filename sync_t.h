@@ -10,7 +10,7 @@
 typedef struct sync_t sync_t;
 
 struct sync_t {
-    int race_start;
+    int race_running;
     mutex_t mutex;
     cond_t cond;
 };

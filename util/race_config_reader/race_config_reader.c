@@ -134,7 +134,7 @@ race_config_t * read_race_config() {
                break;
            case 1:
                if ((token = strtok(buffer, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(TOKENIZING_EXCEPTION, LAP_DISTANCE);
+                   error_at_line(TOKENIZE_EXCEPTION, LAP_DISTANCE);
                }
 
                to_float_wrapper(to_float(token, &lap_distance), LAP_DISTANCE);
@@ -142,7 +142,7 @@ race_config_t * read_race_config() {
                validate_interval(lap_distance, LAP_DISTANCE, MIN_LAP_DISTANCE, MAX_LAP_DISTANCE);
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(TOKENIZING_EXCEPTION, LAPS_PER_RACE);
+                   error_at_line(TOKENIZE_EXCEPTION, LAPS_PER_RACE);
                }
 
                if (!(laps_per_race = atoi(token))) {
@@ -176,7 +176,7 @@ race_config_t * read_race_config() {
                break;
            case 5:
                if ((token = strtok(buffer, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(TOKENIZING_EXCEPTION, MIN_REPAIR_TIME);
+                   error_at_line(TOKENIZE_EXCEPTION, MIN_REPAIR_TIME);
                }
 
                if (!(min_repair_time = atoi(token))) {
@@ -186,7 +186,7 @@ race_config_t * read_race_config() {
                validate_interval(min_repair_time, MIN_REPAIR_TIME, MIN_MIN_REPAIR_TIME, MAX_MIN_REPAIR_TIME);
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
-                   error_at_line(TOKENIZING_EXCEPTION, MAX_REPAIR_TIME);
+                   error_at_line(TOKENIZE_EXCEPTION, MAX_REPAIR_TIME);
                }
 
                if (!(max_repair_time = atoi(token))) {

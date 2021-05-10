@@ -53,7 +53,7 @@ void team_manager(void * data){
     init_mutex(&team->access_mutex, true);
     init_mutex(&team->pipe_mutex, true);
     init_cond(&team->team_box.cond, true);
-    close_fd(unn_pipe_fds[0]);
+    close_fd(unn_pipe_fds[0]); //TODO: close also the write end of the pipe
     team->team_box.team = team;
     team->team_box.car_dispatched = true;
     team->num_cars_safety = 0;
@@ -91,6 +91,7 @@ void team_manager(void * data){
 
 // region private functions
 
+// TODO: Distinguish fix/ refuel safety modes
 _Noreturn void manage_box(race_box_t * box) {
     // declare the needed variables
     race_car_t * car = NULL;
@@ -137,6 +138,8 @@ _Noreturn void manage_box(race_box_t * box) {
                 DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, team->team_id, car->car_id)
 
                 SYNC
+                shm->num_malfunctions++;
+                shm->num_refuels++;
                 shm->num_cars_on_track--;
                 END_SYNC
 
@@ -170,6 +173,7 @@ _Noreturn void manage_box(race_box_t * box) {
             box->state = OCCUPIED;
 
             SYNC
+            shm->num_refuels++;
             shm->num_cars_on_track--;
             END_SYNC
 
@@ -231,8 +235,8 @@ void simulate_car(race_car_t * car) {
     car_state_change.car_id = car->car_id;
 
     // wait for the race to start.
-    SYNC_CAR_COND
-    while (!shm->sync_s.race_start) {
+    SYNC_CAR_COND // TODO: Move to team manager
+    while (!shm->sync_s.race_running) {
         wait_cond(&car->cond, &car->cond_mutex);
     }
     END_SYNC_CAR_COND

@@ -35,10 +35,6 @@
 #define SYNC_BOX lock_mutex(&box->access_mutex);
 #define END_SYNC_BOX unlock_mutex(&box->access_mutex);
 #define tu_to_msec(t) (uint) ((t) / config.time_units_per_sec * pow(10, 3))
-#define CHANGE_CAR_STATE(state) set_state(car, state); \
-lock_mutex(&team->pipe_mutex); \
-car_state_change.new_state = state; \
-unlock_mutex(&team->pipe_mutex);
 
 #define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
 #define NAMED_PIPE_INDEX config.num_teams
@@ -48,7 +44,6 @@ unlock_mutex(&team->pipe_mutex);
 #define MEDIUM_SIZE 128
 #define LARGE_SIZE 256
 #define XLARGE_SIZE 512
-
 #define LARGEST_SIZE 1024
 
 // endregion constants

@@ -45,7 +45,7 @@ char * string(int size);
 extern char * append(char * first, char * second);
 extern char * trim_string(char * buffer, int size);
 extern int starts_with(char * string, char * string2);
-extern int starts_with_ignore_case(char * string, char * string2)
+extern int starts_with_ignore_case(char * string, char * string2);
 
 // region public functions prototypes
 
