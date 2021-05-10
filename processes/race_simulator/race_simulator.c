@@ -117,7 +117,6 @@ int main() {
 
     //create race manager process
     create_process(RACE_MANAGER, race_manager, NULL);
-    while(1);
 
     //create malfunction_q_id manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
@@ -170,7 +169,7 @@ static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
-    fd_named_pipe = create_named_pipe(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
+    create_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     init_cond(&shm->sync_s.cond, true);
     init_mutex(&shm->sync_s.mutex, true);
     malfunction_q_id = create_msg_queue();

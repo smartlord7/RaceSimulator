@@ -12,14 +12,10 @@ void create_unn_pipe(int fds[2]){
     throw_if_exit(pipe(fds) != -1, UNNAMED_PIPE_CREATE_EXCEPTION, NULL);
 }
 
-int create_named_pipe(const char * pipe_name, int mode){
+void create_named_pipe(const char * pipe_name){
     assert(pipe_name != NULL);
 
-    int fd;
     unlink(pipe_name);
 
     throw_if_exit(mkfifo(pipe_name, O_CREAT | O_EXCL | 0600) == -1 || (errno == EEXIST), NAMED_PIPE_CREATE_EXCEPTION, pipe_name);
-    sleep(1);
-
-    return fd;
 }

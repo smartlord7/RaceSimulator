@@ -130,6 +130,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named cmd
+
+# Build rule for target.
+cmd: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cmd
+.PHONY : cmd
+
+# fast build rule for target.
+cmd/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/build
+.PHONY : cmd/fast
+
+#=============================================================================
 # Target rules for targets named RaceSimulator
 
 # Build rule for target.
@@ -439,6 +452,33 @@ processes/team_manager/team_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.s
 .PHONY : processes/team_manager/team_manager.c.s
 
+race_simulator_cmd.o: race_simulator_cmd.c.o
+
+.PHONY : race_simulator_cmd.o
+
+# target to build an object file
+race_simulator_cmd.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/race_simulator_cmd.c.o
+.PHONY : race_simulator_cmd.c.o
+
+race_simulator_cmd.i: race_simulator_cmd.c.i
+
+.PHONY : race_simulator_cmd.i
+
+# target to preprocess a source file
+race_simulator_cmd.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/race_simulator_cmd.c.i
+.PHONY : race_simulator_cmd.c.i
+
+race_simulator_cmd.s: race_simulator_cmd.c.s
+
+.PHONY : race_simulator_cmd.s
+
+# target to generate assembly for a file
+race_simulator_cmd.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/race_simulator_cmd.c.s
+.PHONY : race_simulator_cmd.c.s
+
 structs/race_car/race_car_t.o: structs/race_car/race_car_t.c.o
 
 .PHONY : structs/race_car/race_car_t.o
@@ -553,6 +593,7 @@ util/exception_handler/exception_handler.o: util/exception_handler/exception_han
 
 # target to build an object file
 util/exception_handler/exception_handler.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o
 .PHONY : util/exception_handler/exception_handler.c.o
 
@@ -562,6 +603,7 @@ util/exception_handler/exception_handler.i: util/exception_handler/exception_han
 
 # target to preprocess a source file
 util/exception_handler/exception_handler.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.i
 .PHONY : util/exception_handler/exception_handler.c.i
 
@@ -571,6 +613,7 @@ util/exception_handler/exception_handler.s: util/exception_handler/exception_han
 
 # target to generate assembly for a file
 util/exception_handler/exception_handler.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.s
 .PHONY : util/exception_handler/exception_handler.c.s
 
@@ -580,6 +623,7 @@ util/file/file.o: util/file/file.c.o
 
 # target to build an object file
 util/file/file.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/file/file.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.o
 .PHONY : util/file/file.c.o
 
@@ -589,6 +633,7 @@ util/file/file.i: util/file/file.c.i
 
 # target to preprocess a source file
 util/file/file.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/file/file.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.i
 .PHONY : util/file/file.c.i
 
@@ -598,6 +643,7 @@ util/file/file.s: util/file/file.c.s
 
 # target to generate assembly for a file
 util/file/file.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/file/file.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.s
 .PHONY : util/file/file.c.s
 
@@ -715,6 +761,7 @@ util/read_line/read_line.o: util/read_line/read_line.c.o
 
 # target to build an object file
 util/read_line/read_line.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/read_line/read_line.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.o
 .PHONY : util/read_line/read_line.c.o
 
@@ -724,6 +771,7 @@ util/read_line/read_line.i: util/read_line/read_line.c.i
 
 # target to preprocess a source file
 util/read_line/read_line.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/read_line/read_line.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.i
 .PHONY : util/read_line/read_line.c.i
 
@@ -733,6 +781,7 @@ util/read_line/read_line.s: util/read_line/read_line.c.s
 
 # target to generate assembly for a file
 util/read_line/read_line.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/read_line/read_line.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.s
 .PHONY : util/read_line/read_line.c.s
 
@@ -799,6 +848,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
+	@echo "... cmd"
 	@echo "... data_structures/priority_queue/priority_queue.o"
 	@echo "... data_structures/priority_queue/priority_queue.i"
 	@echo "... data_structures/priority_queue/priority_queue.s"
@@ -832,6 +882,9 @@ help:
 	@echo "... processes/team_manager/team_manager.o"
 	@echo "... processes/team_manager/team_manager.i"
 	@echo "... processes/team_manager/team_manager.s"
+	@echo "... race_simulator_cmd.o"
+	@echo "... race_simulator_cmd.i"
+	@echo "... race_simulator_cmd.s"
 	@echo "... structs/race_car/race_car_t.o"
 	@echo "... structs/race_car/race_car_t.i"
 	@echo "... structs/race_car/race_car_t.s"

@@ -9,16 +9,18 @@
 
 // region dependencies
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/unistd.h>
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+#include "sys/unistd.h"
+#include "fcntl.h"
 #include "../../util/process_manager/process_manager.h"
 #include "../../util/global.h"
 #include "../team_manager/team_manager.h"
 #include "race_manager.h"
 #include "../../util/to_float//to_float.h"
 #include "../../util/strings/strings.h"
+#include "../../util/file/file.h"
 
 // endregion dependencies
 
@@ -44,26 +46,22 @@ int validate_consumption(char * buffer, race_car_t  * read_data);
 
 int validate_reliability(char * buffer, race_car_t  * read_data);
 
-void watch_pipe(void * fd);
-
-pthread_t watcher_id;
+void watch_pipe(int fd);
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, RACE_MANAGER);
 
-    int num_teams = config.num_teams, n_pipe_fd;
+    int num_teams = config.num_teams;
     shm->total_num_cars = 0;
 
     //create the teams' processes
     create_teams(num_teams);
 
-    n_pipe_fd = fd_named_pipe;
     // cria thread watch pipe
     printf("Começa a observar named pipe\n");
-    create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, (void *) &n_pipe_fd);
-    printf("um\n");
-    while(1);
+    fd_named_pipe = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
+    watch_pipe(fd_named_pipe);
 
     //register
 
@@ -91,24 +89,19 @@ void create_teams(int num_teams) {
     }
 }
 
-void watch_pipe(void * fd) {
-    int result_type, pipe_fd = *(int *) fd;
+void watch_pipe(int fd) {
+    int result_type, n;
     char buffer[MAX_BUFFER_SIZE];
-    race_car_t * car = NULL;
-
-    printf("entrou\n");
 
     while(true) {
 
-        if(read_command(pipe_fd, buffer, sizeof(buffer))) {
-            printf("lido: %s\n", buffer);
-            result_type = interpret_command(buffer, car);
-
-            switch (result_type) {
-
+        do {
+            n = read(fd, buffer, MAX_BUFFER_SIZE * sizeof(char));
+            if (n > 0) {
+                buffer[n] = '\0';
+                printf("%s\n", buffer);
             }
-
-        } else printf("nao li nada\n");
+        } while(n > 0);
     }
 }
 

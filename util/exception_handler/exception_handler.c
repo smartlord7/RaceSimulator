@@ -50,7 +50,9 @@ void throw_exception(const char * file_name, int line, int exit_process, const c
     va_end(args);
 
     if (exit_process) {
-        clean_func(clean_func_params);
+        if (clean_func) {
+            clean_func(clean_func_params);
+        }
         exit(EXIT_FAILURE);
     }
 }
