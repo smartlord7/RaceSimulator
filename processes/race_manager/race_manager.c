@@ -60,8 +60,7 @@ void race_manager(){
 
 
     // cria thread watch pipe
-    watcher_id = (pthread_t) 1;
-    //create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, (void *) &n_pipe_fd);
+    create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, n_pipe_fd);
 
     //register
 
