@@ -46,7 +46,7 @@ typedef struct race_team_t race_team_t;
  * @brief Enum that represents the allowed states of a race car.
  */
 enum race_car_state {
-   NONE, RACE, SAFETY, IN_BOX, NON_FIT, FINISHED
+   RACE, SAFETY, IN_BOX, NON_FIT, FINISHED
 };
 
 /**
@@ -105,8 +105,8 @@ struct race_car_t{
     race_team_t * team;
     char name[MAX_LABEL_SIZE];
     race_car_state state;
-    mutex_t mutex;
-    cond_t start_cond;
+    mutex_t cond_mutex, access_mutex;
+    cond_t cond;
     int car_id,
             completed_laps,
             num_box_stops,
@@ -118,8 +118,7 @@ struct race_car_t{
             speed,
             current_speed,
             reliability,
-            current_pos,
-            timer;
+            current_pos;
 };
 
 // endregion structures

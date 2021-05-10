@@ -25,9 +25,11 @@
 #define CAR_COMPLETE_LAP RACE_CAR_SAY "COMPLETED %d LAP(S)!"
 #define CAR_FIX TEAM_MANAGER_SAY "FIXING CAR %d..."
 #define CAR_REFUEL TEAM_MANAGER_SAY "REFUELING CAR %d..."
+#define BOX_CAR_ARRIVE TEAM_MANAGER_SAY "THE CAR %d HAS ARRIVED TO THE BOX!"
+#define BOX_RESERVE TEAM_MANAGER_SAY "THE BOX HAS BEEN RESERVED!"
 #define GLOBAL_CLOCK "[GLOBAL_CLOCK] %d tu"
 
-#define car_close_to_box (car->current_pos == 0 || car->current_pos <= config.lap_distance && car->current_pos + car->current_speed * config.time_units_per_sec >= config.lap_distance)
+#define car_close_to_box (car->current_pos == 0 || (car->current_pos <= config.lap_distance && car->current_pos + car->current_speed * config.time_units_per_sec >= config.lap_distance))
 
 // endregion constants
 

@@ -23,7 +23,6 @@
 #include "../../util/process_manager/process_manager.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "../../ipcs/shared_memory/shm.h"
-#include "../../ipcs/sync/semaphore/sem.h"
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../ipcs/pipe/pipe.h"
 
@@ -33,10 +32,6 @@
 
 #define CONFIG_FILE_NAME "config.txt"
 #define LOG_FILE_NAME "log.txt"
-#define RACE_SIMULATOR "RACE_SIMULATOR"
-#define BOX_SEM_PREFIX "BOX_MUTEX_"
-#define PIPE_NAME "PIPE_NAME"
-
 
 // endregion constants
 
@@ -68,7 +63,7 @@ static void destroy_ipcs(int num_teams);
  *
  */
 
-static void notify_start_race();
+static void notify_race_start();
 
 static void terminate();
 
@@ -130,12 +125,12 @@ int main() {
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
-    //signal(SIGTSTP, show_stats);
+    signal(SIGTSTP, show_stats);
 
     // handle SIGINT
     signal(SIGINT, terminate);
 
-    notify_start_race();
+    notify_race_start();
 
     //wait for all of the child processes
     wait_procs();
@@ -150,7 +145,7 @@ int main() {
 
 // region private functions
 
-static void notify_start_race() {
+static void notify_race_start() {
     sleep(1);
 
     int i, j;
@@ -160,10 +155,10 @@ static void notify_start_race() {
         for (j = 0; j < shm->race_teams[i].num_cars; j++) {
             current_car = &shm->race_cars[i][j];
 
-            lock_mutex(&current_car->mutex);
-            set_state(current_car, RACE);
-            notify_all_cond(&current_car->start_cond);
-            unlock_mutex(&current_car->mutex);
+            lock_mutex(&current_car->cond_mutex);
+            shm->sync_s.race_start = true;
+            notify_all_cond(&current_car->cond);
+            unlock_mutex(&current_car->cond_mutex);
         }
     }
 
@@ -185,6 +180,8 @@ static void create_ipcs(int num_teams){
 static void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
 
+    destroy_mutex(&shm->sync_s.mutex);
+    destroy_cond(&shm->sync_s.cond);
     destroy_shm(shm_id, shm);
     destroy_msg_queue(malfunction_q_id);
 }
@@ -210,7 +207,7 @@ void watch_named_pipe(void * fd) {
 }
 
 static void terminate() {
-    //destroy_ipcs(config.num_teams);
+    destroy_ipcs(config.num_teams);
     kill(getpid(), SIGKILL);
 
     exit(EXIT_FAILURE);

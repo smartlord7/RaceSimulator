@@ -76,7 +76,6 @@ CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.h
  /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
- /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.h
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/malfunction_manager/malfunction_manager.h
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/race_manager/race_manager.h
  /home/sancho/Documents/GitRepos/RaceSimulator/processes/race_simulator/race_simulator.c

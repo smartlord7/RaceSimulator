@@ -75,7 +75,6 @@ CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipc
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/shared_memory/shm.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/sync/cond_var/cond_var.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/sync/mutex/mutex.h
-CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../ipcs/sync/semaphore/sem.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../processes/malfunction_manager/malfunction_manager.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../processes/race_manager/race_manager.h
 CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o: ../processes/race_simulator/race_simulator.c

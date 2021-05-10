@@ -38,7 +38,6 @@ race_car(race_team_t *team, int car_id, float consumption, float speed, float re
     new->speed = speed;
     new->reliability = reliability;
 
-    new->state = NONE;
     new->remaining_fuel = initial_fuel;
 
     return new;

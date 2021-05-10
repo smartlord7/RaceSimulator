@@ -32,8 +32,15 @@
 
 #define SYNC lock_mutex(&shm->sync_s.mutex);
 #define END_SYNC unlock_mutex(&shm->sync_s.mutex);
-#define SYNC_CAR lock_mutex(&car->mutex);
-#define END_SYNC_CAR unlock_mutex(&car->mutex);
+#define SYNC_CAR lock_mutex(&car->access_mutex);
+#define END_SYNC_CAR unlock_mutex(&car->access_mutex);
+#define SYNC_CAR_COND lock_mutex(&car->cond_mutex);
+#define END_SYNC_CAR_COND unlock_mutex(&car->cond_mutex);
+#define SYNC_TEAM lock_mutex(&box->team->access_mutex);
+#define END_SYNC_TEAM unlock_mutex(&box->team->access_mutex);
+#define SYNC_BOX lock_mutex(&box->access_mutex);
+#define END_SYNC_BOX unlock_mutex(&box->access_mutex);
+
 #define tu_to_msec(t) (uint) ((t) / config.time_units_per_sec * pow(10, 3))
 
 

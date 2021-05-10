@@ -54,6 +54,7 @@ void race_manager(){
     DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, RACE_MANAGER);
 
     int num_teams = config.num_teams;
+    shm->total_num_cars = 0;
 
     //create the teams' processes
     create_teams(num_teams);

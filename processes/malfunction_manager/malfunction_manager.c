@@ -61,7 +61,7 @@ static void generate_malfunctions(void) {
     int i, j, rdm_index;
     long int malfunction_interval;
     float prob_malfunction;
-    race_car_t current_car;
+    race_car_t * car;
     malfunction_t msg;
 
     malfunction_interval = tu_to_msec(config.malfunction_interval);
@@ -75,22 +75,26 @@ static void generate_malfunctions(void) {
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
             for (j = 0; j < shm->race_teams[i].num_cars; j++) {
-                current_car = shm->race_cars[i][j];
-                if (current_car.state == IN_BOX || current_car.state == SAFETY) {
+                car = &shm->race_cars[i][j];
+
+                SYNC_CAR
+                if (car->state == IN_BOX || car->state == SAFETY) {
+                    END_SYNC_CAR
                     continue;
                 }
 
-                prob_malfunction = 1 - current_car.reliability;
+                prob_malfunction = 1 - car->reliability;
 
                 if (random_uniform_event(prob_malfunction)) {
                     shm->num_cars_on_track--;
                     shm->num_malfunctions++;
 
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
-                    snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], current_car.car_id);
-                    msg.car_id = current_car.car_id;
+                    snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
+                    msg.car_id = car->car_id;
                     snd_msg(malfunction_q_id, (void *) &msg, sizeof(msg));
                 }
+                END_SYNC_CAR
             }
         }
 

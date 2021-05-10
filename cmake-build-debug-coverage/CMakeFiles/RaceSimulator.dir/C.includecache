@@ -67,6 +67,8 @@ semaphore.h
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.h
 ../race_box/race_box_t.h
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_box/race_box_t.h
+../../ipcs/sync/mutex/mutex.h
+/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.h
 
 /home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h
 ../race_car/race_car_t.h
