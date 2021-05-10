@@ -574,6 +574,33 @@ util/exception_handler/exception_handler.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.s
 .PHONY : util/exception_handler/exception_handler.c.s
 
+util/file/file.o: util/file/file.c.o
+
+.PHONY : util/file/file.o
+
+# target to build an object file
+util/file/file.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.o
+.PHONY : util/file/file.c.o
+
+util/file/file.i: util/file/file.c.i
+
+.PHONY : util/file/file.i
+
+# target to preprocess a source file
+util/file/file.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.i
+.PHONY : util/file/file.c.i
+
+util/file/file.s: util/file/file.c.s
+
+.PHONY : util/file/file.s
+
+# target to generate assembly for a file
+util/file/file.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.s
+.PHONY : util/file/file.c.s
+
 util/log_generator/log_generator.o: util/log_generator/log_generator.c.o
 
 .PHONY : util/log_generator/log_generator.o
@@ -820,6 +847,9 @@ help:
 	@echo "... util/exception_handler/exception_handler.o"
 	@echo "... util/exception_handler/exception_handler.i"
 	@echo "... util/exception_handler/exception_handler.s"
+	@echo "... util/file/file.o"
+	@echo "... util/file/file.i"
+	@echo "... util/file/file.s"
 	@echo "... util/log_generator/log_generator.o"
 	@echo "... util/log_generator/log_generator.i"
 	@echo "... util/log_generator/log_generator.s"

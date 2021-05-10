@@ -15,6 +15,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o"
   "CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o"
   "CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o"
+  "CMakeFiles/RaceSimulator.dir/util/file/file.c.o"
   "CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.o"
   "CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o"
   "CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o"

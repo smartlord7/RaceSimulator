@@ -15,7 +15,6 @@
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../util/numbers/numbers.h"
 #include "malfunction_manager.h"
-#include "../../util/exception_handler/exception_handler.h"
 
 // endregion dependencies
 
@@ -66,11 +65,11 @@ static void generate_malfunctions(void) {
 
     malfunction_interval = tu_to_msec(config.malfunction_interval);
 
-    lock_mutex(&shm->sync_s.mutex);
+    SYNC
     while (!shm->sync_s.race_start) {
         wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
     }
-    unlock_mutex(&shm->sync_s.mutex);
+    END_SYNC
 
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
@@ -86,7 +85,6 @@ static void generate_malfunctions(void) {
                 prob_malfunction = 1 - car->reliability;
 
                 if (random_uniform_event(prob_malfunction)) {
-                    shm->num_cars_on_track--;
                     shm->num_malfunctions++;
 
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);

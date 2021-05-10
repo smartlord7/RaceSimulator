@@ -20,6 +20,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/util/debug/debug.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o"
+  "/home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/util/file/file.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o"

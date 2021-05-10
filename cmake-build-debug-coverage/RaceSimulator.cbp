@@ -181,6 +181,12 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/global.h">
 			<Option target="RaceSimulator"/>
 		</Unit>

@@ -48,7 +48,7 @@ void team_manager(void * data){
     int i, temp_num_cars;
 
     i = 0, temp_num_cars = config.max_cars_per_team;
-    team->num_cars = 2;
+    team->num_cars = 20;
 
     init_mutex(&team->team_box.cond_mutex, true);
     init_mutex(&team->team_box.access_mutex, true);
@@ -232,7 +232,6 @@ void simulate_car(race_car_t * car) {
 
     // the car simulation itself.
     while(true) {
-        printf(".%2f\n", car->remaining_fuel);
         DEBUG_MSG(race_car_to_string(car), DEBUG_LEVEL_PARAM, "")
 
         // try to gain access to the box, if needed.

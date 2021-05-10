@@ -9,12 +9,13 @@
 
 // region dependencies
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <assert.h>
-#include <pthread.h>
-#include <signal.h>
-#include <stdio.h>
+#include "stdlib.h"
+#include "unistd.h"
+#include "assert.h"
+#include "pthread.h"
+#include "signal.h"
+#include "stdio.h"
+#include "fcntl.h"
 #include "../../util/global.h"
 #include "../../util/log_generator/log_generator.h"
 #include "../../util/race_config_reader/race_config_reader.h"
@@ -79,7 +80,7 @@ static void segfault_handler(int signum);
 
 // region global variables
 
-int shm_id, malfunction_q_id, fd_named_pipe;
+int shm_id, malfunction_q_id, named_pipe_fd;
 race_config_t config;
 pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
@@ -172,6 +173,7 @@ static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
+    named_pipe_fd = create_named_pipe(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
     init_cond(&shm->sync_s.cond, true);
     init_mutex(&shm->sync_s.mutex, true);
     malfunction_q_id = create_msg_queue();

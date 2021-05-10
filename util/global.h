@@ -23,12 +23,6 @@
 
 #define true 1
 #define false 0
-#define SHM_MUTEX "SHM_MUTEX"
-#define RACE_START_COND_VAR "RACE_START_COND_VAR"
-#define THREAD_MUTEX "THREAD_MUTEX"
-#define RACE_START_MONITOR 0
-#define GLOBAL_CLOCK_START 1
-#define GLOBAL_CLOCK_END 2
 
 #define SYNC lock_mutex(&shm->sync_s.mutex);
 #define END_SYNC unlock_mutex(&shm->sync_s.mutex);
@@ -40,9 +34,7 @@
 #define END_SYNC_TEAM unlock_mutex(&box->team->access_mutex);
 #define SYNC_BOX lock_mutex(&box->access_mutex);
 #define END_SYNC_BOX unlock_mutex(&box->access_mutex);
-
 #define tu_to_msec(t) (uint) ((t) / config.time_units_per_sec * pow(10, 3))
-
 
 #define SMALLEST_SIZE 16
 #define XSMALL_SIZE 32
@@ -51,6 +43,9 @@
 #define LARGE_SIZE 256
 #define XLARGE_SIZE 512
 #define LARGEST_SIZE 1024
+
+#define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
+
 
 // endregion constants
 

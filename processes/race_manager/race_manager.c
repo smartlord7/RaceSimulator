@@ -46,24 +46,22 @@ int validate_reliability(char * buffer, race_car_t  * read_data);
 
 void watch_pipe(void * fd);
 
-int n_pipe_fd;
 pthread_t watcher_id;
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, RACE_MANAGER);
 
-    int num_teams = config.num_teams;
+    int num_teams = config.num_teams, n_pipe_fd;
     shm->total_num_cars = 0;
 
     //create the teams' processes
     create_teams(num_teams);
 
-    n_pipe_fd = fd_named_pipe;
 
     // cria thread watch pipe
     watcher_id = (pthread_t) 1;
-    //create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, n_pipe_fd);
+    //create_thread(N_PIPE_WATCHER, &watcher_id, (void *) watch_pipe, (void *) &n_pipe_fd);
 
     //register
 
@@ -92,14 +90,14 @@ void create_teams(int num_teams) {
 }
 
 void watch_pipe(void * fd) {
-    int result_type;
+    int result_type, pipe_fd = * (int *) fd;
     char buffer[MAX_BUFFER_SIZE];
     race_team_t * team = NULL;
     race_car_t * car = NULL;
 
     while(true) {
 
-        if(read_command(n_pipe_fd, buffer, sizeof(buffer))) {
+        if(read_command(pipe_fd, buffer, sizeof(buffer))) {
 
             result_type = interpret_command(buffer, car);
 
