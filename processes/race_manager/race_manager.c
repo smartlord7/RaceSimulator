@@ -12,15 +12,16 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
-#include "sys/unistd.h"
 #include "fcntl.h"
+#include "sys/unistd.h"
 #include "../../util/process_manager/process_manager.h"
 #include "../../util/global.h"
-#include "../team_manager/team_manager.h"
-#include "race_manager.h"
 #include "../../util/to_float//to_float.h"
 #include "../../util/strings/strings.h"
 #include "../../util/file/file.h"
+#include "../../ipcs/pipe/pipe.h"
+#include "../team_manager/team_manager.h"
+#include "race_manager.h"
 
 // endregion dependencies
 
@@ -28,7 +29,7 @@
 
 int read_command(int fd, char * buffer, int size);
 
-void create_teams(int num_teams);
+void create_teams(int num_teams, int pipes_read_fds[MAX_NUM_TEAMS]);
 
 int interpret_command(char * buffer, race_car_t * car_data);
 
@@ -46,41 +47,44 @@ int validate_consumption(char * buffer, race_car_t  * read_data);
 
 int validate_reliability(char * buffer, race_car_t  * read_data);
 
-void watch_pipe(int fd);
+void handle_named_pipe(int fd);
+
+void handle_all_pipes(const int pipes_read_fds[MAX_NUM_TEAMS]);
+
+void notify_race_start();
 
 void race_manager(){
 
-    DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, RACE_MANAGER);
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
 
-    int num_teams = config.num_teams;
+    int num_teams = config.num_teams, pipes_read_fds[MAX_NUM_TEAMS];
     shm->total_num_cars = 0;
 
-    //create the teams' processes
-    create_teams(num_teams);
+    pipes_read_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
+    handle_named_pipe(pipes_read_fds[NAMED_PIPE_INDEX]);
+    create_teams(num_teams, pipes_read_fds);
+    notify_race_start();
+    handle_all_pipes(pipes_read_fds);
 
-    // cria thread watch pipe
-    //printf("Começa a observar named pipe\n");
-    //fd_named_pipe = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
-    //watch_pipe(fd_named_pipe);
-
-    //register
-
-    //wait for all the child processes
     wait_procs();
 
-    DEBUG_MSG(PROCESS_EXIT, DEBUG_LEVEL_ENTRY, RACE_MANAGER)
-
-    exit(EXIT_SUCCESS);
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER)
 }
 
-void create_teams(int num_teams) {
+void create_teams(int num_teams, int fds[MAX_NUM_TEAMS]) {
     int i;
     race_team_t * team = NULL;
+
+    i = 0;
 
     while (i < num_teams) {
         char team_name[MAX_LABEL_SIZE];
         snprintf(team_name, MAX_LABEL_SIZE * sizeof(char), "%s_%d", TEAM_MANAGER, i);
         team = &shm->race_teams[i];
+
+        create_unn_pipe(unn_pipe_fds);
+        close_fd(unn_pipe_fds[1]);
+        fds[i] = unn_pipe_fds[0];
 
         strcpy(team->team_name, team_name);
         team->team_id = i;
@@ -89,29 +93,81 @@ void create_teams(int num_teams) {
     }
 }
 
-void watch_pipe(int fd) {
-    int result_type, n;
-    char buffer[MAX_BUFFER_SIZE];
-    race_car_t car_data;
+void handle_named_pipe(int fd) {
+    int n, end_read = false;
+    char buffer[LARGE_SIZE];
 
-    while(true) {
-
+    while(!end_read) {
         do {
-            n = read(fd, buffer, MAX_BUFFER_SIZE * sizeof(char));
+            n = (int) read(fd, buffer, LARGE_SIZE * sizeof(char));
             if (n > 0) {
-                buffer[n] = '\0';
-                printf("%s\n", buffer);
-                result_type = interpret_command(buffer, &car_data);
+                buffer[n - 1] = '\0';
+                // TODO validate commands
 
-                switch (result_type) {
-                    case RESULT_NEW_CAR:
-                        printf("Adicionar carro\n");
-                        break;
+                if (strcmp(buffer, START_RACE) == 0) {
+                    end_read = true;
                 }
             }
-        } while(n > 0);
+        } while(n > 0 && !end_read);
     }
 }
+
+void handle_all_pipes(const int pipes_read_fds[MAX_NUM_TEAMS]) {
+    fd_set read_set;
+    int i, n;
+    char buffer[LARGE_SIZE];
+    race_car_state_change_t car_state_change;
+
+    while (true) {
+        FD_ZERO(&read_set);
+
+        for (i = 0; i < config.num_teams + 1; i++) {
+            FD_SET(pipes_read_fds[i], &read_set);
+        }
+
+        if (select(pipes_read_fds[config.num_teams] + 1, &read_set, NULL, NULL, NULL) > 0) {
+            for (i = 0; i < config.num_teams + 1; i++) {
+                if (FD_ISSET(pipes_read_fds[i], &read_set)) {
+                    if (i == NAMED_PIPE_INDEX) {
+                        do {
+                            n = (int) read(pipes_read_fds[i], buffer, LARGE_SIZE);
+
+                            if (n > 0) {
+                                buffer[n - 1] = '\0';
+                                printf("%s\n%s\n", buffer, COMMAND_REJECT);
+                            }
+                        } while (n > 0);
+                    } else {
+                        read_stream(pipes_read_fds[i], (void *) &car_state_change, sizeof(struct race_car_state_change_t));
+
+                        DEBUG_MSG(CAR_STATE_CHANGE, COMMS, car_state_change.car_id, car_state_change.new_state);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void notify_race_start() {
+    int i, j;
+    race_car_t * current_car;
+
+    for (i = 0; i < config.num_teams; i++) {
+        for (j = 0; j < shm->race_teams[i].num_cars; j++) {
+            current_car = &shm->race_cars[i][j];
+
+            lock_mutex(&current_car->cond_mutex);
+            shm->sync_s.race_start = true;
+            notify_all_cond(&current_car->cond);
+            unlock_mutex(&current_car->cond_mutex);
+        }
+    }
+    lock_mutex(&shm->sync_s.mutex);
+    shm->sync_s.race_start = true;
+    notify_all_cond(&shm->sync_s.cond);
+    unlock_mutex(&shm->sync_s.mutex);
+}
+
 
 int read_command(int fd, char * buffer, int size){
     int n;

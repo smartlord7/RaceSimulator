@@ -13,10 +13,13 @@
 // region dependencies
 
 #include "../race_team/race_team_t.h"
+#include "../race_car_state_change/race_car_state_change_t.h"
 #include "../../ipcs/sync/cond_var/cond_var.h"
 #include "../../ipcs/sync/mutex/mutex.h"
 
 // endregion dependencies
+
+typedef struct race_team_t race_team_t;
 
 // region constants
 
@@ -31,23 +34,19 @@
 
 // endregion constants
 
-// region forward declarations
-
-typedef enum race_car_state race_car_state;
-typedef struct race_car_t race_car_t;
-typedef struct race_team_t race_team_t;
-
-// endregion forward declarations
-
 // region structures
 
 /**
  * @enum race_car_state
  * @brief Enum that represents the allowed states of a race car.
  */
-enum race_car_state {
-   RACE, SAFETY, IN_BOX, NON_FIT, FINISHED
-};
+typedef enum race_car_state {
+   RACE = 0,
+   SAFETY = 1,
+   IN_BOX = 2,
+   NON_FIT = 3,
+   FINISH = 4
+} race_car_state;
 
 /**
  * @struct race_car_t
@@ -101,7 +100,7 @@ enum race_car_state {
  * @var race_car_t::timer
  * The time, in seconds, between the race race_start and when the race car crosses the finish line.
  */
-struct race_car_t{
+typedef struct race_car_t{
     race_team_t * team;
     char name[MAX_LABEL_SIZE];
     race_car_state state;
@@ -119,7 +118,7 @@ struct race_car_t{
             current_speed,
             reliability,
             current_pos;
-};
+} race_car_t;
 
 // endregion structures
 

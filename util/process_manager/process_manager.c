@@ -30,6 +30,7 @@ void create_process(const char * proc_name, void (* worker)(void *), void * para
 
     if ((child_proc_id = fork()) == 0) {
         worker(params);
+        exit(EXIT_SUCCESS);
     } else if (child_proc_id < 0) {
         throw_and_exit(PROCESS_CREATE_EXCEPTION, proc_name);
     }

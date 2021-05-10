@@ -16,7 +16,6 @@
 #include "../../util/strings/strings.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "race_car_t.h"
-#include "../../util/debug/debug.h"
 
 // endregion dependencies
 
@@ -43,8 +42,8 @@ race_car(race_team_t *team, int car_id, float consumption, float speed, float re
     return new;
 }
 
-char *race_car_to_string(race_car_t *race_car) {
-    char *buffer = NULL;
+char * race_car_to_string(race_car_t *race_car) {
+    char * buffer = NULL;
 
     if (race_car == NULL) {
         buffer = string(NULL_STR_SIZE);
@@ -81,7 +80,7 @@ char *race_car_to_string(race_car_t *race_car) {
     return buffer;
 }
 
-void set_state(race_car_t *race_car, race_car_state state) {
+void set_state(race_car_t * race_car, race_car_state state) {
     assert(race_car != NULL);
 
     race_car->state = state;
@@ -100,7 +99,7 @@ void set_state(race_car_t *race_car, race_car_state state) {
             break;
         case IN_BOX:
         case NON_FIT:
-        case FINISHED:
+        case FINISH:
             race_car->current_speed = 0;
             race_car->current_consumption = 0;
         default:

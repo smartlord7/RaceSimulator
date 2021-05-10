@@ -22,11 +22,9 @@
 
 // region forward declarations
 
-typedef enum work_reason_t work_reason_t;
 typedef enum box_state_t box_state_t;
-typedef struct race_team_t race_team_t;
 typedef struct race_car_t race_car_t;
-typedef struct race_box_t race_box_t;
+typedef struct race_team_t race_team_t;
 
 // endregion forward declarations
 
@@ -37,7 +35,9 @@ typedef struct race_box_t race_box_t;
  * Enum that represents the allowed states of a race box.
  */
 enum box_state_t {
-    FREE, RESERVED, OCCUPIED
+    FREE = 0,
+    RESERVED = 1,
+    OCCUPIED = 2
 };
 
 /**
@@ -57,14 +57,14 @@ enum box_state_t {
  * A pointer to a POSIX named semaphore that allows the management of race box.
  *
  */
-struct race_box_t{
+typedef struct race_box_t{
     box_state_t state;
     race_team_t * team;
     race_car_t * current_car;
     mutex_t available, cond_mutex, access_mutex;
     cond_t cond;
     int car_dispatched:1; // used in order to respect the following project constraint: the team manager (and only) must update the box state in the shm.
-};
+} race_box_t;
 
 // TODO Constructor and toString method.
 

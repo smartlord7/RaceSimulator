@@ -9,6 +9,7 @@
 
 // region dependencies
 
+#include <unistd.h>
 #include "stdio.h"
 #include "stdlib.h"
 #include "../../structs/malfunction/malfunction_t.h"
@@ -43,13 +44,11 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 // region public functions
 
 void malfunction_manager(){
-    DEBUG_MSG(PROCESS_RUN, DEBUG_LEVEL_ENTRY, MALFUNCTION_MANAGER)
+    DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER)
 
     generate_malfunctions();
 
-    DEBUG_MSG(PROCESS_EXIT, DEBUG_LEVEL_ENTRY, MALFUNCTION_MANAGER)
-
-    exit(EXIT_SUCCESS);
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, MALFUNCTION_MANAGER)
 }
 
 // endregion public functions
@@ -77,7 +76,7 @@ static void generate_malfunctions(void) {
                 car = &shm->race_cars[i][j];
 
                 SYNC_CAR
-                if (car->state == IN_BOX || car->state == SAFETY) {
+                if (car->state != RACE) {
                     END_SYNC_CAR
                     continue;
                 }
@@ -86,6 +85,7 @@ static void generate_malfunctions(void) {
 
                 if (random_uniform_event(prob_malfunction)) {
                     shm->num_malfunctions++;
+
 
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
