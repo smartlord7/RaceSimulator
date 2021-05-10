@@ -23,6 +23,7 @@
 
 void (* clean_func)(void *) = NULL;
 void * clean_func_params = NULL;
+int force_exit = false;
 
 // endregion global variables
 
@@ -50,7 +51,7 @@ void throw_exception(const char * file_name, int line, int exit_process, const c
     va_end(args);
 
     if (exit_process) {
-        if (clean_func) {
+        if (clean_func && !force_exit) {
             clean_func(clean_func_params);
         }
         exit(EXIT_FAILURE);

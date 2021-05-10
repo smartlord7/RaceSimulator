@@ -127,6 +127,7 @@
 
 extern void (* clean_func)(void *);
 extern void * clean_func_params;
+extern int force_exit;
 
 // endregion global variables
 

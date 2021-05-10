@@ -59,9 +59,9 @@ void race_manager(){
     create_teams(num_teams);
 
     // cria thread watch pipe
-    printf("Começa a observar named pipe\n");
-    fd_named_pipe = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
-    watch_pipe(fd_named_pipe);
+    //printf("Começa a observar named pipe\n");
+    //fd_named_pipe = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
+    //watch_pipe(fd_named_pipe);
 
     //register
 

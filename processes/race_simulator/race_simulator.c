@@ -193,6 +193,7 @@ static void segfault_handler(int signum) {
 }
 
 static void terminate() {
+    force_exit = true;
     destroy_ipcs(config.num_teams);
     kill(getpid(), SIGKILL);
 

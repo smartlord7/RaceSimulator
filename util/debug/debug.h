@@ -19,7 +19,7 @@
 // region constants
 
 
-#define DEBUG 0
+#define DEBUG 1
 #define DEBUG_LEVEL_SETUP 0
 #define DEBUG_LEVEL_ENTRY 1
 #define DEBUG_LEVEL_PARAM 2
