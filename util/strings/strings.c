@@ -70,4 +70,35 @@ char * trim_string(char * buffer, int size){
     return buffer;
 }
 
+int starts_with(char * string, char * string2) {
+    char * i, * j;
+
+    i = string;
+    j = string2;
+
+    while ((* j) != '\0') {
+        if ((* i++) != (* j++)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int starts_with_ignore_case(char * string, char * string2) {
+    char * i, * j;
+
+    i = string;
+    j = string2;
+
+    while ((* j) != '\0') {
+        if (toupper((int) * i++) != toupper((int) (* j++))) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 // endregion public functions

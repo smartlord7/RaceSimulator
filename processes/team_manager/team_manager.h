@@ -19,6 +19,7 @@
 #define TEAM_MANAGER "TEAM_MANAGER"
 #define RACE_CAR_SAY "[RACE CAR %d] "
 #define TEAM_MANAGER_SAY "[TEAM MANAGER %d] "
+#define PIPE_FD "PIPE FD: %d"
 #define CAR_MOVE RACE_CAR_SAY "RAN %.2fm!"
 #define CAR_FINISH RACE_CAR_SAY "FINISHED THE RACE!"
 #define CAR_COMPLETE_LAP RACE_CAR_SAY "COMPLETED %d LAP(S)!"
@@ -29,6 +30,14 @@
 #define GLOBAL_CLOCK "[GLOBAL_CLOCK] %d tu"
 
 #define car_close_to_box (car->current_pos == 0 || (car->current_pos <= config.lap_distance && car->current_pos + car->current_speed * config.time_units_per_sec >= config.lap_distance))
+#define CHANGE_CAR_STATE(state) \
+car_state_change.new_state = state; \
+SYNC_CAR \
+set_state(car, state); \
+END_SYNC_CAR \
+lock_mutex(&team->pipe_mutex);  \
+write_stream(unn_pipe_fds[1], &car_state_change, sizeof(race_car_state_change_t));\
+unlock_mutex(&team->pipe_mutex);
 
 // endregion constants
 

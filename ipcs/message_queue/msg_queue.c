@@ -10,7 +10,7 @@ int create_msg_queue() {
 
     msgq_id = msgget(IPC_PRIVATE, IPC_CREAT | 0777);
 
-    throw_if_exit(msgq_id == -1, MSG_QUEUE_CREATE_EXCEPTION, NULL);
+    throw_if_exit(errno != 0 && msgq_id == -1, MSG_QUEUE_CREATE_EXCEPTION, NULL);
 
     return msgq_id;
 }
@@ -19,7 +19,7 @@ int rcv_msg(int msgq_id, void * msg, size_t msg_size, long type) {
     assert(msg != NULL);
     int nread;
 
-    throw_if_exit((nread = msgrcv(msgq_id, msg, msg_size - sizeof(long), type, IPC_NOWAIT)) == -1 && errno != ENOMSG, MSG_QUEUE_RECEIVE_EXCEPTION, msgq_id);
+    throw_if_exit(errno != 0 && (nread = msgrcv(msgq_id, msg, msg_size - sizeof(long), type, IPC_NOWAIT)) == -1 && errno != ENOMSG, MSG_QUEUE_RECEIVE_EXCEPTION, msgq_id);
 
     return nread;
 }
@@ -27,10 +27,10 @@ int rcv_msg(int msgq_id, void * msg, size_t msg_size, long type) {
 void snd_msg(int msgq_id, void * msg, size_t msg_size) {
     assert(msg != NULL);
 
-    throw_if_exit(msgsnd(msgq_id, msg, msg_size - sizeof(long), 0) == -1, MSG_QUEUE_SEND_EXCEPTION, msgq_id);
+    throw_if_exit(errno != 0 && msgsnd(msgq_id, msg, msg_size - sizeof(long), 0) == -1, MSG_QUEUE_SEND_EXCEPTION, msgq_id);
 }
 
 void destroy_msg_queue(int msgq_id) {
 
-    throw_if_exit(msgctl(msgq_id, IPC_RMID, NULL) == -1, MSG_QUEUE_DESTROY_EXCEPTION, msgq_id);
+    throw_if_exit(errno != 0 && msgctl(msgq_id, IPC_RMID, NULL) == -1, MSG_QUEUE_DESTROY_EXCEPTION, msgq_id);
 }

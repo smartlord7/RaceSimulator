@@ -1,3 +1,4 @@
+#include <errno.h>
 #include "stdio.h"
 #include "stdlib.h"
 #include "assert.h"
@@ -13,7 +14,7 @@ sem_t * create_sem(const char * sem_name, int initial_value) {
     sem_t * sem;
     sem_unlink(sem_name);
 
-    throw_if_exit((sem = sem_open(sem_name, O_CREAT | O_EXCL, USER_PERMS_ALL, initial_value)) == SEM_FAILED, SEM_CREATE_EXCEPTION, sem_name);
+    throw_if_exit((sem = sem_open(sem_name, O_CREAT | O_EXCL, USER_PERMS_ALL, initial_value)) == SEM_FAILED || errno != 0, SEM_CREATE_EXCEPTION, sem_name);
 
     return sem;
 }
@@ -21,11 +22,11 @@ sem_t * create_sem(const char * sem_name, int initial_value) {
 void destroy_sem(const char * sem_name, sem_t * sem) {
     assert(sem_name != NULL && sem != NULL);
 
-    throw_if_exit(sem_close(sem) == -1, SEM_CLOSE_EXCEPTION, sem_name);
+    throw_if_exit(errno != 0 && sem_close(sem) == -1, SEM_CLOSE_EXCEPTION, sem_name);
 
     DEBUG_MSG(SEM_CLOSE, SETUP, sem_name)
 
-    throw_if_exit(sem_unlink(sem_name) == -1, SEM_UNLINK_EXCEPTION, sem_name);
+    throw_if_exit(errno != 0 && sem_unlink(sem_name) == -1, SEM_UNLINK_EXCEPTION, sem_name);
 
     DEBUG_MSG(SEM_UNLINK, SETUP, sem_name);
 }
@@ -35,7 +36,7 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_val
 
     sem_t ** sem_array;
 
-    throw_if_exit((sem_array = (sem_t **) malloc(num * sizeof(sem_t *))) == NULL, MEMORY_ALLOCATE_EXCEPTION, SEM_ARRAY);
+    throw_if_exit(errno != 0 && (sem_array = (sem_t **) malloc(num * sizeof(sem_t *))) == NULL, MEMORY_ALLOCATE_EXCEPTION, SEM_ARRAY);
 
     int i = 0;
 
@@ -73,11 +74,11 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
 void wait_sem(sem_t * sem, const char * sem_name) {
     assert(sem != NULL && sem_name != NULL);
 
-    throw_if_exit(sem_wait(sem) == -1, SEM_WAIT_EXCEPTION, sem_name);
+    throw_if_exit(errno != 0 && sem_wait(sem) == -1, SEM_WAIT_EXCEPTION, sem_name);
 }
 
 void post_sem(sem_t * sem, const char * sem_name) {
     assert(sem != NULL && sem_name != NULL);
 
-    throw_if_exit(sem_post(sem) == -1, SEM_POST_EXCEPTION, sem_name);
+    throw_if_exit(errno != 0 && sem_post(sem) == -1, SEM_POST_EXCEPTION, sem_name);
 }

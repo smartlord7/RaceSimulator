@@ -91,7 +91,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(ENTRY, false);
+    debug_init(EVENT, false);
 
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
