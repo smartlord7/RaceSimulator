@@ -92,6 +92,7 @@ void create_teams(int num_teams) {
 void watch_pipe(int fd) {
     int result_type, n;
     char buffer[MAX_BUFFER_SIZE];
+    race_car_t car_data;
 
     while(true) {
 
@@ -100,6 +101,13 @@ void watch_pipe(int fd) {
             if (n > 0) {
                 buffer[n] = '\0';
                 printf("%s\n", buffer);
+                result_type = interpret_command(buffer, &car_data);
+
+                switch (result_type) {
+                    case RESULT_NEW_CAR:
+                        printf("Adicionar carro\n");
+                        break;
+                }
             }
         } while(n > 0);
     }
@@ -125,6 +133,8 @@ int interpret_command(char * buffer, race_car_t * car_data) {
     memcpy(command_preview, buffer, sizeof(command_preview) - sizeof(char));
     command_preview[COMMAND_PREVIEW_SIZE - 1] = '\0';
 
+    printf("preview: %s\n", command_preview);
+
     //start to filter possibilities
     if(strcasecmp(command_preview, START) == 0) {
 
@@ -132,6 +142,8 @@ int interpret_command(char * buffer, race_car_t * car_data) {
 
     } else if(strcasecmp(command_preview, ADDCAR) == 0) {
         buffer = buffer + COMMAND_PREVIEW_SIZE;
+
+        HERE("1");
 
         if(validate_add(buffer, car_data)) return RESULT_NEW_CAR;
 
@@ -157,18 +169,23 @@ race_team_t * get_team(char * team_name) {
 
 int validate_add(char * buffer, race_car_t * read_data) {
     char * token;
+    HERE("2");
 
     // validate team name
     if((token = strtok(buffer, DELIM_1)) == NULL) {
         return false;
     }
+    HERE("3");
     if(validate_team(token, read_data) == false) return false;
+
 
     //validate car number
     if((token = strtok(NULL, DELIM_1)) == NULL) {
         return false;
     }
     if(validate_car_id(token, read_data) == false) return false;
+
+    HERE("4");
 
     //validate speed
     if((token = strtok(NULL, DELIM_1)) == NULL) {
@@ -188,6 +205,7 @@ int validate_add(char * buffer, race_car_t * read_data) {
     }
     if(validate_reliability(token, read_data) == false) return false;
 
+    HERE("5");
     return true;
 }
 
@@ -197,8 +215,12 @@ int validate_team(char * buffer, race_car_t * read_data) {
 
     if((addcar_team = strtok(buffer, ":")) == NULL) return false;
     else {
+        HERE("8");
+        addcar_team = trim_string(addcar_team, strlen(addcar_team));
+        printf("%s-%lu\n%s-%lu\n", addcar_team, strlen(addcar_team), TEAM, strlen(TEAM));
+        if(!strcasecmp(addcar_team, TEAM)) {
 
-        if(strcasecmp(addcar_team, TEAM)) {
+            HERE("9");
 
             if((team_name = strtok(NULL, DELIM_2)) == NULL) return false;
             team_name = trim_string(team_name, strlen(team_name));
@@ -236,7 +258,7 @@ int validate_int(char * buffer, char * expected_cmd, int * result) {
     if((cmd_field = strtok(buffer, ":")) == NULL) return false;
     else {
 
-        if(strcasecmp(cmd_field, expected_cmd)) {
+        if(!strcasecmp(cmd_field, expected_cmd)) {
 
             if((value_field = strtok(NULL, DELIM_2)) == NULL) return false;
             value_field = trim_string(value_field, strlen(value_field));
@@ -258,7 +280,7 @@ int validate_float(char * buffer, char * expected_cmd, float * result) {
     if((cmd_field = strtok(buffer, ":")) == NULL) return false;
     else {
 
-        if(strcasecmp(cmd_field, expected_cmd)) {
+        if(!strcasecmp(cmd_field, expected_cmd)) {
 
             if((value_field = strtok(NULL, DELIM_2)) == NULL) return false;
 
