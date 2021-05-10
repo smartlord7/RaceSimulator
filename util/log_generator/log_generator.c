@@ -88,13 +88,18 @@ void generate_log_entry(char * mode, void * data){
         entry = append(entry, O_WRONG_COMMAND);
         entry = append(entry, (char *) data);
 
-    } else if(strcmp(mode, I_CAR_LOADED) == 0){
-        //car = (race_car_t *) data;
-        entry = append(entry,O_CAR_LOADED);
+    } else if(strcmp(mode, I_CAR_LOADED) == 0) {
+        entry = append(entry, O_CAR_LOADED);
         entry = append(entry, O_TEMP_NUM);
 
+    } else if(strcmp(mode, I_CAR_REJECTED) == 0) {
+        entry = append(entry, O_CAR_REJECTED);
+        entry = append(entry, (char *) data);
+
+    } else if(strcmp(mode, I_CANNOT_START) == 0) {
+        entry = append(entry, O_CANNOT_START);
+
     } else if(strcmp(mode, I_CAR_MALFUNCTION) == 0){
-        //car = (race_car_t *) data;
         entry = append(entry, O_NEW_CAR_PROBLEM);
         entry = append(entry, O_TEMP_NUM);
 
@@ -104,7 +109,6 @@ void generate_log_entry(char * mode, void * data){
         entry = append(entry, O_RECEIVED);
 
     } else if(strcmp(mode, I_RACE_WIN) == 0){
-        //car = (race_car_t *) data;
         entry = append(entry, O_CAR);
         entry = append(entry, O_TEMP_NUM);
         entry = append(entry, O_RACE_WON);

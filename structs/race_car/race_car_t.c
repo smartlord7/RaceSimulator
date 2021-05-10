@@ -16,6 +16,9 @@
 #include "../../util/strings/strings.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "race_car_t.h"
+#include "../../util/global.h"
+
+int check_unique_id(int car_id, race_car_t * car_data);
 
 // endregion dependencies
 
@@ -29,14 +32,11 @@ race_car(race_team_t *team, int car_id, float consumption, float speed, float re
         throw_and_exit(MEMORY_ALLOCATE_EXCEPTION, RACE_CAR);
     }
 
-    // TODO field validations in constructor.
-
     new->team = team;
     new->car_id = car_id;
     new->consumption = consumption;
     new->speed = speed;
     new->reliability = reliability;
-
     new->remaining_fuel = initial_fuel;
 
     return new;
