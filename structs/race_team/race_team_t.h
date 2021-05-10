@@ -24,14 +24,6 @@
 
 // endregion constants
 
-// region forward declarations
-
-typedef struct race_team_t race_team_t;
-typedef struct race_car_t race_car_t;
-typedef struct race_box_t race_box_t;
-
-// endregion forward declarations
-
 // region structures
 
 /**
@@ -50,12 +42,12 @@ typedef struct race_box_t race_box_t;
  * @var race_team_t::cars
  * An array of pointers to the cars owned by the race team (acts as an array of navigation properties).
  */
-struct race_team_t {
+typedef struct race_team_t {
     int team_id, num_cars, num_cars_safety;
     char team_name[MAX_TEAM_NAME_SIZE];
     race_box_t team_box;
-    mutex_t access_mutex;
-};
+    mutex_t access_mutex, pipe_mutex;
+} race_team_t;
 
 // endregion structures
 

@@ -12,10 +12,8 @@
 #include "stdlib.h"
 #include "unistd.h"
 #include "assert.h"
-#include "pthread.h"
 #include "signal.h"
 #include "stdio.h"
-#include "fcntl.h"
 #include "../../util/global.h"
 #include "../../util/log_generator/log_generator.h"
 #include "../../util/race_config_reader/race_config_reader.h"
@@ -64,8 +62,6 @@ static void destroy_ipcs(int num_teams);
  *
  */
 
-static void notify_race_start();
-
 static void terminate();
 
 static void show_stats(int signum);
@@ -76,11 +72,9 @@ static void segfault_handler(int signum);
 
 // region global variables
 
-int shm_id, malfunction_q_id, fd_named_pipe;
+int shm_id, malfunction_q_id;
 race_config_t config;
-pthread_t npipe_thread_id;
 shared_memory_t * shm = NULL;
-sem_t ** boxes_availability = NULL;
 
 // endregion global variables
 
@@ -91,13 +85,13 @@ sem_t ** boxes_availability = NULL;
  */
 
 int main() {
-    //signal(SIGINT, SIG_IGN);
-    //signal(SIGTSTP, SIG_IGN);
-    //signal(SIGSEGV, segfault_handler);
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+    signal(SIGSEGV, segfault_handler);
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(DEBUG_LEVEL_EVENT, false);
+    debug_init(ENTRY, false);
 
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
@@ -116,18 +110,16 @@ int main() {
     generate_log_entry(I_SIMULATION_START, NULL);
 
     //create race manager process
-    create_process(RACE_MANAGER, race_manager, NULL);
+    create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //create malfunction_q_id manager process
-    create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
+    create_process(RACE_MANAGER, race_manager, NULL);
 
     //handle SIGTSTP
     signal(SIGTSTP, show_stats);
 
     // handle SIGINT
     signal(SIGINT, terminate);
-
-    notify_race_start();
 
     //wait for all of the child processes
     wait_procs();
@@ -141,29 +133,6 @@ int main() {
 }
 
 // region private functions
-
-static void notify_race_start() {
-    sleep(1);
-
-    int i, j;
-    race_car_t * current_car;
-
-    for (i = 0; i < config.num_teams; i++) {
-        for (j = 0; j < shm->race_teams[i].num_cars; j++) {
-            current_car = &shm->race_cars[i][j];
-
-            lock_mutex(&current_car->cond_mutex);
-            shm->sync_s.race_start = true;
-            notify_all_cond(&current_car->cond);
-            unlock_mutex(&current_car->cond_mutex);
-        }
-    }
-
-    lock_mutex(&shm->sync_s.mutex);
-    shm->sync_s.race_start = true;
-    notify_all_cond(&shm->sync_s.cond);
-    unlock_mutex(&shm->sync_s.mutex);
-}
 
 static void create_ipcs(int num_teams){
     assert(num_teams > 0);

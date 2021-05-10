@@ -192,6 +192,9 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car_state_change/race_car_state_change_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_config/race_config_t.c">
 			<Option target="RaceSimulator"/>
 		</Unit>

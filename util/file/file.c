@@ -19,3 +19,14 @@ void close_fd(int fd) {
 
     throw_if_exit(close(fd) == -1, FILE_DESCRIPTOR_CLOSE_EXCEPTION, fd);
 }
+
+void read_stream(int fd, void * strct, size_t size) {
+    size_t n, total = 0;
+
+    while (total < size) {
+        n = read(fd, (char * ) strct + total, size - total);
+
+        throw_if_exit(n == (size_t) -1, STREAM_READ_EXCEPTION, fd);
+        total += n;
+    }
+}

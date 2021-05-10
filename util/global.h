@@ -30,28 +30,32 @@
 #define END_SYNC_CAR unlock_mutex(&car->access_mutex);
 #define SYNC_CAR_COND lock_mutex(&car->cond_mutex);
 #define END_SYNC_CAR_COND unlock_mutex(&car->cond_mutex);
-#define SYNC_TEAM lock_mutex(&box->team->access_mutex);
-#define END_SYNC_TEAM unlock_mutex(&box->team->access_mutex);
+#define SYNC_TEAM lock_mutex(&team->access_mutex);
+#define END_SYNC_TEAM unlock_mutex(&team->access_mutex);
 #define SYNC_BOX lock_mutex(&box->access_mutex);
 #define END_SYNC_BOX unlock_mutex(&box->access_mutex);
 #define tu_to_msec(t) (uint) ((t) / config.time_units_per_sec * pow(10, 3))
+#define CHANGE_CAR_STATE(state) set_state(car, state); \
+lock_mutex(&team->pipe_mutex); \
+car_state_change.new_state = state; \
+unlock_mutex(&team->pipe_mutex);
 
+#define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
+#define NAMED_PIPE_INDEX config.num_teams
 #define SMALLEST_SIZE 16
 #define XSMALL_SIZE 32
 #define SMALL_SIZE 64
 #define MEDIUM_SIZE 128
 #define LARGE_SIZE 256
 #define XLARGE_SIZE 512
+
 #define LARGEST_SIZE 1024
-
-#define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
-
 
 // endregion constants
 
 // region global variables
 
-extern int shm_id, malfunction_q_id, fd_named_pipe;
+extern int shm_id, malfunction_q_id;
 extern shared_memory_t * shm;
 extern race_config_t config;
 

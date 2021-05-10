@@ -20,11 +20,15 @@
 
 
 #define DEBUG 1
-#define DEBUG_LEVEL_SETUP 0
-#define DEBUG_LEVEL_ENTRY 1
-#define DEBUG_LEVEL_PARAM 2
-#define DEBUG_LEVEL_GENERAL 3
-#define DEBUG_LEVEL_EVENT 4
+
+typedef enum debug_level {
+    SETUP = 0,
+    ENTRY = 1,
+    PARAM = 2,
+    EVENT = 3,
+    COMMS = 4,
+    GENERAL = 5
+} debug_level;
 
 
 // region ipcs debug msgs
@@ -40,7 +44,8 @@
 #define COND_VAR_CREATE "CREATED CONDITION VARIABLE %s!"
 #define COND_VAR_DESTROY "DESTROYED CONDITION VARIABLE %s"
 #define MUTEX_CREATE "CREATED MUTEX %s!"
-#define MUTEX_DESTROY "DESTROYED MUTEX %s"
+#define MUTEX_DESTROY "DESTROYED MUTEX %s!"
+#define PIPE_NEW_MSG "NEW MESSAGE FROM PIPE %d!"
 
 // endregion IPCS debug messages
 
@@ -94,8 +99,8 @@
  */
 #define HERE(msg) printf("--------HERE--------- %s\n", msg);
 
-extern void debug_msg(const char * file_name, int line, const char * msg, int deb_level, ...);
-extern void debug_init(int deb_level, int sh_origin);
+extern void debug_msg(const char * file_name, int line, const char * msg, debug_level deb_level, ...);
+extern void debug_init(debug_level deb_level, int sh_origin);
 
 // endregion public functions prototypes
 

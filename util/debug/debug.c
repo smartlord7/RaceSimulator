@@ -17,19 +17,20 @@
 
 // region global variables
 
-int debug_level, show_origin;
+debug_level dbg_level;
+int show_trace;
 
 // endregion global variables
 
 // region public functions
 
-void debug_init(int deb_level, int sh_origin) {
-    debug_level = deb_level;
-    show_origin = sh_origin;
+void debug_init(debug_level deb_level, int sh_origin) {
+    dbg_level = deb_level;
+    show_trace = sh_origin;
 }
 
-void debug_msg(const char * file_name, int line, const char * msg, int deb_level, ...) {
-    if (debug_level != deb_level) {
+void debug_msg(const char * file_name, int line, const char * msg, debug_level deb_level, ...) {
+    if (dbg_level != deb_level) {
         return;
     }
 
@@ -37,12 +38,12 @@ void debug_msg(const char * file_name, int line, const char * msg, int deb_level
     va_start(args, deb_level);
 
     char buffer[MEDIUM_SIZE], buffer2[LARGE_SIZE];
-    if (show_origin) {
+    if (show_trace) {
         snprintf(buffer, MEDIUM_SIZE, "\n--FILE %s, LINE %d--\n", file_name, line);
     }
     vsnprintf(buffer2, LARGE_SIZE, msg, args);
 
-    if (show_origin) {
+    if (show_trace) {
         fprintf(stdout, "%s%s\n", buffer, buffer2);
     } else {
         fprintf(stdout, "%s\n", buffer2);
