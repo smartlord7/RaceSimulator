@@ -39,7 +39,7 @@
  * @brief Worker function executed when the malfunction manager process is created.
  *
  */
-_Noreturn void malfunction_manager();
+extern void malfunction_manager();
 
 // endregion public functions prototypes
 

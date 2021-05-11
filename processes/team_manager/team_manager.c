@@ -60,10 +60,10 @@ void team_manager(void * data){
 
     pthread_t car_threads[MAX_MAX_CARS_PER_TEAM];
     race_car_t * temp_car;
-    int i, temp_num_cars;
+    int i;
 
-    i = 0, temp_num_cars = 1;
-    team->num_cars = 1;
+    i = 0;
+    team->num_cars = config.max_cars_per_team;
 
     // wait for the race to start.
     SYNC
@@ -73,7 +73,7 @@ void team_manager(void * data){
     END_SYNC
 
 
-    while (i < temp_num_cars) {
+    while (i < team->num_cars) {
         temp_car = race_car(team, 0, 0.02f, 400, 1, config.fuel_tank_capacity);
 
         SYNC
@@ -99,6 +99,8 @@ void team_manager(void * data){
     DEBUG_MSG(FUNCTION_EXIT, ENTRY, TEAM_BOX)
 
     wait_threads(team->num_cars, car_threads);
+
+    close_fd(unn_pipe_fds[1]);
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, team->team_name)
 }
@@ -160,12 +162,6 @@ void manage_box(race_box_t * box) {
 
                 DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, team->team_id, car->car_id)
 
-                SYNC
-                shm->num_malfunctions++;
-                shm->num_refuels++;
-                shm->num_cars_on_track--;
-                END_SYNC
-
                 DEBUG_MSG(CAR_FIX, EVENT, team->team_id, car->car_id)
 
                 repair_time = (uint) random_int(tu_to_msec(config.min_repair_time), tu_to_msec(config.max_repair_time));
@@ -216,11 +212,6 @@ void manage_box(race_box_t * box) {
 
             car = box->current_car;
             box->state = OCCUPIED;
-
-            SYNC
-            shm->num_refuels++;
-            shm->num_cars_on_track--;
-            END_SYNC
 
             DEBUG_MSG(CAR_REFUEL, EVENT, box->team->team_id, car->car_id)
 
@@ -277,14 +268,11 @@ void simulate_car(race_car_t * car) {
     // the car is ready to race.
     CHANGE_CAR_STATE(RACE);
 
-    SYNC
-    shm->num_cars_on_track++;
-    notify_cond(&shm->sync_s.cond);
-    END_SYNC
-
     // the car simulation itself.
     while (true) {
         DEBUG_MSG(race_car_to_string(car), PARAM, "")
+
+        car_state_change.malfunctioning = false;
 
         // try to gain access to the box, if needed.
         // the car needs to access the box if the following conditions, in the presented short circuit order, are satisfied:
@@ -361,6 +349,7 @@ void simulate_car(race_car_t * car) {
             DEBUG_MSG(malfunction_msg.malfunction_msg, EVENT, "");
 
             // if a malfunction is detected, the car's state changes to SAFETY.
+            car_state_change.malfunctioning = true;
             CHANGE_CAR_STATE(SAFETY);
 
             // notify the box that at least one of the team's cars is in SAFETY mode.

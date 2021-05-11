@@ -37,8 +37,10 @@ static int validate_team(char * buffer, race_team_t * team);
 static int validate_number(char * buffer, char * expected_cmd, float * result);
 static int is_car_id_unique(int car_id, race_team_t * team);
 static void handle_named_pipe();
-void handle_all_pipes();
+static void handle_all_pipes();
 static void notify_race_start();
+static void handle_car_state_change(race_car_state_change_t car_state_change, int * end);
+static int check_race_end();
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
 
@@ -160,24 +162,41 @@ void handle_all_pipes() {
 
                         switch (car_state_change.new_state) {
                             case RACE:
+                                if (shm->num_cars_on_track != 0) {
+                                    shm->num_cars_on_track++;
+                                } else {
+                                    SYNC
+                                    shm->num_cars_on_track++;
+                                    notify_cond(&shm->sync_s.cond);
+                                    END_SYNC
+                                }
 
                                 break;
                             case SAFETY:
 
+                            case IN_BOX:
+                                shm->num_cars_on_track--;
+                                shm->num_refuels++;
+
+                                if (car_state_change.malfunctioning) {
+                                    shm->num_malfunctions++;
+                                }
+
                                 break;
+
                             case DISQUALIFIED:
+                                shm->num_cars_on_track--;
 
                                 break;
                             case FINISH:
                                 num_finished_cars++;
-
 
                                 if (num_finished_cars == shm->total_num_cars) {
                                     shm->sync_s.race_running = false;
 
                                     j = 0;
 
-                                    while (j < 1) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
+                                    while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
                                         box = &shm->race_teams[j].team_box;
                                         SYNC_BOX_COND
                                         notify_cond_all(&box->cond);
@@ -196,6 +215,64 @@ void handle_all_pipes() {
             }
         }
     }
+}
+
+static void handle_car_state_change(race_car_state_change_t car_state_change, int * end) {
+    switch (car_state_change.new_state) {
+        case RACE:
+            shm->num_cars_on_track++;
+
+            break;
+        case SAFETY:
+
+            break;
+        case IN_BOX:
+            shm->num_refuels++;
+            shm->num_cars_on_track--;
+
+            if (car_state_change.malfunctioning) {
+                shm->num_malfunctions++;
+            }
+
+            break;
+        case DISQUALIFIED:
+            shm->num_cars_on_track--;
+
+            break;
+        case FINISH:
+            shm->num_finished_cars++;
+
+            // TODO: Improve race finish because its still buggy when there are a lot of cars
+            if (check_race_end()) {
+                * end = true;
+            }
+
+            break;
+    }
+}
+
+static int check_race_end() {
+    int i;
+    race_box_t * box = NULL;
+
+    if (shm->num_finished_cars == shm->total_num_cars) {
+        shm->sync_s.race_running = false;
+
+        i = 0;
+
+        while (i < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
+            box = &shm->race_teams[i].team_box;
+            SYNC_BOX_COND
+            notify_cond(&box->cond);
+            END_SYNC_BOX_COND
+
+            i++;
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 void notify_race_start() {

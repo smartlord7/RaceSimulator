@@ -135,11 +135,12 @@ int main() {
 
 void shm_init() {
     shm->sync_s.race_running = false;
-    shm->global_time = 0;
+    shm->total_num_cars = 0;
     shm->num_cars_on_track = 0;
+    shm->num_finished_cars = 0;
     shm->num_malfunctions = 0;
     shm->num_refuels = 0;
-    shm->total_num_cars = 0;
+    shm->global_time = 0;
 }
 
 // region private functions
