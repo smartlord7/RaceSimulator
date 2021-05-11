@@ -250,7 +250,7 @@ void simulate_car(race_car_t * car) {
     END_SYNC
 
     // the car simulation itself.
-    while(true) {
+    while (true) {
         DEBUG_MSG(race_car_to_string(car), PARAM, "")
 
         // try to gain access to the box, if needed.

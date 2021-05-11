@@ -54,14 +54,14 @@ char * trim_string(char * buffer, int size){
 
     // cleanup any white spaces before
     i = 0;
-    while(i < size && isspace(*buffer)){
+    while (i < size && isspace(*buffer)){
         i++;
         buffer++;
     }
 
     // cleanup any whitespace after
     j = 0;
-    while(i < size && !isspace(buffer[j])){
+    while (i < size && !isspace(buffer[j])){
         j++;
         i++;
     }
@@ -73,7 +73,7 @@ char * trim_string(char * buffer, int size){
 void remove_new_line(char * buffer, int size) {
     int i = size - 1;
 
-    while(buffer[i] != '\n') i--;
+    while (buffer[i] != '\n') i--;
     buffer[i] = '\0';
 }
 
