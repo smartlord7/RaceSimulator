@@ -62,11 +62,18 @@ void team_manager(void * data){
     race_car_t * temp_car;
     int i, temp_num_cars;
 
-    i = 0, temp_num_cars = 2;
-    team->num_cars = 2;
+    i = 0, temp_num_cars = 1;
+    team->num_cars = 1;
+
+    // wait for the race to start.
+    SYNC
+    while (!shm->sync_s.race_running) {
+        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
+    }
+    END_SYNC
 
     while (i < temp_num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 40, 0.5f, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.4f, 40, 1, 5);
         SYNC
         shm->total_num_cars++;
         temp_car->car_id = shm->total_num_cars;
@@ -234,15 +241,13 @@ void simulate_car(race_car_t * car) {
     car_state_change.team_id = car->team->team_id;
     car_state_change.car_id = car->car_id;
 
-    // wait for the race to start.
-    SYNC // TODO: Move to team manager
-    while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
-    }
-    END_SYNC
-
     // the car is ready to race.
     CHANGE_CAR_STATE(RACE);
+
+    SYNC
+    shm->num_cars_on_track++;
+    notify_cond(&shm->sync_s.cond);
+    END_SYNC
 
     // the car simulation itself.
     while(true) {
@@ -279,6 +284,16 @@ void simulate_car(race_car_t * car) {
 
             // the car reached the box and now changed its state to IN_BOX.
             CHANGE_CAR_STATE(IN_BOX);
+
+            SYNC_CAR
+            car->num_box_stops++;
+            if (car->remaining_fuel <= min_fuel2) {
+                car->num_refuels++; // increment the number of refuels dont till now by the car.
+            } else if (car->state == SAFETY) { // if the car is SAFETY mode but hasn't reached the min fuel. That means the car is malfunctioning.
+                car->num_malfunctions++; // increment the number of malfunctions the car had.
+            }
+            END_SYNC_CAR
+
 
             // notify the box that a new car has arrived.
             SYNC_BOX
@@ -382,7 +397,10 @@ void simulate_car(race_car_t * car) {
         }
 
         // check if the car has reached a fuel critical level.
-        if (car->remaining_fuel <= min_fuel2) {
+        if (car->remaining_fuel <= min_fuel2 && car->state != SAFETY) {
+
+            // the car needs to be refueled since it has insufficient fuel for more 2 laps.
+            box_needed = true;
 
             // the car must assume SAFETY mode.
             CHANGE_CAR_STATE(SAFETY);
