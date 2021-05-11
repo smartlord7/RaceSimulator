@@ -62,7 +62,7 @@ void team_manager(void * data){
     race_car_t * temp_car;
     int i, temp_num_cars;
 
-    i = 0, temp_num_cars = config.max_cars_per_team;
+    i = 0, temp_num_cars = 2;
     team->num_cars = 2;
 
     while (i < temp_num_cars) {
@@ -235,11 +235,11 @@ void simulate_car(race_car_t * car) {
     car_state_change.car_id = car->car_id;
 
     // wait for the race to start.
-    SYNC_CAR_COND // TODO: Move to team manager
+    SYNC // TODO: Move to team manager
     while (!shm->sync_s.race_running) {
-        wait_cond(&car->cond, &car->cond_mutex);
+        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
     }
-    END_SYNC_CAR_COND
+    END_SYNC
 
     // the car is ready to race.
     CHANGE_CAR_STATE(RACE);

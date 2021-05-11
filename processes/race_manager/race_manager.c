@@ -163,23 +163,10 @@ _Noreturn void handle_all_pipes() {
 }
 
 void notify_race_start() {
-    int i, j;
-    race_car_t * car;
-
-    for (i = 0; i < config.num_teams; i++) {
-        for (j = 0; j < shm->race_teams[i].num_cars; j++) {
-            car = &shm->race_cars[i][j];
-            // TODO: Use only one cond var
-            SYNC_CAR
-            shm->sync_s.race_running = true; // ??
-            notify_all_cond(&car->cond);
-            END_SYNC_CAR
-        }
-    }
-    lock_mutex(&shm->sync_s.mutex);
+    SYNC
     shm->sync_s.race_running = true;
     notify_all_cond(&shm->sync_s.cond);
-    unlock_mutex(&shm->sync_s.mutex);
+    END_SYNC
 }
 
 int interpret_command(char * buffer, race_car_t * car) {
