@@ -70,6 +70,13 @@ char * trim_string(char * buffer, int size){
     return buffer;
 }
 
+void remove_new_line(char * buffer, int size) {
+    int i = size - 1;
+
+    while(buffer[i] != '\n') i--;
+    buffer[i] = '\0';
+}
+
 int starts_with(char * string, char * string2) {
     char * i, * j;
 

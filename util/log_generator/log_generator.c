@@ -19,6 +19,7 @@
 #include "../exception_handler/exception_handler.h"
 #include "../../ipcs/sync/semaphore/sem.h"
 #include "log_generator.h"
+#include "../global.h"
 
 // endregion dependencies
 
@@ -73,50 +74,56 @@ void generate_log_entry(char * mode, void * data){
     // TODO: replace cases with int values and use snprintf
 
     //race_car_t * car;
-    char * entry = get_time();
+    char entry[LARGEST_SIZE];
+
+    HERE("1");
 
     if (strcmp(mode, I_SIMULATION_START) == 0){
-        entry = append(entry, O_SIMULATION_STARTING);
+        HERE("2");
+        snprintf(entry, LARGEST_SIZE, "%s => STARTING SIMULATION\n", get_time());
 
     } else if (strcmp(mode, I_SIMULATION_END) == 0){
-        entry = append(entry, O_SIMULATION_CLOSING);
+        HERE("3");
+        snprintf(entry, LARGEST_SIZE, "%s => CLOSING SIMULATION\n", get_time());
 
     } else if (strcmp(mode, I_COMMAND_RECEIVED) == 0){
-        entry = append(entry, O_NEW_COMMAND_RECEIVED);
-        entry = append(entry, (char *) data);
+        HERE("4");
+        snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED: %s\n", get_time(), (char *) data);
 
     } else if(strcmp(mode, I_COMMAND_EXCEPTION) == 0){
-        entry = append(entry, O_WRONG_COMMAND);
-        entry = append(entry, (char *) data);
+        HERE("5");
+        snprintf(entry, LARGEST_SIZE, "%s => WRONG COMMAND: %s\n", get_time(), (char *) data);
 
     } else if(strcmp(mode, I_CAR_LOADED) == 0) {
-        entry = append(entry, O_CAR_LOADED);
-        entry = append(entry, O_TEMP_NUM);
+        HERE("6");
+        race_car_t * car = (race_car_t *) data;
+        snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d LOADED\n", get_time(), car->car_id, car->team->team_id);
 
     } else if(strcmp(mode, I_CAR_REJECTED) == 0) {
-        entry = append(entry, O_CAR_REJECTED);
-        entry = append(entry, (char *) data);
+        HERE("7");
+        race_car_t * car = (race_car_t *) data;
+        snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d REJECTED\n", get_time(), car->car_id, car->team->team_id);
 
     } else if(strcmp(mode, I_CANNOT_START) == 0) {
-        entry = append(entry, O_CANNOT_START);
+        HERE("8");
+        snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START!\n", get_time());
 
     } else if(strcmp(mode, I_CAR_MALFUNCTION) == 0){
-        entry = append(entry, O_NEW_CAR_PROBLEM);
-        entry = append(entry, O_TEMP_NUM);
+        HERE("9");
+        race_car_t * car = (race_car_t *) data;
+        snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d SUFFERED MALFUNCTION\n", get_time(), car->car_id, car->team->team_id);
 
     } else if(strcmp(mode, I_SIGNAL_RECEIVED) == 0){
-        entry = append(entry, O_SIGNAL);
-        entry = append(entry, (char *) data);
-        entry = append(entry, O_RECEIVED);
+        HERE("10");
+        snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED!\n", get_time(), (char*) data);
 
     } else if(strcmp(mode, I_RACE_WIN) == 0){
-        entry = append(entry, O_CAR);
-        entry = append(entry, O_TEMP_NUM);
-        entry = append(entry, O_RACE_WON);
+        HERE("11");
+        race_car_t * car = (race_car_t *) data;
+        snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d WON!\n", get_time(), car->car_id, car->team->team_id);
 
     } else throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
 
-    printf("\n%s\n", entry);
     write_log_entry(entry);
 }
 

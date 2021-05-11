@@ -97,6 +97,7 @@ void handle_named_pipe(int fd) {
             n = (int) read(fd, buffer, LARGE_SIZE * sizeof(char));
             if (n > 0) {
                 buffer[n - 1]= '\0';
+                remove_new_line(buffer, (int) strlen(buffer));
                 result = interpret_command(buffer, &car_data);
                 strcpy(aux_buffer, buffer);
 
