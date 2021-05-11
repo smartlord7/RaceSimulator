@@ -34,6 +34,8 @@
 #define END_SYNC_TEAM unlock_mutex(&team->access_mutex);
 #define SYNC_BOX lock_mutex(&box->access_mutex);
 #define END_SYNC_BOX unlock_mutex(&box->access_mutex);
+#define SYNC_BOX_COND lock_mutex(&box->cond_mutex);
+#define END_SYNC_BOX_COND unlock_mutex(&box->cond_mutex);
 #define tu_to_msec(t) (uint) ((t) / config.time_units_per_sec * pow(10, 3))
 
 #define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"

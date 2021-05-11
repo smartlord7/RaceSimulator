@@ -37,7 +37,7 @@ static int validate_team(char * buffer, race_team_t * team);
 static int validate_number(char * buffer, char * expected_cmd, float * result);
 static int is_car_id_unique(int car_id, race_team_t * team);
 static void handle_named_pipe();
-_Noreturn void handle_all_pipes();
+void handle_all_pipes();
 static void notify_race_start();
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
@@ -52,7 +52,7 @@ void race_manager(){
     create_teams(num_teams);
     handle_named_pipe();
     notify_race_start(); // TODO: notify team managers instead of cars
-    handle_all_pipes(pipe_fds);
+    handle_all_pipes();
 
     wait_procs();
 
@@ -124,11 +124,12 @@ void handle_named_pipe() {
     }
 }
 
-_Noreturn void handle_all_pipes() {
+void handle_all_pipes() {
     fd_set read_set;
-    int i, n;
+    int i, j, n, num_finished_cars = 0;
     char buffer[LARGE_SIZE];
     race_car_state_change_t car_state_change;
+    race_box_t * box = NULL;
 
     while (true) {
         FD_ZERO(&read_set);
@@ -154,7 +155,42 @@ _Noreturn void handle_all_pipes() {
                         pipe_fds[i] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY|O_NONBLOCK);
                     } else {
                         read_stream(pipe_fds[i], (void *) &car_state_change, sizeof(race_car_state_change_t));
+
                         DEBUG_MSG(CAR_STATE_CHANGE, EVENT, car_state_change.car_id, car_state_change.new_state);
+
+                        switch (car_state_change.new_state) {
+                            case RACE:
+
+                                break;
+                            case SAFETY:
+
+                                break;
+                            case DISQUALIFIED:
+
+                                break;
+                            case FINISH:
+                                num_finished_cars++;
+
+
+                                if (num_finished_cars == shm->total_num_cars) {
+                                    shm->sync_s.race_running = false;
+
+                                    j = 0;
+
+                                    while (j < 1) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
+                                        box = &shm->race_teams[j].team_box;
+                                        SYNC_BOX_COND
+                                        notify_cond_all(&box->cond);
+                                        END_SYNC_BOX_COND
+
+                                        j++;
+                                    }
+
+                                    return;
+                                }
+
+                                break;
+                        }
                     }
                 }
             }
@@ -165,7 +201,7 @@ _Noreturn void handle_all_pipes() {
 void notify_race_start() {
     SYNC
     shm->sync_s.race_running = true;
-    notify_all_cond(&shm->sync_s.cond);
+    notify_cond_all(&shm->sync_s.cond);
     END_SYNC
 }
 

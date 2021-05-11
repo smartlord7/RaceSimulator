@@ -33,7 +33,7 @@
  * The race car information.
  *
  */
-_Noreturn static void manage_box(race_box_t * box);
+static void manage_box(race_box_t * box);
 static void * race_car_worker(void * data);
 static void simulate_car(race_car_t * car);
 
@@ -72,8 +72,10 @@ void team_manager(void * data){
     }
     END_SYNC
 
+
     while (i < temp_num_cars) {
-        temp_car = race_car(team, 0, 0.4f, 40, 1, 5);
+        temp_car = race_car(team, 0, 0.02f, 400, 1, config.fuel_tank_capacity);
+
         SYNC
         shm->total_num_cars++;
         temp_car->car_id = shm->total_num_cars;
@@ -81,25 +83,30 @@ void team_manager(void * data){
 
         snprintf(temp_car->name, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
         shm->race_cars[team->team_id][i] = * temp_car;
+        init_mutex(&shm->race_cars[team->team_id][i].cond_mutex, true);
+        init_mutex(&shm->race_cars[team->team_id][i].access_mutex, true);
+        init_cond(&shm->race_cars[team->team_id][i].cond, true);
 
-        DEBUG_MSG(THREAD_RUN, ENTRY, temp_car->name)
         create_thread(temp_car->name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
 
         i++;
     }
 
+    DEBUG_MSG(FUNCTION_RUN, ENTRY, TEAM_BOX)
+
     manage_box(&team->team_box);
+
+    DEBUG_MSG(FUNCTION_EXIT, ENTRY, TEAM_BOX)
 
     wait_threads(team->num_cars, car_threads);
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, TEAM_MANAGER)
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, team->team_name)
 }
 // endregion public functions
 
 // region private functions
 
-// TODO: Distinguish fix/ refuel safety modes
-_Noreturn void manage_box(race_box_t * box) {
+void manage_box(race_box_t * box) {
     // declare the needed variables
     race_car_t * car = NULL;
     race_team_t * team = NULL;
@@ -112,13 +119,17 @@ _Noreturn void manage_box(race_box_t * box) {
     box->car_dispatched = false;
     box->state = FREE;
 
-    while (true) {
+    while (shm->sync_s.race_running) {
         // waits for an incoming car or for the number of cars in SAFETY mode to be different of 0.
-        lock_mutex(&box->cond_mutex);
-        while (box->current_car == NULL && team->num_cars_safety == 0) {
+        SYNC_BOX_COND
+        while (box->current_car == NULL && team->num_cars_safety == 0 && shm->sync_s.race_running) {
             wait_cond(&box->cond, &box->cond_mutex);
         }
-        unlock_mutex(&box->cond_mutex);
+        END_SYNC_BOX_COND
+
+        if (!shm->sync_s.race_running) {
+            return;
+        }
 
         if (team->num_cars_safety > 0) {
 
@@ -128,19 +139,24 @@ _Noreturn void manage_box(race_box_t * box) {
             box->state = RESERVED;
             END_SYNC_BOX
 
-            while (team->num_cars_safety > 0) {
+            while (team->num_cars_safety > 0 && shm->sync_s.race_running) {
 
-                lock_mutex(&box->cond_mutex);
-                while (box->current_car == NULL) {
+                SYNC_BOX_COND
+                while (box->current_car == NULL && shm->sync_s.race_running) {
                     wait_cond(&box->cond, &box->cond_mutex);
                 }
-                unlock_mutex(&box->cond_mutex);
+                END_SYNC_BOX_COND
+
+                if (!shm->sync_s.race_running) {
+                    SYNC_CAR_COND
+                    box->car_dispatched = true;
+                    notify_cond(&car->cond);
+                    END_SYNC_CAR_COND
+
+                    return;
+                }
 
                 car = box->current_car;
-
-                SYNC_BOX
-                box->state = OCCUPIED;
-                END_SYNC_BOX
 
                 DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, team->team_id, car->car_id)
 
@@ -154,6 +170,15 @@ _Noreturn void manage_box(race_box_t * box) {
 
                 repair_time = (uint) random_int(tu_to_msec(config.min_repair_time), tu_to_msec(config.max_repair_time));
                 ms_sleep(repair_time);
+
+                if (!shm->sync_s.race_running) {
+                    SYNC_CAR_COND
+                    box->car_dispatched = true;
+                    notify_cond(&car->cond);
+                    END_SYNC_CAR_COND
+
+                    return;
+                }
 
                 DEBUG_MSG(CAR_REFUEL, EVENT, team->team_id, car->car_id)
 
@@ -173,7 +198,20 @@ _Noreturn void manage_box(race_box_t * box) {
                 END_SYNC_TEAM
             }
 
+            SYNC_BOX
+            box->state = FREE;
+            END_SYNC_BOX
+
         } else {
+            if (!shm->sync_s.race_running) {
+                SYNC_CAR_COND
+                box->car_dispatched = true;
+                notify_cond(&car->cond);
+                END_SYNC_CAR_COND
+
+                return;
+            }
+
             DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, box->team->team_id, car->car_id)
 
             car = box->current_car;
@@ -216,11 +254,6 @@ void * race_car_worker(void * data){
 }
 
 void simulate_car(race_car_t * car) {
-    // initialize the car sync mechanisms
-    init_mutex(&car->cond_mutex, true);
-    init_mutex(&car->access_mutex, true);
-    init_cond(&car->cond, true);
-
     // declare the needed variables
     long int time_step;
     int box_needed;
@@ -274,7 +307,7 @@ void simulate_car(race_car_t * car) {
             if (car->remaining_fuel < 0) {
 
                 // the car's journey has ended :(
-                CHANGE_CAR_STATE(NON_FIT);
+                CHANGE_CAR_STATE(DISQUALIFIED);
 
                 // unlock the previously locked box lock.
                 unlock_mutex(&box->available);
@@ -308,7 +341,12 @@ void simulate_car(race_car_t * car) {
             }
             END_SYNC_CAR_COND
 
-            // the car is now ready to race again.
+            if (!shm->sync_s.race_running) {
+                END_SYNC_BOX
+                exit_thread();
+            }
+
+            // the car is now ready to race again;
             car->remaining_fuel = config.fuel_tank_capacity;
 
             CHANGE_CAR_STATE(RACE);
@@ -347,7 +385,7 @@ void simulate_car(race_car_t * car) {
             if (car->remaining_fuel <= 0) {
 
                 // the car's journey has ended :(
-                CHANGE_CAR_STATE(NON_FIT);
+                CHANGE_CAR_STATE(DISQUALIFIED);
 
                 break;
             }
@@ -358,6 +396,10 @@ void simulate_car(race_car_t * car) {
             car->current_pos = 0;
 
             DEBUG_MSG(CAR_COMPLETE_LAP, EVENT, car->car_id, car->completed_laps)
+
+            if (!shm->sync_s.race_running) {
+                exit_thread();
+            }
 
             // check if the car has completed all the race laps.
             if (car->completed_laps == config.laps_per_race) {
@@ -384,7 +426,7 @@ void simulate_car(race_car_t * car) {
         if (car->remaining_fuel <= 0) {
 
             // the car's journey has ended :(
-            CHANGE_CAR_STATE(NON_FIT);
+            CHANGE_CAR_STATE(DISQUALIFIED);
 
             break;
         }

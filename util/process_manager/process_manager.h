@@ -41,14 +41,14 @@
  *
  * @throws ProcessCreationException if the process can't be created.
  */
-void create_process(const char * proc_name, void (* worker)(void *), void * params);
+extern void create_process(const char * proc_name, void (* worker)(void *), void * params);
 
 /**
  * @def wait_procs
  * @brief Function that waits for all the child processes of the current process.
  *
  */
-void wait_procs();
+extern void wait_procs();
 
 /**
  * @def terminate_proc_grp
@@ -57,7 +57,7 @@ void wait_procs();
  * @param proc_group_id
  * The process group id.
  */
-void terminate_proc_grp(pid_t proc_group_id);
+extern void terminate_proc_grp(pid_t proc_group_id);
 
 /**
  * @def create_thread
@@ -66,7 +66,7 @@ void terminate_proc_grp(pid_t proc_group_id);
  * @param thread_name
  * The name of the thread.
  *
- * @param thread_p
+ * @param thread
  * A pointer to a pthread_t.
  *
  * @param worker
@@ -79,7 +79,7 @@ void terminate_proc_grp(pid_t proc_group_id);
  *
  */
 
-void create_thread(const char * thread_name, pthread_t * thread_p, void * (* worker)(void *), void * params);
+extern void create_thread(const char * thread_name, pthread_t * thread, void * (* worker)(void *), void * params);
 
 /**
  * @def wait_threads
@@ -94,7 +94,9 @@ void create_thread(const char * thread_name, pthread_t * thread_p, void * (* wor
  * @throws ThreadJoinException if a thread can't be waited for.
  *
  */
-void wait_threads(int num_threads, pthread_t * threads);
+extern void wait_threads(int num_threads, pthread_t * threads);
+
+extern void exit_thread();
 
 // endregion public functions prototypes
 

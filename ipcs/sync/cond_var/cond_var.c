@@ -28,7 +28,7 @@ void destroy_cond(cond_t * cond) {
     throw_if_exit(pthread_cond_destroy(cond) != 0, COND_VAR_DESTROY_EXCEPTION, "");
 }
 
-void notify_all_cond(cond_t * cond) {
+void notify_cond_all(cond_t * cond) {
     assert(cond != NULL);
 
     throw_if_exit(pthread_cond_broadcast(cond) != 0, COND_VAR_BROADCAST_EXCEPTION, "");

@@ -4,6 +4,7 @@
 #include "pthread.h"
 #include "../../../util/exception_handler/exception_handler.h"
 #include "mutex.h"
+#include "../../../util/debug/debug.h"
 
 void init_mutex(mutex_t * mutex, int proc_shared) {
     if (proc_shared) {
@@ -22,7 +23,7 @@ void destroy_mutex(mutex_t * mutex) {
     unlock_mutex(mutex);
     int ret = pthread_mutex_destroy(mutex);
 
-    throw_if_exit(ret != 0, MUTEX_CLOSE_EXCEPTION, "");
+    throw_if_exit(ret != 0 && ret != EBUSY, MUTEX_CLOSE_EXCEPTION, "");
 }
 
 void lock_mutex(mutex_t * mutex) {

@@ -70,7 +70,7 @@ static void generate_malfunctions(void) {
     }
     END_SYNC
 
-    while (true) {
+    while (shm->sync_s.race_running) {
         for (i = 0; i < config.num_teams; i++) {
             for (j = 0; j < shm->race_teams[i].num_cars; j++) {
                 car = &shm->race_cars[i][j];
@@ -83,7 +83,7 @@ static void generate_malfunctions(void) {
 
                 prob_malfunction = 1 - car->reliability;
 
-                if (random_uniform_event(prob_malfunction)) {
+                if (random_uniform_event(prob_malfunction) && shm->sync_s.race_running) {
                     shm->num_malfunctions++;
 
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
@@ -96,6 +96,10 @@ static void generate_malfunctions(void) {
         }
 
         ms_sleep(malfunction_interval);
+
+        if (!shm->sync_s.race_running) {
+            return;
+        }
     }
 }
 

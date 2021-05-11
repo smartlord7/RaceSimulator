@@ -44,7 +44,7 @@ typedef enum race_car_state {
    RACE = 0,
    SAFETY = 1,
    IN_BOX = 2,
-   NON_FIT = 3,
+   DISQUALIFIED = 3,
    FINISH = 4
 } race_car_state;
 
