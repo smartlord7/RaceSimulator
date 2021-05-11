@@ -73,7 +73,6 @@ static void generate_malfunctions(void) {
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
             for (j = 0; j < shm->race_teams[i].num_cars; j++) {
-
                 car = &shm->race_cars[i][j];
 
                 SYNC_CAR
@@ -90,14 +89,6 @@ static void generate_malfunctions(void) {
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
                     msg.car_id = car->car_id;
-
-                    SYNC
-                    if(shm->sync_s.race_running == false) {
-                        END_SYNC
-                        return;
-                    }
-                    END_SYNC
-
                     snd_msg(malfunction_q_id, (void *) &msg, sizeof(msg));
                 }
                 END_SYNC_CAR

@@ -50,9 +50,9 @@ char * race_car_to_string(race_car_t *race_car) {
 
         snprintf(buffer, NULL_STR_SIZE * sizeof(char), "NULL");
     } else {
-        buffer = string(MAX_BUFFER_SIZE);
+        buffer = string(BUF_SIZE);
 
-        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char),
+        snprintf(buffer, BUF_SIZE * sizeof(char),
                  "\n-----INITIAL PROPS-----\n"
                  "RACE CAR NO: %d\n"
                  "NAME: %s\n"
@@ -75,6 +75,27 @@ char * race_car_to_string(race_car_t *race_car) {
                  race_car->current_pos,
                  race_car->current_consumption,
                  race_car->current_speed);
+    }
+
+    return buffer;
+}
+
+char * race_car_stats_string(race_car_t * car) {
+    char * buffer = NULL;
+
+    if (car == NULL) {
+        buffer = string(NULL_STR_SIZE);
+
+        snprintf(buffer, NULL_STR_SIZE * sizeof(char), "NULL");
+    } else {
+        buffer = string(BUF_SIZE);
+
+        snprintf(buffer, BUF_SIZE * sizeof(char), "%d    %d (%s)      %d      %d",
+                 car->car_id,
+                 car->team->team_id,
+                 car->team->team_name,
+                 car->completed_laps,
+                 car->num_box_stops);
     }
 
     return buffer;

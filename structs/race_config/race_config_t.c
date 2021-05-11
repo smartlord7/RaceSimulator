@@ -51,9 +51,9 @@ char * race_config_to_string(race_config_t * cfg) {
 
         snprintf(buffer, NULL_STR_SIZE * sizeof(char), "NULL");
     } else {
-        buffer = string(MAX_BUFFER_SIZE);
+        buffer = string(BUF_SIZE);
 
-        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "\nTime units per second: %.2ftu\n"
+        snprintf(buffer, BUF_SIZE * sizeof(char), "\nTime units per second: %.2ftu\n"
                                                          "Lap distance: %.2fm\n"
                                                          "Number of laps per race: %d\n"
                                                          "Number of teams: %d\n"
@@ -62,15 +62,15 @@ char * race_config_to_string(race_config_t * cfg) {
                                                          "Min. repair time: %.2ftu\n"
                                                          "Max. repair time: %.2ftu\n"
                                                          "Fuel tank capacity: %.2fL\n",
-                                                         cfg->time_units_per_sec,
-                                                         cfg->lap_distance,
-                                                         cfg->laps_per_race,
-                                                         cfg->num_teams,
-                                                         cfg->max_cars_per_team,
-                                                         cfg->malfunction_interval,
-                                                         cfg->min_repair_time,
-                                                         cfg->max_repair_time,
-                                                         cfg->fuel_tank_capacity);
+                 cfg->time_units_per_sec,
+                 cfg->lap_distance,
+                 cfg->laps_per_race,
+                 cfg->num_teams,
+                 cfg->max_cars_per_team,
+                 cfg->malfunction_interval,
+                 cfg->min_repair_time,
+                 cfg->max_repair_time,
+                 cfg->fuel_tank_capacity);
     }
 
     return buffer;

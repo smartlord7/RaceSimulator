@@ -27,7 +27,7 @@ typedef struct race_team_t race_team_t;
 #define false 0
 #define RACE_CAR "RACE_CAR"
 #define MAX_LABEL_SIZE 50
-#define MAX_BUFFER_SIZE 512
+#define BUF_SIZE 512
 #define NULL_STR_SIZE 5
 #define SAFETY_CONSUMPTION_RATIO 0.4
 #define SAFETY_SPEED_RATIO 0.3
@@ -149,7 +149,7 @@ typedef struct race_car_t{
  *
  * @throws MemoryAllocationException if the malloc call for the race car returns a NULL pointer.
  */
-race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability, float initial_fuel);
+extern race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability, float initial_fuel);
 
 /**
  * @def race_car_to_string
@@ -162,7 +162,7 @@ race_car_t * race_car(race_team_t * team, int car_id, float consumption, float s
  *
  * @throws MemoryAllocationException if the malloc call for the string returns a NULL pointer.
  */
-char * race_car_to_string(race_car_t * race_car);
+extern char * race_car_to_string(race_car_t * race_car);
 
 /**
  * @def set_state
@@ -176,7 +176,9 @@ char * race_car_to_string(race_car_t * race_car);
  * The new state of the race car.
  *
  */
-void set_state(race_car_t * race_car, race_car_state state);
+extern void set_state(race_car_t * race_car, race_car_state state);
+
+extern char * race_car_stats_string(race_car_t * car);
 
 // endregion public functions prototypes
 

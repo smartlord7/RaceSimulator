@@ -134,14 +134,12 @@ int main() {
 }
 
 void shm_init() {
-
     shm->sync_s.race_running = false;
     shm->global_time = 0;
     shm->num_cars_on_track = 0;
     shm->num_malfunctions = 0;
     shm->num_refuels = 0;
     shm->total_num_cars = 0;
-
 }
 
 // region private functions
@@ -150,23 +148,28 @@ static void create_ipcs(int num_teams){
     assert(num_teams > 0);
 
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
-    create_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     init_cond(&shm->sync_s.cond, true);
     init_mutex(&shm->sync_s.mutex, true);
+    create_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     malfunction_q_id = create_msg_queue();
 }
 
 static void destroy_ipcs(int num_teams){
     assert(num_teams > 0);
 
+    destroy_msg_queue(malfunction_q_id);
+    destroy_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     destroy_mutex(&shm->sync_s.mutex);
     destroy_cond(&shm->sync_s.cond);
     destroy_shm(shm_id, shm);
-    destroy_msg_queue(malfunction_q_id);
 }
 
 static void show_stats(int signum) {
+    SYNC
 
+
+
+    END_SYNC
 }
 
 static void segfault_handler(int signum) {

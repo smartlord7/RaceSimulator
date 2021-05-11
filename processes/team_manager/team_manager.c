@@ -66,10 +66,10 @@ void team_manager(void * data){
     team->num_cars = 2;
 
     while (i < temp_num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 120, 0.5f, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.02f, 40, 0.5f, config.fuel_tank_capacity);
         SYNC
-            shm->total_num_cars++;
-            temp_car->car_id = shm->total_num_cars;
+        shm->total_num_cars++;
+        temp_car->car_id = shm->total_num_cars;
         END_SYNC
 
         snprintf(temp_car->name, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
@@ -303,11 +303,11 @@ void simulate_car(race_car_t * car) {
         }
         END_SYNC_BOX
 
-        // check if the car has some malfunction
+        // check if the car has some malfunction.
         if (rcv_msg(malfunction_q_id, (void *) &malfunction_msg, sizeof(malfunction_msg), car->car_id) > 0) {
             DEBUG_MSG(malfunction_msg.malfunction_msg, EVENT, "");
 
-            // if a malfunction is detected, the car's state changes to SAFETY
+            // if a malfunction is detected, the car's state changes to SAFETY.
             CHANGE_CAR_STATE(SAFETY);
 
             // notify the box that at least one of the team's cars is in SAFETY mode.

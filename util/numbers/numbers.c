@@ -24,5 +24,5 @@ void ms_sleep(uint ms) {
         result = nanosleep(&ts_sleep, &ts_remaining);
     } while ((EINTR == errno) && (-1 == result));
 
-    throw_if_exit(errno != 0 && result == -1, MS_SLEEP_EXCEPTION, "");
+    throw_if_exit(result == -1, MS_SLEEP_EXCEPTION, "");
 }

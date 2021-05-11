@@ -9,10 +9,10 @@
 
 // region dependencies
 
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#include <ctype.h>
+#include "stdlib.h"
+#include "string.h"
+#include "assert.h"
+#include "ctype.h"
 #include "../exception_handler/exception_handler.h"
 
 // endregion dependencies

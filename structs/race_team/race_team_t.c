@@ -51,9 +51,9 @@ char * race_team_to_string(race_team_t * team) {
 
         snprintf(buffer, NULL_STR_SIZE * sizeof(char), "NULL");
     } else {
-        buffer = string(MAX_BUFFER_SIZE);
+        buffer = string(BUF_SIZE);
 
-        snprintf(buffer, MAX_BUFFER_SIZE * sizeof(char), "\nTEAM: %s\n", team->team_name);
+        snprintf(buffer, BUF_SIZE * sizeof(char), "\nTEAM: %s\n", team->team_name);
     }
 
     return buffer;

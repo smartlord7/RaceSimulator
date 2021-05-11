@@ -9,13 +9,11 @@
 
 // region dependencies
 
-#include <ctype.h>
-#include <assert.h>
-#include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
+#include "assert.h"
 #include "fcntl.h"
-#include "sys/unistd.h"
+#include "unistd.h"
 #include "../../util/process_manager/process_manager.h"
 #include "../../util/global.h"
 #include "../../util/to_float//to_float.h"
@@ -31,35 +29,37 @@
 // region public functions
 
 
-static void create_teams(int num_teams, int pipes_read_fds[MAX_NUM_TEAMS]);
+static void create_teams(int num_teams);
 static int interpret_command(char * buffer, race_car_t * car_data);
 static int check_start_conditions();
 static int validate_car(char * buffer, race_car_t * car);
 static int validate_team(char * buffer, race_team_t * team);
 static int validate_number(char * buffer, char * expected_cmd, float * result);
 static int is_car_id_unique(int car_id, race_team_t * team);
-static void handle_named_pipe(int fd);
-_Noreturn void handle_all_pipes(int pipes_read_fds[MAX_NUM_TEAMS]);
+static void handle_named_pipe();
+_Noreturn void handle_all_pipes();
 static void notify_race_start();
+
+int pipe_fds[MAX_NUM_TEAMS + 1];
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
 
-    int num_teams = config.num_teams, pipes_read_fds[MAX_NUM_TEAMS];
+    int num_teams = config.num_teams;
 
-    pipes_read_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
-    create_teams(num_teams, pipes_read_fds);
-    handle_named_pipe(pipes_read_fds[NAMED_PIPE_INDEX]);
+    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
+    create_teams(num_teams);
+    handle_named_pipe();
     notify_race_start(); // TODO: notify team managers instead of cars
-    handle_all_pipes(pipes_read_fds);
+    handle_all_pipes(pipe_fds);
 
     wait_procs();
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER)
 }
 
-void create_teams(int num_teams, int fds[MAX_NUM_TEAMS]) {
+void create_teams(int num_teams) {
     int i;
     char team_name[MAX_LABEL_SIZE];
     race_team_t * team = NULL;
@@ -71,7 +71,7 @@ void create_teams(int num_teams, int fds[MAX_NUM_TEAMS]) {
         team = &shm->race_teams[i];
 
         create_unn_pipe(unn_pipe_fds);
-        fds[i] = unn_pipe_fds[0];
+        pipe_fds[i + 1] = unn_pipe_fds[0];
         strcpy(team->team_name, team_name);
         team->team_id = i;
         create_process(TEAM_MANAGER, team_manager, (void *) team);
@@ -87,14 +87,14 @@ void register_car(race_car_t * car) {
     shm->race_teams[car->team->team_id].num_cars++;
 }
 
-void handle_named_pipe(int fd) {
+void handle_named_pipe() {
     int n, result, end_read = false;
     char buffer[LARGE_SIZE], aux_buffer[LARGE_SIZE];
     race_car_t car_data;
 
     while(!end_read) {
         do {
-            n = (int) read(fd, buffer, LARGE_SIZE * sizeof(char));
+            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGE_SIZE * sizeof(char));
             if (n > 0) {
                 buffer[n - 1]= '\0';
                 remove_new_line(buffer, (int) strlen(buffer));
@@ -124,7 +124,7 @@ void handle_named_pipe(int fd) {
     }
 }
 
-_Noreturn void handle_all_pipes(int pipes_read_fds[MAX_NUM_TEAMS]) {
+_Noreturn void handle_all_pipes() {
     fd_set read_set;
     int i, n;
     char buffer[LARGE_SIZE];
@@ -134,15 +134,15 @@ _Noreturn void handle_all_pipes(int pipes_read_fds[MAX_NUM_TEAMS]) {
         FD_ZERO(&read_set);
 
         for (i = 0; i < config.num_teams + 1; i++) {
-            FD_SET(pipes_read_fds[i], &read_set);
+            FD_SET(pipe_fds[i], &read_set);
         }
 
-        if (select(pipes_read_fds[config.num_teams + 1] + 1, &read_set, NULL, NULL, NULL) > 0) {
-            for (i = 0; i < config.num_teams; i++) {
-                if (FD_ISSET(pipes_read_fds[i], &read_set)) {
+        if (select(pipe_fds[config.num_teams] + 1, &read_set, NULL, NULL, NULL) > 0) {
+            for (i = 0; i < config.num_teams + 1; i++) {
+                if (FD_ISSET(pipe_fds[i], &read_set)) {
                     if (i == NAMED_PIPE_INDEX) {
                         do {
-                            n = (int) read(pipes_read_fds[i], buffer, LARGE_SIZE);
+                            n = (int) read(pipe_fds[i], buffer, LARGE_SIZE);
 
                             if (n > 0) {
                                 buffer[n - 1] = '\0';
@@ -150,11 +150,10 @@ _Noreturn void handle_all_pipes(int pipes_read_fds[MAX_NUM_TEAMS]) {
                             }
                         } while (n > 0);
 
-                        close(pipes_read_fds[i]);
-                        pipes_read_fds[i] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY|O_NONBLOCK);
+                        close(pipe_fds[i]);
+                        pipe_fds[i] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY|O_NONBLOCK);
                     } else {
-                        read_stream(pipes_read_fds[i], (void *) &car_state_change, sizeof(race_car_state_change_t));
-                        fflush(stdout);
+                        read_stream(pipe_fds[i], (void *) &car_state_change, sizeof(race_car_state_change_t));
                         DEBUG_MSG(CAR_STATE_CHANGE, EVENT, car_state_change.car_id, car_state_change.new_state);
                     }
                 }
@@ -170,9 +169,9 @@ void notify_race_start() {
     for (i = 0; i < config.num_teams; i++) {
         for (j = 0; j < shm->race_teams[i].num_cars; j++) {
             car = &shm->race_cars[i][j];
-
+            // TODO: Use only one cond var
             SYNC_CAR
-            shm->sync_s.race_running = true;
+            shm->sync_s.race_running = true; // ??
             notify_all_cond(&car->cond);
             END_SYNC_CAR
         }
@@ -184,7 +183,6 @@ void notify_race_start() {
 }
 
 int interpret_command(char * buffer, race_car_t * car) {
-    printf("-%s-\n", buffer);
     if (strcasecmp(buffer, START_RACE) == 0) {
         return check_start_conditions();
     } else if (starts_with_ignore_case(buffer, ADDCAR)) {
@@ -227,7 +225,6 @@ int validate_car(char * buffer, race_car_t * car) {
     char * token;
     int car_id;
     race_team_t team;
-
 
     // validate team name.
     if((token = strtok(buffer, DELIM_1)) == NULL) {

@@ -76,49 +76,37 @@ void generate_log_entry(char * mode, void * data){
     //race_car_t * car;
     char entry[LARGEST_SIZE];
 
-    HERE("1");
-
     if (strcmp(mode, I_SIMULATION_START) == 0){
-        HERE("2");
         snprintf(entry, LARGEST_SIZE, "%s => STARTING SIMULATION\n", get_time());
 
     } else if (strcmp(mode, I_SIMULATION_END) == 0){
-        HERE("3");
         snprintf(entry, LARGEST_SIZE, "%s => CLOSING SIMULATION\n", get_time());
 
     } else if (strcmp(mode, I_COMMAND_RECEIVED) == 0){
-        HERE("4");
         snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED: %s\n", get_time(), (char *) data);
 
     } else if(strcmp(mode, I_COMMAND_EXCEPTION) == 0){
-        HERE("5");
         snprintf(entry, LARGEST_SIZE, "%s => WRONG COMMAND: %s\n", get_time(), (char *) data);
 
     } else if(strcmp(mode, I_CAR_LOADED) == 0) {
-        HERE("6");
         race_car_t * car = (race_car_t *) data;
         snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d LOADED\n", get_time(), car->car_id, car->team->team_id);
 
     } else if(strcmp(mode, I_CAR_REJECTED) == 0) {
-        HERE("7");
         race_car_t * car = (race_car_t *) data;
         snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d REJECTED\n", get_time(), car->car_id, car->team->team_id);
 
     } else if(strcmp(mode, I_CANNOT_START) == 0) {
-        HERE("8");
         snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START!\n", get_time());
 
     } else if(strcmp(mode, I_CAR_MALFUNCTION) == 0){
-        HERE("9");
         race_car_t * car = (race_car_t *) data;
         snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d SUFFERED MALFUNCTION\n", get_time(), car->car_id, car->team->team_id);
 
     } else if(strcmp(mode, I_SIGNAL_RECEIVED) == 0){
-        HERE("10");
         snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED!\n", get_time(), (char*) data);
 
     } else if(strcmp(mode, I_RACE_WIN) == 0){
-        HERE("11");
         race_car_t * car = (race_car_t *) data;
         snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d WON!\n", get_time(), car->car_id, car->team->team_id);
 

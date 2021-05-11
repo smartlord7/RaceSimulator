@@ -12,7 +12,7 @@ int open_file(const char * file_name, int mode) {
 
     int fd = open(file_name, mode);
 
-    throw_if_exit(errno != 0 && fd == -1, FILE_OPEN_EXCEPTION, file_name);
+    throw_if_exit(fd == -1, FILE_OPEN_EXCEPTION, file_name);
 
     return fd;
 }
@@ -20,19 +20,18 @@ int open_file(const char * file_name, int mode) {
 void close_fd(int fd) {
     assert(fd > 0);
 
-    throw_if_exit(errno != 0 && close(fd) == -1, FILE_DESCRIPTOR_CLOSE_EXCEPTION, fd);
+    throw_if_exit(close(fd) == -1, FILE_DESCRIPTOR_CLOSE_EXCEPTION, fd);
 }
 
 void read_stream(int fd, void * buffer, size_t size) {
     assert(fd > 0 && buffer != NULL);
 
     size_t n, total = 0;
-    HERE("")
 
     while (total < size) {
         n = read(fd, (char * ) buffer + total, size - total);
 
-        throw_if_exit(errno != 0 && n == (size_t) -1, STREAM_READ_EXCEPTION, fd);
+        throw_if_exit(n == (size_t) -1, STREAM_READ_EXCEPTION, fd);
         total += n;
     }
 }
@@ -40,5 +39,5 @@ void read_stream(int fd, void * buffer, size_t size) {
 void write_stream(int fd, void * buffer, size_t size) {
     assert(fd > 0 && buffer != NULL);
 
-    throw_if_exit(errno != 0 && write(fd, buffer, size) == -1, STREAM_WRITE_EXCEPTION, fd);
+    throw_if_exit(write(fd, buffer, size) == -1, STREAM_WRITE_EXCEPTION, fd);
 }

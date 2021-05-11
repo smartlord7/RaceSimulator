@@ -37,7 +37,7 @@
 #define tu_to_msec(t) (uint) ((t) / config.time_units_per_sec * pow(10, 3))
 
 #define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
-#define NAMED_PIPE_INDEX config.num_teams
+#define NAMED_PIPE_INDEX 0
 #define SMALLEST_SIZE 16
 #define XSMALL_SIZE 32
 #define SMALL_SIZE 64

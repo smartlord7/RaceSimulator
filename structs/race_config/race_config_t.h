@@ -15,16 +15,10 @@
 #define RACE_CONFIG "RACE_CONFIG"
 #define true 1
 #define false 0
-#define MAX_BUFFER_SIZE 512
+#define BUF_SIZE 512
 #define NULL_STR_SIZE 5
 
 // endregion constants
-
-// region forward declarations
-
-typedef struct race_config_t race_config_t;
-
-// endregion forward declarations
 
 // region structures
 
@@ -59,7 +53,7 @@ typedef struct race_config_t race_config_t;
  *  The maximum number of cars per team in a race.
  *
  */
-struct race_config_t {
+typedef struct race_config_t {
     float time_units_per_sec,
             lap_distance,
             malfunction_interval,
@@ -67,7 +61,7 @@ struct race_config_t {
             max_repair_time,
             fuel_tank_capacity;
     int laps_per_race, num_teams, max_cars_per_team;
-};
+} race_config_t;
 
 // endregion structures
 
