@@ -110,6 +110,7 @@ void handle_named_pipe() {
                         generate_log_entry(I_CAR_REJECTED, (void *) aux_buffer);
                         break;
                     case RESULT_BEGIN_RACE:
+                        generate_log_entry(I_RACE_START, NULL);
                         end_read = true;
                         break;
                     case RESULT_CANNOT_START_RACE:
