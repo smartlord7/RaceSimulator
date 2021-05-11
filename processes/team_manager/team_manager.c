@@ -54,7 +54,7 @@ void team_manager(void * data){
     init_mutex(&team->access_mutex, true);
     init_mutex(&team->pipe_mutex, true);
     init_cond(&team->team_box.cond, true);
-    close_fd(unn_pipe_fds[0]); //TODO: close also the write end of the pipe
+    close_fd(unn_pipe_fds[0]);
     team->team_box.team = team;
     team->team_box.car_dispatched = true;
     team->num_cars_safety = 0;
@@ -67,7 +67,7 @@ void team_manager(void * data){
     team->num_cars = config.max_cars_per_team; // TODO: remove (temp value)
 
     while (i < team->num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 400, 1, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.02f, 400, 0.9, config.fuel_tank_capacity);
 
         SYNC
         shm->total_num_cars++;

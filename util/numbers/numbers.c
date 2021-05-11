@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "time.h"
 #include "errno.h"
 #include "stdlib.h"
@@ -12,7 +13,7 @@ int random_uniform_event(float probability) {
     int num_chosen = (int) (probability * NUM_EVENT_VALUES),
         pivot = random_int(0, NUM_EVENT_VALUES);
 
-    return num_chosen >= pivot;
+    return num_chosen > pivot;
 }
 
 void ms_sleep(uint ms) {

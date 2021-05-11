@@ -86,6 +86,7 @@ static void generate_malfunctions(void) {
                 if (random_uniform_event(prob_malfunction) && shm->sync_s.race_running) {
                     shm->num_malfunctions++;
 
+
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
                     msg.car_id = car->car_id;

@@ -192,7 +192,6 @@ void handle_all_pipes() {
                                     while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
                                         box = &shm->race_teams[j].team_box;
                                         SYNC_BOX_COND
-                                        HERE("notifying box")
                                         notify_cond_all(&box->cond);
                                         END_SYNC_BOX_COND
 
