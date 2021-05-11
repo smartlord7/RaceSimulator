@@ -65,7 +65,7 @@ static void generate_malfunctions(void) {
     malfunction_interval = tu_to_msec(config.malfunction_interval);
 
     SYNC
-    while (shm->num_cars_on_track != shm->total_num_cars || shm->num_cars_on_track == 0 || shm->total_num_cars == 0) {
+    while (!shm->sync_s.race_running) {
         wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
     }
     END_SYNC

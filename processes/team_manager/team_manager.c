@@ -9,6 +9,7 @@
 
 // region dependencies
 
+#include <unistd.h>
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
@@ -63,15 +64,7 @@ void team_manager(void * data){
     int i;
 
     i = 0;
-    team->num_cars = config.max_cars_per_team;
-
-    // wait for the race to start.
-    SYNC
-    while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
-    }
-    END_SYNC
-
+    team->num_cars = config.max_cars_per_team; // TODO: remove (temp value)
 
     while (i < team->num_cars) {
         temp_car = race_car(team, 0, 0.02f, 400, 1, config.fuel_tank_capacity);
@@ -87,6 +80,19 @@ void team_manager(void * data){
         init_mutex(&shm->race_cars[team->team_id][i].access_mutex, true);
         init_cond(&shm->race_cars[team->team_id][i].cond, true);
 
+        i++;
+    }
+
+    // wait for the race to start.
+    SYNC
+    while (!shm->sync_s.race_running) {
+        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
+    }
+    END_SYNC
+
+    i = 0;
+
+    while (i < team->num_cars) {
         create_thread(temp_car->name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
 
         i++;

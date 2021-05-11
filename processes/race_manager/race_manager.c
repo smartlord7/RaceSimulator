@@ -128,7 +128,7 @@ void handle_named_pipe() {
 
 void handle_all_pipes() {
     fd_set read_set;
-    int i, j, n, num_finished_cars = 0;
+    int i, j, n;
     char buffer[LARGE_SIZE];
     race_car_state_change_t car_state_change;
     race_box_t * box = NULL;
@@ -162,14 +162,7 @@ void handle_all_pipes() {
 
                         switch (car_state_change.new_state) {
                             case RACE:
-                                if (shm->num_cars_on_track != 0) {
-                                    shm->num_cars_on_track++;
-                                } else {
-                                    SYNC
-                                    shm->num_cars_on_track++;
-                                    notify_cond(&shm->sync_s.cond);
-                                    END_SYNC
-                                }
+                                shm->num_cars_on_track++;
 
                                 break;
                             case SAFETY:
@@ -189,16 +182,17 @@ void handle_all_pipes() {
 
                                 break;
                             case FINISH:
-                                num_finished_cars++;
-
-                                if (num_finished_cars == shm->total_num_cars) {
+                                if (++shm->num_finished_cars == shm->total_num_cars) {
                                     shm->sync_s.race_running = false;
+
+                                    DEBUG_MSG(CARS_FINISH, EVENT, "")
 
                                     j = 0;
 
                                     while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
                                         box = &shm->race_teams[j].team_box;
                                         SYNC_BOX_COND
+                                        HERE("notifying box")
                                         notify_cond_all(&box->cond);
                                         END_SYNC_BOX_COND
 

@@ -11,8 +11,8 @@ typedef struct sync_t sync_t;
 
 struct sync_t {
     int race_running;
-    mutex_t mutex;
-    cond_t cond;
+    mutex_t mutex, malf_mutex;
+    cond_t cond, malfunction_mng_start;
 };
 
 #endif //RACESIMULATOR_C_SYNC_T_H

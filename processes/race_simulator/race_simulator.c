@@ -93,7 +93,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(ENTRY, false);
+    debug_init(EVENT, false);
 
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
@@ -111,10 +111,10 @@ int main() {
     generate_log_entry(I_SIMULATION_START, NULL);
 
     //create race manager process
-    create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
+    create_process(RACE_MANAGER, race_manager, NULL);
 
     //create malfunction_q_id manager process
-    create_process(RACE_MANAGER, race_manager, NULL);
+    create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
     signal(SIGTSTP, show_stats);
@@ -149,6 +149,8 @@ static void create_ipcs(){
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
     init_cond(&shm->sync_s.cond, true);
     init_mutex(&shm->sync_s.mutex, true);
+    init_mutex(&shm->sync_s.malf_mutex, true);
+    init_cond(&shm->sync_s.malfunction_mng_start, true);
     create_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     malfunction_q_id = create_msg_queue();
 }
