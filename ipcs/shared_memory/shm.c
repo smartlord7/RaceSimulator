@@ -31,7 +31,7 @@ void * create_shm(size_t size, int * shm_id_p) {
 void destroy_shm(int shm_id, void * shared_mem) {
     assert(shm_id > 0 && shared_mem != NULL);
 
-    if(shmdt(shared_mem) == -1){
+    if (shmdt(shared_mem) == -1){
         throw_and_exit(SHM_DETACH_EXCEPTION, shm_id);
     }
 

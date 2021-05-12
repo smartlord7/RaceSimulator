@@ -62,19 +62,19 @@ int insert_element(race_car_t car) {
     node = create_element(car, calculate_priority(car));
 
     i = 0;
-    while(i < MAX_QUEUE_SIZE){
-        if(priority_queue[i].priority == 0){
+    while (i < MAX_QUEUE_SIZE){
+        if (priority_queue[i].priority == 0){
             priority_queue[i] = node;
             queue_size += 1;
             break;
-        } else if(node.priority >= priority_queue[i].priority) {
+        } else if (node.priority >= priority_queue[i].priority) {
             i = 2 * i + 2;
-        } else if(node.priority < priority_queue[i].priority) {
+        } else if (node.priority < priority_queue[i].priority) {
             i = 2 * i + 1;
         }
     }
 
-    if(i < MAX_QUEUE_SIZE) {
+    if (i < MAX_QUEUE_SIZE) {
         bring_up(i);
     }
 
@@ -84,7 +84,7 @@ int insert_element(race_car_t car) {
 void bring_up(int index) {
     int i = index;
 
-    while(i != 0 && priority_queue[i].priority > priority_queue[(i - 1) / 2].priority ) {
+    while (i != 0 && priority_queue[i].priority > priority_queue[(i - 1) / 2].priority ) {
         swap(&priority_queue[i], &priority_queue[(i - 1) / 2]);
         i = (i - 1) / 2;
     }
@@ -95,8 +95,8 @@ void bring_up(int index) {
 void update_position(int index){
     int i = index;
 
-    while(true) {
-        if(priority_queue[i].priority > priority_queue[2 * i + 2].priority) {
+    while (true) {
+        if (priority_queue[i].priority > priority_queue[2 * i + 2].priority) {
             swap(&priority_queue[i], &priority_queue[2 * i + 2]);
             i = 2 * i + 2;
 
@@ -114,7 +114,7 @@ race_car_t get_next_car() {
 
     car = priority_queue[0].race_car;
 
-    if(queue_size > 1) {
+    if (queue_size > 1) {
         swap(&priority_queue[0], &priority_queue[queue_size - 1]);
 
         update_position(0);
@@ -131,7 +131,7 @@ race_car_t get_next_car() {
 int find_car(race_car_t car){
     int i = 0;
 
-    while(i < MAX_QUEUE_SIZE) {
+    while (i < MAX_QUEUE_SIZE) {
 
     }
 }*/

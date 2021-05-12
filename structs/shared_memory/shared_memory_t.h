@@ -55,7 +55,8 @@ struct shared_memory_t {
     sync_t sync_s;
     uint global_time;
     int num_cars_on_track,
-        total_num_cars,    // TODO: Integrate in a stats struct.
+        total_num_cars,
+        num_finished_cars, // TODO: Integrate in a stats struct.
         num_malfunctions,
         num_refuels;
 };

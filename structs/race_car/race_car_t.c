@@ -120,7 +120,7 @@ void set_state(race_car_t * race_car, race_car_state state) {
 
             break;
         case IN_BOX:
-        case NON_FIT:
+        case DISQUALIFIED:
         case FINISH:
             race_car->current_speed = 0;
             race_car->current_consumption = 0;

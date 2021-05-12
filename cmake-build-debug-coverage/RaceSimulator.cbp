@@ -177,6 +177,18 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_simulator_cmd.c">
 			<Option target="cmd"/>
 		</Unit>
@@ -238,12 +250,6 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/global.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/log_generator/log_generator.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -254,12 +260,6 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/process_manager/process_manager.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/race_config_reader/race_config_reader.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/race_config_reader/race_config_reader.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/read_line/read_line.c">

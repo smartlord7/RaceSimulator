@@ -20,7 +20,7 @@
 #include "../../util/strings/strings.h"
 #include "../../util/file/file.h"
 #include "../../ipcs/pipe/pipe.h"
-#include "../../util/log_generator/log_generator.h"
+#include "../../race_helpers//log_generator/log_generator.h"
 #include "../team_manager/team_manager.h"
 #include "race_manager.h"
 
@@ -38,9 +38,11 @@ static int validate_team(char * buffer, race_team_t * team);
 static int validate_number(char * buffer, char * expected_cmd, float * result);
 static int is_car_number_unique(char * car_name, race_team_t * team);
 static void handle_named_pipe();
-_Noreturn void handle_all_pipes();
+static void handle_all_pipes();
 static void notify_race_start();
 static void register_car(race_car_t * car);
+static void handle_car_state_change(race_car_state_change_t car_state_change, int * end);
+static int check_race_end();
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
 
@@ -54,7 +56,7 @@ void race_manager(){
     initialize_team_slots(num_teams);
     handle_named_pipe();
     notify_race_start(); // TODO: notify team managers instead of cars
-    handle_all_pipes(pipe_fds);
+    handle_all_pipes();
 
     wait_procs();
 
@@ -66,7 +68,7 @@ void handle_named_pipe() {
     char buffer[LARGE_SIZE], aux_buffer[LARGE_SIZE];
     race_car_t car_data;
 
-    while(!end_read) {
+    while (!end_read) {
         do {
             n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGE_SIZE * sizeof(char));
             if (n > 0) {
@@ -95,15 +97,16 @@ void handle_named_pipe() {
                         break;
                 }
             }
-        } while(n > 0 && !end_read);
+        } while (n > 0 && !end_read);
     }
 }
 
-_Noreturn void handle_all_pipes() {
+void handle_all_pipes() {
     fd_set read_set;
-    int i, n;
+    int i, j, n;
     char buffer[LARGE_SIZE];
     race_car_state_change_t car_state_change;
+    race_box_t * box = NULL;
 
     while (true) {
         FD_ZERO(&read_set);
@@ -129,7 +132,52 @@ _Noreturn void handle_all_pipes() {
                         pipe_fds[i] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY|O_NONBLOCK);
                     } else {
                         read_stream(pipe_fds[i], (void *) &car_state_change, sizeof(race_car_state_change_t));
+
                         DEBUG_MSG(CAR_STATE_CHANGE, EVENT, car_state_change.car_id, car_state_change.new_state);
+
+                        switch (car_state_change.new_state) {
+                            case RACE:
+                                shm->num_cars_on_track++;
+
+                                break;
+                            case SAFETY:
+
+                            case IN_BOX:
+                                shm->num_cars_on_track--;
+                                shm->num_refuels++;
+
+                                if (car_state_change.malfunctioning) {
+                                    shm->num_malfunctions++;
+                                }
+
+                                break;
+
+                            case DISQUALIFIED:
+                                shm->num_cars_on_track--;
+
+                                break;
+                            case FINISH:
+                                if (++shm->num_finished_cars == shm->total_num_cars) {
+                                    shm->sync_s.race_running = false;
+
+                                    DEBUG_MSG(CARS_FINISH, EVENT, "")
+
+                                    j = 0;
+
+                                    while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
+                                        box = &shm->race_teams[j].team_box;
+                                        SYNC_BOX_COND
+                                        notify_cond_all(&box->cond);
+                                        END_SYNC_BOX_COND
+
+                                        j++;
+                                    }
+
+                                    return;
+                                }
+
+                                break;
+                        }
                     }
                 }
             }
@@ -145,25 +193,69 @@ static void initialize_team_slots(int num_teams) {
     }
     END_SYNC
 }
+static void handle_car_state_change(race_car_state_change_t car_state_change, int * end) {
+    switch (car_state_change.new_state) {
+        case RACE:
+            shm->num_cars_on_track++;
+
+            break;
+        case SAFETY:
+
+            break;
+        case IN_BOX:
+            shm->num_refuels++;
+            shm->num_cars_on_track--;
+
+            if (car_state_change.malfunctioning) {
+                shm->num_malfunctions++;
+            }
+
+            break;
+        case DISQUALIFIED:
+            shm->num_cars_on_track--;
+
+            break;
+        case FINISH:
+            shm->num_finished_cars++;
+
+            // TODO: Improve race finish because its still buggy when there are a lot of cars
+            if (check_race_end()) {
+                * end = true;
+            }
+
+            break;
+    }
+}
+
+static int check_race_end() {
+    int i;
+    race_box_t * box = NULL;
+
+    if (shm->num_finished_cars == shm->total_num_cars) {
+        shm->sync_s.race_running = false;
+
+        i = 0;
+
+        while (i < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
+            box = &shm->race_teams[i].team_box;
+            SYNC_BOX_COND
+            notify_cond(&box->cond);
+            END_SYNC_BOX_COND
+
+            i++;
+        }
+
+        return true;
+    }
+
+    return false;
+}
 
 void notify_race_start() {
-    int i, j;
-    race_car_t * car;
-
-    for (i = 0; i < config.num_teams; i++) {
-        for (j = 0; j < shm->race_teams[i].num_cars; j++) {
-            car = &shm->race_cars[i][j];
-            // TODO: Use only one cond var
-            SYNC_CAR
-            shm->sync_s.race_running = true; // ??
-            notify_all_cond(&car->cond);
-            END_SYNC_CAR
-        }
-    }
-    lock_mutex(&shm->sync_s.mutex);
+    SYNC
     shm->sync_s.race_running = true;
-    notify_all_cond(&shm->sync_s.cond);
-    unlock_mutex(&shm->sync_s.mutex);
+    notify_cond_all(&shm->sync_s.cond);
+    END_SYNC
 }
 
 int interpret_command(char * buffer, race_car_t * car) {
@@ -352,7 +444,7 @@ int validate_number(char * buffer, char * expected_cmd, float * result) {
     }
     cmd_field = trim_string(cmd_field, (int) strlen(cmd_field));
 
-    if(!strcasecmp(cmd_field, expected_cmd)) {
+    if (!strcasecmp(cmd_field, expected_cmd)) {
 
         if((value_field = strtok_r(NULL, DELIM_2, &buffer)) == NULL) {
             return false;
@@ -360,7 +452,7 @@ int validate_number(char * buffer, char * expected_cmd, float * result) {
 
         value_field = trim_string(value_field, (int) strlen(value_field));
 
-        if(to_float(value_field, &value) == FLOAT_CONVERSION_FAILURE || value <= 0) {
+        if (to_float(value_field, &value) == FLOAT_CONVERSION_FAILURE || value <= 0) {
             return false;
         }
 

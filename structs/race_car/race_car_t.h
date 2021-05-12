@@ -44,7 +44,7 @@ typedef enum race_car_state {
    RACE = 0,
    SAFETY = 1,
    IN_BOX = 2,
-   NON_FIT = 3,
+   DISQUALIFIED = 3,
    FINISH = 4
 } race_car_state;
 
@@ -97,8 +97,6 @@ typedef enum race_car_state {
  * @var race_car_t::current_pos
  * The current position of the race car on the racing track.
  *
- * @var race_car_t::timer
- * The time, in seconds, between the race race_running and when the race car crosses the finish line.
  */
 typedef struct race_car_t{
     race_team_t * team;
@@ -110,7 +108,7 @@ typedef struct race_car_t{
             completed_laps,
             num_box_stops,
             num_malfunctions,
-            num_of_refuels;
+            num_refuels;
     float remaining_fuel,
             consumption,
             current_consumption,
