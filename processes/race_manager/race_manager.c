@@ -198,6 +198,14 @@ void handle_all_pipes() {
                                         j++;
                                     }
 
+                                    SYNC_CLOCK_VALLEY
+                                    notify_cond(&shm->sync_s.clock_valley_cond);
+                                    END_SYNC_CLOCK_VALLEY
+
+                                    SYNC_CLOCK_RISE
+                                    notify_cond_all(&shm->sync_s.clock_rise_cond);
+                                    END_SYNC_CLOCK_RISE
+
                                     return;
                                 }
 
@@ -213,7 +221,10 @@ void handle_all_pipes() {
 static void handle_car_state_change(race_car_state_change_t car_state_change, int * end) {
     switch (car_state_change.new_state) {
         case RACE:
+            SYNC_CLOCK_VALLEY
             shm->num_cars_on_track++;
+            notify_cond(&shm->sync_s.clock_valley_cond);
+            END_SYNC_CLOCK_VALLEY
 
             break;
         case SAFETY:
@@ -221,7 +232,11 @@ static void handle_car_state_change(race_car_state_change_t car_state_change, in
             break;
         case IN_BOX:
             shm->num_refuels++;
+
+            SYNC_CLOCK_VALLEY
             shm->num_cars_on_track--;
+            notify_cond(&shm->sync_s.clock_valley_cond);
+            END_SYNC_CLOCK_VALLEY
 
             if (car_state_change.malfunctioning) {
                 shm->num_malfunctions++;
@@ -229,11 +244,19 @@ static void handle_car_state_change(race_car_state_change_t car_state_change, in
 
             break;
         case DISQUALIFIED:
+            SYNC_CLOCK_VALLEY
             shm->num_cars_on_track--;
+            notify_cond(&shm->sync_s.clock_valley_cond);
+            END_SYNC_CLOCK_VALLEY
+
 
             break;
         case FINISH:
             shm->num_finished_cars++;
+
+            SYNC_CLOCK_VALLEY
+            notify_cond(&shm->sync_s.clock_valley_cond);
+            END_SYNC_CLOCK_VALLEY
 
             // TODO: Improve race finish because its still buggy when there are a lot of cars
             if (check_race_end()) {

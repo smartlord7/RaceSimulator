@@ -614,6 +614,33 @@ structs/race_team/race_team_t.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.s
 .PHONY : structs/race_team/race_team_t.c.s
 
+util/async_thread_clock/async_thread_clock.o: util/async_thread_clock/async_thread_clock.c.o
+
+.PHONY : util/async_thread_clock/async_thread_clock.o
+
+# target to build an object file
+util/async_thread_clock/async_thread_clock.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/async_thread_clock/async_thread_clock.c.o
+.PHONY : util/async_thread_clock/async_thread_clock.c.o
+
+util/async_thread_clock/async_thread_clock.i: util/async_thread_clock/async_thread_clock.c.i
+
+.PHONY : util/async_thread_clock/async_thread_clock.i
+
+# target to preprocess a source file
+util/async_thread_clock/async_thread_clock.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/async_thread_clock/async_thread_clock.c.i
+.PHONY : util/async_thread_clock/async_thread_clock.c.i
+
+util/async_thread_clock/async_thread_clock.s: util/async_thread_clock/async_thread_clock.c.s
+
+.PHONY : util/async_thread_clock/async_thread_clock.s
+
+# target to generate assembly for a file
+util/async_thread_clock/async_thread_clock.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/async_thread_clock/async_thread_clock.c.s
+.PHONY : util/async_thread_clock/async_thread_clock.c.s
+
 util/debug/debug.o: util/debug/debug.c.o
 
 .PHONY : util/debug/debug.o
@@ -900,6 +927,9 @@ help:
 	@echo "... structs/race_team/race_team_t.o"
 	@echo "... structs/race_team/race_team_t.i"
 	@echo "... structs/race_team/race_team_t.s"
+	@echo "... util/async_thread_clock/async_thread_clock.o"
+	@echo "... util/async_thread_clock/async_thread_clock.i"
+	@echo "... util/async_thread_clock/async_thread_clock.s"
 	@echo "... util/debug/debug.o"
 	@echo "... util/debug/debug.i"
 	@echo "... util/debug/debug.s"

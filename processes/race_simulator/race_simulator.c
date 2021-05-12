@@ -12,6 +12,7 @@
 #include "stdlib.h"
 #include "unistd.h"
 #include "signal.h"
+#include "stdio.h"
 #include "../../util/global.h"
 #include "../../race_helpers//log_generator/log_generator.h"
 #include "../../race_helpers//race_config_reader/race_config_reader.h"
@@ -22,6 +23,7 @@
 #include "../../ipcs/shared_memory/shm.h"
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../ipcs/pipe/pipe.h"
+#include "../../util/numbers/numbers.h"
 
 // endregion dependencies
 
@@ -61,10 +63,9 @@ static void destroy_ipcs();
  */
 
 static void terminate();
-
 static void show_stats(int signum);
-
 static void segfault_handler(int signum);
+static void init_global_clock();
 
 // endregion private functions prototypes
 
@@ -91,7 +92,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(EVENT, false);
+    debug_init(TIME, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -117,6 +118,8 @@ int main() {
     //create malfunction_q_id manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
+    init_global_clock();
+
     //handle SIGTSTP
     signal(SIGTSTP, show_stats);
 
@@ -134,24 +137,103 @@ int main() {
     return EXIT_SUCCESS;
 }
 
+static void init_global_clock() {
+    SYNC
+    while (!shm->sync_s.race_running) {
+        wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
+    }
+    END_SYNC
+
+    DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
+
+    int interval_ms = tu_to_msec(config.time_units_per_sec);
+
+    while (true) {
+        SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
+        SYNC
+        while (shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.race_running) {
+            END_SYNC
+            DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->sync_s.num_clock_waiters,
+                      (shm->total_num_cars + 1) - shm->sync_s.num_clock_waiters);
+            wait_cond(&shm->sync_s.clock_valley_cond, &shm->sync_s.clock_valley_mutex);
+        }
+        END_SYNC
+        END_SYNC_CLOCK_VALLEY
+
+        if (!shm->sync_s.race_running) {
+            return;
+        }
+
+        DEBUG_MSG(GLOBAL_CLOCK_READY, TIME, "")
+        DEBUG_MSG(GLOBAL_CLOCK_VALLEY, TIME, "");
+
+        ms_sleep(interval_ms);
+
+        DEBUG_MSG(GLOBAL_CLOCK_RISE, TIME, "")
+
+        SYNC_CLOCK_RISE
+        shm->sync_s.global_time++;
+        DEBUG_MSG(GLOBAL_CLOCK_TIME, TIME, shm->sync_s.global_time)
+        notify_cond_all(&shm->sync_s.clock_rise_cond);
+        END_SYNC_CLOCK_RISE
+
+        DEBUG_MSG(GLOBAL_CLOCK_RELEASE, TIME, "");
+    }
+}
+
+void sync_sleep(int time_units) {
+    int time_counted = 0, prev_time = shm->sync_s.global_time;
+
+    while (time_counted < time_units) {
+        SYNC_CLOCK_VALLEY
+        shm->sync_s.num_clock_waiters++;
+        notify_cond(&shm->sync_s.clock_valley_cond);
+        END_SYNC_CLOCK_VALLEY
+
+        DEBUG_MSG(GLOBAL_CLOCK_WAITERS, TIME, shm->sync_s.num_clock_waiters + 1);
+
+        SYNC_CLOCK_RISE
+        while (prev_time == shm->sync_s.global_time && shm->sync_s.race_running) {
+            wait_cond(&shm->sync_s.clock_rise_cond, &shm->sync_s.clock_rise_mutex);
+        }
+        END_SYNC_CLOCK_RISE
+
+        if (!shm->sync_s.race_running) {
+            return;
+        }
+
+        SYNC
+        shm->sync_s.num_clock_waiters--;
+        END_SYNC
+
+        prev_time = shm->sync_s.global_time;
+
+        time_counted++;
+    }
+}
+
+
 void shm_init() {
     shm->sync_s.race_running = false;
+    shm->sync_s.num_clock_waiters = 0;
+    shm->sync_s.global_time = 0;
     shm->total_num_cars = 0;
     shm->num_cars_on_track = 0;
     shm->num_finished_cars = 0;
     shm->num_malfunctions = 0;
     shm->num_refuels = 0;
-    shm->global_time = 0;
 }
 
 // region private functions
 
-static void create_ipcs(){
+static void create_ipcs(int num_teams){
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
     init_cond(&shm->sync_s.cond, true);
-    init_mutex(&shm->sync_s.mutex, true);
-    init_mutex(&shm->sync_s.malf_mutex, true);
-    init_cond(&shm->sync_s.malfunction_mng_start, true);
+    init_mutex(&shm->sync_s.access_mutex, true);
+    init_cond(&shm->sync_s.clock_valley_cond, true);
+    init_mutex(&shm->sync_s.clock_valley_mutex, true);
+    init_mutex(&shm->sync_s.clock_rise_mutex, true);
+    init_cond(&shm->sync_s.clock_rise_cond, true);
     create_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     malfunction_q_id = create_msg_queue();
 }
@@ -166,7 +248,7 @@ static void destroy_ipcs(){
 
     destroy_msg_queue(malfunction_q_id);
     destroy_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
-    destroy_mutex(&shm->sync_s.mutex);
+    destroy_mutex(&shm->sync_s.access_mutex);
     destroy_cond(&shm->sync_s.cond);
 
     for (i = 0; i < config.num_teams; i++) {

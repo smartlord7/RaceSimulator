@@ -24,8 +24,14 @@
 #define true 1
 #define false 0
 
-#define SYNC lock_mutex(&shm->sync_s.mutex);
-#define END_SYNC unlock_mutex(&shm->sync_s.mutex);
+#define SYNC_CLOCK_RISE lock_mutex(&shm->sync_s.clock_rise_mutex);
+#define END_SYNC_CLOCK_RISE unlock_mutex(&shm->sync_s.clock_rise_mutex);
+#define SYNC_CLOCK_VALLEY lock_mutex(&shm->sync_s.clock_valley_mutex);
+#define END_SYNC_CLOCK_VALLEY unlock_mutex(&shm->sync_s.clock_valley_mutex);
+#define SYNC lock_mutex(&shm->sync_s.access_mutex);
+#define END_SYNC unlock_mutex(&shm->sync_s.access_mutex);
+#define SYNC lock_mutex(&shm->sync_s.access_mutex);
+#define END_SYNC unlock_mutex(&shm->sync_s.access_mutex);
 #define SYNC_CAR lock_mutex(&car->access_mutex);
 #define END_SYNC_CAR unlock_mutex(&car->access_mutex);
 #define SYNC_CAR_COND lock_mutex(&car->cond_mutex);
@@ -40,6 +46,16 @@
 
 #define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
 #define NAMED_PIPE_INDEX 0
+#define GLOBAL_CLOCK_SAYS "[GLOBAL_CLOCK] "
+#define GLOBAL_CLOCK_TIME GLOBAL_CLOCK_SAYS "%d tu"
+#define GLOBAL_CLOCK_WAITERS GLOBAL_CLOCK_SAYS "WAITERS: %d"
+#define GLOBAL_CLOCK_START GLOBAL_CLOCK_SAYS "STARTED..."
+#define GLOBAL_CLOCK_RECEIVED GLOBAL_CLOCK_SAYS "RECEIVED %d THREADS, NEEDING %d MORE!"
+#define GLOBAL_CLOCK_READY GLOBAL_CLOCK_SAYS "ALL THREADS RECEIVED!"
+#define GLOBAL_CLOCK_VALLEY GLOBAL_CLOCK_SAYS "CLOCK VALLEY!"
+#define GLOBAL_CLOCK_RISE GLOBAL_CLOCK_SAYS "CLOCK RISE!"
+#define GLOBAL_CLOCK_RELEASE GLOBAL_CLOCK_SAYS "RELEASE ALL THREADS!"
+
 
 #define NUM_TOP_CARS 5
 
@@ -63,7 +79,7 @@ extern race_config_t config;
 
 // region global variables
 
-void sync_sleep(int delay, mutex_t * mutex);
+void sync_sleep(int time_units);
 
 // endregion global variables
 

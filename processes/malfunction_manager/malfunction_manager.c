@@ -57,16 +57,13 @@ void malfunction_manager(){
 
 static void generate_malfunctions(void) {
     int i, j, rdm_index;
-    long int malfunction_interval;
     float prob_malfunction;
     race_car_t * car;
     malfunction_t msg;
 
-    malfunction_interval = tu_to_msec(config.malfunction_interval);
-
     SYNC
     while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
+        wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
     }
     END_SYNC
 
@@ -96,7 +93,7 @@ static void generate_malfunctions(void) {
             }
         }
 
-        ms_sleep(malfunction_interval);
+        sync_sleep(config.malfunction_interval);
 
         if (!shm->sync_s.race_running) {
             return;

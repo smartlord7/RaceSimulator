@@ -67,10 +67,11 @@ void team_manager(void * data){
     team->num_cars = config.max_cars_per_team; // TODO: remove (temp value)
 
     while (i < team->num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 400, 0.9, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.02f, 400, 0.5f, config.fuel_tank_capacity);
 
         SYNC
         shm->total_num_cars++;
+        shm->num_cars_on_track++;
         temp_car->car_id = shm->total_num_cars;
         END_SYNC
 
@@ -86,7 +87,7 @@ void team_manager(void * data){
     // wait for the race to start.
     SYNC
     while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
+        wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
     }
     END_SYNC
 
@@ -118,10 +119,10 @@ void manage_box(race_box_t * box) {
     // declare the needed variables
     race_car_t * car = NULL;
     race_team_t * team = NULL;
-    uint fuel_time, repair_time;
+    int fuel_time, repair_time;
 
     // initialize the needed variables
-    fuel_time = tu_to_msec(REFUEL_TIME_FACTOR * config.time_units_per_sec);
+    fuel_time = REFUEL_TIME_FACTOR * config.time_units_per_sec;
     team = box->team;
     box->current_car = NULL;
     box->car_dispatched = false;
@@ -170,8 +171,9 @@ void manage_box(race_box_t * box) {
 
                 DEBUG_MSG(CAR_FIX, EVENT, team->team_id, car->car_id)
 
-                repair_time = (uint) random_int(tu_to_msec(config.min_repair_time), tu_to_msec(config.max_repair_time));
-                ms_sleep(repair_time);
+                repair_time =  random_int(config.min_repair_time, config.max_repair_time);
+
+                sync_sleep(repair_time);
 
                 if (!shm->sync_s.race_running) {
                     SYNC_CAR_COND
@@ -184,7 +186,7 @@ void manage_box(race_box_t * box) {
 
                 DEBUG_MSG(CAR_REFUEL, EVENT, team->team_id, car->car_id)
 
-                ms_sleep(fuel_time);
+                sync_sleep(REFUEL_TIME_FACTOR * config.time_units_per_sec);
 
                 SYNC_CAR_COND
                 box->car_dispatched = true;
@@ -192,8 +194,6 @@ void manage_box(race_box_t * box) {
                 END_SYNC_CAR_COND
 
                 box->current_car = NULL;
-
-                unlock_mutex(&box->available);
 
                 SYNC_TEAM
                 team->num_cars_safety--;
@@ -221,7 +221,7 @@ void manage_box(race_box_t * box) {
 
             DEBUG_MSG(CAR_REFUEL, EVENT, box->team->team_id, car->car_id)
 
-            ms_sleep(fuel_time);
+            sync_sleep(fuel_time);
 
             SYNC_CAR_COND
             box->car_dispatched = true;
@@ -233,8 +233,6 @@ void manage_box(race_box_t * box) {
             END_SYNC_BOX
 
             box->current_car = NULL;
-
-            unlock_mutex(&box->available);
         }
     }
 }
@@ -272,13 +270,13 @@ void simulate_car(race_car_t * car) {
     car_state_change.car_id = car->car_id;
 
     // the car is ready to race.
-    CHANGE_CAR_STATE(RACE);
+    SYNC_CAR
+    set_state(car, RACE);
+    END_SYNC_CAR
 
     // the car simulation itself.
     while (true) {
         DEBUG_MSG(race_car_to_string(car), PARAM, "")
-
-        car_state_change.malfunctioning = false;
 
         // try to gain access to the box, if needed.
         // the car needs to access the box if the following conditions, in the presented short circuit order, are satisfied:
@@ -335,6 +333,8 @@ void simulate_car(race_car_t * car) {
             }
             END_SYNC_CAR_COND
 
+            unlock_mutex(&box->available);
+
             if (!shm->sync_s.race_running) {
                 END_SYNC_BOX
                 exit_thread();
@@ -357,6 +357,7 @@ void simulate_car(race_car_t * car) {
             // if a malfunction is detected, the car's state changes to SAFETY.
             car_state_change.malfunctioning = true;
             CHANGE_CAR_STATE(SAFETY);
+            car_state_change.malfunctioning = false;
 
             // notify the box that at least one of the team's cars is in SAFETY mode.
             SYNC_TEAM
@@ -449,8 +450,8 @@ void simulate_car(race_car_t * car) {
             END_SYNC_TEAM
         }
 
-        // sleep to simulate the car's step.
-        ms_sleep(time_step);
+        // to simulate the car's step.
+        sync_sleep(config.time_units_per_sec);
     }
 }
 
