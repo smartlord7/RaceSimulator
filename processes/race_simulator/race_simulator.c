@@ -11,12 +11,10 @@
 
 #include "stdlib.h"
 #include "unistd.h"
-#include "assert.h"
 #include "signal.h"
-#include "stdio.h"
 #include "../../util/global.h"
-#include "../../util/log_generator/log_generator.h"
-#include "../../util/race_config_reader/race_config_reader.h"
+#include "../../race_helpers//log_generator/log_generator.h"
+#include "../../race_helpers//race_config_reader/race_config_reader.h"
 #include "../race_manager/race_manager.h"
 #include "../malfunction_manager/malfunction_manager.h"
 #include "../../util/process_manager/process_manager.h"
@@ -94,6 +92,9 @@ int main() {
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
     debug_init(EVENT, false);
+
+    // TODO: signal before race starts
+    // TODO: handle multiple access in named pipe
 
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
@@ -192,11 +193,7 @@ static void destroy_ipcs(){
 }
 
 static void show_stats(int signum) {
-    SYNC
 
-
-
-    END_SYNC
 }
 
 static void segfault_handler(int signum) {
@@ -204,7 +201,7 @@ static void segfault_handler(int signum) {
 }
 
 static void terminate() {
-    destroy_ipcs(config.num_teams);
+    destroy_ipcs();
     kill(getpid(), SIGKILL);
 
     exit(EXIT_FAILURE);

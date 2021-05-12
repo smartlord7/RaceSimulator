@@ -20,7 +20,7 @@
 #include "../../util/strings/strings.h"
 #include "../../util/file/file.h"
 #include "../../ipcs/pipe/pipe.h"
-#include "../../util/log_generator/log_generator.h"
+#include "../../race_helpers//log_generator/log_generator.h"
 #include "../team_manager/team_manager.h"
 #include "race_manager.h"
 

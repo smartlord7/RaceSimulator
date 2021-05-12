@@ -15,11 +15,11 @@
 #include <assert.h>
 #include <time.h>
 #include <semaphore.h>
-#include "../strings/strings.h"
-#include "../exception_handler/exception_handler.h"
+#include "../../util/strings/strings.h"
+#include "../../util/exception_handler/exception_handler.h"
 #include "../../ipcs/sync/semaphore/sem.h"
 #include "log_generator.h"
-#include "../global.h"
+#include "../../util/global.h"
 
 // endregion dependencies
 
