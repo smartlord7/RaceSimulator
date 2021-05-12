@@ -29,16 +29,18 @@
 // region public functions
 
 
-static void create_teams(int num_teams);
+static void create_team(char * team_name, int * team_id);
+static void initialize_team_slots(int num_teams);
 static int interpret_command(char * buffer, race_car_t * car_data);
 static int check_start_conditions();
 static int validate_car(char * buffer, race_car_t * car);
 static int validate_team(char * buffer, race_team_t * team);
 static int validate_number(char * buffer, char * expected_cmd, float * result);
-static int is_car_id_unique(int car_id, race_team_t * team);
+static int is_car_number_unique(char * car_name, race_team_t * team);
 static void handle_named_pipe();
 _Noreturn void handle_all_pipes();
 static void notify_race_start();
+static void register_car(race_car_t * car);
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
 
@@ -49,7 +51,7 @@ void race_manager(){
     int num_teams = config.num_teams;
 
     pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
-    create_teams(num_teams);
+    initialize_team_slots(num_teams);
     handle_named_pipe();
     notify_race_start(); // TODO: notify team managers instead of cars
     handle_all_pipes(pipe_fds);
@@ -57,34 +59,6 @@ void race_manager(){
     wait_procs();
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER)
-}
-
-void create_teams(int num_teams) {
-    int i;
-    char team_name[MAX_LABEL_SIZE];
-    race_team_t * team = NULL;
-
-    i = 0;
-
-    while (i < num_teams) {
-        snprintf(team_name, MAX_LABEL_SIZE * sizeof(char), "%s_%d", TEAM_MANAGER, i);
-        team = &shm->race_teams[i];
-
-        create_unn_pipe(unn_pipe_fds);
-        pipe_fds[i + 1] = unn_pipe_fds[0];
-        strcpy(team->team_name, team_name);
-        team->team_id = i;
-        create_process(TEAM_MANAGER, team_manager, (void *) team);
-        close_fd(unn_pipe_fds[1]);
-        i++;
-    }
-}
-
-void register_car(race_car_t * car) {
-    race_team_t * team = car->team;
-
-    shm->race_cars[team->team_id][team->num_cars] = *car;
-    shm->race_teams[car->team->team_id].num_cars++;
 }
 
 void handle_named_pipe() {
@@ -98,8 +72,8 @@ void handle_named_pipe() {
             if (n > 0) {
                 buffer[n - 1]= '\0';
                 remove_new_line(buffer, (int) strlen(buffer));
-                result = interpret_command(buffer, &car_data);
                 strcpy(aux_buffer, buffer);
+                result = interpret_command(buffer, &car_data);
 
                 switch (result) {
                     case RESULT_NEW_CAR:
@@ -107,7 +81,7 @@ void handle_named_pipe() {
                         generate_log_entry(I_CAR_LOADED, (void *) &car_data);
                         break;
                     case RESULT_INVALID_CAR:
-                        generate_log_entry(I_CAR_REJECTED, (void *) aux_buffer);
+                        generate_log_entry(I_CAR_REJECTED, aux_buffer + strlen(ADDCAR) + 1);
                         break;
                     case RESULT_BEGIN_RACE:
                         generate_log_entry(I_RACE_START, NULL);
@@ -163,6 +137,15 @@ _Noreturn void handle_all_pipes() {
     }
 }
 
+static void initialize_team_slots(int num_teams) {
+    int i;
+    SYNC
+    for(i = 0; i < num_teams; i++) {
+        shm->race_teams[i].team_id = -1;
+    }
+    END_SYNC
+}
+
 void notify_race_start() {
     int i, j;
     race_car_t * car;
@@ -187,7 +170,7 @@ int interpret_command(char * buffer, race_car_t * car) {
     if (strcasecmp(buffer, START_RACE) == 0) {
         return check_start_conditions();
     } else if (starts_with_ignore_case(buffer, ADDCAR)) {
-        buffer += strlen(ADDCAR);
+        buffer += strlen(ADDCAR) + 1;
         if (validate_car(buffer, car)) {
             return RESULT_NEW_CAR;
         } else {
@@ -199,99 +182,158 @@ int interpret_command(char * buffer, race_car_t * car) {
 
 int check_start_conditions() {
     int i;
+    char aux[LARGE_SIZE];
 
     for(i = 0; i < config.num_teams; i++) {
-        if(shm->race_teams[i].num_cars == 0) return RESULT_CANNOT_START_RACE;
+        if(shm->race_teams[i].num_cars == 0) {
+            return RESULT_CANNOT_START_RACE;
+        }
     }
 
     return RESULT_BEGIN_RACE;
 }
 
-race_team_t * get_team_by_name(char * team_name) {
-    int i;
 
-    for(i = 0; i < config.num_teams && shm->race_teams[i].team_id > 0; i++) {
+
+int get_team_id_by_name(char * team_name) {
+    int i;
+    char aux[LARGE_SIZE];
+
+    for(i = 0; i < config.num_teams; i++) {
+        if(shm->race_teams[i].team_id < 0) {
+            return -1;
+        }
 
         if(strcasecmp(shm->race_teams[i].team_name, team_name) == 0) {
-            return &shm->race_teams[i];
+            return shm->race_teams[i].team_id;
         }
     }
 
-    return NULL;
+    return -1;
+}
+
+void create_team(char * team_name, int * team_id) {
+    int i;
+    char aux[SMALL_SIZE];
+    race_team_t * team;
+
+    i = 0;
+
+    while (i < config.num_teams) {
+        if (shm->race_teams[i].team_id >= 0) {
+            i++;
+            continue;
+        }
+        break;
+    }
+
+    team = &shm->race_teams[i];
+
+    strcpy(team->team_name, team_name);
+    team->team_id = i;
+    *team_id = i;
+
+    create_unn_pipe(unn_pipe_fds);
+    pipe_fds[i + 1] = unn_pipe_fds[0];
+
+    create_process(TEAM_MANAGER, team_manager, (void *) team);
+    close_fd(unn_pipe_fds[1]);
+}
+
+void register_car(race_car_t * car) {
+    race_team_t * team = car->team;
+
+    SYNC
+    shm->total_num_cars++;
+    shm->race_teams[car->team->team_id].num_cars++;
+    car->car_id = shm->race_teams[car->team->team_id].num_cars;
+    shm->race_cars[team->team_id][team->num_cars] = *car;
+    END_SYNC
 }
 
 int validate_car(char * buffer, race_car_t * car) {
     assert(buffer != NULL);
-    float speed, consumption, reliability, car_id_f;
-    char * token;
-    int car_id;
+    float speed, consumption, reliability, car_number_f;
+    char * token, car_name[LARGE_SIZE], aux[LARGE_SIZE];
+    int car_number;
     race_team_t team;
 
-    // validate team name.
-    if((token = strtok(buffer, DELIM_1)) == NULL) {
+    // validate team name
+    if((token = strtok_r(buffer, DELIM_1, &buffer)) == NULL) {
         return false;
     }
-    if(!validate_team(token, &team)) {
-        return false;
-    }
-
-    // validate car id.
-    if((token = strtok(NULL, DELIM_1)) == NULL) {
+    strcpy(aux, token);
+    if(!validate_team(aux, &team)) {
         return false;
     }
 
-    // validate car.
-    if(!validate_number(token, CAR , &car_id_f)) {
+    // validate car number
+    if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
+        HERE(token)
         return false;
     }
-    car_id = (int) car_id_f;
-    if(!is_car_id_unique(car_id, &team)) {
+    strcpy(aux, token);
+    if(!validate_number(aux, CAR , &car_number_f)) {
+        return false;
+    }
+    car_number = (int) car_number_f;
+    snprintf(car_name, MAX_LABEL_SIZE, "%d", car_number);
+    if(!is_car_number_unique(car_name, &team)) {
         return false;
     }
 
     //validate speed
-    if((token = strtok(NULL, DELIM_1)) == NULL) {
+    if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
         return false;
     }
-    if (!validate_number(token, SPEED, &speed) || speed <= 0) {
+    strcpy(aux, token);
+    if (!validate_number(aux, SPEED, &speed) || speed <= 0) {
         return false;
     }
 
     // validate consumption
-    if((token = strtok(NULL, DELIM_1)) == NULL) {
+    if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
         return false;
     }
-    if(!validate_number(token, CONSUMPTION, &consumption) || consumption <= 0)  {
+    strcpy(aux, token);
+    if(!validate_number(aux, CONSUMPTION, &consumption) || consumption <= 0)  {
         return false;
     }
 
     // validate reliability
-    if((token = strtok(NULL, DELIM_1)) == NULL) {
+    if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
         return false;
     }
-    if(validate_number(token, RELIABILITY, &reliability) || reliability <= 0) {
+    strcpy(aux, token);
+    if(!validate_number(aux, RELIABILITY, &reliability) || reliability <= 0) {
         return false;
     }
 
-    *car = *race_car(&team, car_id, consumption, speed, reliability, config.fuel_tank_capacity); // ATTENTION: I
+    *car = *race_car(&team, car_name, -1, consumption, speed, reliability, config.fuel_tank_capacity); // ATTENTION: I
 
     return true;
 }
 
 int validate_team(char * buffer, race_team_t * team) {
     char * team_field, *team_name;
+    int team_id;
+    char aux[SMALL_SIZE];
 
-    if ((team_field = strtok(buffer, DELIM_2)) == NULL) return false;
+    if ((team_field = strtok_r(buffer, DELIM_2, &buffer)) == NULL) return false;
     else {
         team_field = trim_string(team_field, (int) strlen(team_field));
         if (strcasecmp(team_field, TEAM) == 0) {
 
-            if ((team_name = strtok(NULL, DELIM_2)) == NULL) return false;
+            if ((team_name = strtok_r(NULL, DELIM_2, &buffer)) == NULL) return false;
             team_name = trim_string(team_name, (int) strlen(team_name));
 
-            team = get_team_by_name(team_name);
+            team_id = get_team_id_by_name(team_name);
+            if(team_id < 0) {
+                create_team(team_name, &team_id);
+            }
+            *team = shm->race_teams[team_id];
 
-            if(team == NULL || team->num_cars == config.max_cars_per_team) {
+            if(team->num_cars == config.max_cars_per_team) {
                 return false;
             }
 
@@ -305,13 +347,14 @@ int validate_number(char * buffer, char * expected_cmd, float * result) {
     char * cmd_field, * value_field;
     float value;
 
-    if((cmd_field = strtok(buffer, DELIM_2)) == NULL) {
+    if((cmd_field = strtok_r(buffer, DELIM_2, &buffer)) == NULL) {
         return false;
     }
+    cmd_field = trim_string(cmd_field, (int) strlen(cmd_field));
 
     if(!strcasecmp(cmd_field, expected_cmd)) {
 
-        if((value_field = strtok(NULL, DELIM_2)) == NULL) {
+        if((value_field = strtok_r(NULL, DELIM_2, &buffer)) == NULL) {
             return false;
         }
 
@@ -330,15 +373,15 @@ int validate_number(char * buffer, char * expected_cmd, float * result) {
     return false;
 }
 
-int is_car_id_unique(int car_id, race_team_t * team) {
+int is_car_number_unique(char * car_name, race_team_t * team) {
     int i, j;
     race_car_t car_B;
 
-    for(i = 0; i < MAX_NUM_TEAMS; i++) {
-        for(j = 0; j < MAX_MAX_CARS_PER_TEAM; j++) {
+    for(i = 0; i < config.num_teams; i++) {
+        for(j = 0; j < shm->race_teams[i].num_cars; j++) {
             car_B = shm->race_cars[i][j];
 
-            if(car_B.team->team_id == team->team_id && car_B.car_id == car_id) {
+            if(car_B.team->team_id == team->team_id && strcasecmp(car_B.name, car_name) == 0) {
                 return false;
             }
         }

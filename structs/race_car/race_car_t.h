@@ -149,7 +149,7 @@ typedef struct race_car_t{
  *
  * @throws MemoryAllocationException if the malloc call for the race car returns a NULL pointer.
  */
-extern race_car_t * race_car(race_team_t * team, int car_id, float consumption, float speed, float reliability, float initial_fuel);
+extern race_car_t * race_car(race_team_t * team, char * car_name, int car_id, float consumption, float speed, float reliability, float initial_fuel);
 
 /**
  * @def race_car_to_string
