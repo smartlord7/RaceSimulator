@@ -11,12 +11,10 @@
 
 #include "stdlib.h"
 #include "unistd.h"
-#include "assert.h"
 #include "signal.h"
-#include "stdio.h"
 #include "../../util/global.h"
-#include "../../util/log_generator/log_generator.h"
-#include "../../util/race_config_reader/race_config_reader.h"
+#include "../../race_helpers//log_generator/log_generator.h"
+#include "../../race_helpers//race_config_reader/race_config_reader.h"
 #include "../race_manager/race_manager.h"
 #include "../malfunction_manager/malfunction_manager.h"
 #include "../../util/process_manager/process_manager.h"
@@ -44,7 +42,7 @@
  * The number of teams competing in the race.
  *
  */
-static void create_ipcs(int num_teams);
+static void create_ipcs();
 
 /**
  * @def destroy_ipcs
@@ -54,7 +52,7 @@ static void create_ipcs(int num_teams);
  * The number of teams competing on the race.
  *
  */
-static void destroy_ipcs(int num_teams);
+static void destroy_ipcs();
 
 /**
  * @def terminate
@@ -95,6 +93,9 @@ int main() {
     exc_handler_init(terminate, NULL);
     debug_init(EVENT, false);
 
+    // TODO: signal before race starts
+    // TODO: handle multiple access in named pipe
+
     //initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
     race_config_t * cfg = read_race_config();
@@ -111,10 +112,10 @@ int main() {
     generate_log_entry(I_SIMULATION_START, NULL);
 
     //create race manager process
-    create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
+    create_process(RACE_MANAGER, race_manager, NULL);
 
     //create malfunction_q_id manager process
-    create_process(RACE_MANAGER, race_manager, NULL);
+    create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     //handle SIGTSTP
     signal(SIGTSTP, show_stats);
@@ -128,57 +129,79 @@ int main() {
     generate_log_entry(I_SIMULATION_END, NULL);
 
     //destroy interprocess communication mechanisms
-    destroy_ipcs(config.num_teams);
+    destroy_ipcs();
 
     return EXIT_SUCCESS;
 }
 
 void shm_init() {
     shm->sync_s.race_running = false;
-    shm->global_time = 0;
+    shm->total_num_cars = 0;
     shm->num_cars_on_track = 0;
+    shm->num_finished_cars = 0;
     shm->num_malfunctions = 0;
     shm->num_refuels = 0;
-    shm->total_num_cars = 0;
+    shm->global_time = 0;
 }
 
 // region private functions
 
-static void create_ipcs(int num_teams){
-    assert(num_teams > 0);
-
+static void create_ipcs(){
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
     init_cond(&shm->sync_s.cond, true);
     init_mutex(&shm->sync_s.mutex, true);
+    init_mutex(&shm->sync_s.malf_mutex, true);
+    init_cond(&shm->sync_s.malfunction_mng_start, true);
     create_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     malfunction_q_id = create_msg_queue();
 }
 
-static void destroy_ipcs(int num_teams){
-    assert(num_teams > 0);
+static void destroy_ipcs(){
+    force_exit = true;
+
+    int i, j;
+    race_team_t * team = NULL;
+    race_box_t  * box = NULL;
+    race_car_t * car = NULL;
 
     destroy_msg_queue(malfunction_q_id);
     destroy_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     destroy_mutex(&shm->sync_s.mutex);
     destroy_cond(&shm->sync_s.cond);
+
+    for (i = 0; i < config.num_teams; i++) {
+
+        team = &shm->race_teams[i];
+        box = &team->team_box;
+
+        destroy_mutex(&team->access_mutex);
+        destroy_mutex(&team->pipe_mutex);
+
+        destroy_mutex(&box->access_mutex);
+        destroy_mutex(&box->cond_mutex);
+        destroy_mutex(&box->available);
+
+        for (j = 0; j < team->num_cars; j++) {
+            car = &shm->race_cars[team->team_id][j];
+            destroy_mutex(&car->access_mutex);
+            destroy_mutex(&car->cond_mutex);
+            destroy_cond(&car->cond);
+        }
+    }
+
     destroy_shm(shm_id, shm);
 }
 
 static void show_stats(int signum) {
-    SYNC
 
-
-
-    END_SYNC
 }
 
 static void segfault_handler(int signum) {
-    printf("WELL... THAT ESCALATED QUICKLY...\n");
+    //printf("WELL... THAT ESCALATED QUICKLY...\n");
 }
 
 static void terminate() {
-    force_exit = true;
-    destroy_ipcs(config.num_teams);
+    destroy_ipcs();
     kill(getpid(), SIGKILL);
 
     exit(EXIT_FAILURE);

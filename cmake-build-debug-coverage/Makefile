@@ -452,6 +452,60 @@ processes/team_manager/team_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.s
 .PHONY : processes/team_manager/team_manager.c.s
 
+race_helpers/log_generator/log_generator.o: race_helpers/log_generator/log_generator.c.o
+
+.PHONY : race_helpers/log_generator/log_generator.o
+
+# target to build an object file
+race_helpers/log_generator/log_generator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o
+.PHONY : race_helpers/log_generator/log_generator.c.o
+
+race_helpers/log_generator/log_generator.i: race_helpers/log_generator/log_generator.c.i
+
+.PHONY : race_helpers/log_generator/log_generator.i
+
+# target to preprocess a source file
+race_helpers/log_generator/log_generator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.i
+.PHONY : race_helpers/log_generator/log_generator.c.i
+
+race_helpers/log_generator/log_generator.s: race_helpers/log_generator/log_generator.c.s
+
+.PHONY : race_helpers/log_generator/log_generator.s
+
+# target to generate assembly for a file
+race_helpers/log_generator/log_generator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.s
+.PHONY : race_helpers/log_generator/log_generator.c.s
+
+race_helpers/race_config_reader/race_config_reader.o: race_helpers/race_config_reader/race_config_reader.c.o
+
+.PHONY : race_helpers/race_config_reader/race_config_reader.o
+
+# target to build an object file
+race_helpers/race_config_reader/race_config_reader.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o
+.PHONY : race_helpers/race_config_reader/race_config_reader.c.o
+
+race_helpers/race_config_reader/race_config_reader.i: race_helpers/race_config_reader/race_config_reader.c.i
+
+.PHONY : race_helpers/race_config_reader/race_config_reader.i
+
+# target to preprocess a source file
+race_helpers/race_config_reader/race_config_reader.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.i
+.PHONY : race_helpers/race_config_reader/race_config_reader.c.i
+
+race_helpers/race_config_reader/race_config_reader.s: race_helpers/race_config_reader/race_config_reader.c.s
+
+.PHONY : race_helpers/race_config_reader/race_config_reader.s
+
+# target to generate assembly for a file
+race_helpers/race_config_reader/race_config_reader.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s
+.PHONY : race_helpers/race_config_reader/race_config_reader.c.s
+
 race_simulator_cmd.o: race_simulator_cmd.c.o
 
 .PHONY : race_simulator_cmd.o
@@ -647,33 +701,6 @@ util/file/file.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.s
 .PHONY : util/file/file.c.s
 
-util/log_generator/log_generator.o: util/log_generator/log_generator.c.o
-
-.PHONY : util/log_generator/log_generator.o
-
-# target to build an object file
-util/log_generator/log_generator.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.o
-.PHONY : util/log_generator/log_generator.c.o
-
-util/log_generator/log_generator.i: util/log_generator/log_generator.c.i
-
-.PHONY : util/log_generator/log_generator.i
-
-# target to preprocess a source file
-util/log_generator/log_generator.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.i
-.PHONY : util/log_generator/log_generator.c.i
-
-util/log_generator/log_generator.s: util/log_generator/log_generator.c.s
-
-.PHONY : util/log_generator/log_generator.s
-
-# target to generate assembly for a file
-util/log_generator/log_generator.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/log_generator/log_generator.c.s
-.PHONY : util/log_generator/log_generator.c.s
-
 util/numbers/numbers.o: util/numbers/numbers.c.o
 
 .PHONY : util/numbers/numbers.o
@@ -727,33 +754,6 @@ util/process_manager/process_manager.s: util/process_manager/process_manager.c.s
 util/process_manager/process_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.s
 .PHONY : util/process_manager/process_manager.c.s
-
-util/race_config_reader/race_config_reader.o: util/race_config_reader/race_config_reader.c.o
-
-.PHONY : util/race_config_reader/race_config_reader.o
-
-# target to build an object file
-util/race_config_reader/race_config_reader.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.o
-.PHONY : util/race_config_reader/race_config_reader.c.o
-
-util/race_config_reader/race_config_reader.i: util/race_config_reader/race_config_reader.c.i
-
-.PHONY : util/race_config_reader/race_config_reader.i
-
-# target to preprocess a source file
-util/race_config_reader/race_config_reader.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.i
-.PHONY : util/race_config_reader/race_config_reader.c.i
-
-util/race_config_reader/race_config_reader.s: util/race_config_reader/race_config_reader.c.s
-
-.PHONY : util/race_config_reader/race_config_reader.s
-
-# target to generate assembly for a file
-util/race_config_reader/race_config_reader.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/race_config_reader/race_config_reader.c.s
-.PHONY : util/race_config_reader/race_config_reader.c.s
 
 util/read_line/read_line.o: util/read_line/read_line.c.o
 
@@ -882,6 +882,12 @@ help:
 	@echo "... processes/team_manager/team_manager.o"
 	@echo "... processes/team_manager/team_manager.i"
 	@echo "... processes/team_manager/team_manager.s"
+	@echo "... race_helpers/log_generator/log_generator.o"
+	@echo "... race_helpers/log_generator/log_generator.i"
+	@echo "... race_helpers/log_generator/log_generator.s"
+	@echo "... race_helpers/race_config_reader/race_config_reader.o"
+	@echo "... race_helpers/race_config_reader/race_config_reader.i"
+	@echo "... race_helpers/race_config_reader/race_config_reader.s"
 	@echo "... race_simulator_cmd.o"
 	@echo "... race_simulator_cmd.i"
 	@echo "... race_simulator_cmd.s"
@@ -903,18 +909,12 @@ help:
 	@echo "... util/file/file.o"
 	@echo "... util/file/file.i"
 	@echo "... util/file/file.s"
-	@echo "... util/log_generator/log_generator.o"
-	@echo "... util/log_generator/log_generator.i"
-	@echo "... util/log_generator/log_generator.s"
 	@echo "... util/numbers/numbers.o"
 	@echo "... util/numbers/numbers.i"
 	@echo "... util/numbers/numbers.s"
 	@echo "... util/process_manager/process_manager.o"
 	@echo "... util/process_manager/process_manager.i"
 	@echo "... util/process_manager/process_manager.s"
-	@echo "... util/race_config_reader/race_config_reader.o"
-	@echo "... util/race_config_reader/race_config_reader.i"
-	@echo "... util/race_config_reader/race_config_reader.s"
 	@echo "... util/read_line/read_line.o"
 	@echo "... util/read_line/read_line.i"
 	@echo "... util/read_line/read_line.s"
