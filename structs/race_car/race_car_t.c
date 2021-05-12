@@ -25,7 +25,7 @@ int check_unique_id(int car_id, race_car_t * car_data);
 // region public functions
 
 race_car_t *
-race_car(race_team_t *team, int car_id, float consumption, float speed, float reliability, float initial_fuel) {
+race_car(race_team_t *team, char * car_name, int car_id, float consumption, float speed, float reliability, float initial_fuel) {
     race_car_t *new = NULL;
 
     if ((new = (race_car_t *) calloc(1, sizeof(race_car_t))) == NULL) {
@@ -33,6 +33,7 @@ race_car(race_team_t *team, int car_id, float consumption, float speed, float re
     }
 
     new->team = team;
+    strcpy(new->name, car_name);
     new->car_id = car_id;
     new->consumption = consumption;
     new->speed = speed;

@@ -63,6 +63,7 @@ void team_manager(void * data){
     int i, temp_num_cars;
 
     i = 0, temp_num_cars = config.max_cars_per_team;
+    /*
     team->num_cars = 2;
 
     while (i < temp_num_cars) {
@@ -79,7 +80,7 @@ void team_manager(void * data){
         create_thread(temp_car->name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
 
         i++;
-    }
+    }*/
 
     manage_box(&team->team_box);
 

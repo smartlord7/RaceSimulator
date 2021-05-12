@@ -74,57 +74,42 @@ void generate_log_entry(int mode, void * data){
     race_car_t * car;
     char entry[LARGEST_SIZE];
 
-    HERE("1");
-
     switch (mode) {
         case I_SIMULATION_START:
-            HERE("2");
             snprintf(entry, LARGEST_SIZE, "%s => STARTING SIMULATION\n", get_time());
             break;
         case I_SIMULATION_END:
-            HERE("3");
             snprintf(entry, LARGEST_SIZE, "%s => CLOSING SIMULATION\n", get_time());
             break;
         case I_COMMAND_RECEIVED:
-            HERE("4");
             snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED: %s\n", get_time(), (char *) data);
             break;
         case I_COMMAND_EXCEPTION:
-            HERE("5");
             snprintf(entry, LARGEST_SIZE, "%s => WRONG COMMAND: %s\n", get_time(), (char *) data);
             break;
         case I_CAR_LOADED:
-            HERE("6");
             car = (race_car_t *) data;
             snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d LOADED\n", get_time(), car->car_id,
                      car->team->team_id);
             break;
         case I_CAR_REJECTED:
-            HERE("7");
-            car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d REJECTED\n", get_time(), car->car_id,
-                     car->team->team_id);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR '%s' REJECTED\n", get_time(), (char *) data);
             break;
         case I_RACE_START:
-            HERE("8");
             snprintf(entry, LARGEST_SIZE, "%s => RACE STARTED!\n", get_time());
             break;
         case I_CANNOT_START:
-            HERE("9");
             snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START!\n", get_time());
             break;
         case I_CAR_MALFUNCTION:
-            HERE("10");
             car = (race_car_t *) data;
             snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d SUFFERED MALFUNCTION\n", get_time(), car->car_id,
                      car->team->team_id);
             break;
         case I_SIGNAL_RECEIVED:
-            HERE("11");
             snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED!\n", get_time(), (char *) data);
             break;
         case I_RACE_WIN:
-            HERE("12");
             car = (race_car_t *) data;
             snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d WON!\n", get_time(), car->car_id,
                      car->team->team_id);
