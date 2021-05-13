@@ -43,7 +43,6 @@ static void notify_race_start();
 static void register_car(race_car_t * car, int team_id);
 static void handle_car_state_change(race_car_state_change_t car_state_change, int * end);
 static int check_race_end();
-void print_cars();
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
 
@@ -74,22 +73,15 @@ void handle_named_pipe() {
         do {
             n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGE_SIZE * sizeof(char));
             if (n > 0) {
-                HERE("voltou")
                 buffer[n - 1]= '\0';
-                printf("comando: %s\n", buffer);
                 remove_new_line(buffer, (int) strlen(buffer));
                 strcpy(aux_buffer, buffer);
-                printf("vai interpretar\n");
                 result = interpret_command(buffer, &car_data, &team_id);
-
-                HERE("leu")
 
                 switch (result) {
                     case RESULT_NEW_CAR:
                         register_car(&car_data, team_id);
-                        printf("ficou registado: %s .. %d\n", shm->race_cars[car_data.team->team_id][car_data.car_id].name, shm->race_teams[car_data.team->team_id].num_cars);
                         generate_log_entry(I_CAR_LOADED, (void *) &car_data);
-                        HERE("gerou")
                         break;
                     case RESULT_INVALID_CAR:
                         generate_log_entry(I_CAR_REJECTED, aux_buffer + strlen(ADDCAR) + 1);
@@ -105,11 +97,9 @@ void handle_named_pipe() {
                         generate_log_entry(I_COMMAND_EXCEPTION, aux_buffer);
                         break;
                 }
-                HERE("continua")
             }
         } while (n > 0 && !end_read);
     }
-    HERE("sai")
 }
 
 void handle_all_pipes() {
@@ -270,23 +260,16 @@ void notify_race_start() {
 }
 
 int interpret_command(char * buffer, race_car_t * car, int * team_id) {
-    printf("entrou\n");
-    printf("vai desaparecer\n");
     if (strcasecmp(buffer, START_RACE) == 0) {
-        printf("vai começar a corrida\n");
         return check_start_conditions();
     } else if (starts_with_ignore_case(buffer, ADDCAR)) {
-        printf("bruh\n");
         buffer += strlen(ADDCAR) + 1;
         if (validate_car(buffer, car, team_id)) {
-            printf("carro valido\n");
             return RESULT_NEW_CAR;
         } else {
-            printf("carro invalido\n");
             return RESULT_INVALID_CAR;
         }
     }
-    printf("comando invalido\n");
     return RESULT_INVALID_COMMAND;
 }
 
@@ -352,7 +335,6 @@ void register_car(race_car_t * car, int team_id) {
     car->team = &shm->race_teams[team_id];
     shm->total_num_cars++;
     shm->race_teams[team_id].num_cars++;
-    printf("race_Team -> %d com %d carros\n", car->team->team_id, car->team->num_cars);
     car->car_id = shm->race_teams[team_id].num_cars;
     shm->race_cars[team_id][car->team->num_cars - 1] = *car;
 
@@ -365,8 +347,6 @@ int validate_car(char * buffer, race_car_t * car, int * team_id) {
     int car_number;
     race_team_t team;
 
-    printf("buffer: %s\n", buffer);
-
     // validate team name
     if((token = strtok_r(buffer, DELIM_1, &buffer)) == NULL) {
         return false;
@@ -376,26 +356,19 @@ int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
 
-    printf("equipa valida\n");
-
     // validate car number
     if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
         return false;
     }
     strcpy(aux, token);
-    printf("token_number:%s\n", token);
     if(!validate_number(aux, CAR , &car_number_f)) {
-        printf("nao é valido\n");
         return false;
     }
-    printf("é valido\n");
     car_number = (int) car_number_f;
     snprintf(car_name, MAX_LABEL_SIZE, "%d", car_number);
     if(!is_car_number_unique(car_name, &team)) {
         return false;
     }
-
-    printf("numero valido\n");
 
     //validate speed
     if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
@@ -406,8 +379,6 @@ int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
 
-    printf("speed valida\n");
-
     // validate consumption
     if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
         return false;
@@ -416,8 +387,6 @@ int validate_car(char * buffer, race_car_t * car, int * team_id) {
     if(!validate_number(aux, CONSUMPTION, &consumption) || consumption <= 0)  {
         return false;
     }
-
-    printf("consumption valida\n");
 
     // validate reliability
     if((token = strtok_r(NULL, DELIM_1, &buffer)) == NULL) {
@@ -428,11 +397,8 @@ int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
 
-    printf("reliability valida\n");
-
     *team_id = team.team_id;
     *car = *race_car(&team, car_name, -1, consumption, speed, reliability, config.fuel_tank_capacity); // ATTENTION: I
-    printf("o team_id é %d\n", car->team->team_id);
     return true;
 }
 
@@ -498,32 +464,16 @@ int is_car_number_unique(char * car_name, race_team_t * team) {
     int i, j;
     race_car_t car_B;
 
-    printf("vai ler carros em memoria\n");
-
     for(i = 0; i < config.num_teams; i++) {
-        printf("vrum vrum\n");
         for(j = 0; j < shm->race_teams[i].num_cars; j++) {
-            printf("vai fazer vrum vrum com j=%d", j);
             car_B = shm->race_cars[i][j];
-
-            printf("carro %s da equipa %s com id %d", car_B.name, car_B.team->team_name ,car_B.team->team_id);
-            if(car_B.team->team_id == team->team_id && strcasecmp(car_B.name, car_name) == 0) {
-                printf("encontrou carro igual\n");
+            if(strcasecmp(car_B.name, car_name) == 0) {
                 return false;
             }
         }
     }
-    printf("acabou de ler\n");
 
     return true;
-}
-
-void print_cars() {
-    for(int i = 0; i < config.num_teams; i++) {
-        for(int j = 0; j < shm->race_teams[i].num_cars; j++) {
-            printf("carro %s no indice %d da equipa %s no indice %d\n", shm->race_cars[i][j].name, shm->race_cars[i][j].car_id, shm->race_teams[i].team_name, shm->race_teams[i].team_id);
-        }
-    }
 }
 
 // endregion public functions
