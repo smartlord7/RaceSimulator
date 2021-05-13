@@ -36,7 +36,7 @@ static int check_start_conditions();
 static int validate_car(char * buffer, race_car_t * car, int * team_id);
 static int validate_team(char * buffer, race_team_t * team);
 static int validate_number(char * buffer, char * expected_cmd, float * result);
-static int is_car_number_unique(char * car_name, race_team_t * team);
+static int is_car_number_unique(char * car_name);
 static void handle_named_pipe();
 static void handle_all_pipes();
 static void notify_race_start();
@@ -94,7 +94,7 @@ void handle_named_pipe() {
                         generate_log_entry(I_CANNOT_START, aux_buffer);
                         break;
                     default:
-                        generate_log_entry(I_COMMAND_EXCEPTION, aux_buffer);
+                        generate_log_entry(I_COMMAND_REJECTED, aux_buffer);
                         break;
                 }
             }
@@ -125,7 +125,7 @@ void handle_all_pipes() {
 
                             if (n > 0) {
                                 buffer[n - 1] = '\0';
-                                printf("%s\n%s\n", buffer, COMMAND_REJECT);
+                                generate_log_entry(I_COMMAND_REJECTED_2, (void *) buffer);
                             }
                         } while (n > 0);
 
@@ -366,7 +366,7 @@ int validate_car(char * buffer, race_car_t * car, int * team_id) {
     }
     car_number = (int) car_number_f;
     snprintf(car_name, MAX_LABEL_SIZE, "%d", car_number);
-    if(!is_car_number_unique(car_name, &team)) {
+    if(!is_car_number_unique(car_name)) {
         return false;
     }
 
@@ -460,7 +460,7 @@ int validate_number(char * buffer, char * expected_cmd, float * result) {
     return false;
 }
 
-int is_car_number_unique(char * car_name, race_team_t * team) {
+int is_car_number_unique(char * car_name) {
     int i, j;
     race_car_t car_B;
 

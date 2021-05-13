@@ -61,22 +61,17 @@ void team_manager(void * data){
 
     pthread_t car_threads[MAX_MAX_CARS_PER_TEAM];
     int i;
-    char aux[LARGEST_SIZE];
     race_car_t * temp_car;
 
     // wait for the race to start.
     SYNC
     while (!shm->sync_s.race_running) {
-        snprintf(aux, LARGEST_SIZE, "equipa %s a esperar por %d carros", team->team_name, team->num_cars);
-        HERE(aux)
         wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
     }
     END_SYNC
 
     i = 0;
     while (i < team->num_cars) {
-        snprintf(aux, LARGEST_SIZE, "equipa %s a iniciar o carro %s", team->team_name, shm->race_cars[team->team_id][i].name);
-        HERE(aux)
         create_thread(temp_car->name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
         i++;
     }

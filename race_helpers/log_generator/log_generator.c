@@ -79,37 +79,41 @@ void generate_log_entry(int mode, void * data){
             snprintf(entry, LARGEST_SIZE, "%s => CLOSING SIMULATION", get_time());
             break;
         case I_COMMAND_RECEIVED:
-            snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED: %s", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED:\n'%s'", get_time(), (char *) data);
             break;
-        case I_COMMAND_EXCEPTION:
-            snprintf(entry, LARGEST_SIZE, "%s => WRONG COMMAND: %s", get_time(), (char *) data);
+        case I_COMMAND_REJECTED:
+            snprintf(entry, LARGEST_SIZE, "%s => COMMAND REJECTED:\n'%s'", get_time(), (char *) data);
             break;
         case I_CAR_LOADED:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d LOADED", get_time(), car->car_id,
-                     car->team->team_id);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM '%s' LOADED", get_time(), car->name,
+                     car->team->team_name);
             break;
         case I_CAR_REJECTED:
-            snprintf(entry, LARGEST_SIZE, "%s => CAR '%s' REJECTED", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR REJECTED:\n%s", get_time(), (char *) data);
             break;
         case I_RACE_START:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE STARTED!", get_time());
+            snprintf(entry, LARGEST_SIZE, "%s => RACE STARTED", get_time());
             break;
         case I_CANNOT_START:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START!", get_time());
+            snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START", get_time());
             break;
         case I_CAR_MALFUNCTION:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d SUFFERED MALFUNCTION", get_time(), car->car_id,
-                     car->team->team_id);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s SUFFERED MALFUNCTION", get_time(), car->name,
+                     car->team->team_name);
             break;
         case I_SIGNAL_RECEIVED:
-            snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED!", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED", get_time(), (char *) data);
             break;
         case I_RACE_WIN:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %d FROM TEAM %d WON!", get_time(), car->car_id,
-                     car->team->team_id);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s WON", get_time(), car->name,
+                     car->team->team_name);
+            break;
+        case I_COMMAND_REJECTED_2:
+            snprintf(entry, LARGEST_SIZE, "%s => RACE ALREADY BEGAN! COMMAND REJECTED:\n'%s'", get_time(), (char *) data);
+            break;
         default:
             throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
             break;

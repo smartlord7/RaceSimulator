@@ -23,7 +23,7 @@
 #define I_SIMULATION_START 0
 #define I_SIMULATION_END 1
 #define I_COMMAND_RECEIVED 2
-#define I_COMMAND_EXCEPTION 3
+#define I_COMMAND_REJECTED 3
 #define I_CAR_LOADED 4
 #define I_CAR_REJECTED 5
 #define I_RACE_START 6
@@ -31,6 +31,7 @@
 #define I_CAR_MALFUNCTION 8
 #define I_SIGNAL_RECEIVED 9
 #define I_RACE_WIN 10
+#define I_COMMAND_REJECTED_2 11
 
 // endregion log_gen input modes
 
