@@ -225,6 +225,12 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/sync_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/async_thread_clock/async_thread_clock.c">
+			<Option target="cmd"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/async_thread_clock/async_thread_clock.h">
+			<Option target="cmd"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.c">
 			<Option target="RaceSimulator"/>
 		</Unit>

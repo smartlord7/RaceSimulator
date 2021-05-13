@@ -27,7 +27,8 @@ typedef enum debug_level {
     PARAM = 2,
     EVENT = 3,
     COMMS = 4,
-    GENERAL = 5
+    TIME = 5,
+    GENERAL = 6
 } debug_level;
 
 

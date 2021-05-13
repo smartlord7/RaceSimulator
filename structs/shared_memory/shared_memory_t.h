@@ -20,16 +20,10 @@
 
 // region constants
 
-#define MAX_NUM_TEAMS 15
+#define MAX_NUM_TEAMS 15 // TODO: move constraints to a separate file
 #define MAX_MAX_CARS_PER_TEAM 20
 
 // endregion constants
-
-// region forward declarations
-
-typedef struct shared_memory_t shared_memory_t;
-
-// endregion forward declarations
 
 // region structures
 
@@ -48,18 +42,16 @@ typedef struct shared_memory_t shared_memory_t;
  * The teams boxes.
  *
  */
-struct shared_memory_t {
+typedef struct shared_memory_t {
     race_team_t race_teams[MAX_NUM_TEAMS];
     race_car_t race_cars[MAX_NUM_TEAMS][MAX_MAX_CARS_PER_TEAM];
-    race_box_t race_boxes[MAX_NUM_TEAMS];
     sync_t sync_s;
-    uint global_time;
     int num_cars_on_track,
         total_num_cars,
         num_finished_cars, // TODO: Integrate in a stats struct.
         num_malfunctions,
         num_refuels;
-};
+} shared_memory_t;
 
 // endregion structures
 

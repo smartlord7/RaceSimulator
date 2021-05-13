@@ -9,10 +9,10 @@
 
 typedef struct sync_t sync_t;
 
-struct sync_t {
-    int race_running;
-    mutex_t mutex, malf_mutex;
-    cond_t cond, malfunction_mng_start;
-};
+typedef struct sync_t {
+    int race_running, num_clock_waiters, global_time;
+    mutex_t access_mutex, clock_rise_mutex, clock_valley_mutex;
+    cond_t cond, clock_rise_cond, clock_valley_cond;
+} sync_t;
 
 #endif //RACESIMULATOR_C_SYNC_T_H

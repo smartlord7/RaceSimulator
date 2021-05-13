@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/sancho/Documents/GitRepos/RaceSimulator/race_simulator_cmd.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/cmd.dir/race_simulator_cmd.c.o"
+  "/home/sancho/Documents/GitRepos/RaceSimulator/util/async_thread_clock/async_thread_clock.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/cmd.dir/util/async_thread_clock/async_thread_clock.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/cmd.dir/util/file/file.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/util/read_line/read_line.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/cmd.dir/util/read_line/read_line.c.o"
