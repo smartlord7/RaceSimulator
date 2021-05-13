@@ -328,10 +328,14 @@ void simulate_car(race_car_t * car) {
 
             // wait for the box notification that the its work on the car is done.
             SYNC_CAR_COND
-            while (box->car_dispatched == false) {
+            while (box->car_dispatched == false && shm->sync_s.race_running) {
                 wait_cond(&car->cond, &car->cond_mutex);
             }
             END_SYNC_CAR_COND
+
+            if (!shm->sync_s.race_running) {
+                exit_thread();
+            }
 
             unlock_mutex(&box->available);
 

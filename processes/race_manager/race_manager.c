@@ -128,10 +128,12 @@ void handle_named_pipe() {
 
 void handle_all_pipes() {
     fd_set read_set;
-    int i, j, n;
+    int i, j, k, n;
     char buffer[LARGE_SIZE];
     race_car_state_change_t car_state_change;
     race_box_t * box = NULL;
+    race_team_t * team = NULL;
+    race_car_t * car = NULL;
 
     while (true) {
         FD_ZERO(&read_set);
@@ -190,10 +192,21 @@ void handle_all_pipes() {
                                     j = 0;
 
                                     while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
-                                        box = &shm->race_teams[j].team_box;
+                                        team = &shm->race_teams[j];
+                                        box = &team->team_box;
                                         SYNC_BOX_COND
                                         notify_cond_all(&box->cond);
                                         END_SYNC_BOX_COND
+
+                                        while (k < team->num_cars) {
+                                            car = &shm->race_cars[j][k];
+
+                                            SYNC_CAR
+                                            notify_cond_all(&car->cond);
+                                            END_SYNC_CAR
+
+                                            k++;
+                                        }
 
                                         j++;
                                     }

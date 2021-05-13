@@ -19,7 +19,7 @@
 // region constants
 
 
-#define DEBUG 0
+#define DEBUG 1
 
 typedef enum debug_level {
     SETUP = 0,
