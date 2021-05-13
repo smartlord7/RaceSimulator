@@ -40,6 +40,11 @@
 
 extern int unn_pipe_fds[2];
 
+typedef struct cmd_result_t cmd_result_t;
+struct cmd_result_t {
+    int result, team_id;
+};
+
 // endregion constants
 
 // region public functions prototypes

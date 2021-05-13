@@ -60,44 +60,26 @@ void team_manager(void * data){
     team->num_cars_safety = 0;
 
     pthread_t car_threads[MAX_MAX_CARS_PER_TEAM];
-    race_car_t * temp_car;
     int i;
-
-    i = 0, temp_num_cars = config.max_cars_per_team;
-    /*
-    team->num_cars = 2;
-
-    while (i < team->num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 400, 0.9, config.fuel_tank_capacity);
-
-        SYNC
-        shm->total_num_cars++;
-        temp_car->car_id = shm->total_num_cars;
-        END_SYNC
-
-        snprintf(temp_car->name, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
-        shm->race_cars[team->team_id][i] = * temp_car;
-        init_mutex(&shm->race_cars[team->team_id][i].cond_mutex, true);
-        init_mutex(&shm->race_cars[team->team_id][i].access_mutex, true);
-        init_cond(&shm->race_cars[team->team_id][i].cond, true);
-
-        i++;
-    }
+    char aux[LARGEST_SIZE];
+    race_car_t * temp_car;
 
     // wait for the race to start.
     SYNC
     while (!shm->sync_s.race_running) {
+        snprintf(aux, LARGEST_SIZE, "equipa %s a esperar por %d carros", team->team_name, team->num_cars);
+        HERE(aux)
         wait_cond(&shm->sync_s.cond, &shm->sync_s.mutex);
     }
     END_SYNC
 
     i = 0;
-
     while (i < team->num_cars) {
+        snprintf(aux, LARGEST_SIZE, "equipa %s a iniciar o carro %s", team->team_name, shm->race_cars[team->team_id][i].name);
+        HERE(aux)
         create_thread(temp_car->name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
-
         i++;
-    }*/
+    }
 
     DEBUG_MSG(FUNCTION_RUN, ENTRY, TEAM_BOX)
 
@@ -142,7 +124,7 @@ void manage_box(race_box_t * box) {
 
         if (team->num_cars_safety > 0) {
 
-            DEBUG_MSG(BOX_RESERVE, EVENT, team->team_id)
+            DEBUG_MSG(BOX_RESERVE, EVENT, team->team_name)
 
             SYNC_BOX
             box->state = RESERVED;
@@ -167,9 +149,9 @@ void manage_box(race_box_t * box) {
 
                 car = box->current_car;
 
-                DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, team->team_id, car->car_id)
+                DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, team->team_name, car->name)
 
-                DEBUG_MSG(CAR_FIX, EVENT, team->team_id, car->car_id)
+                DEBUG_MSG(CAR_FIX, EVENT, team->team_name, car->name)
 
                 repair_time = (uint) random_int(tu_to_msec(config.min_repair_time), tu_to_msec(config.max_repair_time));
                 ms_sleep(repair_time);
@@ -183,7 +165,7 @@ void manage_box(race_box_t * box) {
                     return;
                 }
 
-                DEBUG_MSG(CAR_REFUEL, EVENT, team->team_id, car->car_id)
+                DEBUG_MSG(CAR_REFUEL, EVENT, team->team_name, car->name)
 
                 ms_sleep(fuel_time);
 
@@ -215,12 +197,12 @@ void manage_box(race_box_t * box) {
                 return;
             }
 
-            DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, box->team->team_id, car->car_id)
+            DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, box->team->team_name, car->name)
 
             car = box->current_car;
             box->state = OCCUPIED;
 
-            DEBUG_MSG(CAR_REFUEL, EVENT, box->team->team_id, car->car_id)
+            DEBUG_MSG(CAR_REFUEL, EVENT, box->team->team_name, car->name)
 
             ms_sleep(fuel_time);
 
@@ -391,7 +373,7 @@ void simulate_car(race_car_t * car) {
             // reset the car's position to 0.
             car->current_pos = 0;
 
-            DEBUG_MSG(CAR_COMPLETE_LAP, EVENT, car->car_id, car->completed_laps)
+            DEBUG_MSG(CAR_COMPLETE_LAP, EVENT, car->name, car->completed_laps)
 
             if (!shm->sync_s.race_running) {
                 exit_thread();
@@ -403,7 +385,7 @@ void simulate_car(race_car_t * car) {
                 // change the car's state to FINISHED since it has reached the race's end.
                 CHANGE_CAR_STATE(FINISH);
 
-                DEBUG_MSG(CAR_FINISH, EVENT, car->car_id)
+                DEBUG_MSG(CAR_FINISH, EVENT, car->name)
 
                 break;
             }
@@ -416,7 +398,7 @@ void simulate_car(race_car_t * car) {
         // do a discrete spatial step :-)
         car->current_pos += car->current_speed;
 
-        DEBUG_MSG(CAR_MOVE, EVENT, car->car_id, car->current_pos)
+        DEBUG_MSG(CAR_MOVE, EVENT, car->name, car->current_pos)
 
         // check if the car's fuel as reached an end.
         if (car->remaining_fuel <= 0) {
