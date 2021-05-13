@@ -21,6 +21,7 @@
 #include "../../util/numbers/numbers.h"
 #include "../../util/file/file.h"
 #include "../race_manager/race_manager.h"
+#include "../../race_helpers/log_generator/log_generator.h"
 
 // endregion dependencies
 
@@ -280,6 +281,7 @@ void simulate_car(race_car_t * car) {
 
                 // the car's journey has ended :(
                 CHANGE_CAR_STATE(DISQUALIFIED);
+                generate_log_entry(I_CAR_RAN_OUT_OF_FUEL, car);
 
                 // unlock the previously locked box lock.
                 unlock_mutex(&box->available);
@@ -294,8 +296,10 @@ void simulate_car(race_car_t * car) {
             car->num_box_stops++;
             if (car->remaining_fuel <= min_fuel2) {
                 car->num_refuels++; // increment the number of refuels dont till now by the car.
+                generate_log_entry(I_BOX_REFUEL, car);
             } else if (car->state == SAFETY) { // if the car is SAFETY mode but hasn't reached the min fuel. That means the car is malfunctioning.
                 car->num_malfunctions++; // increment the number of malfunctions the car had.
+                generate_log_entry(I_BOX_MALFUNCTION, car);
             }
             END_SYNC_CAR
 
@@ -306,7 +310,7 @@ void simulate_car(race_car_t * car) {
             notify_cond(&box->cond);
             END_SYNC_BOX
 
-            // wait for the box notification that the its work on the car is done.
+            // wait for the box notification that the work on the car is done.
             SYNC_CAR_COND
             while (box->car_dispatched == false) {
                 wait_cond(&car->cond, &car->cond_mutex);
@@ -322,6 +326,7 @@ void simulate_car(race_car_t * car) {
             car->remaining_fuel = config.fuel_tank_capacity;
 
             CHANGE_CAR_STATE(RACE);
+            generate_log_entry(I_BOX_LEFT, car);
 
             // the car needs the box no more.
             box_needed = false;

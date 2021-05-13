@@ -45,12 +45,14 @@ static void handle_car_state_change(race_car_state_change_t car_state_change, in
 static int check_race_end();
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
+int num_registed_teams;
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
 
     int num_teams = config.num_teams;
+    num_registed_teams = 0;
 
     pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
     initialize_team_slots(num_teams);
@@ -106,6 +108,7 @@ void handle_all_pipes() {
     fd_set read_set;
     int i, j, n;
     char buffer[LARGE_SIZE];
+    char * aux;
     race_car_state_change_t car_state_change;
     race_box_t * box = NULL;
 
@@ -125,6 +128,7 @@ void handle_all_pipes() {
 
                             if (n > 0) {
                                 buffer[n - 1] = '\0';
+                                remove_new_line(buffer, (int) strlen(buffer));
                                 generate_log_entry(I_COMMAND_REJECTED_2, (void *) buffer);
                             }
                         } while (n > 0);
@@ -322,6 +326,7 @@ void create_team(char * team_name, int * team_id) {
     strcpy(team->team_name, team_name);
     team->team_id = i;
     *team_id = i;
+    num_registed_teams++;
 
     create_unn_pipe(unn_pipe_fds);
     pipe_fds[i + 1] = unn_pipe_fds[0];
@@ -415,9 +420,9 @@ int validate_team(char * buffer, race_team_t * team) {
             team_name = trim_string(team_name, (int) strlen(team_name));
 
             team_id = get_team_id_by_name(team_name);
-            if(team_id < 0) {
+            if(team_id < 0 && num_registed_teams < config.num_teams) {
                 create_team(team_name, &team_id);
-            }
+            } else return false;
             *team = shm->race_teams[team_id];
 
             if(team->num_cars == config.max_cars_per_team) {

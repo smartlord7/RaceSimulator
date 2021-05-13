@@ -14,6 +14,7 @@
 
 #define DELIM_1 ","
 #define DELIM_2 ":"
+#define DELIM_3 "\n"
 
 #define RACE_MANAGER "RACE_MANAGER"
 #define ADDCAR "ADDCAR"

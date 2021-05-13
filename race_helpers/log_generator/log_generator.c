@@ -114,6 +114,22 @@ void generate_log_entry(int mode, void * data){
         case I_COMMAND_REJECTED_2:
             snprintf(entry, LARGEST_SIZE, "%s => RACE ALREADY BEGAN! COMMAND REJECTED:\n'%s'", get_time(), (char *) data);
             break;
+        case I_BOX_REFUEL:
+            car = (race_car_t *) data;
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX FOR REFUELLING", get_time(), car->name);
+            break;
+        case I_BOX_MALFUNCTION:
+            car = (race_car_t *) data;
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION", get_time(), car->name);
+            break;
+        case I_BOX_LEFT:
+            car = (race_car_t *) data;
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s LEFT TEAM BOX", get_time(), car->name);
+            break;
+        case I_CAR_RAN_OUT_OF_FUEL:
+            car = (race_car_t *) data;
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s RAN OUT OF FUEL THEREFORE IS DISQUALIFIED", get_time(), car->name, car->team->team_name);
+            break;
         default:
             throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
             break;
