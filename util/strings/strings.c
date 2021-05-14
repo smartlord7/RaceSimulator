@@ -50,6 +50,8 @@ char * append(char * first, char * second) {
 }
 
 char * trim_string(char * buffer, int size){
+    assert(buffer != NULL && size > 0);
+
     int i, j;
 
     // cleanup any white spaces before
@@ -71,6 +73,8 @@ char * trim_string(char * buffer, int size){
 }
 
 void remove_new_line(char * buffer, int size) {
+    assert(buffer != NULL && size > 0);
+
     int i = size - 1;
 
     while (buffer[i] != '\n') i--;
@@ -78,6 +82,8 @@ void remove_new_line(char * buffer, int size) {
 }
 
 int starts_with(char * string, char * string2) {
+    assert(string != NULL && string2 != NULL);
+
     char * i, * j;
 
     i = string;
@@ -93,6 +99,8 @@ int starts_with(char * string, char * string2) {
 }
 
 int starts_with_ignore_case(char * string, char * string2) {
+    assert(string != NULL && string2 != NULL);
+
     char * i, * j;
 
     i = string;
@@ -107,5 +115,40 @@ int starts_with_ignore_case(char * string, char * string2) {
     return true;
 }
 
+int get_max_str_length(char ** strings, int size) {
+    assert(strings != NULL && size > 0);
+
+    int max_len = -1, i = 0, len;
+
+    while (i < size) {
+        len = (int) strlen(strings[i]);
+
+        if (len > max_len) {
+            max_len = len;
+        }
+
+        i++;
+    }
+
+    return max_len;
+}
+
+char * repeat_str(char * str, int times) {
+    assert(str != NULL && times > 0);
+
+    char * buffer;
+    int i;
+
+    buffer = string(times);
+    i = 0;
+
+    while (i < times) {
+        strcat(buffer, str);
+
+        i++;
+    }
+
+    return buffer;
+}
 
 // endregion public functions

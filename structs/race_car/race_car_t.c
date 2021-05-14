@@ -42,7 +42,7 @@ race_car(race_team_t *team, int car_id, float consumption, float speed, float re
     return new;
 }
 
-char * race_car_to_string(race_car_t *race_car) {
+char * race_car_to_string(race_car_t *race_car) { // TODO: simple garbage collector
     char * buffer = NULL;
 
     if (race_car == NULL) {
@@ -80,22 +80,27 @@ char * race_car_to_string(race_car_t *race_car) {
     return buffer;
 }
 
-char * race_car_stats_string(race_car_t * car) {
+char * race_car_state_to_string(race_car_state state) {
     char * buffer = NULL;
 
-    if (car == NULL) {
-        buffer = string(NULL_STR_SIZE);
+    buffer = string(BUF_SIZE);
 
-        snprintf(buffer, NULL_STR_SIZE * sizeof(char), "NULL");
-    } else {
-        buffer = string(BUF_SIZE);
-
-        snprintf(buffer, BUF_SIZE * sizeof(char), "%d    %d (%s)      %d      %d",
-                 car->car_id,
-                 car->team->team_id,
-                 car->team->team_name,
-                 car->completed_laps,
-                 car->num_box_stops);
+    switch(state) {
+        case RACE:
+            snprintf(buffer, BUF_SIZE, "RACING");
+            break;
+        case SAFETY:
+            snprintf(buffer, BUF_SIZE, "SAFETY MODE");
+            break;
+        case IN_BOX:
+            snprintf(buffer, BUF_SIZE, "IN BOX");
+            break;
+        case DISQUALIFIED:
+            snprintf(buffer, BUF_SIZE, "DISQUALIFIED");
+            break;
+        case FINISH:
+            snprintf(buffer, BUF_SIZE, "FINISHED");
+            break;
     }
 
     return buffer;

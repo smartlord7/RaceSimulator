@@ -76,6 +76,97 @@ include CMakeFiles/stats.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/stats.dir/flags.make
 
+CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.o: CMakeFiles/stats.dir/flags.make
+CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.o: ../race_helpers/stats_helper/stats_helper.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c
+
+CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c > CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.i
+
+CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c -o CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.s
+
+CMakeFiles/stats.dir/structs/race_car/race_car_t.c.o: CMakeFiles/stats.dir/flags.make
+CMakeFiles/stats.dir/structs/race_car/race_car_t.c.o: ../structs/race_car/race_car_t.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/stats.dir/structs/race_car/race_car_t.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/stats.dir/structs/race_car/race_car_t.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.c
+
+CMakeFiles/stats.dir/structs/race_car/race_car_t.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/stats.dir/structs/race_car/race_car_t.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.c > CMakeFiles/stats.dir/structs/race_car/race_car_t.c.i
+
+CMakeFiles/stats.dir/structs/race_car/race_car_t.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/stats.dir/structs/race_car/race_car_t.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.c -o CMakeFiles/stats.dir/structs/race_car/race_car_t.c.s
+
+CMakeFiles/stats.dir/util/strings/strings.c.o: CMakeFiles/stats.dir/flags.make
+CMakeFiles/stats.dir/util/strings/strings.c.o: ../util/strings/strings.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/stats.dir/util/strings/strings.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/stats.dir/util/strings/strings.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.c
+
+CMakeFiles/stats.dir/util/strings/strings.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/stats.dir/util/strings/strings.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.c > CMakeFiles/stats.dir/util/strings/strings.c.i
+
+CMakeFiles/stats.dir/util/strings/strings.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/stats.dir/util/strings/strings.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.c -o CMakeFiles/stats.dir/util/strings/strings.c.s
+
+CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.o: CMakeFiles/stats.dir/flags.make
+CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.o: ../util/exception_handler/exception_handler.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.c
+
+CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.c > CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.i
+
+CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.c -o CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.s
+
+CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.o: CMakeFiles/stats.dir/flags.make
+CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.o: ../ipcs/sync/mutex/mutex.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c
+
+CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c > CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.i
+
+CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c -o CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.s
+
+# Object files for target stats
+stats_OBJECTS = \
+"CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.o" \
+"CMakeFiles/stats.dir/structs/race_car/race_car_t.c.o" \
+"CMakeFiles/stats.dir/util/strings/strings.c.o" \
+"CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.o" \
+"CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.o"
+
+# External object files for target stats
+stats_EXTERNAL_OBJECTS =
+
+stats: CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.o
+stats: CMakeFiles/stats.dir/structs/race_car/race_car_t.c.o
+stats: CMakeFiles/stats.dir/util/strings/strings.c.o
+stats: CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.o
+stats: CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.o
+stats: CMakeFiles/stats.dir/build.make
+stats: CMakeFiles/stats.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable stats"
+	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/stats.dir/link.txt --verbose=$(VERBOSE)
+
+# Rule to build all files generated by this target.
+CMakeFiles/stats.dir/build: stats
+
+.PHONY : CMakeFiles/stats.dir/build
+
 CMakeFiles/stats.dir/clean:
 	$(CMAKE_COMMAND) -P CMakeFiles/stats.dir/cmake_clean.cmake
 .PHONY : CMakeFiles/stats.dir/clean

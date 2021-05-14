@@ -72,7 +72,6 @@ CMAKE_BINARY_DIR = /home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-deb
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/cmd.dir/all
 all: CMakeFiles/RaceSimulator.dir/all
 
 .PHONY : all
@@ -83,37 +82,9 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/cmd.dir/clean
 clean: CMakeFiles/RaceSimulator.dir/clean
 
 .PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/cmd.dir
-
-# All Build rule for target.
-CMakeFiles/cmd.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=26,27,28,29,30,31 "Built target cmd"
-.PHONY : CMakeFiles/cmd.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/cmd.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/cmd.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles 0
-.PHONY : CMakeFiles/cmd.dir/rule
-
-# Convenience name for target.
-cmd: CMakeFiles/cmd.dir/rule
-
-.PHONY : cmd
-
-# clean rule for target.
-CMakeFiles/cmd.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/clean
-.PHONY : CMakeFiles/cmd.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/RaceSimulator.dir

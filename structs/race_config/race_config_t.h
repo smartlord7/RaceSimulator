@@ -15,7 +15,6 @@
 #define RACE_CONFIG "RACE_CONFIG"
 #define true 1
 #define false 0
-#define BUF_SIZE 512
 #define NULL_STR_SIZE 5
 
 // endregion constants

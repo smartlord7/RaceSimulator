@@ -1,0 +1,1 @@
+/usr/bin/cc -Wall -Wextra -pthread -g -g CMakeFiles/stats.dir/race_helpers/stats_helper/stats_helper.c.o CMakeFiles/stats.dir/structs/race_car/race_car_t.c.o CMakeFiles/stats.dir/util/strings/strings.c.o CMakeFiles/stats.dir/util/exception_handler/exception_handler.c.o CMakeFiles/stats.dir/ipcs/sync/mutex/mutex.c.o -o stats 
