@@ -53,13 +53,9 @@
  *
  */
 typedef struct race_config_t {
-    float time_units_per_sec,
-            lap_distance,
-            malfunction_interval,
-            min_repair_time,
-            max_repair_time,
+    float lap_distance,
             fuel_tank_capacity;
-    int laps_per_race, num_teams, max_cars_per_team;
+    int time_units_per_sec, malfunction_interval, min_repair_time, max_repair_time, laps_per_race, num_teams, max_cars_per_team;
 } race_config_t;
 
 // endregion structures

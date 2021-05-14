@@ -455,7 +455,7 @@ void simulate_car(race_car_t * car) {
         }
 
         // to simulate the car's step.
-        sync_sleep(1);
+        sync_sleep(config.time_units_per_sec);
     }
 }
 

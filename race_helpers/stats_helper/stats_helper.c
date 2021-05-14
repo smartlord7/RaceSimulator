@@ -27,12 +27,13 @@ void show_stats_table() { // TODO: validate functions result
     char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], * row_sep_half, * row_sep;
     shared_memory_t * shm_cpy = NULL;
     race_car_t * race_cars = NULL, * car = NULL;
-    int i, pos, max_team_name_len, max_car_name_len,
+    int i, pos, num_table_cars, max_team_name_len, max_car_name_len,
             max_car_name_col_width, max_team_name_col_width, row_width, title_length,
             team_id_col_width, car_laps_col_width, car_box_stops_col_width;
 
     max_team_name_len = get_team_name_max_len(sha_mem->race_teams, conf->num_teams); // TODO: replace by config
     max_car_name_len = get_car_name_max_len(&sha_mem->race_cars[0][0], sha_mem->total_num_cars);
+    num_table_cars = NUM_TOP_CARS + 1;
     title_length = strlen(RACE_STATISTICS);
     team_id_col_width =  strlen(CAR_TEAM_ID);
     car_laps_col_width =  strlen(CAR_NUM_COMPLETED_LAPS);
@@ -40,6 +41,9 @@ void show_stats_table() { // TODO: validate functions result
     max_car_name_col_width =  strlen(CAR_NAME);
     max_team_name_col_width =  strlen(CAR_TEAM_NAME);
 
+    if (sha_mem->total_num_cars < num_table_cars) {
+        num_table_cars = sha_mem->total_num_cars;
+    }
 
     if (max_car_name_len > max_car_name_col_width) {
         max_car_name_col_width = max_car_name_len;
@@ -54,7 +58,6 @@ void show_stats_table() { // TODO: validate functions result
                 car_box_stops_col_width + MAX_STATE_LENGTH ;
     row_sep_half = repeat_str(HORIZONTAL_DELIM, (row_width - title_length) / 2);
     row_sep = repeat_str(HORIZONTAL_DELIM, row_width);
-
     shm_cpy = (shared_memory_t *) malloc(sizeof(shared_memory_t));
 
     lock_mutex(mutex);
@@ -82,8 +85,8 @@ void show_stats_table() { // TODO: validate functions result
 
     i = 0;
 
-    while (i < NUM_TOP_CARS + 1) {
-        if (i == NUM_TOP_CARS) {
+    while (i < num_table_cars) {
+        if (i == num_table_cars - 1) {
             pos = sha_mem->total_num_cars;
             car = &race_cars[sha_mem->total_num_cars - 1];
             snprintf(aux, BUFFER_SIZE,"%s\n", row_sep);

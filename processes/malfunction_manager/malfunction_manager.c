@@ -89,7 +89,7 @@ static void generate_malfunctions(void) {
             }
         }
 
-        sync_sleep(5);
+        sync_sleep(config.malfunction_interval);
 
         if (!shm->sync_s.race_running) {
             return;
