@@ -61,11 +61,7 @@ static void generate_malfunctions(void) {
     race_car_t * car;
     malfunction_t msg;
 
-    SYNC
-    while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
-    }
-    END_SYNC
+    wait_race_start();
 
     while (shm->sync_s.race_running) {
         for (i = 0; i < config.num_teams; i++) {
@@ -93,7 +89,7 @@ static void generate_malfunctions(void) {
             }
         }
 
-        sync_sleep(config.malfunction_interval);
+        sync_sleep(5);
 
         if (!shm->sync_s.race_running) {
             return;

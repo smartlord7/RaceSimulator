@@ -82,14 +82,11 @@ void team_manager(void * data){
         init_cond(&shm->race_cars[team->team_id][i].cond, true);
 
         i++;
+        free(temp_car);
     }
 
     // wait for the race to start.
-    SYNC
-    while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
-    }
-    END_SYNC
+    wait_race_start();
 
     i = 0;
 
@@ -250,6 +247,7 @@ void * race_car_worker(void * data){
 
 void simulate_car(race_car_t * car) {
     // declare the needed variables
+    char * race_car_str = NULL;
     long int time_step;
     int box_needed;
     float fuel_per_lap, min_fuel1, min_fuel2;
@@ -276,7 +274,9 @@ void simulate_car(race_car_t * car) {
 
     // the car simulation itself.
     while (true) {
-        DEBUG_MSG(race_car_to_string(car), PARAM, "")
+        race_car_str = race_car_to_string(car);
+        DEBUG_MSG(race_car_str, PARAM, "")
+        free(race_car_str);
 
         // try to gain access to the box, if needed.
         // the car needs to access the box if the following conditions, in the presented short circuit order, are satisfied:
@@ -455,7 +455,7 @@ void simulate_car(race_car_t * car) {
         }
 
         // to simulate the car's step.
-        sync_sleep(config.time_units_per_sec);
+        sync_sleep(1);
     }
 }
 

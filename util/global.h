@@ -78,7 +78,8 @@ extern race_config_t config;
 
 // region global variables
 
-void sync_sleep(int time_units);
+extern void sync_sleep(int time_units);
+extern void wait_race_start();
 
 // endregion global variables
 

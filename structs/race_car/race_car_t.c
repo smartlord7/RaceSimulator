@@ -61,6 +61,7 @@ char * race_car_to_string(race_car_t *race_car) { // TODO: simple garbage collec
                  "SPEED: %.2f\n"
                  "RELIABILITY: %.2f\n"
                  "-----REAL-TIME PROPS-----\n"
+                 "COMPLETED LAPS: %d\n"
                  "CURRENT STATE: %d\n"
                  "CURRENT POSITION: %.2f\n"
                  "CURRENT CONSUMPTION: %.2f\n"
@@ -71,6 +72,7 @@ char * race_car_to_string(race_car_t *race_car) { // TODO: simple garbage collec
                  race_car->consumption,
                  race_car->speed,
                  race_car->reliability,
+                 race_car->completed_laps,
                  race_car->state,
                  race_car->current_pos,
                  race_car->current_consumption,

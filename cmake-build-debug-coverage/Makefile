@@ -493,6 +493,33 @@ race_helpers/race_config_reader/race_config_reader.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s
 .PHONY : race_helpers/race_config_reader/race_config_reader.c.s
 
+race_helpers/stats_helper/stats_helper.o: race_helpers/stats_helper/stats_helper.c.o
+
+.PHONY : race_helpers/stats_helper/stats_helper.o
+
+# target to build an object file
+race_helpers/stats_helper/stats_helper.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o
+.PHONY : race_helpers/stats_helper/stats_helper.c.o
+
+race_helpers/stats_helper/stats_helper.i: race_helpers/stats_helper/stats_helper.c.i
+
+.PHONY : race_helpers/stats_helper/stats_helper.i
+
+# target to preprocess a source file
+race_helpers/stats_helper/stats_helper.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.i
+.PHONY : race_helpers/stats_helper/stats_helper.c.i
+
+race_helpers/stats_helper/stats_helper.s: race_helpers/stats_helper/stats_helper.c.s
+
+.PHONY : race_helpers/stats_helper/stats_helper.s
+
+# target to generate assembly for a file
+race_helpers/stats_helper/stats_helper.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.s
+.PHONY : race_helpers/stats_helper/stats_helper.c.s
+
 structs/race_car/race_car_t.o: structs/race_car/race_car_t.c.o
 
 .PHONY : structs/race_car/race_car_t.o
@@ -838,6 +865,9 @@ help:
 	@echo "... race_helpers/race_config_reader/race_config_reader.o"
 	@echo "... race_helpers/race_config_reader/race_config_reader.i"
 	@echo "... race_helpers/race_config_reader/race_config_reader.s"
+	@echo "... race_helpers/stats_helper/stats_helper.o"
+	@echo "... race_helpers/stats_helper/stats_helper.i"
+	@echo "... race_helpers/stats_helper/stats_helper.s"
 	@echo "... structs/race_car/race_car_t.o"
 	@echo "... structs/race_car/race_car_t.i"
 	@echo "... structs/race_car/race_car_t.s"

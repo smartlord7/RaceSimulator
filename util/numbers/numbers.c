@@ -1,9 +1,7 @@
-#include <stdio.h>
 #include "time.h"
 #include "errno.h"
 #include "stdlib.h"
 #include "numbers.h"
-#include "../exception_handler/exception_handler.h"
 
 int random_int(int min, int max) {
     return rand() % (max - min + 1) + min;
@@ -24,6 +22,4 @@ void ms_sleep(uint ms) {
         struct timespec ts_sleep = ts_remaining;
         result = nanosleep(&ts_sleep, &ts_remaining);
     } while ((EINTR == errno) && (-1 == result));
-
-    throw_if_exit(result == -1, MS_SLEEP_EXCEPTION, "");
 }

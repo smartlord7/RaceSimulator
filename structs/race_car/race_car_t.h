@@ -27,7 +27,7 @@ typedef struct race_team_t race_team_t;
 #define false 0
 #define RACE_CAR "RACE_CAR"
 #define MAX_LABEL_SIZE 50
-#define BUF_SIZE 512
+#define BUF_SIZE 2048
 #define NULL_STR_SIZE 5
 #define SAFETY_CONSUMPTION_RATIO 0.4
 #define SAFETY_SPEED_RATIO 0.3

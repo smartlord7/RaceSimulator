@@ -12,7 +12,6 @@
 #include "stdlib.h"
 #include "unistd.h"
 #include "signal.h"
-#include "stdio.h"
 #include "../../util/global.h"
 #include "../../race_helpers//log_generator/log_generator.h"
 #include "../../race_helpers//race_config_reader/race_config_reader.h"
@@ -24,6 +23,7 @@
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../ipcs/pipe/pipe.h"
 #include "../../util/numbers/numbers.h"
+#include "../../race_helpers/stats_helper/stats_helper.h"
 
 // endregion dependencies
 
@@ -63,17 +63,15 @@ static void destroy_ipcs();
  */
 
 static void terminate();
-static void show_stats(int signum);
 static void segfault_handler(int signum);
 static void init_global_clock();
+static void shm_init();
 
 // endregion private functions prototypes
 
 // region global variables
 
-void shm_init();
-
-int shm_id, malfunction_q_id;
+int shm_id, malfunction_q_id, ipcs_created;
 race_config_t config;
 shared_memory_t * shm = NULL;
 
@@ -109,6 +107,8 @@ int main() {
     create_ipcs(config.num_teams);
     shm_init();
 
+    stats_helper_init(&config, shm, &shm->sync_s.access_mutex);
+
     log_init(LOG_FILE_NAME);
     generate_log_entry(I_SIMULATION_START, NULL);
 
@@ -118,10 +118,9 @@ int main() {
     //create malfunction_q_id manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
-    init_global_clock();
-
-    //handle SIGTSTP
-    signal(SIGTSTP, show_stats);
+    wait_race_start();
+    signal(SIGTSTP, show_stats_table);
+    init_global_clock(); // TODO: Move to where the race actually begins
 
     // handle SIGINT
     signal(SIGINT, terminate);
@@ -137,16 +136,19 @@ int main() {
     return EXIT_SUCCESS;
 }
 
-static void init_global_clock() {
+void wait_race_start() {
     SYNC
     while (!shm->sync_s.race_running) {
         wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
     }
     END_SYNC
+}
+
+static void init_global_clock() {
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
-    int interval_ms = tu_to_msec(config.time_units_per_sec);
+    int interval_ms = (1 / config.time_units_per_sec) * pow(10, 3);
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
@@ -212,7 +214,6 @@ void sync_sleep(int time_units) {
     }
 }
 
-
 void shm_init() {
     shm->sync_s.race_running = false;
     shm->sync_s.num_clock_waiters = 0;
@@ -227,6 +228,8 @@ void shm_init() {
 // region private functions
 
 static void create_ipcs(int num_teams){
+    ipcs_created = true;
+
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
     init_cond(&shm->sync_s.cond, true);
     init_mutex(&shm->sync_s.access_mutex, true);
@@ -274,16 +277,14 @@ static void destroy_ipcs(){
     destroy_shm(shm_id, shm);
 }
 
-static void show_stats(int signum) {
-
-}
-
 static void segfault_handler(int signum) {
-    //printf("WELL... THAT ESCALATED QUICKLY...\n");
+    printf("WELL... THAT ESCALATED QUICKLY...\n");
 }
 
 static void terminate() {
-    destroy_ipcs();
+    if (ipcs_created) {
+        destroy_ipcs();
+    }
     kill(getpid(), SIGKILL);
 
     exit(EXIT_FAILURE);
