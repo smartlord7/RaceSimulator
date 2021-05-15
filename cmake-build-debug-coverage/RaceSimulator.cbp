@@ -139,6 +139,12 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
