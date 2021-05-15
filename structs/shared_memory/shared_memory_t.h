@@ -14,7 +14,7 @@
 
 #include "../race_car/race_car_t.h"
 #include "../race_config/race_config_t.h"
-#include "../../sync_t.h"
+#include "../sync_t/sync_t.h"
 
 // endregion dependencies
 

@@ -187,7 +187,7 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/sync_t.h">
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/sync_t/sync_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.c">

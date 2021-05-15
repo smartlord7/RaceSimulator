@@ -262,7 +262,6 @@ void simulate_car(race_car_t * car) {
     min_fuel2 = REFUEL_MIN_LAPS2 * fuel_per_lap;
     box = &car->team->team_box;
     team = car->team;
-    car_state_change.team_id = car->team->team_id;
     car_state_change.car_id = car->car_id;
 
     // the car is ready to race.

@@ -168,6 +168,12 @@ void handle_all_pipes() {
                                 shm->num_cars_on_track++;
                                 END_SYNC
 
+                                if (car_state_change.prev_state == IN_BOX) {
+                                    SYNC
+                                    shm->num_refuels++;
+                                    END_SYNC
+                                }
+
                                 break;
                             case SAFETY:
                                 if (car_state_change.malfunctioning) {
@@ -181,7 +187,6 @@ void handle_all_pipes() {
                             case IN_BOX:
                                 SYNC
                                 shm->num_cars_on_track--;
-                                shm->num_refuels++;
                                 END_SYNC
 
                                 break;

@@ -54,14 +54,14 @@ char * race_config_to_string(race_config_t * cfg) {
     } else {
         buffer = string(BUF_SIZE);
 
-        snprintf(buffer, BUF_SIZE * sizeof(char), "\nTime units per second: %.2ftu\n"
+        snprintf(buffer, BUF_SIZE * sizeof(char), "\nTime units per second: %dtu\n"
                                                          "Lap distance: %.2fm\n"
                                                          "Number of laps per race: %d\n"
                                                          "Number of teams: %d\n"
                                                          "Max. number of cars per team: %d\n"
-                                                         "Malfunction interval: %.2ftu\n"
-                                                         "Min. repair time: %.2ftu\n"
-                                                         "Max. repair time: %.2ftu\n"
+                                                         "Malfunction interval: %.dtu\n"
+                                                         "Min. repair time: %.dtu\n"
+                                                         "Max. repair time: %.dtu\n"
                                                          "Fuel tank capacity: %.2fL\n",
                  cfg->time_units_per_sec,
                  cfg->lap_distance,

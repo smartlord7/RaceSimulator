@@ -27,13 +27,13 @@
 #define CAR_REFUEL TEAM_MANAGER_SAY "REFUELING CAR %d..."
 #define BOX_CAR_ARRIVE TEAM_MANAGER_SAY "THE CAR %d HAS ARRIVED TO THE BOX!"
 #define BOX_RESERVE TEAM_MANAGER_SAY "THE BOX HAS BEEN RESERVED!"
-#define GLOBAL_CLOCK "[GLOBAL_CLOCK] %d tu"
 
 #define car_close_to_box (car->current_pos == 0 || (car->current_pos <= config.lap_distance && car->current_pos + car->current_speed * config.time_units_per_sec >= config.lap_distance))
-#define CHANGE_CAR_STATE(state) \
-car_state_change.new_state = state; \
+#define CHANGE_CAR_STATE(new_car_state) \
+car_state_change.prev_state = car->state; \
+car_state_change.new_state = new_car_state; \
 SYNC_CAR \
-set_state(car, state); \
+set_state(car, new_car_state); \
 END_SYNC_CAR \
 lock_mutex(&team->pipe_mutex);  \
 write_stream(unn_pipe_fds[1], &car_state_change, sizeof(race_car_state_change_t));\
