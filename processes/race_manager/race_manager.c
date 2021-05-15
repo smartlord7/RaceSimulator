@@ -165,7 +165,10 @@ void handle_all_pipes() {
                         switch (car_state_change.new_state) {
                             case RACE:
                                 SYNC
+                                SYNC_CLOCK_VALLEY
                                 shm->num_cars_on_track++;
+                                notify_cond(&shm->sync_s.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
                                 if (car_state_change.prev_state == IN_BOX) {
@@ -185,19 +188,23 @@ void handle_all_pipes() {
                                 break;
 
                             case IN_BOX:
-                                SYNC
-                                shm->num_cars_on_track--;
-                                END_SYNC
-
-                                break;
-
                             case DISQUALIFIED:
                                 SYNC
+                                SYNC_CLOCK_VALLEY
                                 shm->num_cars_on_track--;
+                                notify_cond(&shm->sync_s.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
                                 break;
                             case FINISH:
+                                SYNC
+                                SYNC_CLOCK_VALLEY
+                                shm->num_cars_on_track--;
+                                notify_cond(&shm->sync_s.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
+                                END_SYNC
+
                                 if (++shm->num_finished_cars == shm->total_num_cars) {
                                     shm->sync_s.race_running = false;
 

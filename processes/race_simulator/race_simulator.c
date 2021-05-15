@@ -114,7 +114,7 @@ int main() {
     generate_log_entry(I_SIMULATION_START, NULL);
 
     //create race manager process
-ps    create_process(RACE_MANAGER, race_manager, NULL);
+    create_process(RACE_MANAGER, race_manager, NULL);
 
     //create malfunction_q_id manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
@@ -149,7 +149,7 @@ static void init_global_clock() {
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
-    int interval_ms =  ((float) (1 / config.time_units_per_sec)) * pow(10, 3);
+    int interval_ms =  (1 / config.time_units_per_sec) * pow(10, 3);
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock

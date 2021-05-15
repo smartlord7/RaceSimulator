@@ -21,7 +21,7 @@
 // region constants
 
 #define MAX_NUM_TEAMS 15 // TODO: move constraints to a separate file
-#define MAX_MAX_CARS_PER_TEAM 20
+#define MAX_MAX_CARS_PER_TEAM 100
 
 // endregion constants
 
