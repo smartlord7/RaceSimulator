@@ -248,7 +248,6 @@ void * race_car_worker(void * data){
 void simulate_car(race_car_t * car) {
     // declare the needed variables
     char * race_car_str = NULL;
-    long int time_step;
     int box_needed;
     float fuel_per_lap, min_fuel1, min_fuel2;
     malfunction_t malfunction_msg;
@@ -261,7 +260,6 @@ void simulate_car(race_car_t * car) {
     fuel_per_lap = config.lap_distance / car->speed * car->consumption;
     min_fuel1 = REFUEL_MIN_LAPS1 * fuel_per_lap;
     min_fuel2 = REFUEL_MIN_LAPS2 * fuel_per_lap;
-    time_step = tu_to_msec(config.time_units_per_sec);
     box = &car->team->team_box;
     team = car->team;
     car_state_change.team_id = car->team->team_id;
@@ -333,21 +331,17 @@ void simulate_car(race_car_t * car) {
             }
             END_SYNC_CAR_COND
 
-            if (!shm->sync_s.race_running) {
-                exit_thread();
-            }
-
             unlock_mutex(&box->available);
-
-            if (!shm->sync_s.race_running) {
-                END_SYNC_BOX
-                exit_thread();
-            }
 
             // the car is now ready to race again;
             car->remaining_fuel = config.fuel_tank_capacity;
 
             CHANGE_CAR_STATE(RACE);
+
+            if (!shm->sync_s.race_running) {
+                END_SYNC_BOX
+                exit_thread();
+            }
 
             // the car needs the box no more.
             box_needed = false;
@@ -420,7 +414,7 @@ void simulate_car(race_car_t * car) {
         // do a discrete spatial step :-)
         car->current_pos += car->current_speed;
 
-        DEBUG_MSG(CAR_MOVE, EVENT, car->car_id, car->current_pos)
+        //DEBUG_MSG(CAR_MOVE, EVENT, car->car_id, car->current_pos)
 
         // check if the car's fuel as reached an end.
         if (car->remaining_fuel <= 0) {

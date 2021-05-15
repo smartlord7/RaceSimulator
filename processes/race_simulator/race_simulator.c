@@ -9,6 +9,7 @@
 
 // region dependencies
 
+#include <stdio.h>
 #include "stdlib.h"
 #include "unistd.h"
 #include "signal.h"
@@ -90,7 +91,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(TIME, false);
+    debug_init(EVENT, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -148,7 +149,7 @@ static void init_global_clock() {
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
-    int interval_ms =  (1 / config.time_units_per_sec) * pow(10, 3);
+    int interval_ms =  ((float) (1 / config.time_units_per_sec)) * pow(10, 3);
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
@@ -227,7 +228,7 @@ void shm_init() {
 
 // region private functions
 
-static void create_ipcs(int num_teams){
+static void create_ipcs(){
     ipcs_created = true;
 
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);

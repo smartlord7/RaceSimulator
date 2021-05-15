@@ -164,23 +164,32 @@ void handle_all_pipes() {
 
                         switch (car_state_change.new_state) {
                             case RACE:
+                                SYNC
                                 shm->num_cars_on_track++;
+                                END_SYNC
 
                                 break;
                             case SAFETY:
-
-                            case IN_BOX:
-                                shm->num_cars_on_track--;
-                                shm->num_refuels++;
-
                                 if (car_state_change.malfunctioning) {
+                                    SYNC
                                     shm->num_malfunctions++;
+                                    END_SYNC
                                 }
 
                                 break;
 
-                            case DISQUALIFIED:
+                            case IN_BOX:
+                                SYNC
                                 shm->num_cars_on_track--;
+                                shm->num_refuels++;
+                                END_SYNC
+
+                                break;
+
+                            case DISQUALIFIED:
+                                SYNC
+                                shm->num_cars_on_track--;
+                                END_SYNC
 
                                 break;
                             case FINISH:
@@ -212,11 +221,11 @@ void handle_all_pipes() {
                                     }
 
                                     SYNC_CLOCK_VALLEY
-                                    notify_cond(&shm->sync_s.clock_valley_cond);
+                                    notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
                                     END_SYNC_CLOCK_VALLEY
 
                                     SYNC_CLOCK_RISE
-                                    notify_cond_all(&shm->sync_s.clock_rise_cond);
+                                    notify_cond_all(&shm->sync_s.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
                                     END_SYNC_CLOCK_RISE
 
                                     return;

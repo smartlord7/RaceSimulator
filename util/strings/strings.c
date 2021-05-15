@@ -140,9 +140,10 @@ char * repeat_str(char * str, int times) {
     int i;
 
     buffer = string(times);
+    strcpy(buffer, str);
     i = 0;
 
-    while (i < times) {
+    while (i < times - 1) {
         strcat(buffer, str);
 
         i++;

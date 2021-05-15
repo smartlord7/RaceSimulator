@@ -68,15 +68,13 @@ void show_stats_table() { // TODO: validate functions result
 
     bubble_sort_race_cars(race_cars, shm_cpy->total_num_cars);
 
-    printf("HERE\n");
-
     snprintf(buffer, BUFFER_SIZE,
-             "%sRACE STATISTICS%s\n"
+             "\n\n%sRACE STATISTICS%s\n"
              "%*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
              "%s\n",
              row_sep_half, row_sep_half,
              MAX_DIGITS - 1, CAR_RACE_POS,
-             MAX_DIGITS, CAR_ID, -max_car_name_col_width, CAR_NAME,
+             -MAX_DIGITS, CAR_ID, -max_car_name_col_width, CAR_NAME,
              -team_id_col_width, CAR_TEAM_ID, -max_team_name_len, CAR_TEAM_NAME,
              car_laps_col_width, CAR_NUM_COMPLETED_LAPS,
              car_box_stops_col_width, CAR_NUM_BOX_STOPS,
@@ -115,10 +113,10 @@ void show_stats_table() { // TODO: validate functions result
              RACE_NUM_CARS_ON_TRACK, shm_cpy->num_cars_on_track);
     strcat(buffer, aux);
 
-    snprintf(aux, BUFFER_SIZE, "%s\n", row_sep);
+    snprintf(aux, BUFFER_SIZE, "%s\n\n", row_sep);
     strcat(buffer, aux);
 
-    printf("%s", buffer);
+    printf("%s\n", buffer);
 }
 
 static void swap_car(race_car_t * car1, race_car_t * car2) {
