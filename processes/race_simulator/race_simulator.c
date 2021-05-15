@@ -9,7 +9,7 @@
 
 // region dependencies
 
-#include <stdio.h>
+#include "stdio.h"
 #include "stdlib.h"
 #include "unistd.h"
 #include "signal.h"
@@ -279,7 +279,7 @@ static void destroy_ipcs(){
 }
 
 static void segfault_handler(int signum) {
-    printf("WELL... THAT ESCALATED QUICKLY...\n");
+    //printf("WELL... THAT ESCALATED QUICKLY...\n");
 }
 
 static void terminate() {

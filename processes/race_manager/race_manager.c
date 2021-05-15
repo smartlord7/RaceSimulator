@@ -128,7 +128,7 @@ void handle_named_pipe() {
 
 void handle_all_pipes() {
     fd_set read_set;
-    int i, j, k, n;
+    int i, j, k, n, race_winner = false;
     char buffer[LARGE_SIZE];
     race_car_state_change_t car_state_change;
     race_box_t * box = NULL;
@@ -204,6 +204,14 @@ void handle_all_pipes() {
                                 notify_cond(&shm->sync_s.clock_valley_cond);
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
+
+                                if (!race_winner) {
+                                    car = &shm->race_cars[car_state_change.team_id][car_state_change.car_id - 1];
+
+                                    DEBUG_MSG(CAR_WIN, EVENT, car->name, car->car_id, car->team->team_name, car->team->team_id, shm->sync_s.global_time)
+
+                                    race_winner = true;
+                                }
 
                                 if (++shm->num_finished_cars == shm->total_num_cars) {
                                     shm->sync_s.race_running = false;

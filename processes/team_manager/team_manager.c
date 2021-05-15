@@ -67,13 +67,14 @@ void team_manager(void * data){
     team->num_cars = config.max_cars_per_team; // TODO: remove (temp value)
 
     while (i < team->num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 400, 0.5f, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.02f, 400, 1, config.fuel_tank_capacity);
 
         SYNC
         shm->total_num_cars++;
-        shm->num_cars_on_track++;
         temp_car->car_id = shm->total_num_cars;
         END_SYNC
+
+        temp_car->team = team;
 
         snprintf(temp_car->name, MAX_LABEL_SIZE, "%s_%d", RACE_CAR, temp_car->car_id);
         shm->race_cars[team->team_id][i] = * temp_car;
@@ -91,7 +92,7 @@ void team_manager(void * data){
     i = 0;
 
     while (i < team->num_cars) {
-        create_thread(temp_car->name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
+        create_thread(shm->race_cars[team->team_id][i].name, &car_threads[i], race_car_worker, &shm->race_cars[team->team_id][i]);
 
         i++;
     }
@@ -133,11 +134,12 @@ void manage_box(race_box_t * box) {
         while (shm->sync_s.race_running && team->num_cars_safety == 0 && box->current_car == NULL) {
             wait_cond(&box->cond, &box->cond_mutex);
         }
-        END_SYNC_BOX_COND
-
         if (!shm->sync_s.race_running) {
+            END_SYNC_BOX_COND
             return;
         }
+        END_SYNC_BOX_COND
+
 
         if (team->num_cars_safety > 0) {
 
@@ -203,6 +205,7 @@ void manage_box(race_box_t * box) {
             }
         } else {
             if (!shm->sync_s.race_running) {
+
                 SYNC_CAR_COND
                 box->car_dispatched = true;
                 notify_cond(&car->cond);
@@ -264,9 +267,7 @@ void simulate_car(race_car_t * car) {
     car_state_change.car_id = car->car_id;
 
     // the car is ready to race.
-    SYNC_CAR
     set_state(car, RACE);
-    END_SYNC_CAR
 
     // the car simulation itself.
     while (true) {
@@ -378,6 +379,7 @@ void simulate_car(race_car_t * car) {
             if (car->remaining_fuel <= 0) {
 
                 if (car->state == SAFETY) {
+
                     SYNC_BOX_COND
                     team->num_cars_safety--;
                     notify_cond(&box->cond);
@@ -391,7 +393,9 @@ void simulate_car(race_car_t * car) {
             }
 
             // increase the number of completed laps.
+            SYNC
             car->completed_laps++;
+            END_SYNC
             // reset the car's position to 0.
             car->current_pos = 0;
 
