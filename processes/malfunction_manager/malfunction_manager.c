@@ -61,11 +61,7 @@ static void generate_malfunctions(void) {
     race_car_t * car;
     malfunction_t msg;
 
-    SYNC
-    while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
-    }
-    END_SYNC
+    wait_race_start();
 
     while (shm->sync_s.race_running) {
         for (i = 0; i < config.num_teams; i++) {
@@ -81,9 +77,6 @@ static void generate_malfunctions(void) {
                 prob_malfunction = 1 - car->reliability;
 
                 if (random_uniform_event(prob_malfunction) && shm->sync_s.race_running) {
-                    shm->num_malfunctions++;
-
-
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
                     msg.car_id = car->car_id;

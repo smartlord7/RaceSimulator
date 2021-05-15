@@ -175,8 +175,7 @@ extern char * race_car_to_string(race_car_t * race_car);
  *
  */
 extern void set_state(race_car_t * race_car, race_car_state state);
-
-extern char * race_car_stats_string(race_car_t * car);
+extern char * race_car_state_to_string(race_car_state state);
 
 // endregion public functions prototypes
 

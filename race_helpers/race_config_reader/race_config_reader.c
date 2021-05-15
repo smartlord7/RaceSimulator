@@ -127,7 +127,9 @@ race_config_t * read_race_config() {
 
        switch(current_line) {
            case 0:
-               to_float_wrapper(to_float(buffer, &time_units_per_sec), TIME_UNITS_PER_SEC);
+               if (!(time_units_per_sec = atoi(buffer))) {
+                   error_at_line(INT_CONVERSION_EXCEPTION, TIME_UNITS_PER_SEC);
+               }
 
                validate_interval(time_units_per_sec, TIME_UNITS_PER_SEC, MIN_TIME_UNITS_PER_SEC, MAX_TIME_UNITS_PER_SEC);
 
@@ -169,7 +171,9 @@ race_config_t * read_race_config() {
 
                break;
            case 4:
-               to_float_wrapper(to_float(buffer, &malfunction_interval), MALFUNCTION_INTERVAL);
+               if (!(malfunction_interval = atoi(buffer))) {
+                   error_at_line(INT_CONVERSION_EXCEPTION, MALFUNCTION_INTERVAL);
+               }
 
                validate_interval(malfunction_interval, MALFUNCTION_INTERVAL, MIN_MALFUNCTION_TIME, MAX_MALFUNCTION_TIME);
 

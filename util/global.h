@@ -42,7 +42,6 @@
 #define END_SYNC_BOX unlock_mutex(&box->access_mutex);
 #define SYNC_BOX_COND lock_mutex(&box->cond_mutex);
 #define END_SYNC_BOX_COND unlock_mutex(&box->cond_mutex);
-#define tu_to_msec(t) (uint) ((t) / config.time_units_per_sec * pow(10, 3))
 
 #define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
 #define NAMED_PIPE_INDEX 0
@@ -55,9 +54,6 @@
 #define GLOBAL_CLOCK_VALLEY GLOBAL_CLOCK_SAYS "CLOCK VALLEY!"
 #define GLOBAL_CLOCK_RISE GLOBAL_CLOCK_SAYS "CLOCK RISE!"
 #define GLOBAL_CLOCK_RELEASE GLOBAL_CLOCK_SAYS "RELEASE ALL THREADS!"
-
-
-#define NUM_TOP_CARS 5
 
 #define SMALLEST_SIZE 16
 #define XSMALL_SIZE 32
@@ -79,7 +75,8 @@ extern race_config_t config;
 
 // region global variables
 
-void sync_sleep(int time_units);
+extern void sync_sleep(int time_units);
+extern void wait_race_start();
 
 // endregion global variables
 

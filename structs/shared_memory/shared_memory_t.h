@@ -14,14 +14,14 @@
 
 #include "../race_car/race_car_t.h"
 #include "../race_config/race_config_t.h"
-#include "../../sync_t.h"
+#include "../sync_t/sync_t.h"
 
 // endregion dependencies
 
 // region constants
 
 #define MAX_NUM_TEAMS 15 // TODO: move constraints to a separate file
-#define MAX_MAX_CARS_PER_TEAM 20
+#define MAX_MAX_CARS_PER_TEAM 100
 
 // endregion constants
 

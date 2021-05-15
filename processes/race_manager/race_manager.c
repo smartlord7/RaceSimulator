@@ -139,26 +139,47 @@ void handle_all_pipes() {
 
                         switch (car_state_change.new_state) {
                             case RACE:
+                                SYNC
+                                SYNC_CLOCK_VALLEY
                                 shm->num_cars_on_track++;
+                                notify_cond(&shm->sync_s.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
+                                END_SYNC
+
+                                if (car_state_change.prev_state == IN_BOX) {
+                                    SYNC
+                                    shm->num_refuels++;
+                                    END_SYNC
+                                }
 
                                 break;
                             case SAFETY:
-
-                            case IN_BOX:
-                                shm->num_cars_on_track--;
-                                shm->num_refuels++;
-
                                 if (car_state_change.malfunctioning) {
+                                    SYNC
                                     shm->num_malfunctions++;
+                                    END_SYNC
                                 }
 
                                 break;
 
+                            case IN_BOX:
                             case DISQUALIFIED:
+                                SYNC
+                                SYNC_CLOCK_VALLEY
                                 shm->num_cars_on_track--;
+                                notify_cond(&shm->sync_s.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
+                                END_SYNC
 
                                 break;
                             case FINISH:
+                                SYNC
+                                SYNC_CLOCK_VALLEY
+                                shm->num_cars_on_track--;
+                                notify_cond(&shm->sync_s.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
+                                END_SYNC
+
                                 if (++shm->num_finished_cars == shm->total_num_cars) {
                                     shm->sync_s.race_running = false;
 
@@ -169,6 +190,7 @@ void handle_all_pipes() {
                                     while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
                                         team = &shm->race_teams[j];
                                         box = &team->team_box;
+
                                         SYNC_BOX_COND
                                         notify_cond_all(&box->cond);
                                         END_SYNC_BOX_COND
@@ -187,11 +209,11 @@ void handle_all_pipes() {
                                     }
 
                                     SYNC_CLOCK_VALLEY
-                                    notify_cond(&shm->sync_s.clock_valley_cond);
+                                    notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
                                     END_SYNC_CLOCK_VALLEY
 
                                     SYNC_CLOCK_RISE
-                                    notify_cond_all(&shm->sync_s.clock_rise_cond);
+                                    notify_cond_all(&shm->sync_s.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
                                     END_SYNC_CLOCK_RISE
 
                                     return;

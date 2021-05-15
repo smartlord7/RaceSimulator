@@ -130,19 +130,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named cmd
-
-# Build rule for target.
-cmd: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cmd
-.PHONY : cmd
-
-# fast build rule for target.
-cmd/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/build
-.PHONY : cmd/fast
-
-#=============================================================================
 # Target rules for targets named RaceSimulator
 
 # Build rule for target.
@@ -506,32 +493,32 @@ race_helpers/race_config_reader/race_config_reader.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s
 .PHONY : race_helpers/race_config_reader/race_config_reader.c.s
 
-race_simulator_cmd.o: race_simulator_cmd.c.o
+race_helpers/stats_helper/stats_helper.o: race_helpers/stats_helper/stats_helper.c.o
 
-.PHONY : race_simulator_cmd.o
+.PHONY : race_helpers/stats_helper/stats_helper.o
 
 # target to build an object file
-race_simulator_cmd.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/race_simulator_cmd.c.o
-.PHONY : race_simulator_cmd.c.o
+race_helpers/stats_helper/stats_helper.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o
+.PHONY : race_helpers/stats_helper/stats_helper.c.o
 
-race_simulator_cmd.i: race_simulator_cmd.c.i
+race_helpers/stats_helper/stats_helper.i: race_helpers/stats_helper/stats_helper.c.i
 
-.PHONY : race_simulator_cmd.i
+.PHONY : race_helpers/stats_helper/stats_helper.i
 
 # target to preprocess a source file
-race_simulator_cmd.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/race_simulator_cmd.c.i
-.PHONY : race_simulator_cmd.c.i
+race_helpers/stats_helper/stats_helper.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.i
+.PHONY : race_helpers/stats_helper/stats_helper.c.i
 
-race_simulator_cmd.s: race_simulator_cmd.c.s
+race_helpers/stats_helper/stats_helper.s: race_helpers/stats_helper/stats_helper.c.s
 
-.PHONY : race_simulator_cmd.s
+.PHONY : race_helpers/stats_helper/stats_helper.s
 
 # target to generate assembly for a file
-race_simulator_cmd.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/race_simulator_cmd.c.s
-.PHONY : race_simulator_cmd.c.s
+race_helpers/stats_helper/stats_helper.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.s
+.PHONY : race_helpers/stats_helper/stats_helper.c.s
 
 structs/race_car/race_car_t.o: structs/race_car/race_car_t.c.o
 
@@ -614,33 +601,6 @@ structs/race_team/race_team_t.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.s
 .PHONY : structs/race_team/race_team_t.c.s
 
-util/async_thread_clock/async_thread_clock.o: util/async_thread_clock/async_thread_clock.c.o
-
-.PHONY : util/async_thread_clock/async_thread_clock.o
-
-# target to build an object file
-util/async_thread_clock/async_thread_clock.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/async_thread_clock/async_thread_clock.c.o
-.PHONY : util/async_thread_clock/async_thread_clock.c.o
-
-util/async_thread_clock/async_thread_clock.i: util/async_thread_clock/async_thread_clock.c.i
-
-.PHONY : util/async_thread_clock/async_thread_clock.i
-
-# target to preprocess a source file
-util/async_thread_clock/async_thread_clock.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/async_thread_clock/async_thread_clock.c.i
-.PHONY : util/async_thread_clock/async_thread_clock.c.i
-
-util/async_thread_clock/async_thread_clock.s: util/async_thread_clock/async_thread_clock.c.s
-
-.PHONY : util/async_thread_clock/async_thread_clock.s
-
-# target to generate assembly for a file
-util/async_thread_clock/async_thread_clock.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/async_thread_clock/async_thread_clock.c.s
-.PHONY : util/async_thread_clock/async_thread_clock.c.s
-
 util/debug/debug.o: util/debug/debug.c.o
 
 .PHONY : util/debug/debug.o
@@ -674,7 +634,6 @@ util/exception_handler/exception_handler.o: util/exception_handler/exception_han
 
 # target to build an object file
 util/exception_handler/exception_handler.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o
 .PHONY : util/exception_handler/exception_handler.c.o
 
@@ -684,7 +643,6 @@ util/exception_handler/exception_handler.i: util/exception_handler/exception_han
 
 # target to preprocess a source file
 util/exception_handler/exception_handler.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.i
 .PHONY : util/exception_handler/exception_handler.c.i
 
@@ -694,7 +652,6 @@ util/exception_handler/exception_handler.s: util/exception_handler/exception_han
 
 # target to generate assembly for a file
 util/exception_handler/exception_handler.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.s
 .PHONY : util/exception_handler/exception_handler.c.s
 
@@ -704,7 +661,6 @@ util/file/file.o: util/file/file.c.o
 
 # target to build an object file
 util/file/file.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/file/file.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.o
 .PHONY : util/file/file.c.o
 
@@ -714,7 +670,6 @@ util/file/file.i: util/file/file.c.i
 
 # target to preprocess a source file
 util/file/file.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/file/file.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.i
 .PHONY : util/file/file.c.i
 
@@ -724,7 +679,6 @@ util/file/file.s: util/file/file.c.s
 
 # target to generate assembly for a file
 util/file/file.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/file/file.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/file/file.c.s
 .PHONY : util/file/file.c.s
 
@@ -788,7 +742,6 @@ util/read_line/read_line.o: util/read_line/read_line.c.o
 
 # target to build an object file
 util/read_line/read_line.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/read_line/read_line.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.o
 .PHONY : util/read_line/read_line.c.o
 
@@ -798,7 +751,6 @@ util/read_line/read_line.i: util/read_line/read_line.c.i
 
 # target to preprocess a source file
 util/read_line/read_line.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/read_line/read_line.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.i
 .PHONY : util/read_line/read_line.c.i
 
@@ -808,7 +760,6 @@ util/read_line/read_line.s: util/read_line/read_line.c.s
 
 # target to generate assembly for a file
 util/read_line/read_line.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/util/read_line/read_line.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.s
 .PHONY : util/read_line/read_line.c.s
 
@@ -875,7 +826,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
-	@echo "... cmd"
 	@echo "... data_structures/priority_queue/priority_queue.o"
 	@echo "... data_structures/priority_queue/priority_queue.i"
 	@echo "... data_structures/priority_queue/priority_queue.s"
@@ -915,9 +865,9 @@ help:
 	@echo "... race_helpers/race_config_reader/race_config_reader.o"
 	@echo "... race_helpers/race_config_reader/race_config_reader.i"
 	@echo "... race_helpers/race_config_reader/race_config_reader.s"
-	@echo "... race_simulator_cmd.o"
-	@echo "... race_simulator_cmd.i"
-	@echo "... race_simulator_cmd.s"
+	@echo "... race_helpers/stats_helper/stats_helper.o"
+	@echo "... race_helpers/stats_helper/stats_helper.i"
+	@echo "... race_helpers/stats_helper/stats_helper.s"
 	@echo "... structs/race_car/race_car_t.o"
 	@echo "... structs/race_car/race_car_t.i"
 	@echo "... structs/race_car/race_car_t.s"
@@ -927,9 +877,6 @@ help:
 	@echo "... structs/race_team/race_team_t.o"
 	@echo "... structs/race_team/race_team_t.i"
 	@echo "... structs/race_team/race_team_t.s"
-	@echo "... util/async_thread_clock/async_thread_clock.o"
-	@echo "... util/async_thread_clock/async_thread_clock.i"
-	@echo "... util/async_thread_clock/async_thread_clock.s"
 	@echo "... util/debug/debug.o"
 	@echo "... util/debug/debug.i"
 	@echo "... util/debug/debug.s"

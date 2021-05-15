@@ -20,7 +20,6 @@
 // region constants
 
 #define MAX_TEAM_NAME_SIZE 50
-#define MAX_MAX_CARS_PER_TEAM 20
 
 // endregion constants
 
