@@ -125,10 +125,10 @@ void manage_box(race_box_t * box) {
     box->car_dispatched = false;
     box->state = FREE;
 
-    while (shm->sync_s.race_running) {
+    while (true) {
         // waits for an incoming car or for the number of cars in SAFETY mode to be different of 0.
         SYNC_BOX_COND
-        while (box->current_car == NULL && team->num_cars_safety == 0 && shm->sync_s.race_running) {
+        while (shm->sync_s.race_running && team->num_cars_safety == 0 && box->current_car == NULL) {
             wait_cond(&box->cond, &box->cond_mutex);
         }
         END_SYNC_BOX_COND
@@ -145,19 +145,24 @@ void manage_box(race_box_t * box) {
             box->state = RESERVED;
             END_SYNC_BOX
 
-            while (team->num_cars_safety > 0 && shm->sync_s.race_running) {
-
+            while (true) {
                 SYNC_BOX_COND
-                while (box->current_car == NULL && shm->sync_s.race_running) {
+                while (shm->sync_s.race_running && team->num_cars_safety > 0 && box->current_car == NULL) {
                     wait_cond(&box->cond, &box->cond_mutex);
                 }
                 END_SYNC_BOX_COND
 
+                if (team->num_cars_safety == 0) {
+                    break;
+                }
+
                 if (!shm->sync_s.race_running) {
-                    SYNC_CAR_COND
-                    box->car_dispatched = true;
-                    notify_cond(&car->cond);
-                    END_SYNC_CAR_COND
+                    if (box->current_car) {
+                        SYNC_CAR_COND
+                        box->car_dispatched = true;
+                        notify_cond(&car->cond);
+                        END_SYNC_CAR_COND
+                    }
 
                     return;
                 }
@@ -247,7 +252,6 @@ void * race_car_worker(void * data){
 
 void simulate_car(race_car_t * car) {
     // declare the needed variables
-    char * race_car_str = NULL;
     int box_needed;
     float fuel_per_lap, min_fuel1, min_fuel2;
     malfunction_t malfunction_msg;
@@ -271,9 +275,6 @@ void simulate_car(race_car_t * car) {
 
     // the car simulation itself.
     while (true) {
-        race_car_str = race_car_to_string(car);
-        DEBUG_MSG(race_car_str, PARAM, "")
-        free(race_car_str);
 
         // try to gain access to the box, if needed.
         // the car needs to access the box if the following conditions, in the presented short circuit order, are satisfied:
@@ -282,7 +283,7 @@ void simulate_car(race_car_t * car) {
         // - it is one step or less closer of the position = 0m (where the box is located).
         // - if the box is reserved and the car is in safety mode or the box is free.
         // - if the car can gain access to the box's lock.
-        SYNC_BOX
+        /**SYNC_BOX
         if (box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box &&
                 ((box->state == RESERVED && car->state == SAFETY) || box->state == FREE) && pthread_mutex_trylock(&box->available) == 0) {
             END_SYNC_BOX
@@ -308,14 +309,13 @@ void simulate_car(race_car_t * car) {
             CHANGE_CAR_STATE(IN_BOX);
 
             SYNC_CAR
-            car->num_box_stops++;
+            car->num_box_stops++; // TODO: Sync with stats
             if (car->remaining_fuel <= min_fuel2) {
                 car->num_refuels++; // increment the number of refuels dont till now by the car.
             } else if (car->state == SAFETY) { // if the car is SAFETY mode but hasn't reached the min fuel. That means the car is malfunctioning.
                 car->num_malfunctions++; // increment the number of malfunctions the car had.
             }
             END_SYNC_CAR
-
 
             // notify the box that a new car has arrived.
             SYNC_BOX
@@ -345,7 +345,7 @@ void simulate_car(race_car_t * car) {
             // the car needs the box no more.
             box_needed = false;
         }
-        END_SYNC_BOX
+        END_SYNC_BOX*/
 
         // check if the car has some malfunction.
         if (rcv_msg(malfunction_q_id, (void *) &malfunction_msg, sizeof(malfunction_msg), car->car_id) > 0) {
@@ -357,10 +357,10 @@ void simulate_car(race_car_t * car) {
             car_state_change.malfunctioning = false;
 
             // notify the box that at least one of the team's cars is in SAFETY mode.
-            SYNC_TEAM
+            SYNC_BOX_COND
             team->num_cars_safety++;
             notify_cond(&box->cond);
-            END_SYNC_TEAM
+            END_SYNC_BOX_COND
 
             // the car needs to access the box.
             box_needed = true;
@@ -390,14 +390,24 @@ void simulate_car(race_car_t * car) {
 
             DEBUG_MSG(CAR_COMPLETE_LAP, EVENT, car->car_id, car->completed_laps)
 
+            SYNC
             if (!shm->sync_s.race_running) {
+                END_SYNC
                 exit_thread();
             }
+            END_SYNC
 
             // check if the car has completed all the race laps.
             if (car->completed_laps == config.laps_per_race) {
 
                 // change the car's state to FINISHED since it has reached the race's end.
+                if (car->state == SAFETY) {
+                    SYNC_BOX_COND
+                    team->num_cars_safety--;
+                    notify_cond(&box->cond);
+                    END_SYNC_BOX_COND
+                }
+
                 CHANGE_CAR_STATE(FINISH);
 
                 DEBUG_MSG(CAR_FINISH, EVENT, car->car_id)
@@ -413,7 +423,7 @@ void simulate_car(race_car_t * car) {
         // do a discrete spatial step :-)
         car->current_pos += car->current_speed;
 
-        //DEBUG_MSG(CAR_MOVE, EVENT, car->car_id, car->current_pos)
+        DEBUG_MSG(CAR_MOVE, EVENT, car->car_id, car->current_pos)
 
         // check if the car's fuel as reached an end.
         if (car->remaining_fuel <= 0) {
@@ -441,10 +451,10 @@ void simulate_car(race_car_t * car) {
             CHANGE_CAR_STATE(SAFETY);
 
             // notify the box that another car is in SAFETY mode.
-            SYNC_TEAM
+            SYNC_BOX_COND
             team->num_cars_safety++;
             notify_cond(&box->cond);
-            END_SYNC_TEAM
+            END_SYNC_BOX_COND
         }
 
         // to simulate the car's step.

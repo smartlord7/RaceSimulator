@@ -16,7 +16,6 @@
 #include "../../util/strings/strings.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "race_car_t.h"
-#include "../../util/global.h"
 
 int check_unique_id(int car_id, race_car_t * car_data);
 

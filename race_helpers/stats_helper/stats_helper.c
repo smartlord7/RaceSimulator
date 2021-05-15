@@ -96,7 +96,7 @@ void show_stats_table() { // TODO: validate functions result
 
         snprintf(aux, BUFFER_SIZE, "%*d | %*d | %*s | %*d | %*s | %*d | %*d | %*s\n",
                  MAX_DIGITS - 1, pos,
-                 MAX_DIGITS - 1, car->car_id, -max_car_name_col_width,  car->name,
+                 -MAX_DIGITS, car->car_id, -max_car_name_col_width,  car->name,
                  -team_id_col_width, car->team->team_id, -max_team_name_col_width,  car->team->team_name,
                  -car_laps_col_width, car->completed_laps, -car_box_stops_col_width,  car->num_box_stops,
                  -MAX_STATE_LENGTH, race_car_state_to_string(car->state));

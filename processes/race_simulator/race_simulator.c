@@ -114,7 +114,7 @@ int main() {
     generate_log_entry(I_SIMULATION_START, NULL);
 
     //create race manager process
-    create_process(RACE_MANAGER, race_manager, NULL);
+ps    create_process(RACE_MANAGER, race_manager, NULL);
 
     //create malfunction_q_id manager process
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
