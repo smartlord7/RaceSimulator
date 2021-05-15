@@ -190,6 +190,7 @@ static void destroy_ipcs(){
     }
 
     destroy_shm(shm_id, shm);
+    log_close();
 }
 
 static void show_stats(int signum) {

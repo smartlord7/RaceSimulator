@@ -36,6 +36,7 @@
 #define I_BOX_MALFUNCTION 13
 #define I_BOX_LEFT 14
 #define I_CAR_RAN_OUT_OF_FUEL 15
+#define I_CAR_FINISH 16
 
 // endregion log_gen input modes
 

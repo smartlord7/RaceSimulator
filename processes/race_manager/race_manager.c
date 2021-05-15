@@ -108,7 +108,6 @@ void handle_all_pipes() {
     fd_set read_set;
     int i, j, n;
     char buffer[LARGE_SIZE];
-    char * aux;
     race_car_state_change_t car_state_change;
     race_box_t * box = NULL;
 
@@ -403,7 +402,7 @@ int validate_car(char * buffer, race_car_t * car, int * team_id) {
     }
 
     *team_id = team.team_id;
-    *car = *race_car(&team, car_name, -1, consumption, speed, reliability, config.fuel_tank_capacity); // ATTENTION: I
+    *car = *race_car(&team, car_name, -1, consumption, speed, reliability/100, config.fuel_tank_capacity); // ATTENTION: I
     return true;
 }
 

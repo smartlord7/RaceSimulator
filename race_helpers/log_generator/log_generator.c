@@ -14,11 +14,18 @@
 #include <string.h>
 #include <assert.h>
 #include <time.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "../../util/exception_handler/exception_handler.h"
 #include "log_generator.h"
 #include "../../util/global.h"
+#include "../../ipcs/memory_mapped_file/memory_mapped_file.h"
+#include "../../util/file/file.h"
 
 // endregion dependencies
+
+#define FACTOR 4
+#define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n"
 
 // region private functions prototypes
 
@@ -44,30 +51,42 @@ char * get_time();
 // region global variables
 
 const char * log_file_path = NULL;
-FILE * log_file;
+char * mmap;
+size_t file_size;
+int log_file;
 
 // endregion global variables
 
 // region public functions
 
 void log_init(const char * lg_file_path) {
-    if ((log_file = fopen(lg_file_path, "a")) == NULL){
-        throw_and_exit(FILE_OPEN_EXCEPTION, lg_file_path);
+
+    if ((log_file = open(lg_file_path, O_RDWR | O_CREAT, 0600)) < 0){
+        throw_if_exit(log_file == -1, FILE_OPEN_EXCEPTION, lg_file_path);
     }
+    lseek(log_file, FACTOR * LARGEST_SIZE - 1, SEEK_SET);
+    lseek(log_file, 0, SEEK_SET);
+
+    printf("%s", HEADER);
+    write_stream(log_file, HEADER, sizeof(HEADER) - sizeof(char));
+
+    mmap = create_mmap_file(log_file, 0, &file_size);
+
+    HERE("1")
 
     log_file_path = lg_file_path;
 }
 
 void log_close(){
+    destroy_mmap(mmap, log_file, file_size);
 
-    if (fclose(log_file)){
+    if (close(log_file)< 0){
         throw_and_exit(FILE_CLOSE_EXCEPTION, log_file_path);
     }
 
 }
 
 void generate_log_entry(int mode, void * data){
-
     race_car_t * car;
     char entry[LARGEST_SIZE];
 
@@ -146,9 +165,7 @@ void generate_log_entry(int mode, void * data){
 void write_log_entry(char * entry){
     assert(entry != NULL);
 
-    if (fprintf(log_file, "%s\n", entry) < 0){
-        throw_and_exit(FILE_WRITE_EXCEPTION, log_file_path);
-    }
+    write_mmap(mmap, entry, log_file, &file_size);
 }
 
 char * get_time(){
