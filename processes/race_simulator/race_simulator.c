@@ -276,14 +276,15 @@ static void destroy_ipcs(){
 }
 
 static void segfault_handler(int signum) {
-    //printf("WELL... THAT ESCALATED QUICKLY...\n");
+    printf("WELL... THAT ESCALATED QUICKLY...\n");
+    printf("proc %ul\n", getpid());
+    sleep(300);
 }
 
 static void terminate() {
     if (ipcs_created) {
         destroy_ipcs();
     }
-    kill(getpid(), SIGKILL);
 
     exit(EXIT_FAILURE);
 

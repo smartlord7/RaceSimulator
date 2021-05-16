@@ -67,7 +67,7 @@ void team_manager(void * data){
     team->num_cars = config.max_cars_per_team; // TODO: remove (temp value)
 
     while (i < team->num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 400, 1, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.02f, 400, 0.9f, config.fuel_tank_capacity);
 
         SYNC
         shm->total_num_cars++;
@@ -162,7 +162,7 @@ void manage_box(race_box_t * box) {
 
 
                 if (!shm->sync_s.race_running) {
-                    if (box->current_car) {
+                    if (box->current_car != NULL) {
                         SYNC_CAR_COND
                         box->car_dispatched = true;
                         notify_cond(&car->cond);
@@ -408,7 +408,6 @@ void simulate_car(race_car_t * car) {
             // check if the car has completed all the race laps.
             if (car->completed_laps == config.laps_per_race) {
 
-                // change the car's state to FINISHED since it has reached the race's end.
                 if (car->state == SAFETY) {
                     SYNC_BOX_COND
                     team->num_cars_safety--;
@@ -416,6 +415,7 @@ void simulate_car(race_car_t * car) {
                     END_SYNC_BOX_COND
                 }
 
+                // change the car's state to FINISHED since it has reached the race's end.
                 CHANGE_CAR_STATE(FINISH);
 
                 DEBUG_MSG(CAR_FINISH, EVENT, car->car_id)

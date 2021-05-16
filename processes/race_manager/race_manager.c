@@ -201,9 +201,7 @@ void handle_all_pipes() {
                                 }
 
                                 if (!race_winner) {
-                                    car = &shm->race_cars[car_state_change.team_id][car_state_change.car_id - 1];
-
-                                    DEBUG_MSG(CAR_WIN, EVENT, car->name, car->car_id, car->team->team_name, car->team->team_id, shm->sync_s.global_time)
+                                    DEBUG_MSG(CAR_WIN, EVENT, car_state_change.car_id, car_state_change.team_id, shm->sync_s.global_time)
 
                                     race_winner = true;
                                 }
@@ -230,7 +228,7 @@ static int check_race_end() {
     if (++shm->num_finished_cars == shm->total_num_cars) {
         shm->sync_s.race_running = false;
 
-        DEBUG_MSG(CARS_FINISH, EVENT, "")
+        DEBUG_MSG(RACE_END, EVENT, "")
 
         j = 0;
 
