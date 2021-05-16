@@ -276,6 +276,7 @@ static void destroy_ipcs(){
     }
 
     destroy_shm(shm_id, shm);
+    log_close();
 }
 
 static void segfault_handler(int signum) {

@@ -14,6 +14,7 @@
 
 #define DELIM_1 ","
 #define DELIM_2 ":"
+#define DELIM_3 "\n"
 
 #define RACE_MANAGER "RACE_MANAGER"
 #define ADDCAR "ADDCAR"
@@ -39,6 +40,11 @@
 #define COMMAND_PREVIEW_SIZE 7
 
 extern int unn_pipe_fds[2];
+
+typedef struct cmd_result_t cmd_result_t;
+struct cmd_result_t {
+    int result, team_id;
+};
 
 // endregion constants
 

@@ -70,6 +70,7 @@
 extern int shm_id, malfunction_q_id;
 extern shared_memory_t * shm;
 extern race_config_t config;
+extern char * mmap;
 
 // endregion global variables
 

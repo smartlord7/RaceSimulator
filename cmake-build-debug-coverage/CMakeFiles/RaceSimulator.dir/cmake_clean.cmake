@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o"
+  "CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o"

@@ -37,6 +37,44 @@
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="cmd">
+				<Option output="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/cmd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 cmd"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cmd/fast">
+				<Option output="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/cmd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 cmd/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="RaceSimulator">
 				<Option output="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/RaceSimulator" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage"/>
@@ -80,6 +118,12 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.c">
@@ -157,6 +201,9 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_simulator_cmd.c">
+			<Option target="cmd"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/malfunction/malfunction_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -197,15 +244,19 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.c">
+			<Option target="cmd"/>
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/exception_handler/exception_handler.h">
+			<Option target="cmd"/>
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.c">
+			<Option target="cmd"/>
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.h">
+			<Option target="cmd"/>
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/global.h">
@@ -224,9 +275,11 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/read_line/read_line.c">
+			<Option target="cmd"/>
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/read_line/read_line.h">
+			<Option target="cmd"/>
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.c">
