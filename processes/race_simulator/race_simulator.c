@@ -149,7 +149,7 @@ static void init_global_clock() {
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
-    int interval_ms =  (1 / config.time_units_per_sec) * pow(10, 3);
+    int interval_ms = (int) ((double) 1 / config.time_units_per_sec * pow(10, 3));
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock

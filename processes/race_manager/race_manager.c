@@ -224,8 +224,8 @@ static int check_race_end() {
     race_team_t * team = NULL;
     race_car_t * car = NULL;
 
-
     if (++shm->num_finished_cars == shm->total_num_cars) {
+
         shm->sync_s.race_running = false;
 
         DEBUG_MSG(RACE_END, EVENT, "")
