@@ -72,15 +72,6 @@ char * trim_string(char * buffer, int size){
     return buffer;
 }
 
-void remove_new_line(char * buffer, int size) {
-    assert(buffer != NULL && size > 0);
-
-    int i = size - 1;
-
-    while (buffer[i] != '\n') i--;
-    buffer[i] = '\0';
-}
-
 int starts_with(char * string, char * string2) {
     assert(string != NULL && string2 != NULL);
 
@@ -144,7 +135,7 @@ char * repeat_str(char * str, int times) {
     i = 0;
 
     while (i < times - 1) {
-        strcat(buffer, str);
+        buffer = strcat(buffer, str);
 
         i++;
     }

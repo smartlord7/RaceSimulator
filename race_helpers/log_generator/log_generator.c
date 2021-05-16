@@ -59,7 +59,6 @@ void log_init(const char * lg_file_path) {
     lseek(log_fd, FACTOR * LARGEST_SIZE - 1, SEEK_SET);
     lseek(log_fd, 0, SEEK_SET);
 
-    printf("%s", HEADER);
     write_stream(log_fd, HEADER, sizeof(HEADER) - sizeof(char));
 
     //mmap = create_mmap_file(log_fd, &file_size);
@@ -138,6 +137,10 @@ void generate_log_entry(int mode, void * data){
         case I_CAR_RAN_OUT_OF_FUEL:
             car = (race_car_t *) data;
             snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s RAN OUT OF FUEL THEREFORE IS DISQUALIFIED\n", get_time(), car->name, car->team->team_name);
+            break;
+        case I_CAR_FINISH:
+            car = (race_car_t *) data;
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s HAS FINISHED THE RACE\n", get_time(), car->name, car->team->team_name);
             break;
         default:
             throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);

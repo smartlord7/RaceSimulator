@@ -32,6 +32,7 @@
 #define CHANGE_CAR_STATE(new_car_state) \
 car_state_change.prev_state = car->state; \
 car_state_change.new_state = new_car_state; \
+car_state_change.team_id = car->team->team_id; \
 SYNC_CAR \
 set_state(car, new_car_state); \
 END_SYNC_CAR \

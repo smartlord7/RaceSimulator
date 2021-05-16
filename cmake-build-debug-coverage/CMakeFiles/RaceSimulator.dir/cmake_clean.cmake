@@ -11,6 +11,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o"
   "CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o"
   "CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o"
+  "CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o"
   "CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o"
   "CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o"
   "CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o"

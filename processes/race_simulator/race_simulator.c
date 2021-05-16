@@ -9,7 +9,7 @@
 
 // region dependencies
 
-#include <stdio.h>
+#include "stdio.h"
 #include "stdlib.h"
 #include "unistd.h"
 #include "signal.h"
@@ -91,7 +91,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(EVENT, false);
+    debug_init(TIME, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -149,18 +149,15 @@ static void init_global_clock() {
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
-    int interval_ms =  (1 / config.time_units_per_sec) * pow(10, 3);
+    int interval_ms = (int) ((double) 1 / config.time_units_per_sec * pow(10, 3));
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
-        SYNC
         while (shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.race_running) {
-            END_SYNC
             DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->sync_s.num_clock_waiters,
-                      (shm->total_num_cars + 1) - shm->sync_s.num_clock_waiters);
+                      (shm->num_cars_on_track + 1) - shm->sync_s.num_clock_waiters);
             wait_cond(&shm->sync_s.clock_valley_cond, &shm->sync_s.clock_valley_mutex);
         }
-        END_SYNC
         END_SYNC_CLOCK_VALLEY
 
         if (!shm->sync_s.race_running) {
@@ -205,9 +202,10 @@ void sync_sleep(int time_units) {
             return;
         }
 
-        SYNC
+        SYNC_CLOCK_VALLEY
         shm->sync_s.num_clock_waiters--;
-        END_SYNC
+        notify_cond(&shm->sync_s.clock_valley_cond);
+        END_SYNC_CLOCK_VALLEY
 
         prev_time = shm->sync_s.global_time;
 
@@ -281,13 +279,14 @@ static void destroy_ipcs(){
 
 static void segfault_handler(int signum) {
     printf("WELL... THAT ESCALATED QUICKLY...\n");
+    printf("proc %ul\n", getpid());
+    sleep(300);
 }
 
 static void terminate() {
     if (ipcs_created) {
         destroy_ipcs();
     }
-    kill(getpid(), SIGKILL);
 
     exit(EXIT_FAILURE);
 

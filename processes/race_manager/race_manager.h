@@ -17,34 +17,15 @@
 #define DELIM_3 "\n"
 
 #define RACE_MANAGER "RACE_MANAGER"
-#define ADDCAR "ADDCAR"
-#define CAR "CAR"
-#define TEAM "TEAM"
-#define SPEED "SPEED"
-#define CONSUMPTION "CONSUMPTION"
-#define RELIABILITY "RELIABILITY"
-#define START_RACE "START RACE!"
-#define COMMAND_REJECT "COMMAND REJECTED! THE RACE HAS ALREADY STARTED!"
 #define RACE_MANAGER_SAY "[RACE MANAGER] "
+#define COMMAND_REJECT "COMMAND REJECTED! THE RACE HAS ALREADY STARTED!"
 #define CAR_STATE_CHANGE RACE_MANAGER_SAY "CAR %d CHANGED ITS STATE TO %d!"
-#define CARS_FINISH "ALL CARS HAVE CROSSED THE FINISH LINE!"
-
-#define RESULT_NOT_RECO 0
-#define RESULT_INVALID_COMMAND 1
-#define RESULT_NEW_CAR 2
-#define RESULT_INVALID_CAR 3
-#define RESULT_BEGIN_RACE 4
-#define RESULT_CANNOT_START_RACE 5
-#define RESULT_RACE_ALREADY_STARTED 6
+#define RACE_END "THE RACE HAS ENDED!"
+#define CAR_WIN "THE CAR %d FROM TEAM %d HAS WON THE RACE AT %d tu!"
 
 #define COMMAND_PREVIEW_SIZE 7
 
 extern int unn_pipe_fds[2];
-
-typedef struct cmd_result_t cmd_result_t;
-struct cmd_result_t {
-    int result, team_id;
-};
 
 // endregion constants
 
@@ -55,7 +36,9 @@ struct cmd_result_t {
  * @brief Worker function executed when the race manager process is created.
  *
  */
-void race_manager();
+extern void race_manager();
+
+extern void create_team(char * team_name, int * team_id);
 
 // endregion public functions prototypes
 

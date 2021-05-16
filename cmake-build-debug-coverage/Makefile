@@ -479,6 +479,33 @@ processes/team_manager/team_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.s
 .PHONY : processes/team_manager/team_manager.c.s
 
+race_helpers/cmd_validator/cmd_validator.o: race_helpers/cmd_validator/cmd_validator.c.o
+
+.PHONY : race_helpers/cmd_validator/cmd_validator.o
+
+# target to build an object file
+race_helpers/cmd_validator/cmd_validator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o
+.PHONY : race_helpers/cmd_validator/cmd_validator.c.o
+
+race_helpers/cmd_validator/cmd_validator.i: race_helpers/cmd_validator/cmd_validator.c.i
+
+.PHONY : race_helpers/cmd_validator/cmd_validator.i
+
+# target to preprocess a source file
+race_helpers/cmd_validator/cmd_validator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.i
+.PHONY : race_helpers/cmd_validator/cmd_validator.c.i
+
+race_helpers/cmd_validator/cmd_validator.s: race_helpers/cmd_validator/cmd_validator.c.s
+
+.PHONY : race_helpers/cmd_validator/cmd_validator.s
+
+# target to generate assembly for a file
+race_helpers/cmd_validator/cmd_validator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.s
+.PHONY : race_helpers/cmd_validator/cmd_validator.c.s
+
 race_helpers/log_generator/log_generator.o: race_helpers/log_generator/log_generator.c.o
 
 .PHONY : race_helpers/log_generator/log_generator.o
@@ -939,6 +966,9 @@ help:
 	@echo "... processes/team_manager/team_manager.o"
 	@echo "... processes/team_manager/team_manager.i"
 	@echo "... processes/team_manager/team_manager.s"
+	@echo "... race_helpers/cmd_validator/cmd_validator.o"
+	@echo "... race_helpers/cmd_validator/cmd_validator.i"
+	@echo "... race_helpers/cmd_validator/cmd_validator.s"
 	@echo "... race_helpers/log_generator/log_generator.o"
 	@echo "... race_helpers/log_generator/log_generator.i"
 	@echo "... race_helpers/log_generator/log_generator.s"
