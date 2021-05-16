@@ -76,7 +76,9 @@ void handle_named_pipe() {
             n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGE_SIZE * sizeof(char));
             if (n > 0) {
                 buffer[n - 1]= '\0';
-                remove_new_line(buffer, (int) strlen(buffer));
+                //remove_new_line(buffer, (int) strlen(buffer));
+                strtok(buffer, "\n");
+                printf("buffer: %s\n", buffer);
                 strcpy(aux_buffer, buffer);
                 result = interpret_command(buffer, &car_data, &team_id);
 

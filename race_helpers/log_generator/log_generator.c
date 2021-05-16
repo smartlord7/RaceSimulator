@@ -31,15 +31,6 @@
 // region private functions prototypes
 
 /**
- * @def write_log_entry
- * @brief Function that writes a given entry in the log file.
- *
- * @param entry
- * String to be written in the log file.
- */
-void write_log_entry(char * entry);
-
-/**
  * @def get_time
  * @brief Function that gives the current time in the hh:mm:ss format.
  *
@@ -91,82 +82,75 @@ void generate_log_entry(int mode, void * data){
 
     switch (mode) {
         case I_SIMULATION_START:
-            snprintf(entry, LARGEST_SIZE, "%s => STARTING SIMULATION", get_time());
+            snprintf(entry, LARGEST_SIZE, "%s => STARTING SIMULATION\n", get_time());
             break;
         case I_SIMULATION_END:
-            snprintf(entry, LARGEST_SIZE, "%s => CLOSING SIMULATION", get_time());
+            snprintf(entry, LARGEST_SIZE, "%s => CLOSING SIMULATION\n", get_time());
             break;
         case I_COMMAND_RECEIVED:
-            snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED:\n'%s'", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED:\n'%s'\n", get_time(), (char *) data);
             break;
         case I_COMMAND_REJECTED:
-            snprintf(entry, LARGEST_SIZE, "%s => COMMAND REJECTED:\n'%s'", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => COMMAND REJECTED:\n'%s'\n", get_time(), (char *) data);
             break;
         case I_CAR_LOADED:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM '%s' LOADED", get_time(), car->name,
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM '%s' LOADED\n", get_time(), car->name,
                      car->team->team_name);
             break;
         case I_CAR_REJECTED:
-            snprintf(entry, LARGEST_SIZE, "%s => CAR REJECTED:\n%s", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR REJECTED:\n%s\n", get_time(), (char *) data);
             break;
         case I_RACE_START:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE STARTED", get_time());
+            snprintf(entry, LARGEST_SIZE, "%s => RACE STARTED\n", get_time());
             break;
         case I_CANNOT_START:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START", get_time());
+            snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START\n", get_time());
             break;
         case I_CAR_MALFUNCTION:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s SUFFERED MALFUNCTION", get_time(), car->name,
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s SUFFERED MALFUNCTION\n", get_time(), car->name,
                      car->team->team_name);
             break;
         case I_SIGNAL_RECEIVED:
-            snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED\n", get_time(), (char *) data);
             break;
         case I_RACE_WIN:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s WON", get_time(), car->name,
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s WON\n", get_time(), car->name,
                      car->team->team_name);
             break;
         case I_COMMAND_REJECTED_2:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE ALREADY BEGAN! COMMAND REJECTED:\n'%s'", get_time(), (char *) data);
+            snprintf(entry, LARGEST_SIZE, "%s => RACE ALREADY BEGAN! COMMAND REJECTED:\n'%s'\n", get_time(), (char *) data);
             break;
         case I_BOX_REFUEL:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX FOR REFUELLING", get_time(), car->name);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX FOR REFUELLING\n", get_time(), car->name);
             break;
         case I_BOX_MALFUNCTION:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION", get_time(), car->name);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION\n", get_time(), car->name);
             break;
         case I_BOX_LEFT:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s LEFT TEAM BOX", get_time(), car->name);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s LEFT TEAM BOX\n", get_time(), car->name);
             break;
         case I_CAR_RAN_OUT_OF_FUEL:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s RAN OUT OF FUEL THEREFORE IS DISQUALIFIED", get_time(), car->name, car->team->team_name);
+            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s RAN OUT OF FUEL THEREFORE IS DISQUALIFIED\n", get_time(), car->name, car->team->team_name);
             break;
         default:
             throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
             break;
     }
 
-    printf("%s\n", entry);
-    write_log_entry(entry);
+    printf("%s", entry);
+    write_stream(log_fd, entry, strlen(entry));
 }
 
 // endregion public functions
 
 // region private functions
-
-void write_log_entry(char * entry){
-    assert(entry != NULL);
-
-    write_stream(log_fd, entry, sizeof(entry));
-    //write_mmap(mmap, entry, log_fd, &file_size);
-}
 
 char * get_time(){
     time_t current_time;
