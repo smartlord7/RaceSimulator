@@ -14,13 +14,13 @@
 
 #define true 1
 #define false 0
+#define MMAP_OFFSET 0
 
 struct stat statbuf;
 size_t mmap_size;
 
-char * create_mmap_file(int fd, int offset, size_t * size) {
+char * create_mmap_file(int fd, size_t * size) {
     char * mmap_file;
-    off_t pa_offset = offset & ~(sysconf(_SC_PAGE_SIZE));
 
     if(fstat(fd, &statbuf)) {
         throw_and_exit(FILE_STATS_EXCEPTION, "");
@@ -29,7 +29,7 @@ char * create_mmap_file(int fd, int offset, size_t * size) {
     *size = statbuf.st_size;
     mmap_size = statbuf.st_size;
 
-    if((mmap_file = mmap(NULL, statbuf.st_size, PROT_WRITE, MAP_SHARED, fd, pa_offset)) == (caddr_t) - 1) {
+    if((mmap_file = mmap(NULL, statbuf.st_size, PROT_WRITE , MAP_SHARED, fd, 0)) == (caddr_t) - 1) {
         throw_and_exit(MMAP_CREATE_EXCEPTION,"");
     }
 

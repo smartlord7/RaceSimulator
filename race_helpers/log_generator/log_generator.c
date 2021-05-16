@@ -53,7 +53,7 @@ char * get_time();
 const char * log_file_path = NULL;
 char * mmap;
 size_t file_size;
-int log_file;
+int log_fd;
 
 // endregion global variables
 
@@ -61,26 +61,24 @@ int log_file;
 
 void log_init(const char * lg_file_path) {
 
-    if ((log_file = open(lg_file_path, O_RDWR | O_CREAT, 0600)) < 0){
-        throw_if_exit(log_file == -1, FILE_OPEN_EXCEPTION, lg_file_path);
-    }
-    lseek(log_file, FACTOR * LARGEST_SIZE - 1, SEEK_SET);
-    lseek(log_file, 0, SEEK_SET);
+    log_fd = open(lg_file_path, O_RDWR | O_CREAT, 0600);
+    throw_if_exit(log_fd == -1, FILE_OPEN_EXCEPTION, lg_file_path);
+
+    lseek(log_fd, FACTOR * LARGEST_SIZE - 1, SEEK_SET);
+    lseek(log_fd, 0, SEEK_SET);
 
     printf("%s", HEADER);
-    write_stream(log_file, HEADER, sizeof(HEADER) - sizeof(char));
+    write_stream(log_fd, HEADER, sizeof(HEADER) - sizeof(char));
 
-    mmap = create_mmap_file(log_file, 0, &file_size);
-
-    HERE("1")
+    //mmap = create_mmap_file(log_fd, &file_size);
 
     log_file_path = lg_file_path;
 }
 
 void log_close(){
-    destroy_mmap(mmap, log_file, file_size);
+    //destroy_mmap(mmap, log_fd, file_size);
 
-    if (close(log_file)< 0){
+    if (close(log_fd) < 0){
         throw_and_exit(FILE_CLOSE_EXCEPTION, log_file_path);
     }
 
@@ -165,7 +163,8 @@ void generate_log_entry(int mode, void * data){
 void write_log_entry(char * entry){
     assert(entry != NULL);
 
-    write_mmap(mmap, entry, log_file, &file_size);
+    write_stream(log_fd, entry, sizeof(entry));
+    //write_mmap(mmap, entry, log_fd, &file_size);
 }
 
 char * get_time(){
