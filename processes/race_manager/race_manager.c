@@ -119,11 +119,9 @@ void handle_named_pipe() {
 
 void handle_all_pipes() {
     fd_set read_set;
-    int i, j, k, n, race_winner = false;
+    int i, n, race_winner = false;
     char buffer[LARGE_SIZE];
     race_car_state_change_t car_state_change;
-    race_box_t * box = NULL;
-    race_team_t * team = NULL;
     race_car_t * car = NULL;
 
     while (true) {
@@ -187,14 +185,20 @@ void handle_all_pipes() {
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
+                                if (check_race_end()) {
+                                    return;
+                                }
+
                                 break;
                             case FINISH:
-                                SYNC
-                                SYNC_CLOCK_VALLEY
-                                shm->num_cars_on_track--;
-                                notify_cond(&shm->sync_s.clock_valley_cond);
-                                END_SYNC_CLOCK_VALLEY
-                                END_SYNC
+                                if (car_state_change.prev_state != FINISH) {
+                                    SYNC
+                                    SYNC_CLOCK_VALLEY
+                                    shm->num_cars_on_track--;
+                                    notify_cond(&shm->sync_s.clock_valley_cond);
+                                    END_SYNC_CLOCK_VALLEY
+                                    END_SYNC
+                                }
 
                                 if (!race_winner) {
                                     car = &shm->race_cars[car_state_change.team_id][car_state_change.car_id - 1];
@@ -204,42 +208,7 @@ void handle_all_pipes() {
                                     race_winner = true;
                                 }
 
-                                if (++shm->num_finished_cars == shm->total_num_cars) {
-                                    shm->sync_s.race_running = false;
-
-                                    DEBUG_MSG(CARS_FINISH, EVENT, "")
-
-                                    j = 0;
-
-                                    while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
-                                        team = &shm->race_teams[j];
-                                        box = &team->team_box;
-
-                                        SYNC_BOX_COND
-                                        notify_cond_all(&box->cond);
-                                        END_SYNC_BOX_COND
-
-                                        while (k < team->num_cars) {
-                                            car = &shm->race_cars[j][k];
-
-                                            SYNC_CAR
-                                            notify_cond_all(&car->cond);
-                                            END_SYNC_CAR
-
-                                            k++;
-                                        }
-
-                                        j++;
-                                    }
-
-                                    SYNC_CLOCK_VALLEY
-                                    notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
-                                    END_SYNC_CLOCK_VALLEY
-
-                                    SYNC_CLOCK_RISE
-                                    notify_cond_all(&shm->sync_s.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
-                                    END_SYNC_CLOCK_RISE
-
+                                if (check_race_end()) {
                                     return;
                                 }
 
@@ -251,73 +220,50 @@ void handle_all_pipes() {
         }
     }
 }
-
-static void handle_car_state_change(race_car_state_change_t car_state_change, int * end) {
-    switch (car_state_change.new_state) {
-        case RACE:
-            SYNC_CLOCK_VALLEY
-            shm->num_cars_on_track++;
-            notify_cond(&shm->sync_s.clock_valley_cond);
-            END_SYNC_CLOCK_VALLEY
-
-            break;
-        case SAFETY:
-
-            break;
-        case IN_BOX:
-            shm->num_refuels++;
-
-            SYNC_CLOCK_VALLEY
-            shm->num_cars_on_track--;
-            notify_cond(&shm->sync_s.clock_valley_cond);
-            END_SYNC_CLOCK_VALLEY
-
-            if (car_state_change.malfunctioning) {
-                shm->num_malfunctions++;
-            }
-
-            break;
-        case DISQUALIFIED:
-            SYNC_CLOCK_VALLEY
-            shm->num_cars_on_track--;
-            notify_cond(&shm->sync_s.clock_valley_cond);
-            END_SYNC_CLOCK_VALLEY
-
-
-            break;
-        case FINISH:
-            shm->num_finished_cars++;
-
-            SYNC_CLOCK_VALLEY
-            notify_cond(&shm->sync_s.clock_valley_cond);
-            END_SYNC_CLOCK_VALLEY
-
-            // TODO: Improve race finish because its still buggy when there are a lot of cars
-            if (check_race_end()) {
-                * end = true;
-            }
-
-            break;
-    }
-}
-
 static int check_race_end() {
-    int i;
+    int j, k;
     race_box_t * box = NULL;
+    race_team_t * team = NULL;
+    race_car_t * car = NULL;
 
-    if (shm->num_finished_cars == shm->total_num_cars) {
+
+    if (++shm->num_finished_cars == shm->total_num_cars) {
         shm->sync_s.race_running = false;
 
-        i = 0;
+        DEBUG_MSG(CARS_FINISH, EVENT, "")
 
-        while (i < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
-            box = &shm->race_teams[i].team_box;
+        j = 0;
+
+        while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
+            team = &shm->race_teams[j];
+            box = &team->team_box;
+
             SYNC_BOX_COND
-            notify_cond(&box->cond);
+            notify_cond_all(&box->cond);
             END_SYNC_BOX_COND
 
-            i++;
+            k = 0;
+
+            while (k < team->num_cars) {
+                car = &shm->race_cars[j][k];
+
+                SYNC_CAR
+                notify_cond_all(&car->cond);
+                END_SYNC_CAR
+
+                k++;
+            }
+
+            j++;
         }
+
+        SYNC_CLOCK_VALLEY
+        notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
+        END_SYNC_CLOCK_VALLEY
+
+        SYNC_CLOCK_RISE
+        notify_cond_all(&shm->sync_s.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
+        END_SYNC_CLOCK_RISE
 
         return true;
     }

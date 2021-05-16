@@ -153,14 +153,11 @@ static void init_global_clock() {
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
-        SYNC
         while (shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.race_running) {
-            END_SYNC
             DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->sync_s.num_clock_waiters,
-                      (shm->total_num_cars + 1) - shm->sync_s.num_clock_waiters);
+                      (shm->num_cars_on_track + 1) - shm->sync_s.num_clock_waiters);
             wait_cond(&shm->sync_s.clock_valley_cond, &shm->sync_s.clock_valley_mutex);
         }
-        END_SYNC
         END_SYNC_CLOCK_VALLEY
 
         if (!shm->sync_s.race_running) {

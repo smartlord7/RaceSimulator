@@ -298,7 +298,7 @@ void simulate_car(race_car_t * car) {
                 // unlock the previously locked box lock.
                 unlock_mutex(&box->available);
 
-                break;
+                return;
             }
 
             // the car reached the box and now changed its state to IN_BOX.
@@ -420,7 +420,7 @@ void simulate_car(race_car_t * car) {
 
                 DEBUG_MSG(CAR_FINISH, EVENT, car->car_id)
 
-                break;
+                return;
             }
 
             continue;
@@ -439,7 +439,7 @@ void simulate_car(race_car_t * car) {
             // the car's journey has ended :(
             CHANGE_CAR_STATE(DISQUALIFIED);
 
-            break;
+            return;
         }
 
         // check if the car has fuel to at least run for 4 more laps.
