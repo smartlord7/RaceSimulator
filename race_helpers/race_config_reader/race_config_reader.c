@@ -99,7 +99,7 @@ race_config_t * read_race_config() {
     }
 
     FILE * config_file = NULL;
-    race_config_t * config = NULL;
+    race_config_t * cfg = NULL;
 
     if ((config_file = fopen(config_file_path, "r")) == NULL) {
         throw_and_exit(FILE_OPEN_EXCEPTION, config_file_path);
@@ -218,10 +218,10 @@ race_config_t * read_race_config() {
         throw_and_exit(FILE_CLOSE_EXCEPTION, config_file_path);
     }
 
-    config = race_config(time_units_per_sec, lap_distance, malfunction_interval, min_repair_time,
+    cfg = race_config(time_units_per_sec, lap_distance, malfunction_interval, min_repair_time,
     max_repair_time, fuel_tank_capacity, laps_per_race, num_teams, max_cars_per_team);
 
-    return config;
+    return cfg;
 }
 
 // endregion public functions
@@ -238,7 +238,7 @@ static void error_at_line(const char * error_msg, ...) {
 
     va_end(args);
 
-    snprintf(buffer2, sizeof(buffer2), "%s %s", ERROR_AT_LINE, buffer);
+    snprintf(buffer2, sizeof(buffer2), "\n%s\n%s", ERROR_AT_LINE, buffer);
     throw_and_exit(buffer2, current_line + 1, config_file_path);
 
 }

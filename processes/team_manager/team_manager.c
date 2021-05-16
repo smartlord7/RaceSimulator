@@ -67,7 +67,7 @@ void team_manager(void * data){
     team->num_cars = config.max_cars_per_team; // TODO: remove (temp value)
 
     while (i < team->num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 400, 0.9f, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.02f, 400, 0.5, config.fuel_tank_capacity);
 
         SYNC
         shm->total_num_cars++;
@@ -267,7 +267,7 @@ void simulate_car(race_car_t * car) {
     car_state_change.car_id = car->car_id;
 
     // the car is ready to race.
-    set_state(car, RACE);
+    CHANGE_CAR_STATE(RACE);
 
     // the car simulation itself.
     while (true) {
