@@ -91,7 +91,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(EVENT, false);
+    debug_init(TIME, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -202,9 +202,10 @@ void sync_sleep(int time_units) {
             return;
         }
 
-        SYNC
+        SYNC_CLOCK_VALLEY
         shm->sync_s.num_clock_waiters--;
-        END_SYNC
+        notify_cond(&shm->sync_s.clock_valley_cond);
+        END_SYNC_CLOCK_VALLEY
 
         prev_time = shm->sync_s.global_time;
 

@@ -67,7 +67,7 @@ void team_manager(void * data){
     team->num_cars = config.max_cars_per_team; // TODO: remove (temp value)
 
     while (i < team->num_cars) {
-        temp_car = race_car(team, 0, 0.02f, 400, 0.5, config.fuel_tank_capacity);
+        temp_car = race_car(team, 0, 0.02f, 400, 0.8f, config.fuel_tank_capacity);
 
         SYNC
         shm->total_num_cars++;
@@ -279,10 +279,8 @@ void simulate_car(race_car_t * car) {
         // - it is one step or less closer of the position = 0m (where the box is located).
         // - if the box is reserved and the car is in safety mode or the box is free.
         // - if the car can gain access to the box's lock.
-        SYNC_BOX
-        if (box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box &&
+        if (shm->sync_s.race_running && box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box &&
                 ((box->state == RESERVED && car->state == SAFETY) || box->state == FREE) && pthread_mutex_trylock(&box->available) == 0) {
-            END_SYNC_BOX
 
             // spend the needed fuel to reach the box. If the car's position = 0 then the spent fuel is also 0.
             if (car->current_pos != 0) {
@@ -304,20 +302,15 @@ void simulate_car(race_car_t * car) {
             // the car reached the box and now changed its state to IN_BOX.
             CHANGE_CAR_STATE(IN_BOX);
 
-            SYNC_CAR
-            car->num_box_stops++; // TODO: Sync with stats
-            if (car->remaining_fuel <= min_fuel2) {
-                car->num_refuels++; // increment the number of refuels dont till now by the car.
-            } else if (car->state == SAFETY) { // if the car is SAFETY mode but hasn't reached the min fuel. That means the car is malfunctioning.
-                car->num_malfunctions++; // increment the number of malfunctions the car had.
-            }
-            END_SYNC_CAR
+            SYNC
+            car->num_box_stops++;
+            END_SYNC
 
             // notify the box that a new car has arrived.
-            SYNC_BOX
+            SYNC_BOX_COND
             box->current_car = car;
             notify_cond(&box->cond);
-            END_SYNC_BOX
+            END_SYNC_BOX_COND
 
             // wait for the box notification that the its work on the car is done.
             SYNC_CAR_COND
@@ -336,17 +329,20 @@ void simulate_car(race_car_t * car) {
             // the car is now ready to race again
             car->remaining_fuel = config.fuel_tank_capacity;
 
+            car->num_refuels++;
+
             CHANGE_CAR_STATE(RACE);
 
             if (!shm->sync_s.race_running) {
-                END_SYNC_BOX
+
+                CHANGE_CAR_STATE(FINISH);
+
                 exit_thread();
             }
 
             // the car needs the box no more.
             box_needed = false;
         }
-        END_SYNC_BOX
 
         // check if the car has some malfunction.
         if (rcv_msg(malfunction_q_id, (void *) &malfunction_msg, sizeof(malfunction_msg), car->car_id) > 0) {
@@ -362,6 +358,8 @@ void simulate_car(race_car_t * car) {
             team->num_cars_safety++;
             notify_cond(&box->cond);
             END_SYNC_BOX_COND
+
+            car->num_malfunctions++;
 
             // the car needs to access the box.
             box_needed = true;
@@ -431,7 +429,7 @@ void simulate_car(race_car_t * car) {
         // do a discrete spatial step :-)
         car->current_pos += car->current_speed;
 
-        DEBUG_MSG(CAR_MOVE, EVENT, car->car_id, car->current_pos)
+        //DEBUG_MSG(CAR_MOVE, EVENT, car->car_id, car->current_pos)
 
         // check if the car's fuel as reached an end.
         if (car->remaining_fuel <= 0) {

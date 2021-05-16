@@ -11,8 +11,8 @@ mutex_t * mutex = NULL;
 
 static void swap_car(race_car_t * car1, race_car_t * car2);
 static void bubble_sort_race_cars(race_car_t * race_cars, int size);
-static int get_team_name_max_len(race_team_t * race_teams, int size);
-static int get_car_name_max_len(race_car_t * race_cars, int size);
+static int get_team_name_max_len();
+static int get_car_name_max_len();
 static race_car_t * get_all_cars(shared_memory_t * shm_cpy);
 
 void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * mtx) {
@@ -24,7 +24,7 @@ void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * m
 }
 
 void show_stats_table() { // TODO: validate functions result
-    char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], * row_sep_half, * row_sep;
+    char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], * row_sep_half, * row_sep, * race_car_state_str;
     shared_memory_t * shm_cpy = NULL;
     race_car_t * race_cars = NULL, * car = NULL;
     int i, pos, num_table_cars, max_team_name_len, max_car_name_len,
@@ -66,14 +66,14 @@ void show_stats_table() { // TODO: validate functions result
 
     race_cars = get_all_cars(shm_cpy);
 
-    bubble_sort_race_cars(race_cars, shm_cpy->total_num_cars);
+    bubble_sort_race_cars(race_cars, shm_cpy->total_num_cars); // TODO: give last place to disqualified cars
 
     snprintf(buffer, BUFFER_SIZE,
              "\n\n%sRACE STATISTICS%s\n"
-             "%*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
+             " %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
              "%s\n",
              row_sep_half, row_sep_half,
-             MAX_DIGITS - 1, CAR_RACE_POS,
+             -MAX_DIGITS, CAR_RACE_POS,
              -MAX_DIGITS, CAR_ID, -max_car_name_col_width, CAR_NAME,
              -team_id_col_width, CAR_TEAM_ID, -max_team_name_len, CAR_TEAM_NAME,
              car_laps_col_width, CAR_NUM_COMPLETED_LAPS,
@@ -94,14 +94,18 @@ void show_stats_table() { // TODO: validate functions result
             car = &race_cars[i];
         }
 
-        snprintf(aux, BUFFER_SIZE, "%*d | %*d | %*s | %*d | %*s | %*d | %*d | %*s\n",
-                 MAX_DIGITS - 1, pos,
+        race_car_state_str = race_car_state_to_string(car->state);
+
+        snprintf(aux, BUFFER_SIZE, " %*d | %*d | %*s | %*d | %*s | %*d | %*d | %*s\n",
+                 -MAX_DIGITS, pos,
                  -MAX_DIGITS, car->car_id, -max_car_name_col_width,  car->name,
                  -team_id_col_width, car->team->team_id, -max_team_name_col_width,  car->team->team_name,
                  -car_laps_col_width, car->completed_laps, -car_box_stops_col_width,  car->num_box_stops,
-                 -MAX_STATE_LENGTH, race_car_state_to_string(car->state));
+                 -MAX_STATE_LENGTH, race_car_state_str);
         strcat(buffer, aux);
         i++;
+
+        free(race_car_state_str);
     }
 
     snprintf(aux, BUFFER_SIZE, "%s\n", row_sep);
@@ -117,6 +121,11 @@ void show_stats_table() { // TODO: validate functions result
     strcat(buffer, aux);
 
     printf("%s\n", buffer);
+
+    free(row_sep_half);
+    free(row_sep);
+    free(shm_cpy);
+    free(race_cars);
 }
 
 static void swap_car(race_car_t * car1, race_car_t * car2) {
@@ -137,14 +146,11 @@ static void bubble_sort_race_cars(race_car_t * race_cars, int size) {
     }
 }
 
-static int get_team_name_max_len(race_team_t * race_teams, int size) {
-    assert(race_teams != NULL && size > 0);
-
+static int get_team_name_max_len() {
     int max_len = -1, i = 0, len;
 
-    while (i < size) {
-        len = (int) strlen(race_teams[i].team_name);
-
+    while (i < conf->num_teams) {
+        len = (int) strlen(sha_mem->race_teams[i].team_name);
         if (len > max_len) {
             max_len = len;
         }
@@ -155,20 +161,32 @@ static int get_team_name_max_len(race_team_t * race_teams, int size) {
     return max_len;
 }
 
-static int get_car_name_max_len(race_car_t * race_cars, int size) {
-    assert(race_cars != NULL && size > 0);
+static int get_car_name_max_len() {
+    int max_len, len, i, j;
+    race_team_t * team = NULL;
+    race_car_t * car = NULL;
 
-    int max_len = -1, i = 0, len;
+    max_len = -1;
+    i = 0;
 
-    while (i < size) {
-        len = (int) strlen(race_cars[i].name);
+    while (i < conf->num_teams) {
+        team = &sha_mem->race_teams[i];
+        j = 0;
 
-        if (len > max_len) {
-            max_len = len;
+        while (j < team->num_cars) {
+            car = &sha_mem->race_cars[i][j];
+            len = (int) strlen(car->name);
+
+            if (len > max_len) {
+                max_len = len;
+            }
+
+            j++;
         }
 
         i++;
     }
+
 
     return max_len;
 }
@@ -179,9 +197,9 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     race_team_t * team = NULL;
 
     cars = (race_car_t *) malloc(shm_cpy->total_num_cars * sizeof(race_car_t));
-
     i = 0;
     k = 0;
+
     while (i < conf->num_teams) { //TODO: replace by config
         j = 0;
         team = &sha_mem->race_teams[i];

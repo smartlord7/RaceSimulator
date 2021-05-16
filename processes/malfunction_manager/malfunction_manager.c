@@ -80,7 +80,7 @@ static void generate_malfunctions(void) {
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
                     msg.car_id = car->car_id;
-                    snd_msg(malfunction_q_id, (void *) &msg, sizeof(msg));
+                    snd_msg(malfunction_q_id, (void *) &msg, sizeof(malfunction_t));
                 }
                 END_SYNC_CAR
             }
@@ -89,7 +89,6 @@ static void generate_malfunctions(void) {
         sync_sleep(config.malfunction_interval);
 
         if (!shm->sync_s.race_running) {
-
             return;
         }
     }

@@ -22,6 +22,7 @@
 #include "../team_manager/team_manager.h"
 #include "race_manager.h"
 #include "../../race_helpers/cmd_validator/cmd_validator.h"
+#include "../../race_helpers/stats_helper/stats_helper.h"
 
 // endregion dependencies
 
@@ -44,7 +45,7 @@ void race_manager(){
     pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
     create_teams(num_teams);
     handle_named_pipe();
-    notify_race_start(); // TODO: notify team managers instead of cars
+    notify_race_start();
     handle_all_pipes();
 
     wait_procs();
@@ -90,7 +91,7 @@ void handle_named_pipe() {
             n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGE_SIZE * sizeof(char));
             if (n > 0) {
                 buffer[n - 1]= '\0';
-                remove_new_line(buffer, (int) strlen(buffer));
+                strtok(buffer, "\n");
                 result = interpret_command(buffer, &car_data);
                 strcpy(aux_buffer, buffer);
 
@@ -153,12 +154,14 @@ void handle_all_pipes() {
 
                         switch (car_state_change.new_state) {
                             case RACE:
-                                SYNC
-                                SYNC_CLOCK_VALLEY
-                                shm->num_cars_on_track++;
-                                notify_cond(&shm->sync_s.clock_valley_cond);
-                                END_SYNC_CLOCK_VALLEY
-                                END_SYNC
+                                if (car_state_change.prev_state != IN_BOX) {
+                                    SYNC
+                                    SYNC_CLOCK_VALLEY
+                                    shm->num_cars_on_track++;
+                                    notify_cond(&shm->sync_s.clock_valley_cond);
+                                    END_SYNC_CLOCK_VALLEY
+                                    END_SYNC
+                                }
 
                                 if (car_state_change.prev_state == IN_BOX) {
                                     SYNC
@@ -177,6 +180,7 @@ void handle_all_pipes() {
                                 break;
 
                             case IN_BOX:
+                                break;
                             case DISQUALIFIED:
                                 SYNC
                                 SYNC_CLOCK_VALLEY
@@ -186,6 +190,7 @@ void handle_all_pipes() {
                                 END_SYNC
 
                                 if (check_race_end()) {
+                                    show_stats_table();
                                     return;
                                 }
 
@@ -207,6 +212,7 @@ void handle_all_pipes() {
                                 }
 
                                 if (check_race_end()) {
+                                    show_stats_table();
                                     return;
                                 }
 
@@ -225,7 +231,6 @@ static int check_race_end() {
     race_car_t * car = NULL;
 
     if (++shm->num_finished_cars == shm->total_num_cars) {
-
         shm->sync_s.race_running = false;
 
         DEBUG_MSG(RACE_END, EVENT, "")
