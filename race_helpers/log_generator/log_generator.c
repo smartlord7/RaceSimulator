@@ -77,8 +77,7 @@ void log_close(){
 
 }
 
-void generate_log_entry(log_mode mode, void * data){
-    race_car_t * car = NULL;
+void generate_log_entry(log_mode mode, void * main_data, void * sec_data) {
     char entry[LARGE_SIZE], * aux = NULL;
     snprintf(entry, LARGE_SIZE, "%s => ", get_curr_time_as_str());
 
@@ -100,33 +99,34 @@ void generate_log_entry(log_mode mode, void * data){
                 append_f(entry, "THE RACE CANNOT START!");
                 break;
             case COMMAND_RECEIVE:
-                append_f(entry, "COMMAND RECEIVED: \n '%s'", (char *) data);
+                append_f(entry, "COMMAND RECEIVED: \n '%s'", (char *) main_data);
                 break;
             case COMMAND_REJECT:
-                append_f(entry, "COMMAND REJECTED: \n'%s'", (char *) data);
+                append_f(entry, "COMMAND REJECTED: \n'%s'", (char *) main_data);
                 break;
             case COMMAND_REJECT2:
-                append_f(entry, "THE RACE HAS ALREADY BEGAN! COMMAND REJECTED:\n'%s'", (char *) data);
+                append_f(entry, "THE RACE HAS ALREADY BEGAN! COMMAND REJECTED:\n'%s'", (char *) main_data);
                 break;
             case SIGNAL_RECEIVE:
-                append_f(entry, "SIGNAL %s RECEIVED!", (char *) data);
+                append_f(entry, "SIGNAL %s RECEIVED!", (char *) main_data);
                 break;
             case CAR_REJECT:
-                append_f(entry, "CAR REJECTED: \n%s", (char *) data);
+                append_f(entry, "CAR REJECTED: \n%s", (char *) main_data);
                 break;
             default:
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
                 break;
         }
     } else {
-        car = (race_car_t *) data;
+        race_car_t * car = (race_car_t *) main_data;
 
         switch (mode) {
             case CAR_LOAD:
                 append_f(entry, "CAR %s FROM TEAM '%s' LOADED", car->name, car->team->team_name);
                 break;
             case CAR_MALFUNCTION:
-                append_f(entry, "CAR %s FROM TEAM %s IS MALFUNCTIONING!", car->name, car->team->team_name);
+                append_f(entry, "CAR %s FROM TEAM %s IS MALFUNCTIONING!\n"
+                                "MALFUNCTION DESCRIPTION: %s", car->name, car->team->team_name, (char *) sec_data);
                 break;
             case CAR_STATE_CHANGE:
                 aux = race_car_state_to_string(car->state);
@@ -154,6 +154,9 @@ void generate_log_entry(log_mode mode, void * data){
                 break;
             case CAR_OUT_OF_FUEL:
                 append_f(entry, "CAR %s FROM TEAM %s RAN OUT OF FUEL!", car->name, car->team->team_name);
+                break;
+            case CAR_COMPLETE_LAP:
+                append_f(entry, "CAR %s HAS COMPLETED %d LAPS!", car->name, car->completed_laps);
                 break;
             case CAR_FINISH:
                 append_f(entry, "CAR %s FROM TEAM %s HAS FINISHED THE RACE AT %d tu!", car->name, car->team->team_name,

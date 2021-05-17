@@ -75,20 +75,20 @@ void handle_named_pipe() {
                     switch (result) {
                         case RESULT_NEW_CAR:
                             register_car(&car_data, team_id);
-                            generate_log_entry(CAR_LOAD, (void *) &car_data);
+                            generate_log_entry(CAR_LOAD, (void *) &car_data, NULL);
                             break;
                         case RESULT_INVALID_CAR:
-                            generate_log_entry(CAR_REJECT, buffer2 + strlen(ADDCAR) + 1);
+                            generate_log_entry(CAR_REJECT, buffer2 + strlen(ADDCAR) + 1, NULL);
                             break;
                         case RESULT_BEGIN_RACE:
-                            generate_log_entry(RACE_START, NULL);
+                            generate_log_entry(RACE_START, NULL, NULL);
                             end_read = true;
                             break;
                         case RESULT_CANNOT_START_RACE:
-                            generate_log_entry(RACE_CANNOT_START, buffer2);
+                            generate_log_entry(RACE_CANNOT_START, buffer2, NULL);
                             break;
                         default:
-                            generate_log_entry(COMMAND_REJECT, buffer2);
+                            generate_log_entry(COMMAND_REJECT, buffer2, NULL);
                             break;
                     }
                 } while ((aux = strtok_r(NULL, DELIM_3, &aux2)) != NULL);
@@ -120,7 +120,7 @@ void handle_all_pipes() {
 
                             if (n > 0) {
                                 buffer[n - 1] = '\0';
-                                generate_log_entry(COMMAND_REJECT2, (void *) buffer);
+                                generate_log_entry(COMMAND_REJECT2, (void *) buffer, NULL);
                             }
                         } while (n > 0);
 
@@ -130,7 +130,7 @@ void handle_all_pipes() {
                         read_stream(pipe_fds[i], (void *) &car_state_change, sizeof(race_car_state_change_t));
                         car = &shm->race_cars[car_state_change.team_id][car_state_change.car_team_index];
 
-                        generate_log_entry(CAR_STATE_CHANGE, car);
+                        generate_log_entry(CAR_STATE_CHANGE, car, NULL);
 
                         switch (car_state_change.new_state) {
                             case RACE:
@@ -177,7 +177,7 @@ void handle_all_pipes() {
                                 }
 
                                 if (!race_winner) {
-                                    generate_log_entry(CAR_RACE_WIN, car);
+                                    generate_log_entry(CAR_RACE_WIN, car, NULL);
 
                                     race_winner = true;
                                 }

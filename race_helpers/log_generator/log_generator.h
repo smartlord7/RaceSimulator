@@ -36,6 +36,7 @@ typedef enum log_mode {
     CAR_STATE_CHANGE,
     CAR_RACE_WIN,
     CAR_OUT_OF_FUEL,
+    CAR_COMPLETE_LAP,
     CAR_FINISH,
     CAR_FIX,
     CAR_REFUEL,
@@ -64,11 +65,11 @@ typedef enum log_mode {
  * @param mode
  * The mode in which the function is called.
  *
- * @param data
+ * @param main_data
  * Additional data needed for some cases.
  *
  */
-void generate_log_entry(log_mode mode, void * data);
+void generate_log_entry(log_mode mode, void *main_data, void *sec_data);
 
 /**
  * @def log_init
