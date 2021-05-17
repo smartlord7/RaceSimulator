@@ -43,7 +43,6 @@
 #define TIMESTAMP_DELIMITER " "
 #define OF_TIMESTAMP " OF TIMESTAMP"
 #define NUM_TIMESTAMP_FIELDS 3
-#define MUTEX "MUTEX"
 #define true 1
 #define false 0
 

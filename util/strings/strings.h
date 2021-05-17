@@ -10,6 +10,8 @@
 #ifndef RACE_SIMULATOR_C_STRINGS_H
 #define RACE_SIMULATOR_C_STRINGS_H
 
+#define BUF_SIZE 512
+
 // region public functions prototypes
 
 /**
@@ -43,6 +45,7 @@ char * string(int size);
  *
  */
 extern char * append(char * first, char * second);
+extern char * append_f(char * first, const char * fmt, ...);
 extern char * trim_string(char * buffer, int size);
 extern int starts_with(char * string, char * string2);
 extern int starts_with_ignore_case(char * string, char * string2);

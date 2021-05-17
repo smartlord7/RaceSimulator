@@ -93,7 +93,7 @@ void manage_box(race_box_t *box) {
     // declare the needed variables
     race_car_t *car = NULL;
     race_team_t *team = NULL;
-    uint fuel_time, repair_time;
+    int repair_time;
 
     // initialize the needed variables
     team = box->team;

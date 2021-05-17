@@ -22,6 +22,7 @@
 #include "../../util/global.h"
 #include "../../ipcs/memory_mapped_file/memory_mapped_file.h"
 #include "../../util/file/file.h"
+#include "../../util/strings/strings.h"
 
 // endregion dependencies
 
@@ -31,12 +32,12 @@
 // region private functions prototypes
 
 /**
- * @def get_time
+ * @def get_curr_time_as_str
  * @brief Function that gives the current time in the hh:mm:ss format.
  *
  * @return Current local system time in the hh:mm:ss format.
  */
-char * get_time();
+char * get_curr_time_as_str();
 
 // endregion private functions prototypes
 
@@ -77,76 +78,75 @@ void log_close(){
 
 void generate_log_entry(int mode, void * data){
     race_car_t * car;
-    char entry[LARGEST_SIZE];
+    char entry[LARGE_SIZE];
+    snprintf(entry, LARGE_SIZE, "%s => ", get_curr_time_as_str());
 
     switch (mode) {
         case I_SIMULATION_START:
-            snprintf(entry, LARGEST_SIZE, "%s => STARTING SIMULATION\n", get_time());
+            append(entry, "STARTING SIMULATION");
             break;
         case I_SIMULATION_END:
-            snprintf(entry, LARGEST_SIZE, "%s => CLOSING SIMULATION\n", get_time());
+            append(entry, "ENDING SIMULATION");
             break;
         case I_COMMAND_RECEIVED:
-            snprintf(entry, LARGEST_SIZE, "%s => COMMAND RECEIVED:\n'%s'\n", get_time(), (char *) data);
+            append_f(entry, "COMMAND RECEIVED: \n '%s'", (char *) data);
             break;
         case I_COMMAND_REJECTED:
-            snprintf(entry, LARGEST_SIZE, "%s => COMMAND REJECTED:\n'%s'\n", get_time(), (char *) data);
+            append_f(entry, "COMMAND REJECTED: \n'%s'", (char *) data);
             break;
         case I_CAR_LOADED:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM '%s' LOADED\n", get_time(), car->name,
-                     car->team->team_name);
+            append_f(entry, "CAR %s FROM TEAM '%s' LOADED", car->name, car->team->team_name);
             break;
         case I_CAR_REJECTED:
-            snprintf(entry, LARGEST_SIZE, "%s => CAR REJECTED:\n%s\n", get_time(), (char *) data);
+            append_f(entry, "CAR REJECTED: \n%s", (char *) data);
             break;
         case I_RACE_START:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE STARTED\n", get_time());
+            append_f(entry, "THE RACE HAS STARTED!");
             break;
         case I_CANNOT_START:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE CANNOT START\n", get_time());
+            append_f(entry, "THE RACE CANNOT START!");
             break;
         case I_CAR_MALFUNCTION:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s SUFFERED MALFUNCTION\n", get_time(), car->name,
-                     car->team->team_name);
+            append_f(entry, "CAR %s FROM TEAM %s IS MALFUNCTIONING!", car->name, car->team->team_name);
             break;
         case I_SIGNAL_RECEIVED:
-            snprintf(entry, LARGEST_SIZE, "%s => SIGNAL %s RECEIVED\n", get_time(), (char *) data);
+            append_f(entry, "SIGNAL %s RECEIVED!", (char *) data);
             break;
         case I_RACE_WIN:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s WON\n", get_time(), car->name,
-                     car->team->team_name);
+            append_f(entry, "CAR %s FROM TEAM %s WON THE RACE AT %d tu!", car->name, car->team->team_name, shm->sync_s.global_time);
             break;
         case I_COMMAND_REJECTED_2:
-            snprintf(entry, LARGEST_SIZE, "%s => RACE ALREADY BEGAN! COMMAND REJECTED:\n'%s'\n", get_time(), (char *) data);
+            append_f(entry, "THE RACE HAS ALREADY BEGAN! COMMAND REJECTED:\n'%s'", (char *) data);
             break;
         case I_BOX_REFUEL:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX FOR REFUELLING\n", get_time(), car->name);
+            append_f(entry, "CAR %s ENTERED TEAM BOX FOR REFUELLING!", car->name);
             break;
         case I_BOX_MALFUNCTION:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION\n", get_time(), car->name);
+            append_f(entry, "CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION!", car->name);
             break;
         case I_BOX_LEFT:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s LEFT TEAM BOX\n", get_time(), car->name);
+            append_f(entry, "CAR %s LEFT TEAM BOX AND IS NOW READY TO RACE!", car->name);
             break;
         case I_CAR_RAN_OUT_OF_FUEL:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s RAN OUT OF FUEL THEREFORE IS DISQUALIFIED\n", get_time(), car->name, car->team->team_name);
+            append_f(entry, "CAR %s FROM TEAM %s RAN OUT OF FUEL!", car->name, car->team->team_name);
             break;
         case I_CAR_FINISH:
             car = (race_car_t *) data;
-            snprintf(entry, LARGEST_SIZE, "%s => CAR %s FROM TEAM %s HAS FINISHED THE RACE\n", get_time(), car->name, car->team->team_name);
+            append_f(entry, "CAR %s FROM TEAM %s HAS FINISHED THE RACE AT %d tu!", car->name, car->team->team_name, shm->sync_s.global_time);
             break;
         default:
             throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
             break;
     }
 
+    append(entry, "\n");
     printf("%s", entry);
     write_stream(log_fd, entry, strlen(entry));
 }
@@ -155,7 +155,7 @@ void generate_log_entry(int mode, void * data){
 
 // region private functions
 
-char * get_time(){
+char * get_curr_time_as_str(){
     time_t current_time;
     char * buffer, * token, * result;
     int i;
