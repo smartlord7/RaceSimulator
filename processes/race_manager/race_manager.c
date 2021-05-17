@@ -103,6 +103,8 @@ void handle_all_pipes() {
     char buffer[LARGE_SIZE];
     race_car_state_change_t car_state_change;
     race_car_t * car = NULL;
+    race_team_t * team = NULL;
+    race_box_t * box = NULL;
 
     while (true) {
         FD_ZERO(&read_set);
@@ -129,6 +131,8 @@ void handle_all_pipes() {
                     } else {
                         read_stream(pipe_fds[i], (void *) &car_state_change, sizeof(race_car_state_change_t));
                         car = &shm->race_cars[car_state_change.team_id][car_state_change.car_team_index];
+                        box = &car->team->team_box;
+                        team = car->team;
 
                         generate_log_entry(CAR_STATE_CHANGE, car, NULL);
 
@@ -142,6 +146,11 @@ void handle_all_pipes() {
 
                                 break;
                             case SAFETY:
+                                SYNC_BOX_COND
+                                team->num_cars_safety++;
+                                notify_cond(&box->cond);
+                                END_SYNC_BOX_COND
+
                                 if (car_state_change.malfunctioning) {
                                     SYNC
                                     shm->num_malfunctions++;
@@ -151,8 +160,18 @@ void handle_all_pipes() {
                                 break;
 
                             case IN_BOX:
+                                if (car_state_change.prev_state == SAFETY) {
+                                    team->num_cars_safety--; // does not need sync since the box will know this change in the next loop iteration.
+                                }
                                 break;
                             case DISQUALIFIED:
+                                if (car_state_change.prev_state == SAFETY) {
+                                    SYNC_BOX_COND
+                                    team->num_cars_safety--;
+                                    notify_cond(&box->cond);
+                                    END_SYNC_BOX_COND
+                                }
+
                                 SYNC
                                 SYNC_CLOCK_VALLEY
                                 shm->num_cars_on_track--;
@@ -167,6 +186,13 @@ void handle_all_pipes() {
 
                                 break;
                             case FINISH:
+                                if (car_state_change.prev_state == SAFETY) {
+                                    SYNC_BOX_COND
+                                    team->num_cars_safety--;
+                                    notify_cond(&box->cond);
+                                    END_SYNC_BOX_COND
+                                }
+
                                 if (car_state_change.prev_state != FINISH) {
                                     SYNC
                                     SYNC_CLOCK_VALLEY
