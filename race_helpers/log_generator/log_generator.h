@@ -10,40 +10,51 @@
 #ifndef RACE_SIMULATOR_C_LOG_GENERATOR_H
 #define RACE_SIMULATOR_C_LOG_GENERATOR_H
 
-// region dependencies
-
-#include <semaphore.h>
-
-// endregion dependencies
-
 // region constants
 
 // region log_gen input modes
 
-#define I_SIMULATION_START 0
-#define I_SIMULATION_END 1
-#define I_COMMAND_RECEIVED 2
-#define I_COMMAND_REJECTED 3
-#define I_CAR_LOADED 4
-#define I_CAR_REJECTED 5
-#define I_RACE_START 6
-#define I_CANNOT_START 7
-#define I_CAR_MALFUNCTION 8
-#define I_SIGNAL_RECEIVED 9
-#define I_RACE_WIN 10
-#define I_COMMAND_REJECTED_2 11
-#define I_BOX_REFUEL 12
-#define I_BOX_MALFUNCTION 13
-#define I_BOX_LEFT 14
-#define I_CAR_RAN_OUT_OF_FUEL 15
-#define I_CAR_FINISH 16
+typedef enum log_msg {
+    ERROR_MISSING_CAR_ATTR,
+    ERROR_INVALID_CAR_ATTR,
+    ERROR_MISSING_CAR_ATTR_VALUE,
+    ERROR_INVALID_CAR_ATTR_VALUE,
+    ERROR_NOT_ENOUGH_TEAMS,
+    ERROR_TOO_MANY_TEAMS,
+    ERROR_TOO_MANY_CARS,
+    ERROR_UNIQUE_CONSTRAINT_VIOLATED,
+    SIMULATION_START,
+    SIMULATION_END,
+    RACE_START,
+    RACE_FINISH,
+    RACE_CANNOT_START,
+    COMMAND_RECEIVE,
+    COMMAND_REJECT,
+    COMMAND_REJECT2,
+    CAR_REJECT,
+    SIGNAL_RECEIVE,
+    CAR_LOAD,
+    CAR_MALFUNCTION,
+    CAR_STATE_CHANGE,
+    CAR_RACE_WIN,
+    CAR_OUT_OF_FUEL,
+    CAR_COMPLETE_LAP,
+    CAR_FINISH,
+    BOX_STATE_CHANGE,
+    BOX_FIX,
+    BOX_REFUEL,
+    BOX_REFUEL_ENTER,
+    BOX_MALFUNCTION_ENTER,
+    BOX_LEAVE
+} log_msg;
 
 // endregion log_gen input modes
 
+#define FACTOR 4
+#define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n\n"
 #define TIMESTAMP_DELIMITER " "
 #define OF_TIMESTAMP " OF TIMESTAMP"
 #define NUM_TIMESTAMP_FIELDS 3
-#define MUTEX "MUTEX"
 #define true 1
 #define false 0
 
@@ -58,11 +69,11 @@
  * @param mode
  * The mode in which the function is called.
  *
- * @param data
+ * @param main_data
  * Additional data needed for some cases.
  *
  */
-void generate_log_entry(int mode, void * data);
+void generate_log_entry(log_msg mode, void *main_data, void *sec_data);
 
 /**
  * @def log_init

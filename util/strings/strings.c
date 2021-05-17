@@ -9,11 +9,14 @@
 
 // region dependencies
 
+#include <stdarg.h>
+#include <stdio.h>
 #include "stdlib.h"
 #include "string.h"
 #include "assert.h"
 #include "ctype.h"
 #include "../exception_handler/exception_handler.h"
+#include "strings.h"
 
 // endregion dependencies
 
@@ -45,6 +48,22 @@ char * append(char * first, char * second) {
     if (strcat(first, second) == NULL) {
         throw_and_exit(STRCAT_EXCEPTION, "");
     }
+
+    return first;
+}
+
+char * append_f(char * first, const char * fmt, ...) {
+    assert(first != NULL && fmt != NULL);
+
+    char buffer[BUF_SIZE];
+
+    va_list args;
+    va_start(args, fmt);
+
+    vsnprintf(buffer, BUF_SIZE, fmt, args);
+    append(first, buffer);
+
+    va_end(args);
 
     return first;
 }

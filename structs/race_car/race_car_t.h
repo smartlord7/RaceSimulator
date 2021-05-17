@@ -104,7 +104,7 @@ typedef struct race_car_t{
     race_car_state state;
     mutex_t cond_mutex, access_mutex;
     cond_t cond;
-    int car_id,
+    int team_index, car_id,
             completed_laps,
             num_box_stops,
             num_malfunctions,

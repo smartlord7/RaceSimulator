@@ -18,7 +18,7 @@
 #define RACE_NUM_CARS_ON_TRACK "CARS ON TRACK: "
 
 #define BUFFER_SIZE 2048
-#define NUM_TOP_CARS 5
+#define NUM_TOP_CARS 15
 #define MAX_DIGITS 3
 #define NUM_COLS 7
 #define MAX_STATE_LENGTH 5
