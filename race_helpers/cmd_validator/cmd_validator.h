@@ -22,6 +22,6 @@
 
 extern int interpret_command(char * buffer, race_car_t * car, int * team_id);
 
-extern int num_registed_teams;
+extern int num_registered_teams;
 
 #endif //RACE_HELPERS_CMD_VALIDATOR_H

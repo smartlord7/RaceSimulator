@@ -38,7 +38,6 @@
 #define END_SYNC_CAR_COND unlock_mutex(&car->cond_mutex);
 #define SYNC_BOX_COND lock_mutex(&box->mutex);
 #define END_SYNC_BOX_COND unlock_mutex(&box->mutex);
-
 #define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
 #define NAMED_PIPE_INDEX 0
 #define GLOBAL_CLOCK_SAYS "[GLOBAL_CLOCK] "

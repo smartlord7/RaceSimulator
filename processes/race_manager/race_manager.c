@@ -41,7 +41,7 @@ void race_manager(){
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
 
     int num_teams = config.num_teams;
-    num_registed_teams = 0;
+    num_registered_teams = 0;
 
     pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
     initialize_team_slots(num_teams);
@@ -280,7 +280,7 @@ void create_team(char * team_name, int * team_id) {
     strcpy(team->team_name, team_name);
     team->team_id = i;
     *team_id = i;
-    num_registed_teams++;
+    num_registered_teams++;
 
     create_unn_pipe(unn_pipe_fds);
     pipe_fds[i + 1] = unn_pipe_fds[0];

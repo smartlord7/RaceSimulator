@@ -74,11 +74,41 @@ void log_close(){
 
 }
 
-void generate_log_entry(log_mode mode, void * main_data, void * sec_data) {
+void generate_log_entry(log_msg mode, void * main_data, void * sec_data) {
     char entry[LARGE_SIZE], * aux = NULL;
     snprintf(entry, LARGE_SIZE, "%s => ", get_curr_time_as_str());
 
-    if (mode < CAR_LOAD) {
+    if (mode < SIMULATION_START) {
+        switch (mode) {
+            case ERROR_MISSING_CAR_ATTR:
+                append_f(entry, "ERROR: MISSING CAR ATTRIBUTE NAMED '%s'!", (char *) main_data);
+                break;
+            case ERROR_INVALID_CAR_ATTR:
+                append_f("ERROR: CAR HAS NO ATTRIBUTE NAMED '%s'!", (char *) main_data);
+                break;
+            case ERROR_MISSING_CAR_ATTR_VALUE:
+                append_f(entry, "ERROR: MISSING VALUE OF CAR ATTRIBUTE '%s'!", * (int *) main_data);
+                break;
+            case ERROR_INVALID_CAR_ATTR_VALUE:
+                append_f(entry, "ERROR: INVALID VALUE %s OF CAR ATTRIBUTE '%s'!", * (int *) main_data, (char *) sec_data);
+                break;
+            case ERROR_NOT_ENOUGH_TEAMS:
+                append_f(entry, "ERROR: NOT ENOUGH TEAMS! THE NEEDED NUMBER IS %d!", config.num_teams);
+                break;
+            case ERROR_TOO_MANY_TEAMS:
+                append_f(entry, "ERROR: TOO MANY TEAMS! THE MAXIMUM NUMBER IS %d!", config.num_teams);
+                break;
+            case ERROR_TOO_MANY_CARS:
+                append_f(entry, "ERROR: TOO MANY CARS IN TEAM! THE MAXIMUM NUMBER IS %d!", config.max_cars_per_team);
+                break;
+            case ERROR_UNIQUE_CONSTRAINT_VIOLATED:
+                append_f(entry, "ERROR: CAR PARAM '%s' WITH VALUE '%s' ALREADY EXISTS!", (char *) main_data, (char *) sec_data);
+                break;
+            default:
+                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
+                break;
+        }
+    } else if (mode < CAR_LOAD) {
         switch (mode) {
             case SIMULATION_START:
                 append(entry, "STARTING SIMULATION...");

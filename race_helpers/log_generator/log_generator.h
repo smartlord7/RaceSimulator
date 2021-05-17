@@ -14,7 +14,15 @@
 
 // region log_gen input modes
 
-typedef enum log_mode {
+typedef enum log_msg {
+    ERROR_MISSING_CAR_ATTR,
+    ERROR_INVALID_CAR_ATTR,
+    ERROR_MISSING_CAR_ATTR_VALUE,
+    ERROR_INVALID_CAR_ATTR_VALUE,
+    ERROR_NOT_ENOUGH_TEAMS,
+    ERROR_TOO_MANY_TEAMS,
+    ERROR_TOO_MANY_CARS,
+    ERROR_UNIQUE_CONSTRAINT_VIOLATED,
     SIMULATION_START,
     SIMULATION_END,
     RACE_START,
@@ -38,8 +46,7 @@ typedef enum log_mode {
     BOX_REFUEL_ENTER,
     BOX_MALFUNCTION_ENTER,
     BOX_LEAVE
-
-} log_mode;
+} log_msg;
 
 // endregion log_gen input modes
 
@@ -64,7 +71,7 @@ typedef enum log_mode {
  * Additional data needed for some cases.
  *
  */
-void generate_log_entry(log_mode mode, void *main_data, void *sec_data);
+void generate_log_entry(log_msg mode, void *main_data, void *sec_data);
 
 /**
  * @def log_init
