@@ -36,7 +36,7 @@
  */
 static void manage_box(race_box_t *box);
 
-static void *race_car_worker(void *data);
+static void * race_car_worker(void *data);
 
 static void simulate_car(race_car_t *car);
 

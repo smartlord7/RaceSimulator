@@ -12,7 +12,7 @@ static int check_start_conditions();
 static int get_team_id_by_name(char * team_name);
 static int validate_car(char * buffer, race_car_t * car, int * team_id);
 static int validate_team(char * buffer, race_team_t * team);
-static int validate_number(char * buffer, char * expected_cmd, float * result);
+static int validate_number(char * buffer, const char * expected_attr, float * result);
 static int is_car_name_unique(char * car_name);
 
 int num_registered_teams;
@@ -97,7 +97,6 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     }
     strcpy(aux, token);
     if (!validate_number(aux, SPEED, &speed) || speed <= 0) {
-        generate_log_entry(ERROR_INVALID_CAR_ATTR_VALUE, (void *) aux, (void *) SPEED);
         return false;
     }
 
@@ -108,7 +107,6 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     }
     strcpy(aux, token);
     if (!validate_number(aux, CONSUMPTION, &consumption) || consumption <= 0)  {
-        generate_log_entry(ERROR_INVALID_CAR_ATTR_VALUE, (void *) aux, (void *) CONSUMPTION);
         return false;
     }
 
@@ -119,7 +117,6 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     }
     strcpy(aux, token);
     if (!validate_number(aux, RELIABILITY, &reliability) || reliability <= 0 || reliability > 100) {
-        generate_log_entry(ERROR_INVALID_CAR_ATTR_VALUE, (void *) aux, (void *) RELIABILITY);
         return false;
     }
 
@@ -178,24 +175,28 @@ static int validate_team(char * buffer, race_team_t * team) {
     }
 }
 
-static int validate_number(char * buffer, char * expected_cmd, float * result) {
-    char * cmd_field, * value_field;
+static int validate_number(char * buffer, const char * expected_attr, float * result) {
+    char * cmd_field, * field_value;
     float value;
 
     if ((cmd_field = strtok_r(buffer, DELIM_2, &buffer)) == NULL) {
+
         return false;
     }
     cmd_field = trim_string(cmd_field, (int) strlen(cmd_field));
 
-    if (!strcasecmp(cmd_field, expected_cmd)) {
+    if (!strcasecmp(cmd_field, expected_attr)) {
 
-        if ((value_field = strtok_r(NULL, DELIM_2, &buffer)) == NULL) {
+        if ((field_value = strtok_r(NULL, DELIM_2, &buffer)) == NULL) {
+
             return false;
         }
 
-        value_field = trim_string(value_field, (int) strlen(value_field));
+        field_value = trim_string(field_value, (int) strlen(field_value));
 
-        if (to_float(value_field, &value) == FLOAT_CONVERSION_FAILURE || value <= 0) {
+        if (to_float(field_value, &value) == FLOAT_CONVERSION_FAILURE || value <= 0) {
+            generate_log_entry(ERROR_INVALID_CAR_ATTR_VALUE, (void *) field_value, (void *) expected_attr);
+
             return false;
         }
 
@@ -204,6 +205,8 @@ static int validate_number(char * buffer, char * expected_cmd, float * result) {
         return true;
 
     }
+
+    generate_log_entry(ERROR_INVALID_CAR_ATTR, (void *) cmd_field, NULL);
 
     return false;
 }

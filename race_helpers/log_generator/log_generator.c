@@ -24,9 +24,6 @@
 
 // endregion dependencies
 
-#define FACTOR 4
-#define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n\n"
-
 // region private functions prototypes
 
 /**
@@ -87,10 +84,10 @@ void generate_log_entry(log_msg mode, void * main_data, void * sec_data) {
                 append_f("ERROR: CAR HAS NO ATTRIBUTE NAMED '%s'!", (char *) main_data);
                 break;
             case ERROR_MISSING_CAR_ATTR_VALUE:
-                append_f(entry, "ERROR: MISSING VALUE OF CAR ATTRIBUTE '%s'!", * (int *) main_data);
+                append_f(entry, "ERROR: MISSING VALUE OF CAR ATTRIBUTE '%s'!", (char *) main_data);
                 break;
             case ERROR_INVALID_CAR_ATTR_VALUE:
-                append_f(entry, "ERROR: INVALID VALUE %s OF CAR ATTRIBUTE '%s'!", * (int *) main_data, (char *) sec_data);
+                append_f(entry, "ERROR: INVALID VALUE '%s' FOR CAR ATTRIBUTE '%s'!", (char *) main_data, (char *) sec_data);
                 break;
             case ERROR_NOT_ENOUGH_TEAMS:
                 append_f(entry, "ERROR: NOT ENOUGH TEAMS! THE NEEDED NUMBER IS %d!", config.num_teams);

@@ -50,6 +50,8 @@ typedef enum log_msg {
 
 // endregion log_gen input modes
 
+#define FACTOR 4
+#define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n\n"
 #define TIMESTAMP_DELIMITER " "
 #define OF_TIMESTAMP " OF TIMESTAMP"
 #define NUM_TIMESTAMP_FIELDS 3
