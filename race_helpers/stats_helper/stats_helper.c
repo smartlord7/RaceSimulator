@@ -50,7 +50,7 @@ void show_stats_table() { // TODO: validate functions result
     }
 
     if (max_team_name_len > max_team_name_col_width) {
-        max_team_name_col_width = max_car_name_len;
+        max_team_name_col_width = max_team_name_len;
     }
 
     row_width = 7 * (NUM_COLS - 1) + MAX_DIGITS + max_car_name_col_width +
@@ -75,7 +75,7 @@ void show_stats_table() { // TODO: validate functions result
              row_sep_half, row_sep_half,
              -MAX_DIGITS, CAR_RACE_POS,
              -MAX_DIGITS, CAR_ID, -max_car_name_col_width, CAR_NAME,
-             -team_id_col_width, CAR_TEAM_ID, -max_team_name_len, CAR_TEAM_NAME,
+             -team_id_col_width, CAR_TEAM_ID, -max_team_name_col_width, CAR_TEAM_NAME,
              car_laps_col_width, CAR_NUM_COMPLETED_LAPS,
              car_box_stops_col_width, CAR_NUM_BOX_STOPS,
              5, CAR_STATE,

@@ -26,7 +26,7 @@
 // endregion dependencies
 
 #define FACTOR 4
-#define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n"
+#define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n\n"
 
 // region private functions prototypes
 
@@ -163,12 +163,12 @@ char * get_time(){
     current_time = time(NULL);
     buffer = asctime(localtime(&current_time));
 
-    if ((token = strtok(buffer, TIMESTAMP_DELIMITER)) == NULL) {
+    if ((token = strtok_r(buffer, TIMESTAMP_DELIMITER, &buffer)) == NULL) {
         throw_and_exit(TOKENIZE_EXCEPTION, OF_TIMESTAMP);
     }
 
     for(i = 0; i < NUM_TIMESTAMP_FIELDS; i++){
-        if ((token = strtok(NULL, TIMESTAMP_DELIMITER)) == NULL) {
+        if ((token = strtok_r(NULL, TIMESTAMP_DELIMITER, &buffer)) == NULL) {
             throw_and_exit(TOKENIZE_EXCEPTION, OF_TIMESTAMP);
         }
     }

@@ -60,9 +60,8 @@ static int get_team_id_by_name(char * team_name) {
 
 static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     assert(buffer != NULL);
-    float speed, consumption, reliability, car_number_f;
+    float speed, consumption, reliability;
     char * token, car_name[LARGE_SIZE], aux[LARGEST_SIZE];
-    int car_number;
     race_team_t team;
 
     // validate team name
@@ -79,11 +78,8 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
     strcpy(aux, token);
-    if(!validate_number(aux, CAR , &car_number_f)) {
-        return false;
-    }
-    car_number = (int) car_number_f;
-    snprintf(car_name, MAX_LABEL_SIZE, "%d", car_number);
+
+    strcpy(car_name, token);
     if(!is_car_name_unique(car_name)) {
         return false;
     }
@@ -124,21 +120,26 @@ static int validate_team(char * buffer, race_team_t * team) {
     char * team_field, *team_name;
     int team_id;
 
-    if ((team_field = strtok_r(buffer, DELIM_2, &buffer)) == NULL) return false;
-    else {
+    if ((team_field = strtok_r(buffer, DELIM_2, &buffer)) == NULL) {
+        return false;
+    } else {
         team_field = trim_string(team_field, (int) strlen(team_field));
         if (strcasecmp(team_field, TEAM) == 0) {
 
-            if ((team_name = strtok_r(NULL, DELIM_2, &buffer)) == NULL) return false;
+            if ((team_name = strtok_r(NULL, DELIM_2, &buffer)) == NULL) {
+                return false;
+            }
             team_name = trim_string(team_name, (int) strlen(team_name));
 
             team_id = get_team_id_by_name(team_name);
+
             if(team_id < 0 && num_registed_teams < config.num_teams) {
                 create_team(team_name, &team_id);
-            } else return false;
+            }
+
             *team = shm->race_teams[team_id];
 
-            if(team->num_cars == config.max_cars_per_team) {
+            if (team->num_cars == config.max_cars_per_team) {
                 return false;
             }
 

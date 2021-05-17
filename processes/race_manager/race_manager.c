@@ -15,7 +15,6 @@
 #include "unistd.h"
 #include "../../util/process_manager/process_manager.h"
 #include "../../util/global.h"
-#include "../../util/strings/strings.h"
 #include "../../util/file/file.h"
 #include "../../ipcs/pipe/pipe.h"
 #include "../../race_helpers//log_generator/log_generator.h"
@@ -27,7 +26,6 @@
 // endregion dependencies
 
 // region public functions
-
 
 static void initialize_team_slots(int num_teams);
 static void handle_named_pipe();
@@ -58,39 +56,42 @@ void race_manager(){
 
 void handle_named_pipe() {
     int n, end_read = false;
-    char buffer[LARGE_SIZE], aux_buffer[LARGE_SIZE];
+    char buffer[LARGEST_SIZE * 10], buffer2[LARGEST_SIZE * 10], * aux, * aux2;
     race_car_t car_data;
     int result, team_id;
 
     while (!end_read) {
         do {
-            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGE_SIZE * sizeof(char));
+            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 10 * sizeof(char));
+
             if (n > 0) {
                 buffer[n - 1]= '\0';
-                //remove_new_line(buffer, (int) strlen(buffer));
-                strtok(buffer, "\n");
-                strcpy(aux_buffer, buffer);
-                result = interpret_command(buffer, &car_data, &team_id);
+                aux = strtok_r(buffer, DELIM_3, &aux2);
 
-                switch (result) {
-                    case RESULT_NEW_CAR:
-                        register_car(&car_data, team_id);
-                        generate_log_entry(I_CAR_LOADED, (void *) &car_data);
-                        break;
-                    case RESULT_INVALID_CAR:
-                        generate_log_entry(I_CAR_REJECTED, aux_buffer + strlen(ADDCAR) + 1);
-                        break;
-                    case RESULT_BEGIN_RACE:
-                        generate_log_entry(I_RACE_START, NULL);
-                        end_read = true;
-                        break;
-                    case RESULT_CANNOT_START_RACE:
-                        generate_log_entry(I_CANNOT_START, aux_buffer);
-                        break;
-                    default:
-                        generate_log_entry(I_COMMAND_REJECTED, aux_buffer);
-                        break;
-                }
+                do {
+                    strcpy(buffer2, aux);
+                    result = interpret_command(aux, &car_data, &team_id);
+
+                    switch (result) {
+                        case RESULT_NEW_CAR:
+                            register_car(&car_data, team_id);
+                            generate_log_entry(I_CAR_LOADED, (void *) &car_data);
+                            break;
+                        case RESULT_INVALID_CAR:
+                            generate_log_entry(I_CAR_REJECTED, buffer2 + strlen(ADDCAR) + 1);
+                            break;
+                        case RESULT_BEGIN_RACE:
+                            generate_log_entry(I_RACE_START, NULL);
+                            end_read = true;
+                            break;
+                        case RESULT_CANNOT_START_RACE:
+                            generate_log_entry(I_CANNOT_START, buffer2);
+                            break;
+                        default:
+                            generate_log_entry(I_COMMAND_REJECTED, buffer2);
+                            break;
+                    }
+                } while ((aux = strtok_r(NULL, DELIM_3, &aux2)) != NULL);
             }
         } while (n > 0 && !end_read);
     }
@@ -288,14 +289,14 @@ void create_team(char * team_name, int * team_id) {
 }
 
 void register_car(race_car_t * car, int team_id) {
-
+    init_mutex(&car->access_mutex, true);
+    init_mutex(&car->cond_mutex, true);
+    init_cond(&car->cond, true);
     car->team = &shm->race_teams[team_id];
-    shm->total_num_cars++;
     shm->num_cars_on_track++;
     shm->race_teams[team_id].num_cars++;
-    car->car_id = shm->race_teams[team_id].num_cars;
+    car->car_id = ++shm->total_num_cars;
     shm->race_cars[team_id][car->team->num_cars - 1] = *car;
 }
-
 
 // endregion public functions

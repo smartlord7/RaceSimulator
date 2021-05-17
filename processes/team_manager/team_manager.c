@@ -116,7 +116,6 @@ void manage_box(race_box_t *box) {
         }
         END_SYNC_BOX_COND
 
-
         if (team->num_cars_safety > 0) {
 
             DEBUG_MSG(BOX_RESERVE, EVENT, team->team_name)
@@ -179,20 +178,11 @@ void manage_box(race_box_t *box) {
 
                 box->current_car = NULL;
             }
-        } else {
-            if (!shm->sync_s.race_running) {
-
-                SYNC_CAR_COND
-                box->car_dispatched = true;
-                notify_cond(&car->cond);
-                END_SYNC_CAR_COND
-
-                return;
-            }
+        } else if (box->current_car != NULL) {
+            car = box->current_car;
 
             DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, box->team->team_name, car->name)
 
-            car = box->current_car;
             box->state = OCCUPIED;
 
             DEBUG_MSG(CAR_REFUEL, EVENT, box->team->team_name, car->name)
@@ -247,6 +237,9 @@ void simulate_car(race_car_t *car) {
 
     // the car simulation itself.
     while (true) {
+        if (strcasecmp(car->name, " CAR: PORRA") == 0) {
+            printf("%.2f\n", car->remaining_fuel);
+        }
         // try to gain access to the box, if needed.
         // the car needs to access the box if the following conditions, in the presented short circuit order, are satisfied:
         // - it needs to refuel or to be fixed
@@ -428,14 +421,14 @@ void simulate_car(race_car_t *car) {
         }
 
         // check if the car has fuel to at least run for 4 more laps.
-        if (car->remaining_fuel <= min_fuel1 && !box_needed) {
+        if (!box_needed && car->remaining_fuel <= min_fuel1) {
 
             // the car needs to be refueled since it has insufficient fuel for more 4 laps.
             box_needed = true;
         }
 
         // check if the car has reached a fuel critical level.
-        if (car->remaining_fuel <= min_fuel2 && car->state != SAFETY) {
+        if (car->state != SAFETY && car->remaining_fuel <= min_fuel2) {
 
             // the car needs to be refueled since it has insufficient fuel for more 2 laps.
             box_needed = true;

@@ -91,7 +91,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(TIME, false);
+    debug_init(EVENT, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -280,7 +280,7 @@ static void destroy_ipcs(){
 static void segfault_handler(int signum) {
     printf("WELL... THAT ESCALATED QUICKLY...\n");
     printf("proc %ul\n", getpid());
-    sleep(300);
+    sleep(30);
 }
 
 static void terminate() {
