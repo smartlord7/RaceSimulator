@@ -20,23 +20,30 @@
 
 // region log_gen input modes
 
-#define I_SIMULATION_START 0
-#define I_SIMULATION_END 1
-#define I_COMMAND_RECEIVED 2
-#define I_COMMAND_REJECTED 3
-#define I_CAR_LOADED 4
-#define I_CAR_REJECTED 5
-#define I_RACE_START 6
-#define I_CANNOT_START 7
-#define I_CAR_MALFUNCTION 8
-#define I_SIGNAL_RECEIVED 9
-#define I_RACE_WIN 10
-#define I_COMMAND_REJECTED_2 11
-#define I_BOX_REFUEL 12
-#define I_BOX_MALFUNCTION 13
-#define I_BOX_LEFT 14
-#define I_CAR_RAN_OUT_OF_FUEL 15
-#define I_CAR_FINISH 16
+typedef enum log_mode {
+    SIMULATION_START,
+    SIMULATION_END,
+    RACE_START,
+    RACE_FINISH,
+    RACE_CANNOT_START,
+    COMMAND_RECEIVE,
+    COMMAND_REJECT,
+    COMMAND_REJECT2,
+    CAR_REJECT,
+    SIGNAL_RECEIVE,
+    CAR_LOAD,
+    CAR_MALFUNCTION,
+    CAR_STATE_CHANGE,
+    CAR_RACE_WIN,
+    CAR_OUT_OF_FUEL,
+    CAR_FINISH,
+    CAR_FIX,
+    CAR_REFUEL,
+    BOX_REFUEL,
+    BOX_MALFUNCTION,
+    BOX_LEAVE
+
+} log_mode;
 
 // endregion log_gen input modes
 
@@ -61,7 +68,7 @@
  * Additional data needed for some cases.
  *
  */
-void generate_log_entry(int mode, void * data);
+void generate_log_entry(log_mode mode, void * data);
 
 /**
  * @def log_init

@@ -111,7 +111,7 @@ int main() {
     stats_helper_init(&config, shm, &shm->sync_s.access_mutex);
 
     log_init(LOG_FILE_NAME);
-    generate_log_entry(I_SIMULATION_START, NULL);
+    generate_log_entry(SIMULATION_START, NULL);
 
     //create race manager process
     create_process(RACE_MANAGER, race_manager, NULL);
@@ -129,7 +129,7 @@ int main() {
     //wait for all of the child processes
     wait_procs();
 
-    generate_log_entry(I_SIMULATION_END, NULL);
+    generate_log_entry(SIMULATION_END, NULL);
 
     //destroy interprocess communication mechanisms
     destroy_ipcs();

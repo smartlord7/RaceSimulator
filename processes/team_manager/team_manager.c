@@ -151,7 +151,7 @@ void manage_box(race_box_t *box) {
 
                 DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, team->team_name, car->name)
 
-                DEBUG_MSG(CAR_FIX, EVENT, team->team_name, car->name)
+                generate_log_entry(CAR_FIX, car);
 
                 repair_time = random_int(config.min_repair_time, config.max_repair_time);
 
@@ -167,7 +167,7 @@ void manage_box(race_box_t *box) {
                     return;
                 }
 
-                DEBUG_MSG(CAR_REFUEL, EVENT, team->team_name, car->name)
+                generate_log_entry(CAR_REFUEL, car);
 
                 sync_sleep(REFUEL_TIME);
 
@@ -185,7 +185,7 @@ void manage_box(race_box_t *box) {
 
             box->state = OCCUPIED;
 
-            DEBUG_MSG(CAR_REFUEL, EVENT, box->team->team_name, car->name)
+            generate_log_entry(CAR_REFUEL, car);
 
             sync_sleep(REFUEL_TIME);
 
@@ -230,16 +230,13 @@ void simulate_car(race_car_t *car) {
     min_fuel2 = REFUEL_MIN_LAPS2 * fuel_per_lap;
     box = &car->team->team_box;
     team = car->team;
-    car_state_change.car_id = car->car_id;
+    car_state_change.car_team_index = car->team_index;
 
     // the car is ready to race.
     CHANGE_CAR_STATE(RACE);
 
     // the car simulation itself.
     while (true) {
-        if (strcasecmp(car->name, " CAR: PORRA") == 0) {
-            printf("%.2f\n", car->remaining_fuel);
-        }
         // try to gain access to the box, if needed.
         // the car needs to access the box if the following conditions, in the presented short circuit order, are satisfied:
         // - it needs to refuel or to be fixed
@@ -261,7 +258,7 @@ void simulate_car(race_car_t *car) {
 
                 // the car's journey has ended :(
                 CHANGE_CAR_STATE(DISQUALIFIED);
-                generate_log_entry(I_CAR_RAN_OUT_OF_FUEL, car);
+                generate_log_entry(CAR_OUT_OF_FUEL, car);
 
                 // unlock the previously locked box lock.
                 unlock_mutex(&box->available);
@@ -314,7 +311,7 @@ void simulate_car(race_car_t *car) {
             car->remaining_fuel = config.fuel_tank_capacity;
 
             CHANGE_CAR_STATE(RACE);
-            generate_log_entry(I_BOX_LEFT, car);
+            generate_log_entry(BOX_LEAVE, car);
 
             // the car needs the box no more.
             box_needed = false;
@@ -363,7 +360,7 @@ void simulate_car(race_car_t *car) {
 
                 // the car's journey has ended :(
                 CHANGE_CAR_STATE(DISQUALIFIED);
-                generate_log_entry(I_CAR_RAN_OUT_OF_FUEL, car);
+                generate_log_entry(CAR_OUT_OF_FUEL, car);
 
                 break;
             }
@@ -393,9 +390,9 @@ void simulate_car(race_car_t *car) {
 
                 // change the car's state to FINISHED since it has reached the race's end.
                 CHANGE_CAR_STATE(FINISH);
-                generate_log_entry(I_CAR_FINISH, car);
+                generate_log_entry(CAR_FINISH, car);
 
-                DEBUG_MSG(CAR_FINISH, EVENT, car->name)
+                DEBUG_MSG(CAR_RACE_FINISH, EVENT, car->name)
 
                 return;
             }
@@ -415,7 +412,7 @@ void simulate_car(race_car_t *car) {
 
             // the car's journey has ended :(
             CHANGE_CAR_STATE(DISQUALIFIED);
-            generate_log_entry(I_CAR_RAN_OUT_OF_FUEL, car);
+            generate_log_entry(CAR_OUT_OF_FUEL, car);
 
             return;
         }
