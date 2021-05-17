@@ -71,7 +71,7 @@ void log_close(){
 
 }
 
-void generate_log_entry(log_msg mode, void * main_data, void * sec_data) {
+void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
     char entry[LARGE_SIZE], * aux = NULL;
     snprintf(entry, LARGE_SIZE, "%s => ", get_curr_time_as_str());
 
@@ -112,6 +112,9 @@ void generate_log_entry(log_msg mode, void * main_data, void * sec_data) {
                 break;
             case SIMULATION_END:
                 append(entry, "ENDING SIMULATION...");
+                break;
+            case CLOCK:
+                append_f(entry, "-------------------[GLOBAL CLOCK] %d tu-------------------", shm->sync_s.global_time);
                 break;
             case RACE_START:
                 append_f(entry, "THE RACE HAS STARTED!");
@@ -202,7 +205,6 @@ void generate_log_entry(log_msg mode, void * main_data, void * sec_data) {
                 break;
         }
      }
-
 
     if (aux != NULL) {
         free(aux);

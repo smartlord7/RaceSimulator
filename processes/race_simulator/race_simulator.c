@@ -169,6 +169,8 @@ static void init_global_clock() {
 
         ms_sleep(interval_ms);
 
+        generate_log_entry(CLOCK, NULL, NULL);
+
         DEBUG_MSG(GLOBAL_CLOCK_RISE, TIME, "")
 
         SYNC_CLOCK_RISE

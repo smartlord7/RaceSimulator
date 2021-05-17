@@ -98,6 +98,7 @@ void manage_box(race_box_t *box) {
     box->car_dispatched = false;
 
     while (true) {
+
         box->state = FREE;
         generate_log_entry(BOX_STATE_CHANGE, box, NULL);
 
@@ -106,6 +107,7 @@ void manage_box(race_box_t *box) {
         while (shm->sync_s.race_running && team->num_cars_safety == 0 && box->current_car == NULL) {
             wait_cond(&box->cond, &box->mutex);
         }
+
         if (!shm->sync_s.race_running) {
             END_SYNC_BOX_COND
             return;
@@ -127,7 +129,6 @@ void manage_box(race_box_t *box) {
                     break;
                 }
                 END_SYNC_BOX_COND
-
 
                 if (!shm->sync_s.race_running) {
                     if (box->current_car != NULL) {
@@ -163,6 +164,7 @@ void manage_box(race_box_t *box) {
                 box->car_dispatched = true;
                 notify_cond(&car->cond);
                 END_SYNC_CAR_COND
+                generate_log_entry(BOX_LEAVE, box, NULL);
 
                 box->current_car = NULL;
             }
@@ -175,21 +177,18 @@ void manage_box(race_box_t *box) {
             generate_log_entry(BOX_REFUEL, box, NULL);
             sync_sleep(REFUEL_TIME);
 
-            box->state = FREE;
-            generate_log_entry(BOX_STATE_CHANGE, box, NULL);
-
             SYNC_CAR_COND
             box->car_dispatched = true;
             notify_cond(&car->cond);
             END_SYNC_CAR_COND
-            generate_log_entry(BOX_LEAVE, car, NULL);
+            generate_log_entry(BOX_LEAVE, box, NULL);
 
             box->current_car = NULL;
         }
     }
 }
 
-void *race_car_worker(void *data) {
+void * race_car_worker(void *data) {
     race_car_t *car = (race_car_t *) data;
     DEBUG_MSG(THREAD_RUN, ENTRY, car->name)
 
@@ -274,11 +273,6 @@ void simulate_car(race_car_t *car) {
 
             unlock_mutex(&box->available);
 
-            SYNC_BOX_COND
-            team->num_cars_safety--;
-            notify_cond(&box->cond);
-            END_SYNC_BOX_COND
-
             // the car is now ready to race again
             car->remaining_fuel = config.fuel_tank_capacity;
 
@@ -311,12 +305,6 @@ void simulate_car(race_car_t *car) {
             CHANGE_CAR_STATE(SAFETY);
             car_state_change.malfunctioning = false;
 
-            // notify the box that at least one of the team's cars is in SAFETY mode.
-            SYNC_BOX_COND
-            team->num_cars_safety++;
-            notify_cond(&box->cond);
-            END_SYNC_BOX_COND
-
             car->num_malfunctions++;
 
             // the car needs to access the box.
@@ -334,14 +322,6 @@ void simulate_car(race_car_t *car) {
 
             // if the car has reached an illegal level of fuel (aka less than 0) to reach pos = 0 then it means actually it had no sufficient fuel to reach pos = 0.
             if (car->remaining_fuel <= 0) {
-
-                if (car->state == SAFETY) {
-
-                    SYNC_BOX_COND
-                    team->num_cars_safety--;
-                    notify_cond(&box->cond);
-                    END_SYNC_BOX_COND
-                }
 
                 // the car's journey has ended :(
                 CHANGE_CAR_STATE(DISQUALIFIED);
@@ -365,13 +345,6 @@ void simulate_car(race_car_t *car) {
 
             // check if the car has completed all the race laps.
             if (car->completed_laps == config.laps_per_race) {
-
-                if (car->state == SAFETY) {
-                    SYNC_BOX_COND
-                    team->num_cars_safety--;
-                    notify_cond(&box->cond);
-                    END_SYNC_BOX_COND
-                }
 
                 // change the car's state to FINISHED since it has reached the race's end.
                 CHANGE_CAR_STATE(FINISH);
@@ -415,17 +388,12 @@ void simulate_car(race_car_t *car) {
 
             // the car must assume SAFETY mode.
             CHANGE_CAR_STATE(SAFETY);
-
-            // notify the box that another car is in SAFETY mode.
-            SYNC_BOX_COND
-            team->num_cars_safety++;
-            notify_cond(&box->cond);
-            END_SYNC_BOX_COND
         }
 
         // to simulate the car's step.
         sync_sleep(1);
     }
+
 }
 
 // endregion private functions
