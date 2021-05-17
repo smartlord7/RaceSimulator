@@ -10,12 +10,6 @@
 #ifndef RACE_SIMULATOR_C_LOG_GENERATOR_H
 #define RACE_SIMULATOR_C_LOG_GENERATOR_H
 
-// region dependencies
-
-#include <semaphore.h>
-
-// endregion dependencies
-
 // region constants
 
 // region log_gen input modes
@@ -38,10 +32,11 @@ typedef enum log_mode {
     CAR_OUT_OF_FUEL,
     CAR_COMPLETE_LAP,
     CAR_FINISH,
-    CAR_FIX,
-    CAR_REFUEL,
+    BOX_STATE_CHANGE,
+    BOX_FIX,
     BOX_REFUEL,
-    BOX_MALFUNCTION,
+    BOX_REFUEL_ENTER,
+    BOX_MALFUNCTION_ENTER,
     BOX_LEAVE
 
 } log_mode;

@@ -20,7 +20,6 @@
 #include "team_manager.h"
 #include "../../util/numbers/numbers.h"
 #include "../../util/file/file.h"
-#include "../race_manager/race_manager.h"
 #include "../../race_helpers/log_generator/log_generator.h"
 
 // endregion dependencies
@@ -51,10 +50,8 @@ void team_manager(void *data) {
     race_team_t *team = (race_team_t *) data;
     DEBUG_MSG(PROCESS_RUN, ENTRY, team->team_name)
 
-    init_mutex(&team->team_box.cond_mutex, true);
-    init_mutex(&team->team_box.access_mutex, true);
+    init_mutex(&team->team_box.mutex, true);
     init_mutex(&team->team_box.available, true);
-    init_mutex(&team->access_mutex, true);
     init_mutex(&team->pipe_mutex, true);
     init_cond(&team->team_box.cond, true);
     close_fd(unn_pipe_fds[0]);
@@ -101,14 +98,13 @@ void manage_box(race_box_t *box) {
     box->car_dispatched = false;
 
     while (true) {
-        SYNC_BOX
         box->state = FREE;
-        END_SYNC_BOX
+        generate_log_entry(BOX_STATE_CHANGE, box, NULL);
 
         // waits for an incoming car or for the number of cars in SAFETY mode to be different of 0.
         SYNC_BOX_COND
         while (shm->sync_s.race_running && team->num_cars_safety == 0 && box->current_car == NULL) {
-            wait_cond(&box->cond, &box->cond_mutex);
+            wait_cond(&box->cond, &box->mutex);
         }
         if (!shm->sync_s.race_running) {
             END_SYNC_BOX_COND
@@ -118,16 +114,13 @@ void manage_box(race_box_t *box) {
 
         if (team->num_cars_safety > 0) {
 
-            DEBUG_MSG(BOX_RESERVE, EVENT, team->team_name)
-
-            SYNC_BOX
             box->state = RESERVED;
-            END_SYNC_BOX
+            generate_log_entry(BOX_STATE_CHANGE, box, NULL);
 
             while (true) {
                 SYNC_BOX_COND
                 while (shm->sync_s.race_running && team->num_cars_safety > 0 && box->current_car == NULL) {
-                    wait_cond(&box->cond, &box->cond_mutex);
+                    wait_cond(&box->cond, &box->mutex);
                 }
                 if (team->num_cars_safety == 0) {
                     END_SYNC_BOX_COND
@@ -148,13 +141,9 @@ void manage_box(race_box_t *box) {
                 }
 
                 car = box->current_car;
-
-                DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, team->team_name, car->name)
-
-                generate_log_entry(CAR_FIX, car, NULL);
-
                 repair_time = random_int(config.min_repair_time, config.max_repair_time);
 
+                generate_log_entry(BOX_FIX, box, NULL);
                 sync_sleep(repair_time);
 
                 if (!shm->sync_s.race_running) {
@@ -167,8 +156,7 @@ void manage_box(race_box_t *box) {
                     return;
                 }
 
-                generate_log_entry(CAR_REFUEL, car, NULL);
-
+                generate_log_entry(BOX_REFUEL, box, NULL);
                 sync_sleep(REFUEL_TIME);
 
                 SYNC_CAR_COND
@@ -181,22 +169,20 @@ void manage_box(race_box_t *box) {
         } else if (box->current_car != NULL) {
             car = box->current_car;
 
-            DEBUG_MSG(BOX_CAR_ARRIVE, EVENT, box->team->team_name, car->name)
-
             box->state = OCCUPIED;
+            generate_log_entry(BOX_STATE_CHANGE, box, NULL);
 
-            generate_log_entry(CAR_REFUEL, car, NULL);
-
+            generate_log_entry(BOX_REFUEL, box, NULL);
             sync_sleep(REFUEL_TIME);
+
+            box->state = FREE;
+            generate_log_entry(BOX_STATE_CHANGE, box, NULL);
 
             SYNC_CAR_COND
             box->car_dispatched = true;
             notify_cond(&car->cond);
             END_SYNC_CAR_COND
-
-            SYNC_BOX
-            box->state = FREE;
-            END_SYNC_BOX
+            generate_log_entry(BOX_LEAVE, car, NULL);
 
             box->current_car = NULL;
         }
@@ -311,7 +297,6 @@ void simulate_car(race_car_t *car) {
             car->remaining_fuel = config.fuel_tank_capacity;
 
             CHANGE_CAR_STATE(RACE);
-            generate_log_entry(BOX_LEAVE, car, NULL);
 
             // the car needs the box no more.
             box_needed = false;

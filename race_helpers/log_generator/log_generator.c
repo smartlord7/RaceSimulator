@@ -10,20 +10,17 @@
 
 // region dependencies
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <time.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <malloc.h>
-#include "../../util/exception_handler/exception_handler.h"
-#include "log_generator.h"
+#include "stdio.h"
+#include "string.h"
+#include "time.h"
+#include "fcntl.h"
+#include "unistd.h"
+#include "malloc.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "../../util/global.h"
-#include "../../ipcs/memory_mapped_file/memory_mapped_file.h"
 #include "../../util/file/file.h"
 #include "../../util/strings/strings.h"
+#include "log_generator.h"
 
 // endregion dependencies
 
@@ -117,7 +114,7 @@ void generate_log_entry(log_mode mode, void * main_data, void * sec_data) {
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
                 break;
         }
-    } else {
+    } else if (mode < BOX_STATE_CHANGE){
         race_car_t * car = (race_car_t *) main_data;
 
         switch (mode) {
@@ -130,27 +127,11 @@ void generate_log_entry(log_mode mode, void * main_data, void * sec_data) {
                 break;
             case CAR_STATE_CHANGE:
                 aux = race_car_state_to_string(car->state);
-                append_f(entry,"CAR %s CHANGED TO STATE TO '%s'!", car->name, aux);
+                append_f(entry, "CAR %s CHANGED TO STATE TO '%s'!", car->name, aux);
                 break;
             case CAR_RACE_WIN:
                 append_f(entry, "CAR %s FROM TEAM %s WON THE RACE AT %d tu!", car->name, car->team->team_name,
                          shm->sync_s.global_time);
-                break;
-            case CAR_FIX:
-                append_f(entry, "FIXING CAR %s...", car->name,
-                         shm->sync_s.global_time);
-                break;
-            case CAR_REFUEL:
-                append_f(entry, "REFUELING CAR %s...", car->name);
-                break;
-            case BOX_REFUEL:
-                append_f(entry, "CAR %s ENTERED TEAM BOX FOR REFUELLING!", car->name);
-                break;
-            case BOX_MALFUNCTION:
-                append_f(entry, "CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION!", car->name);
-                break;
-            case BOX_LEAVE:
-                append_f(entry, "CAR %s LEFT TEAM BOX AND IS NOW READY TO RACE!", car->name);
                 break;
             case CAR_OUT_OF_FUEL:
                 append_f(entry, "CAR %s FROM TEAM %s RAN OUT OF FUEL!", car->name, car->team->team_name);
@@ -166,10 +147,38 @@ void generate_log_entry(log_mode mode, void * main_data, void * sec_data) {
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
                 break;
         }
+    } else {
+        race_box_t * box = (race_box_t *) main_data;
 
-        if (aux != NULL) {
-            free(aux);
+        switch (mode) {
+            case BOX_STATE_CHANGE:
+                aux = race_box_state_to_string(box->state);
+                append_f(entry, "BOX FROM TEAM %s HAS CHANGED TO STATE '%s'!", box->team->team_name, aux);
+                break;
+            case BOX_REFUEL_ENTER:
+                append_f(entry, "CAR %s ENTERED TEAM BOX FOR REFUELLING!", box->current_car->name);
+                break;
+            case BOX_MALFUNCTION_ENTER:
+                append_f(entry, "CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION!", box->current_car->name);
+                break;
+            case BOX_FIX:
+                append_f(entry, "FIXING CAR %s...", box->current_car->name);
+                break;
+            case BOX_REFUEL:
+                append_f(entry, "REFUELING CAR %s...", box->current_car->name);
+                break;
+            case BOX_LEAVE:
+                append_f(entry, "CAR %s LEFT TEAM BOX AND IS NOW READY TO RACE!", box->current_car->name);
+                break;
+            default:
+                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
+                break;
         }
+     }
+
+
+    if (aux != NULL) {
+        free(aux);
     }
 
     append(entry, "\n");

@@ -258,11 +258,9 @@ static void destroy_ipcs(){
         team = &shm->race_teams[i];
         box = &team->team_box;
 
-        destroy_mutex(&team->access_mutex);
         destroy_mutex(&team->pipe_mutex);
 
-        destroy_mutex(&box->access_mutex);
-        destroy_mutex(&box->cond_mutex);
+        destroy_mutex(&box->mutex);
         destroy_mutex(&box->available);
 
         for (j = 0; j < team->num_cars; j++) {
