@@ -21,10 +21,6 @@
 #define RACE_CAR_SAY "[RACE CAR %s] "
 #define TEAM_MANAGER_SAY "[TEAM MANAGER %s] "
 #define CAR_MOVE RACE_CAR_SAY "RAN %.2fm!"
-#define CAR_FINISH RACE_CAR_SAY "FINISHED THE RACE!"
-#define CAR_COMPLETE_LAP RACE_CAR_SAY "COMPLETED %d LAP(S)!"
-#define CAR_FIX TEAM_MANAGER_SAY "FIXING CAR %s..."
-#define CAR_REFUEL TEAM_MANAGER_SAY "REFUELING CAR %s..."
 #define BOX_CAR_ARRIVE TEAM_MANAGER_SAY "THE CAR %s HAS ARRIVED TO THE BOX!"
 #define BOX_RESERVE TEAM_MANAGER_SAY "THE BOX HAS BEEN RESERVED!"
 
@@ -33,6 +29,9 @@
 car_state_change.prev_state = car->state; \
 car_state_change.new_state = new_car_state; \
 car_state_change.team_id = car->team->team_id; \
+if (car_state_change.malfunctioning) { \
+generate_log_entry(CAR_MALFUNCTION, (void *) car, (void *) &malfunction.description); \
+} \
 SYNC_CAR \
 set_state(car, new_car_state); \
 END_SYNC_CAR \

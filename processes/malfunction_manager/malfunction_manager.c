@@ -78,7 +78,7 @@ static void generate_malfunctions(void) {
 
                 if (random_uniform_event(prob_malfunction)) {
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
-                    snprintf(msg.malfunction_msg, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->car_id);
+                    snprintf(msg.description, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->name);
                     msg.car_id = car->car_id;
                     snd_msg(malfunction_q_id, (void *) &msg, sizeof(malfunction_t));
                 }

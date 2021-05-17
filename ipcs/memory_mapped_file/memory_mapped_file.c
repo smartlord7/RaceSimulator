@@ -22,14 +22,14 @@ size_t mmap_size;
 char * create_mmap_file(int fd, size_t * size) {
     char * mmap_file;
 
-    if(fstat(fd, &statbuf)) {
+    if (fstat(fd, &statbuf)) {
         throw_and_exit(FILE_STATS_EXCEPTION, "");
     }
 
     *size = statbuf.st_size;
     mmap_size = statbuf.st_size;
 
-    if((mmap_file = mmap(NULL, statbuf.st_size, PROT_WRITE , MAP_SHARED, fd, 0)) == (caddr_t) - 1) {
+    if ((mmap_file = mmap(NULL, statbuf.st_size, PROT_WRITE , MAP_SHARED, fd, 0)) == (caddr_t) - 1) {
         throw_and_exit(MMAP_CREATE_EXCEPTION,"");
     }
 
@@ -40,7 +40,7 @@ int write_mmap(char * mmap_addr, char * buffer, int fd, size_t * file_size) {
     size_t old_size = *file_size;
     size_t old_mmap_size = mmap_size;
 
-    if(*file_size + strlen(buffer) >= mmap_size) {
+    if (*file_size + strlen(buffer) >= mmap_size) {
         mmap_size *= 2;
         if (ftruncate(fd, (off_t) mmap_size) != 0) {
             throw_and_exit(FILE_TRUNC_EXCEPTION, NULL);
@@ -59,7 +59,7 @@ int write_mmap(char * mmap_addr, char * buffer, int fd, size_t * file_size) {
 
 int destroy_mmap(char * mmap, int fd, size_t file_size) {
 
-    if(munmap(mmap, file_size) < 0) {
+    if (munmap(mmap, file_size) < 0) {
         throw_and_exit(MMAP_DESTROY_EXCEPTION, NULL);
     }
 

@@ -59,4 +59,24 @@ char * race_team_to_string(race_team_t * team) {
     return buffer;
 }
 
+char * race_box_state_to_string(box_state_t state) {
+    char * buffer = NULL;
+
+    buffer = string(BUF_SIZE);
+
+    switch(state) {
+        case RACE:
+            snprintf(buffer, BUF_SIZE, "FREE");
+            break;
+        case SAFETY:
+            snprintf(buffer, BUF_SIZE, "RESERVED");
+            break;
+        case IN_BOX:
+            snprintf(buffer, BUF_SIZE, "OCCUPIED");
+            break;
+    }
+
+    return buffer;
+}
+
 // endregion public functions

@@ -91,7 +91,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
-    debug_init(TIME, false);
+    debug_init(EVENT, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -111,7 +111,7 @@ int main() {
     stats_helper_init(&config, shm, &shm->sync_s.access_mutex);
 
     log_init(LOG_FILE_NAME);
-    generate_log_entry(I_SIMULATION_START, NULL);
+    generate_log_entry(SIMULATION_START, NULL, NULL);
 
     //create race manager process
     create_process(RACE_MANAGER, race_manager, NULL);
@@ -129,7 +129,7 @@ int main() {
     //wait for all of the child processes
     wait_procs();
 
-    generate_log_entry(I_SIMULATION_END, NULL);
+    generate_log_entry(SIMULATION_END, NULL, NULL);
 
     //destroy interprocess communication mechanisms
     destroy_ipcs();
@@ -258,11 +258,9 @@ static void destroy_ipcs(){
         team = &shm->race_teams[i];
         box = &team->team_box;
 
-        destroy_mutex(&team->access_mutex);
         destroy_mutex(&team->pipe_mutex);
 
-        destroy_mutex(&box->access_mutex);
-        destroy_mutex(&box->cond_mutex);
+        destroy_mutex(&box->mutex);
         destroy_mutex(&box->available);
 
         for (j = 0; j < team->num_cars; j++) {
@@ -280,7 +278,7 @@ static void destroy_ipcs(){
 static void segfault_handler(int signum) {
     printf("WELL... THAT ESCALATED QUICKLY...\n");
     printf("proc %ul\n", getpid());
-    sleep(300);
+    sleep(30);
 }
 
 static void terminate() {

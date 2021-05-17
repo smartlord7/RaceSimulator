@@ -50,9 +50,9 @@ static void error_at_line(const char * error_msg, ...);
  *
  * @throws FloatSizeExceededException if the specified string corresponds
  *              to a numeric value greater than the float maximum value.
- * @throws FloatConversionException if the specified string couldn't be 
+ * @throws FloatConversionException if the specified string couldn't be
  *              converted to a float (i.e. the string has non-numeric characters.)
- *         
+ *
 */
 static void to_float_wrapper(int feedback, const char * field_name);
 
@@ -74,7 +74,7 @@ static void to_float_wrapper(int feedback, const char * field_name);
  *
  * @throws MinValueException if the value is lower than the specified minimum.
  * @throws MaxValueException if the value is higher than the specified maximum.
- * 
+ *
  */
 void validate_interval(float value, const char * field_name, float min, float max);
 

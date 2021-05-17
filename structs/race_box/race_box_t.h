@@ -61,7 +61,7 @@ typedef struct race_box_t{
     box_state_t state;
     race_team_t * team;
     race_car_t * current_car;
-    mutex_t available, cond_mutex, access_mutex;
+    mutex_t available, mutex;
     cond_t cond;
     int car_dispatched:1; // used in order to respect the following project constraint: the team manager (and only) must update the box state in the shm.
 } race_box_t;

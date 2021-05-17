@@ -45,7 +45,7 @@ typedef struct race_team_t {
     int team_id, num_cars, num_cars_safety;
     char team_name[MAX_TEAM_NAME_SIZE];
     race_box_t team_box;
-    mutex_t access_mutex, pipe_mutex;
+    mutex_t pipe_mutex;
 } race_team_t;
 
 // endregion structures
@@ -61,7 +61,7 @@ typedef struct race_team_t {
  *
  * @throws MemoryAllocationException if the malloc call for the race car returns a NULL pointer.
  */
-race_team_t * race_team(int team_id, const char * team_name);
+extern race_team_t * race_team(int team_id, const char * team_name);
 
 /**
  * @def race_team_to_string
@@ -75,6 +75,7 @@ race_team_t * race_team(int team_id, const char * team_name);
  * @throws MemoryAllocationException if the malloc call for the string returns a NULL pointer.
  *
  */
-char * race_team_to_string(race_team_t * team);
+extern char * race_team_to_string(race_team_t * team);
+extern char * race_box_state_to_string(box_state_t state);
 
 #endif //RACESIMULATOR_C_RACE_TEAM_H
