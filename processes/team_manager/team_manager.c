@@ -9,7 +9,8 @@
 
 // region dependencies
 
-#include <unistd.h>
+#include "unistd.h"
+#include "signal.h"
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
@@ -49,6 +50,9 @@ int unn_pipe_fds[2];
 void team_manager(void *data) {
     race_team_t *team = (race_team_t *) data;
     DEBUG_MSG(PROCESS_RUN, ENTRY, team->team_name)
+
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
 
     init_mutex(&team->team_box.mutex, true);
     init_mutex(&team->team_box.available, true);
@@ -280,10 +284,9 @@ void simulate_car(race_car_t *car) {
 
             CHANGE_CAR_STATE(RACE);
 
-            if (!shm->sync_s.race_running) {
-
+            if (!shm->sync_s.race_running || shm->sync_s.race_interrupted) {
                 CHANGE_CAR_STATE(FINISH);
-
+                generate_log_entry(CAR_FINISH, car, NULL);
                 exit_thread();
             }
 
@@ -339,7 +342,9 @@ void simulate_car(race_car_t *car) {
 
             generate_log_entry(CAR_COMPLETE_LAP, car, NULL);
 
-            if (!shm->sync_s.race_running) {
+            if (shm->sync_s.race_interrupted) {
+                CHANGE_CAR_STATE(FINISH);
+                generate_log_entry(CAR_FINISH, car, NULL);
                 exit_thread();
             }
 

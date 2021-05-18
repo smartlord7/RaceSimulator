@@ -9,9 +9,8 @@
 
 // region dependencies
 
-#include <unistd.h>
+#include <signal.h>
 #include "stdio.h"
-#include "stdlib.h"
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../util/numbers/numbers.h"
@@ -45,6 +44,9 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 
 void malfunction_manager(){
     DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER)
+
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
 
     generate_malfunctions();
 
@@ -91,6 +93,17 @@ static void generate_malfunctions(void) {
         if (!shm->sync_s.race_running) {
             return;
         }
+
+        if (shm->sync_s.race_interrupted) { // gets trapped here when it realizes the race has been suddenly interrupted.
+            SYNC
+            while (shm->sync_s.race_running) {
+                wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
+            }
+            END_SYNC
+
+            return;
+        }
+
     }
 }
 
