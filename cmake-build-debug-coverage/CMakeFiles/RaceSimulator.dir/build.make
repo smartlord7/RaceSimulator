@@ -271,22 +271,9 @@ CMakeFiles/RaceSimulator.dir/util/strings/strings.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/util/strings/strings.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/util/strings/strings.c -o CMakeFiles/RaceSimulator.dir/util/strings/strings.c.s
 
-CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o: ../data_structures/priority_queue/priority_queue.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.c
-
-CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.c > CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.i
-
-CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.c -o CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.s
-
 CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o: ../ipcs/message_queue/msg_queue.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.i: cmake_force
@@ -299,7 +286,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o: ../ipcs/pipe/pipe.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.i: cmake_force
@@ -312,7 +299,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o: ../ipcs/shared_memory/shm.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/shared_memory/shm.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.i: cmake_force
@@ -325,7 +312,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o: ../ipcs/sync/mutex/mutex.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/mutex/mutex.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.i: cmake_force
@@ -338,7 +325,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/mutex/mutex.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o: ../ipcs/sync/semaphore/sem.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/semaphore/sem.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.i: cmake_force
@@ -351,7 +338,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o: ../util/numbers/numbers.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/util/numbers/numbers.c
 
 CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.i: cmake_force
@@ -364,7 +351,7 @@ CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o: ../ipcs/sync/cond_var/cond_var.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/sync/cond_var/cond_var.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.i: cmake_force
@@ -377,7 +364,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/util/file/file.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/util/file/file.c.o: ../util/file/file.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/RaceSimulator.dir/util/file/file.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/RaceSimulator.dir/util/file/file.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/util/file/file.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.c
 
 CMakeFiles/RaceSimulator.dir/util/file/file.c.i: cmake_force
@@ -390,7 +377,7 @@ CMakeFiles/RaceSimulator.dir/util/file/file.c.s: cmake_force
 
 CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o: ../race_helpers/stats_helper/stats_helper.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c
 
 CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.i: cmake_force
@@ -403,7 +390,7 @@ CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.s: cmake_f
 
 CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o: ../ipcs/memory_mapped_file/memory_mapped_file.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.c
 
 CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.i: cmake_force
@@ -416,7 +403,7 @@ CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.s: cma
 
 CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o: ../race_helpers/cmd_validator/cmd_validator.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.c
 
 CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.i: cmake_force
@@ -444,7 +431,6 @@ RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o" \
 "CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/strings/strings.c.o" \
-"CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o" \
@@ -475,7 +461,6 @@ RaceSimulator: CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager
 RaceSimulator: CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/strings/strings.c.o
-RaceSimulator: CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/shared_memory/shm.c.o
@@ -489,7 +474,7 @@ RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mappe
 RaceSimulator: CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/build.make
 RaceSimulator: CMakeFiles/RaceSimulator.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Linking C executable RaceSimulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Linking C executable RaceSimulator"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RaceSimulator.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -64,7 +64,7 @@ static void destroy_ipcs();
  */
 
 static void terminate();
-static void segfault_handler(int signum);
+static void segfault_handler();
 static void init_global_clock();
 static void shm_init();
 
@@ -85,9 +85,11 @@ shared_memory_t * shm = NULL;
  */
 
 int main() {
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR)
+
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
-    signal(SIGSEGV, segfault_handler);
+    signal(SIGSEGV, signal_handler);
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init(terminate, NULL);
@@ -120,19 +122,22 @@ int main() {
     create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
 
     wait_race_start();
-    signal(SIGTSTP, show_stats_table);
+    signal(SIGTSTP, signal_handler);
+    signal(SIGINT, signal_handler);
     init_global_clock(); // TODO: Move to where the race actually begins
 
     // handle SIGINT
-    signal(SIGINT, terminate);
 
     //wait for all of the child processes
     wait_procs();
+    end_clock();
 
     generate_log_entry(SIMULATION_END, NULL, NULL);
 
     //destroy interprocess communication mechanisms
     destroy_ipcs();
+
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_SIMULATOR)
 
     return EXIT_SUCCESS;
 }
@@ -145,7 +150,81 @@ void wait_race_start() {
     END_SYNC
 }
 
+void signal_handler(int signum) {
+    char buffer[SMALLEST_SIZE];
+
+    switch (signum) {
+        case SIGSEGV:
+            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGSEGV, NULL);
+            segfault_handler(signum);
+            break;
+        case SIGTSTP:
+            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGTSTP, NULL);
+            show_stats_table();
+            break;
+        case SIGINT:
+            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGINT, NULL);
+            shm->sync_s.race_interrupted = true;
+            break;
+        case SIGUSR1:
+            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGUSR1, NULL);
+            break;
+        default:
+            snprintf(buffer, SMALLEST_SIZE, "%d", signum);
+            generate_log_entry(SIGNAL_RECEIVE, (void *) buffer, NULL);
+    }
+}
+
+void notify_race_end() {
+    int j, k;
+    race_box_t * box = NULL;
+    race_team_t * team = NULL;
+    race_car_t * car = NULL;
+
+    j = 0;
+
+    shm->sync_s.race_running = false;
+
+    while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
+        team = &shm->race_teams[j];
+        box = &team->team_box;
+
+        SYNC_BOX_COND
+        notify_cond_all(&box->cond);
+        END_SYNC_BOX_COND
+
+        k = 0;
+
+        while (k < team->num_cars) {
+            car = &shm->race_cars[j][k];
+
+            SYNC_CAR
+            notify_cond_all(&car->cond);
+            END_SYNC_CAR
+
+            k++;
+        }
+
+        j++;
+    }
+}
+
+void end_clock() {
+    shm->sync_s.clock_active = false;
+    shm->sync_s.global_time = 0;
+
+    SYNC_CLOCK_VALLEY
+    notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
+    END_SYNC_CLOCK_VALLEY
+
+    SYNC_CLOCK_RISE
+    notify_cond_all(&shm->sync_s.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
+    END_SYNC_CLOCK_RISE
+}
+
 static void init_global_clock() {
+
+    shm->sync_s.clock_active = true;
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
@@ -153,14 +232,14 @@ static void init_global_clock() {
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
-        while (shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.race_running) {
+        while (shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.clock_active) {
             DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->sync_s.num_clock_waiters,
                       (shm->num_cars_on_track + 1) - shm->sync_s.num_clock_waiters);
             wait_cond(&shm->sync_s.clock_valley_cond, &shm->sync_s.clock_valley_mutex);
         }
         END_SYNC_CLOCK_VALLEY
 
-        if (!shm->sync_s.race_running) {
+        if (!shm->sync_s.clock_active) {
             return;
         }
 
@@ -195,12 +274,12 @@ void sync_sleep(int time_units) {
         DEBUG_MSG(GLOBAL_CLOCK_WAITERS, TIME, shm->sync_s.num_clock_waiters + 1);
 
         SYNC_CLOCK_RISE
-        while (prev_time == shm->sync_s.global_time && shm->sync_s.race_running) {
+        while (prev_time == shm->sync_s.global_time && shm->sync_s.clock_active) {
             wait_cond(&shm->sync_s.clock_rise_cond, &shm->sync_s.clock_rise_mutex);
         }
         END_SYNC_CLOCK_RISE
 
-        if (!shm->sync_s.race_running) {
+        if (!shm->sync_s.clock_active) {
             return;
         }
 
@@ -217,6 +296,8 @@ void sync_sleep(int time_units) {
 
 void shm_init() {
     shm->sync_s.race_running = false;
+    shm->sync_s.clock_active = false;
+    shm->sync_s.race_interrupted = false;
     shm->sync_s.num_clock_waiters = 0;
     shm->sync_s.global_time = 0;
     shm->total_num_cars = 0;
@@ -277,10 +358,10 @@ static void destroy_ipcs(){
     log_close();
 }
 
-static void segfault_handler(int signum) {
+static void segfault_handler() {
     printf("WELL... THAT ESCALATED QUICKLY...\n");
     printf("proc %ul\n", getpid());
-    sleep(30);
+    sleep(3090);
 }
 
 static void terminate() {

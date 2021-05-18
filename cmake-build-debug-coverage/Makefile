@@ -155,33 +155,6 @@ RaceSimulator/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/build
 .PHONY : RaceSimulator/fast
 
-data_structures/priority_queue/priority_queue.o: data_structures/priority_queue/priority_queue.c.o
-
-.PHONY : data_structures/priority_queue/priority_queue.o
-
-# target to build an object file
-data_structures/priority_queue/priority_queue.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.o
-.PHONY : data_structures/priority_queue/priority_queue.c.o
-
-data_structures/priority_queue/priority_queue.i: data_structures/priority_queue/priority_queue.c.i
-
-.PHONY : data_structures/priority_queue/priority_queue.i
-
-# target to preprocess a source file
-data_structures/priority_queue/priority_queue.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.i
-.PHONY : data_structures/priority_queue/priority_queue.c.i
-
-data_structures/priority_queue/priority_queue.s: data_structures/priority_queue/priority_queue.c.s
-
-.PHONY : data_structures/priority_queue/priority_queue.s
-
-# target to generate assembly for a file
-data_structures/priority_queue/priority_queue.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/data_structures/priority_queue/priority_queue.c.s
-.PHONY : data_structures/priority_queue/priority_queue.c.s
-
 ipcs/memory_mapped_file/memory_mapped_file.o: ipcs/memory_mapped_file/memory_mapped_file.c.o
 
 .PHONY : ipcs/memory_mapped_file/memory_mapped_file.o
@@ -930,9 +903,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
 	@echo "... cmd"
-	@echo "... data_structures/priority_queue/priority_queue.o"
-	@echo "... data_structures/priority_queue/priority_queue.i"
-	@echo "... data_structures/priority_queue/priority_queue.s"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.o"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.i"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.s"

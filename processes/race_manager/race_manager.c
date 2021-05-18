@@ -9,6 +9,7 @@
 
 // region dependencies
 
+#include <signal.h>
 #include "stdio.h"
 #include "string.h"
 #include "fcntl.h"
@@ -22,6 +23,7 @@
 #include "race_manager.h"
 #include "../../race_helpers/cmd_validator/cmd_validator.h"
 #include "../../race_helpers/stats_helper/stats_helper.h"
+#include "../../ipcs/sync/semaphore/sem.h"
 
 // endregion dependencies
 
@@ -32,13 +34,15 @@ static void handle_named_pipe();
 static void handle_all_pipes();
 static void notify_race_start();
 static void register_car(race_car_t * car, int team_id);
-static int check_race_end();
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
+
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
 
     int num_teams = config.num_teams;
     num_registered_teams = 0;
@@ -56,13 +60,13 @@ void race_manager(){
 
 void handle_named_pipe() {
     int n, end_read = false;
-    char buffer[LARGEST_SIZE * 10], buffer2[LARGEST_SIZE * 10], * aux, * aux2;
+    char buffer[LARGEST_SIZE * X_FACTOR], buffer2[LARGEST_SIZE * X_FACTOR], * aux, * aux2;
     race_car_t car_data;
     int result, team_id;
 
     while (!end_read) {
         do {
-            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 10 * sizeof(char));
+            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * X_FACTOR * sizeof(char));
 
             if (n > 0) {
                 buffer[n - 1]= '\0';
@@ -101,7 +105,7 @@ void handle_all_pipes() {
     fd_set read_set;
     int i, n, race_winner = false;
     char buffer[LARGE_SIZE];
-    race_car_state_change_t car_state_change;
+    race_car_state_change_t car_state_change = {0};
     race_car_t * car = NULL;
     race_team_t * team = NULL;
     race_box_t * box = NULL;
@@ -179,8 +183,8 @@ void handle_all_pipes() {
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
-                                if (check_race_end()) {
-                                    show_stats_table();
+                                if (++shm->num_finished_cars == shm->total_num_cars) {
+                                    notify_race_end();
                                     return;
                                 }
 
@@ -208,9 +212,12 @@ void handle_all_pipes() {
                                     race_winner = true;
                                 }
 
-                                if (check_race_end()) {
+                                if (++shm->num_finished_cars == shm->total_num_cars) {
+                                    notify_race_end();
+                                    end_clock();
                                     show_stats_table();
                                     return;
+
                                 }
 
                                 break;
@@ -228,56 +235,6 @@ static void initialize_team_slots(int num_teams) {
     for(i = 0; i < num_teams; i++) {
         shm->race_teams[i].team_id = -1;
     }
-}
-
-static int check_race_end() {
-    int j, k;
-    race_box_t * box = NULL;
-    race_team_t * team = NULL;
-    race_car_t * car = NULL;
-
-    if (++shm->num_finished_cars == shm->total_num_cars) {
-        shm->sync_s.race_running = false;
-
-        DEBUG_MSG(RACE_END, EVENT, "")
-
-        j = 0;
-
-        while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
-            team = &shm->race_teams[j];
-            box = &team->team_box;
-
-            SYNC_BOX_COND
-            notify_cond_all(&box->cond);
-            END_SYNC_BOX_COND
-
-            k = 0;
-
-            while (k < team->num_cars) {
-                car = &shm->race_cars[j][k];
-
-                SYNC_CAR
-                notify_cond_all(&car->cond);
-                END_SYNC_CAR
-
-                k++;
-            }
-
-            j++;
-        }
-
-        SYNC_CLOCK_VALLEY
-        notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
-        END_SYNC_CLOCK_VALLEY
-
-        SYNC_CLOCK_RISE
-        notify_cond_all(&shm->sync_s.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
-        END_SYNC_CLOCK_RISE
-
-        return true;
-    }
-
-    return false;
 }
 
 void notify_race_start() {

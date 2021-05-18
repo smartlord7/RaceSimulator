@@ -114,12 +114,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/data_structures/priority_queue/priority_queue.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
