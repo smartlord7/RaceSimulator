@@ -20,6 +20,11 @@
 #define RELIABILITY "RELIABILITY"
 #define START_RACE "START RACE!"
 
+#define NEW_TEAM (-1)
+#define NO_TEAM_SLOT (-2)
+#define MISSING_ATTR (-3)
+#define NO_CAR_SLOT (-4)
+
 extern int interpret_command(char * buffer, race_car_t * car, int * team_id);
 
 extern int num_registered_teams;

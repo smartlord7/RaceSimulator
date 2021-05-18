@@ -64,6 +64,7 @@
 #define LARGE_SIZE 256
 #define XLARGE_SIZE 512
 #define LARGEST_SIZE 1024
+#define X_FACTOR 10
 
 // endregion constants
 

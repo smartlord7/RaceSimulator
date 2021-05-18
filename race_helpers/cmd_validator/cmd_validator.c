@@ -11,9 +11,10 @@
 static int check_start_conditions();
 static int get_team_id_by_name(char * team_name);
 static int validate_car(char * buffer, race_car_t * car, int * team_id);
-static int validate_team(char * buffer, race_team_t * team);
-static int validate_number(char * buffer, const char * expected_attr, float * result);
+static int validate_team(char * buffer, race_team_t * team, int * return_flag);
+static int validate_number_attr(char * buffer, const char * expected_attr, float * result);
 static int is_car_name_unique(char * car_name);
+static int validate_string_attr(char * buffer, const char * expected_attr, char * result);
 
 int num_registered_teams;
 
@@ -48,16 +49,18 @@ static int get_team_id_by_name(char * team_name) {
     int i;
 
     for(i = 0; i < config.num_teams; i++) {
-        if (shm->race_teams[i].team_id < 0) {
-            return -1;
-        }
-
+        //belongs to a already registered team
         if (strcasecmp(shm->race_teams[i].team_name, team_name) == 0) {
             return shm->race_teams[i].team_id;
         }
+        //belongs to a new team
+        if (shm->race_teams[i].team_id < 0) {
+            return NEW_TEAM;
+        }
     }
 
-    return -1;
+    //does not belong to any registered team and there are no more slots for new teams
+    return NO_TEAM_SLOT;
 }
 
 static int validate_car(char * buffer, race_car_t * car, int * team_id) {
@@ -65,6 +68,7 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     float speed, consumption, reliability;
     char * token, car_name[LARGE_SIZE], aux[LARGEST_SIZE];
     race_team_t team;
+    int return_flag;
 
     // validate team name
     if ((token = strtok_r(buffer, DELIM_1, &buffer)) == NULL) {
@@ -72,8 +76,10 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
     strcpy(aux, token);
-    if (!validate_team(aux, &team)) {
-        generate_log_entry(ERROR_MISSING_CAR_ATTR, (void *) TEAM, NULL);
+    if (!validate_team(aux, &team, &return_flag)) {
+        if(return_flag == MISSING_ATTR) {
+            generate_log_entry(ERROR_MISSING_CAR_ATTR, (void *) TEAM, NULL);
+        }
         return false;
     }
 
@@ -83,8 +89,9 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
     strcpy(aux, token);
-
-    strcpy(car_name, token);
+    if (!validate_string_attr(aux, CAR, car_name))  {
+        return false;
+    }
     if (!is_car_name_unique(car_name)) {
         generate_log_entry(ERROR_UNIQUE_CONSTRAINT_VIOLATED, (void *) CAR, car_name);
         return false;
@@ -96,7 +103,7 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
     strcpy(aux, token);
-    if (!validate_number(aux, SPEED, &speed) || speed <= 0) {
+    if (!validate_number_attr(aux, SPEED, &speed) || speed <= 0) {
         return false;
     }
 
@@ -106,7 +113,7 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
     strcpy(aux, token);
-    if (!validate_number(aux, CONSUMPTION, &consumption) || consumption <= 0)  {
+    if (!validate_number_attr(aux, CONSUMPTION, &consumption) || consumption <= 0)  {
         return false;
     }
 
@@ -116,7 +123,7 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
     strcpy(aux, token);
-    if (!validate_number(aux, RELIABILITY, &reliability) || reliability <= 0 || reliability > 100) {
+    if (!validate_number_attr(aux, RELIABILITY, &reliability) || reliability <= 0 || reliability > 100) {
         return false;
     }
 
@@ -125,13 +132,13 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     return true;
 }
 
-static int validate_team(char * buffer, race_team_t * team) {
+static int validate_team(char * buffer, race_team_t * team, int * return_flag) {
     char * car_attr, * team_name;
     int team_id;
 
     if ((car_attr = strtok_r(buffer, DELIM_2, &buffer)) == NULL) {
         generate_log_entry(ERROR_MISSING_CAR_ATTR, (void *) TEAM, NULL);
-
+        *return_flag = MISSING_ATTR;
         return false;
     } else {
         car_attr = trim_string(car_attr, (int) strlen(car_attr));
@@ -139,21 +146,22 @@ static int validate_team(char * buffer, race_team_t * team) {
 
             if ((team_name = strtok_r(NULL, DELIM_2, &buffer)) == NULL) {
                 generate_log_entry(ERROR_MISSING_CAR_ATTR_VALUE, (void *) TEAM, NULL);
-
+                *return_flag = MISSING_ATTR;
                 return false;
             }
             team_name = trim_string(team_name, (int) strlen(team_name));
 
             team_id = get_team_id_by_name(team_name);
 
-            if (team_id < 0 && num_registered_teams == config.num_teams) {
+            if (team_id == NO_TEAM_SLOT && num_registered_teams == config.num_teams) {
                 generate_log_entry(ERROR_TOO_MANY_TEAMS, NULL, NULL);
-
+                *return_flag = NO_TEAM_SLOT;
                 return false;
             }
 
-            if (team_id < 0 && num_registered_teams < config.num_teams) {
+            if (team_id == NEW_TEAM && num_registered_teams < config.num_teams) {
                 create_team(team_name, &team_id);
+                *return_flag = NEW_TEAM;
             }
 
 
@@ -161,21 +169,21 @@ static int validate_team(char * buffer, race_team_t * team) {
 
             if (team->num_cars == config.max_cars_per_team) {
                 generate_log_entry(ERROR_TOO_MANY_CARS, NULL, NULL);
-
+                *return_flag = NO_CAR_SLOT;
                 return false;
             }
-
+            *return_flag = RESULT_NEW_CAR;
             return true;
 
         } else {
             generate_log_entry(ERROR_INVALID_CAR_ATTR, (void *) car_attr, NULL);
-
+            *return_flag = MISSING_ATTR;
             return false;
         }
     }
 }
 
-static int validate_number(char * buffer, const char * expected_attr, float * result) {
+static int validate_number_attr(char * buffer, const char * expected_attr, float * result) {
     char * cmd_field, * field_value;
     float value;
 
@@ -225,4 +233,33 @@ static int is_car_name_unique(char * car_name) {
     }
 
     return true;
+}
+
+int validate_string_attr(char * buffer, const char * expected_attr, char * result) {
+    char * cmd_field, * field_value;
+
+    if ((cmd_field = strtok_r(buffer, DELIM_2, &buffer)) == NULL) {
+
+        return false;
+    }
+    cmd_field = trim_string(cmd_field, (int) strlen(cmd_field));
+
+    if (!strcasecmp(cmd_field, expected_attr)) {
+
+        if ((field_value = strtok_r(NULL, DELIM_2, &buffer)) == NULL) {
+
+            return false;
+        }
+
+        field_value = trim_string(field_value, (int) strlen(field_value));
+
+        strcpy(result, field_value);
+
+        return true;
+
+    }
+
+    generate_log_entry(ERROR_INVALID_CAR_ATTR, (void *) cmd_field, NULL);
+
+    return false;
 }

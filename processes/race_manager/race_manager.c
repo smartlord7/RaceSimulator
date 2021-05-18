@@ -60,13 +60,13 @@ void race_manager(){
 
 void handle_named_pipe() {
     int n, end_read = false;
-    char buffer[LARGEST_SIZE * 4], buffer2[LARGEST_SIZE * 4], * aux, * aux2;
+    char buffer[LARGEST_SIZE * X_FACTOR], buffer2[LARGEST_SIZE * X_FACTOR], * aux, * aux2;
     race_car_t car_data;
     int result, team_id;
 
     while (!end_read) {
         do {
-            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 10 * sizeof(char));
+            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * X_FACTOR * sizeof(char));
 
             if (n > 0) {
                 buffer[n - 1]= '\0';
