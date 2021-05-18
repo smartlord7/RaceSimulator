@@ -202,11 +202,14 @@ static int validate_number_attr(char * buffer, const char * expected_attr, float
 
         field_value = trim_string(field_value, (int) strlen(field_value));
 
+        printf("value %s: %s\n", expected_attr, field_value);
+
         if (to_float(field_value, &value) == FLOAT_CONVERSION_FAILURE || value <= 0) {
             generate_log_entry(ERROR_INVALID_CAR_ATTR_VALUE, (void *) field_value, (void *) expected_attr);
 
             return false;
         }
+        printf("value converted %s: %f\n", expected_attr, value);
 
         * result = value;
 
