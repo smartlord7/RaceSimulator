@@ -38,8 +38,7 @@
 #define END_SYNC_CAR_COND unlock_mutex(&car->cond_mutex);
 #define SYNC_BOX_COND lock_mutex(&box->mutex);
 #define END_SYNC_BOX_COND unlock_mutex(&box->mutex);
-#define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
-#define NAMED_PIPE_INDEX 0
+
 #define GLOBAL_CLOCK_SAYS "[GLOBAL_CLOCK] "
 #define GLOBAL_CLOCK_TIME GLOBAL_CLOCK_SAYS "%d tu"
 #define GLOBAL_CLOCK_WAITERS GLOBAL_CLOCK_SAYS "WAITERS: %d"
@@ -49,6 +48,14 @@
 #define GLOBAL_CLOCK_VALLEY GLOBAL_CLOCK_SAYS "CLOCK VALLEY!"
 #define GLOBAL_CLOCK_RISE GLOBAL_CLOCK_SAYS "CLOCK RISE!"
 #define GLOBAL_CLOCK_RELEASE GLOBAL_CLOCK_SAYS "RELEASE ALL THREADS!"
+
+#define RACE_SIMULATOR "RACE_SIMULATOR"
+#define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
+#define NAMED_PIPE_INDEX 0
+#define SIGNAL_SIGINT "SIGINT"
+#define SIGNAL_SIGSEGV "SIGSEGV"
+#define SIGNAL_SIGTSTP "SIGTSTP"
+#define SIGNAL_SIGUSR1 "SIGUSR1"
 
 #define SMALLEST_SIZE 16
 #define XSMALL_SIZE 32
@@ -74,6 +81,9 @@ extern char * mmap;
 
 extern void sync_sleep(int time_units);
 extern void wait_race_start();
+extern void notify_race_end();
+extern void signal_handler(int signum);
+extern void end_clock();
 
 // endregion global variables
 
