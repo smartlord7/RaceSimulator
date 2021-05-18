@@ -361,13 +361,14 @@ static void destroy_ipcs(){
 static void segfault_handler() {
     printf("WELL... THAT ESCALATED QUICKLY...\n");
     printf("proc %ul\n", getpid());
-    sleep(3090);
 }
 
 static void terminate() {
     if (ipcs_created) {
         destroy_ipcs();
     }
+
+    terminate_proc_grp(getpgrp());
 
     exit(EXIT_FAILURE);
 

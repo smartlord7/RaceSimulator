@@ -93,17 +93,6 @@ static void generate_malfunctions(void) {
         if (!shm->sync_s.race_running) {
             return;
         }
-
-        if (shm->sync_s.race_interrupted) { // gets trapped here when it realizes the race has been suddenly interrupted.
-            SYNC
-            while (shm->sync_s.race_running) {
-                wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
-            }
-            END_SYNC
-
-            return;
-        }
-
     }
 }
 

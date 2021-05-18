@@ -48,6 +48,7 @@ void race_manager(){
     num_registered_teams = 0;
 
     pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
+
     initialize_team_slots(num_teams);
     handle_named_pipe();
     notify_race_start();
