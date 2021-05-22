@@ -66,12 +66,13 @@ void race_manager(){
             shm->hold_on_end = false;
             shm->state = NOT_STARTED;
             restart_teams();
+            unpause_clock();
+            reset_race();
         }
-        unpause_clock();
+
         notify_race_start();
         handle_all_pipes();
         wait_procs();
-        reset_race();
 
     } while(shm->hold_on_end);
 
@@ -244,7 +245,7 @@ static void handle_all_pipes() {
                                 SYNC
                                 SYNC_CLOCK_VALLEY
                                 shm->num_cars_on_track--;
-                                notify_cond(&shm->sync_s.clock_valley_cond);
+                                notify_cond(&shm->thread_clock.clock_valley_cond);
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
@@ -265,7 +266,7 @@ static void handle_all_pipes() {
                                     SYNC
                                     SYNC_CLOCK_VALLEY
                                     shm->num_cars_on_track--;
-                                    notify_cond(&shm->sync_s.clock_valley_cond);
+                                    notify_cond(&shm->thread_clock.clock_valley_cond);
                                     END_SYNC_CLOCK_VALLEY
                                     END_SYNC
                                 }

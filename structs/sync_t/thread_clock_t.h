@@ -20,7 +20,7 @@
 
 //region structures
 
-typedef struct sync_t sync_t;
+typedef struct thread_clock_t thread_clock_t;
 
 /**
  * @struct sync_t
@@ -69,11 +69,11 @@ typedef struct sync_t sync_t;
  * Condition variable used to signal/broadcast that the clock is on a valley state.
  *
  */
-typedef struct sync_t {
+typedef struct thread_clock_t {
     int clock_on, clock_paused, num_clock_waiters, global_time;
     mutex_t clock_rise_mutex, clock_valley_mutex;
     cond_t clock_rise_cond, clock_valley_cond;
-} sync_t;
+} thread_clock_t;
 
 //endregion structures
 
