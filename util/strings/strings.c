@@ -28,6 +28,24 @@
 
 // endregion constants
 
+//region private functions prototypes
+
+/**
+ * @def get_max_str_length
+ * @brief Function that obtain the maximum string length from a set of strings.
+ *
+ * @param strings
+ * Set of strings.
+ *
+ * @param size
+ * Size of the set of strings.
+ *
+ * @return the maximum length found.
+ */
+static int get_max_str_length(char ** strings, int size);
+
+//endregion private functions prototypes
+
 // region public functions
 
 char * string(int size) {
