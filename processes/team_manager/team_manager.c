@@ -9,19 +9,17 @@
 
 // region dependencies
 
-#include "unistd.h"
 #include "signal.h"
 #include "stdlib.h"
-#include "stdio.h"
 #include "string.h"
 #include "pthread.h"
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../util/process_manager/process_manager.h"
 #include "../../ipcs/message_queue/msg_queue.h"
-#include "team_manager.h"
 #include "../../util/numbers/numbers.h"
 #include "../../util/file/file.h"
 #include "../../race_helpers/log_generator/log_generator.h"
+#include "team_manager.h"
 
 // endregion dependencies
 
@@ -115,11 +113,11 @@ void manage_box(race_box_t *box) {
 
         // waits for an incoming car or for the number of cars in SAFETY mode to be different of 0.
         SYNC_BOX_COND
-        while (shm->sync_s.race_running && team->num_cars_safety == 0 && box->current_car == NULL) {
+        while (shm->state == STARTED && team->num_cars_safety == 0 && box->current_car == NULL) {
             wait_cond(&box->cond, &box->mutex);
         }
 
-        if (!shm->sync_s.race_running) {
+        if (shm->state != STARTED) {
             END_SYNC_BOX_COND
             return;
         }
@@ -132,7 +130,7 @@ void manage_box(race_box_t *box) {
 
             while (true) {
                 SYNC_BOX_COND
-                while (shm->sync_s.race_running && team->num_cars_safety > 0 && box->current_car == NULL) {
+                while (shm->state == STARTED && team->num_cars_safety > 0 && box->current_car == NULL) {
                     wait_cond(&box->cond, &box->mutex);
                 }
                 if (team->num_cars_safety == 0) {
@@ -141,8 +139,8 @@ void manage_box(race_box_t *box) {
                 }
                 END_SYNC_BOX_COND
 
-                if (!shm->sync_s.race_running) {
-                    if (box->current_car != NULL) {
+                if (shm->state != STARTED) {
+                    if (shm->state == INTERRUPTED && box->current_car != NULL) {
                         SYNC_CAR_COND
                         box->car_dispatched = true;
                         notify_cond(&car->cond);
@@ -158,7 +156,7 @@ void manage_box(race_box_t *box) {
                 generate_log_entry(BOX_FIX, box, NULL);
                 sync_sleep(repair_time);
 
-                if (!shm->sync_s.race_running) {
+                if (shm->state != STARTED) {
 
                     SYNC_CAR_COND
                     box->car_dispatched = true;
@@ -240,7 +238,7 @@ void simulate_car(race_car_t *car) {
         // - it is one step or less closer of the position = 0m (where the box is located).
         // - if the box is reserved and the car is in safety mode or the box is free.
         // - if the car can gain access to the box's lock.
-        if (shm->sync_s.race_running && box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box &&
+        if (shm->state == STARTED && box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box &&
                 ((box->state == RESERVED && car->state == SAFETY) || box->state == FREE) && pthread_mutex_trylock(&box->available) == 0) {
 
             // spend the needed fuel to reach the box. If the car's position = 0 then the spent fuel is also 0.
@@ -280,14 +278,14 @@ void simulate_car(race_car_t *car) {
 
             // wait for the box notification that the work on the car is done.
             SYNC_CAR_COND
-            while (box->car_dispatched == false && shm->sync_s.race_running) {
+            while (box->car_dispatched == false) {
                 wait_cond(&car->cond, &car->cond_mutex);
             }
             END_SYNC_CAR_COND
 
             unlock_mutex(&box->available);
 
-            if (!shm->sync_s.race_running || shm->sync_s.race_interrupted) {
+            if (shm->state == INTERRUPTED) {
                 CHANGE_CAR_STATE(FINISH);
                 generate_log_entry(CAR_FINISH, car, NULL);
                 exit_thread();
@@ -356,7 +354,7 @@ void simulate_car(race_car_t *car) {
 
             generate_log_entry(CAR_COMPLETE_LAP, car, NULL);
 
-            if (shm->sync_s.race_interrupted) {
+            if (shm->state == INTERRUPTED) {
                 CHANGE_CAR_STATE(FINISH);
                 generate_log_entry(CAR_FINISH, car, NULL);
                 exit_thread();

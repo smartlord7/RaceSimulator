@@ -54,7 +54,7 @@ void race_manager(){
     do {
         handle_named_pipe();
 
-        if (shm->sync_s.simulation_ended) {
+        if (shm->state == CLOSED) {
             end_clock();
             notify_sim_end();
             wait_procs();
@@ -62,9 +62,9 @@ void race_manager(){
             break;
         }
 
-        if (shm->sync_s.race_loop) {
-            shm->sync_s.race_loop = false;
-            shm->sync_s.race_interrupted = false;
+        if (shm->hold_on_end) {
+            shm->hold_on_end = false;
+            shm->state = NOT_STARTED;
             restart_teams();
         }
         unpause_clock();
@@ -73,15 +73,15 @@ void race_manager(){
         wait_procs();
         reset_race();
 
-    } while(shm->sync_s.race_loop);
+    } while(shm->hold_on_end);
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER)
 }
 
 void notify_race_start() {
     SYNC
-    shm->sync_s.race_running = true;
-    notify_cond_all(&shm->sync_s.cond);
+    shm->state = STARTED;
+    notify_cond_all(&shm->cond);
     END_SYNC
 }
 
@@ -109,7 +109,7 @@ void create_new_team(char * team_name, int * team_id) {
     create_unn_pipe(unn_pipe_fds);
     pipe_fds[i + 1] = unn_pipe_fds[0];
 
-    create_process(TEAM_MANAGER, team_manager, (void *) team);
+    create_process(TEAM_MANAGER, (void (*)(void *)) team_manager, (void *) team);
     close_fd(unn_pipe_fds[1]);
 }
 
@@ -147,7 +147,7 @@ static void handle_named_pipe() {
                             break;
                         case RESULT_EXIT:
                             generate_log_entry(EXIT_PROGRAM, NULL, NULL);
-                            shm->sync_s.simulation_ended = true;
+                            shm->state = CLOSED;
                             return;
                         case RESULT_HELP:
                             printf("%s\n", COMMANDS_HELP);
@@ -281,6 +281,8 @@ static void handle_all_pipes() {
                                 }
 
                                 break;
+                            default:
+                                break;
                         }
                     }
                 }
@@ -291,8 +293,8 @@ static void handle_all_pipes() {
 
 static void notify_sim_end() {
     SYNC
-    shm->sync_s.simulation_ended = true;
-    notify_cond_all(&shm->sync_s.cond);
+    shm->state = CLOSED;
+    notify_cond_all(&shm->cond);
     END_SYNC
 }
 
@@ -300,7 +302,7 @@ static int check_race_end() {
     if (++shm->num_finished_cars == shm->total_num_cars) {
         notify_race_end();
 
-        if (shm->sync_s.race_loop) {
+        if (shm->hold_on_end) {
             pause_and_restart_clock();
         } else {
             end_clock();

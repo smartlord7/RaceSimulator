@@ -23,7 +23,6 @@
 #define RACE_CONFIG "RACE_TEAM"
 #define true 1
 #define false 0
-#define MAX_BUFFER_SIZE 512
 #define NULL_STR_SIZE 5
 
 // endregion constants
@@ -65,14 +64,16 @@ char * race_box_state_to_string(box_state_t state) {
     buffer = string(BUF_SIZE);
 
     switch(state) {
-        case RACE:
+        case FREE:
             snprintf(buffer, BUF_SIZE, "FREE");
             break;
-        case SAFETY:
+        case RESERVED:
             snprintf(buffer, BUF_SIZE, "RESERVED");
             break;
-        case IN_BOX:
+        case OCCUPIED:
             snprintf(buffer, BUF_SIZE, "OCCUPIED");
+            break;
+        default:
             break;
     }
 

@@ -17,7 +17,6 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
-#include <errno.h>
 #include "memory_mapped_file.h"
 #include "../../util/exception_handler/exception_handler.h"
 
@@ -25,20 +24,20 @@
 #define false 0
 #define MMAP_OFFSET 0
 
-struct stat statbuf;
+struct stat stat_buf;
 size_t mmap_size;
 
 char * create_mmap_file(int fd, size_t * size) {
     char * mmap_file;
 
-    if (fstat(fd, &statbuf)) {
+    if (fstat(fd, &stat_buf)) {
         throw_and_exit(FILE_STATS_EXCEPTION, "");
     }
 
-    *size = statbuf.st_size;
-    mmap_size = statbuf.st_size;
+    *size = (size_t) stat_buf.st_size;
+    mmap_size = (size_t) stat_buf.st_size;
 
-    if ((mmap_file = mmap(NULL, statbuf.st_size, PROT_WRITE , MAP_SHARED, fd, 0)) == (caddr_t) - 1) {
+    if ((mmap_file = mmap(NULL, (size_t) stat_buf.st_size, PROT_WRITE , MAP_SHARED, fd, 0)) == (caddr_t) - 1) {
         throw_and_exit(MMAP_CREATE_EXCEPTION,"");
     }
 

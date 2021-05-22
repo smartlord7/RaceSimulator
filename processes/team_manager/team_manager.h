@@ -21,8 +21,6 @@
 #define RACE_CAR_SAY "[RACE CAR %s] "
 #define TEAM_MANAGER_SAY "[TEAM MANAGER %s] "
 #define CAR_MOVE RACE_CAR_SAY "RAN %.2fm!"
-#define BOX_CAR_ARRIVE TEAM_MANAGER_SAY "THE CAR %s HAS ARRIVED TO THE BOX!"
-#define BOX_RESERVE TEAM_MANAGER_SAY "THE BOX HAS BEEN RESERVED!"
 
 #define car_close_to_box (car->current_pos == 0 || (car->current_pos <= config.lap_distance && car->current_pos + car->current_speed * config.time_units_per_sec >= config.lap_distance))
 #define CHANGE_CAR_STATE(new_car_state) \
@@ -48,7 +46,7 @@ unlock_mutex(&team->pipe_mutex)
  * @brief Worker function executed when the team manager process is created.
  *
  */
-void team_manager();
+void team_manager(void *);
 
 // endregion public functions
 

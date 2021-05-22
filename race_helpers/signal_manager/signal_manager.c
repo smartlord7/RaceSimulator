@@ -42,7 +42,7 @@ static void segfault_handler() {
 static void sigtstp_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGTSTP, NULL);
 
-    if (shm->sync_s.race_running) {
+    if (shm->state == STARTED) {
         show_stats_table();
     } else {
         generate_log_entry(RACE_NOT_STARTED, (void *) SIGNAL_IGNORE, NULL);
@@ -52,7 +52,7 @@ static void sigtstp_handler() {
 static void sigint_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGINT, NULL);
 
-    if (!shm->sync_s.race_running) {
+    if (shm->state == NOT_STARTED) {
         int named_pipe_fd;
 
         named_pipe_fd = open_file(RACE_SIMULATOR_NAMED_PIPE, O_WRONLY);
@@ -60,17 +60,17 @@ static void sigint_handler() {
         close_fd(named_pipe_fd);
 
     } else {
-        shm->sync_s.race_interrupted = true;
-        shm->sync_s.race_loop = false;
+        shm->state = INTERRUPTED;
+        shm->hold_on_end = false;
     }
 }
 
 static void sigusr1_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGUSR1, NULL);
 
-    if (shm->sync_s.race_running) {
-        shm->sync_s.race_interrupted = true;
-        shm->sync_s.race_loop = true;
+    if (shm->state == STARTED) {
+        shm->state = INTERRUPTED;
+        shm->hold_on_end = true;
     } else {
         generate_log_entry(RACE_NOT_STARTED, (void *) SIGNAL_IGNORE, NULL);
     }

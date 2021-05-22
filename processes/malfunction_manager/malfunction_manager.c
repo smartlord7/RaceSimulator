@@ -93,8 +93,8 @@ static void generate_malfunctions(void) {
 
         sync_sleep(config.malfunction_interval);
 
-        if (!shm->sync_s.race_running) {
-            if (shm->sync_s.race_loop) {
+        if (shm->state == FINISHED) {
+            if (shm->hold_on_end) {
                 if (!wait_race_start()) {
                     return;
                 }

@@ -226,6 +226,8 @@ race_config_t * read_race_config() {
                validate_interval(fuel_tank_capacity, FUEL_TANK_CAPACITY, MIN_FUEL_TANK_CAPACITY, MAX_FUEL_TANK_CAPACITY);
 
                break;
+           default:
+               break;
        }
 
        current_line++;

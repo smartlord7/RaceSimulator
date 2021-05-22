@@ -40,7 +40,6 @@ char * get_curr_time_as_str();
 
 const char * log_file_path = NULL;
 char * mmap;
-size_t file_size;
 int log_fd;
 
 // endregion global variables

@@ -17,8 +17,6 @@
 #include "../../util/exception_handler/exception_handler.h"
 #include "race_car_t.h"
 
-int check_unique_id(int car_id, race_car_t * car_data);
-
 // endregion dependencies
 
 // region public functions
@@ -103,6 +101,8 @@ char * race_car_state_to_string(race_car_state state) {
         case FINISH:
             snprintf(buffer, BUF_SIZE, "FINISHED");
             break;
+        default:
+            break;
     }
 
     return buffer;
@@ -122,8 +122,8 @@ void set_state(race_car_t * race_car, race_car_state state) {
 
             break;
         case SAFETY:
-            race_car->current_consumption = SAFETY_CONSUMPTION_RATIO * race_car->consumption;
-            race_car->current_speed = SAFETY_SPEED_RATIO * race_car->speed;
+            race_car->current_consumption = (float) (SAFETY_CONSUMPTION_RATIO * race_car->consumption);
+            race_car->current_speed = (float) (SAFETY_SPEED_RATIO * race_car->speed);
 
             break;
         case IN_BOX:
