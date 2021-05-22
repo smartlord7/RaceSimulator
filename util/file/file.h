@@ -61,7 +61,7 @@ extern void close_fd(int fd);
  *
  * @throws StreamReadException if it is not possible to read from the stream.
  */
-extern void read_stream(int fd, void * strct, size_t size);
+extern void read_stream(int fd, void * buffer, size_t size);
 
 /**
  * @def write_stream

@@ -9,8 +9,6 @@
 
 // region dependencies
 
-#include <stdio.h>
-#include <malloc.h>
 #include "string.h"
 #include "assert.h"
 #include "cmd_validator.h"
@@ -154,6 +152,8 @@ int interpret_command(char * buffer, race_car_t * car, int * team_id) {
         }
     } else if (strcasecmp(buffer, EXIT_SIMULATION) == 0) {
         return RESULT_EXIT;
+    } else if (strcasecmp(buffer, HELP_REQ) == 0) {
+        return RESULT_HELP;
     }
     return RESULT_INVALID_COMMAND;
 }
@@ -195,7 +195,6 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     float speed, consumption, reliability;
     char * token, car_name[LARGE_SIZE], aux[LARGEST_SIZE];
     race_team_t team;
-    race_car_t * temp = NULL;
     int return_flag;
 
     // validate team name

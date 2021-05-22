@@ -99,15 +99,15 @@ void show_stats_table() { // TODO: validate functions result
             max_car_name_col_width, max_team_name_col_width, row_width, title_length,
             team_id_col_width, car_laps_col_width, car_box_stops_col_width;
 
-    max_team_name_len = get_team_name_max_len(sha_mem->race_teams, conf->num_teams); // TODO: replace by config
-    max_car_name_len = get_car_name_max_len(&sha_mem->race_cars[0][0], sha_mem->total_num_cars);
+    max_team_name_len = get_team_name_max_len(); // TODO: replace by config
+    max_car_name_len = get_car_name_max_len();
     num_table_cars = NUM_TOP_CARS + 1;
-    title_length = strlen(RACE_STATISTICS);
-    team_id_col_width =  strlen(CAR_TEAM_ID);
-    car_laps_col_width =  strlen(CAR_NUM_COMPLETED_LAPS);
-    car_box_stops_col_width =  strlen(CAR_NUM_BOX_STOPS);
-    max_car_name_col_width =  strlen(CAR_NAME);
-    max_team_name_col_width =  strlen(CAR_TEAM_NAME);
+    title_length = (int) strlen(RACE_STATISTICS);
+    team_id_col_width = (int) strlen(CAR_TEAM_ID);
+    car_laps_col_width = (int) strlen(CAR_NUM_COMPLETED_LAPS);
+    car_box_stops_col_width = (int) strlen(CAR_NUM_BOX_STOPS);
+    max_car_name_col_width = (int) strlen(CAR_NAME);
+    max_team_name_col_width = (int) strlen(CAR_TEAM_NAME);
 
     // construct the table structure
     if (sha_mem->total_num_cars < num_table_cars) {

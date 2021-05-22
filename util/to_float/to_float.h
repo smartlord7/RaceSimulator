@@ -3,7 +3,7 @@
 
 // region constants
 
-#define FLOAT_SIZE_EXCEEDED -1
+#define FLOAT_SIZE_EXCEEDED (-1)
 #define FLOAT_CONVERSION_FAILURE 0
 #define FLOAT_CONVERSION_SUCCESS 1
 

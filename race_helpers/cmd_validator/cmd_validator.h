@@ -23,6 +23,7 @@
 #define RESULT_BEGIN_RACE 4
 #define RESULT_CANNOT_START_RACE 5
 #define RESULT_EXIT 6
+#define RESULT_HELP 7
 
 #define CAR "CAR"
 #define TEAM "TEAM"
@@ -33,6 +34,7 @@
 #define START_RACE "START RACE!"
 #define ADDCAR "ADDCAR"
 #define EXIT_SIMULATION "EXIT"
+#define HELP_REQ "HELP"
 
 #define NEW_TEAM (-1)
 #define NO_TEAM_SLOT (-2)

@@ -17,8 +17,19 @@
 #define DELIM_3 "\n"
 
 #define RACE_MANAGER "RACE_MANAGER"
-
-#define COMMAND_PREVIEW_SIZE 7
+#define COMMANDS_HELP "------------------------------------RACE SIMULATOR------------------------------------\n"\
+                      "AVAILABLE COMMANDS:\n"\
+                      "-> 'START RACE!' - START THE RACE WITH THE GIVEN CONFIGURATIONS AND RACE CARS\n"\
+                      "-> 'EXIT' - EXIT THE PROGRAM (EQUIVALENT TO Ctrl+Z)\n"\
+                      "-> 'ADDCAR TEAM: <team_name>, CAR: <car_name>, SPEED: <speed>, CONSUMPTION: <consumption>, RELIABILITY. <reliability>' -\n" \
+                      "ADD A CAR TO THE RACE WITH SPECIFIED PARAMETERS\n"\
+                      "---------------------------------------------------------------------------------------\n"\
+                      "CAR PARAMETER CONSTRAINTS:"\
+                      "-> TEAM - MUST BE AN UNIQUE STRING AMONGST THE PREVIOUSLY INSERTED TEAM NAMES\n"\
+                      "-> CAR - MUST BE AN UNIQUE STRING AMONGST THE PREVIOUSLY INSERTED CAR NAMES\n"\
+                      "-> SPEED - MUST BE AN FLOATING POINT NUMBER GREATER THAN 0\n"\
+                      "-> CONSUMPTION - MUST BE AN FLOATING POINT NUMBER GREATER THAN 0\n"\
+                      "-> RELIABILITY - MUST BE AN FLOATING POINT NUMBER BETWEEN 0 (EXCLUSIVE) AND 100 (INCLUSIVE)\n"
 
 extern int unn_pipe_fds[2];
 

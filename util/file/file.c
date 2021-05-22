@@ -10,13 +10,10 @@
 //region dependencies
 
 #include "unistd.h"
-#include "errno.h"
-#include "stdio.h"
 #include "assert.h"
 #include "fcntl.h"
 #include "file.h"
 #include "../exception_handler/exception_handler.h"
-#include "../debug/debug.h"
 
 //endregion dependencies
 
@@ -39,12 +36,13 @@ void close_fd(int fd) {
 void read_stream(int fd, void * buffer, size_t size) {
     assert(fd > 0 && buffer != NULL);
 
-    size_t n, total = 0;
+    size_t total = 0;
+    ssize_t n;
 
     while (total < size) {
         n = read(fd, (char * ) buffer + total, size - total);
 
-        throw_if_exit(n == (size_t) -1, STREAM_READ_EXCEPTION, fd);
+        throw_if_exit(n == -1, STREAM_READ_EXCEPTION, fd);
         total += n;
     }
 }

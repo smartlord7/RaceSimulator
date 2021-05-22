@@ -27,6 +27,10 @@
 
 // region structures
 
+typedef enum simulation_state {
+    NOT_STARTED, STARTED, INTERRUPTED, FINISHED, CLOSED
+} simulation_state;
+
 /**
  * @struct shared_memory_t
  * @brief Struct that holds all the information needed to be shared amongst the created processes of the race simulator.
@@ -46,11 +50,15 @@ typedef struct shared_memory_t {
     race_team_t race_teams[MAX_NUM_TEAMS];
     race_car_t race_cars[MAX_NUM_TEAMS][MAX_MAX_CARS_PER_TEAM];
     sync_t sync_s;
-    int num_cars_on_track,
+    simulation_state state;
+    int hold_on_end,
+        num_cars_on_track,
         total_num_cars,
         num_finished_cars, // TODO: Integrate in a stats struct.
         num_malfunctions,
         num_refuels;
+    cond_t cond;
+    mutex_t mutex;
 } shared_memory_t;
 
 // endregion structures
