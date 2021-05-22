@@ -13,6 +13,8 @@
 #define true 1
 #define false 0
 
+// region public functions prototypes
+
 /**
  * @def create_msq_queue
  * @brief Function that creates a message queue.
@@ -72,5 +74,7 @@ extern void snd_msg(int msgq_id, void * msg, size_t msg_size);
  * @throws MsgQueueDestructionException if it is not possible to destroy the message queue.
  */
 extern void destroy_msg_queue(int msgq_id);
+
+// endregion public functions prototypes
 
 #endif //IPCS_MSG_QUEUE_H

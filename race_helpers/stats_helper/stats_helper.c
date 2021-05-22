@@ -1,3 +1,14 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 22/05/2021
+*/
+
+// region dependencies
+
 #include <assert.h>
 #include "malloc.h"
 #include "stdlib.h"
@@ -5,9 +16,17 @@
 #include "stats_helper.h"
 #include "../../util/strings/strings.h"
 
+// endregion dependencies
+
+// region global variables
+
 race_config_t * conf = NULL;
 shared_memory_t * sha_mem = NULL;
 mutex_t * mutex = NULL;
+
+// endregion global variables
+
+// region private function prototypes
 
 static void swap_car(race_car_t * car1, race_car_t * car2);
 static void bubble_sort_race_cars(race_car_t * race_cars, int size);
@@ -15,6 +34,22 @@ static int get_team_name_max_len();
 static int get_car_name_max_len();
 static race_car_t * get_all_cars(shared_memory_t * shm_cpy);
 
+// endregion private function prototypes
+
+/**
+ * @def stats_helper_init
+ * @brief Function that initializes the functionality to capture race statistics.
+ *
+ * @param cfg
+ * Race configurations.
+ *
+ * @param shmem
+ * Shared memory containing data about the race.
+ *
+ * @param mtx
+ * Pthread mutex associated with the functionality.
+ *
+ */
 void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * mtx) {
     assert(cfg != NULL && shmem != NULL && mtx != NULL);
 
@@ -23,6 +58,9 @@ void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * m
     mutex = mtx;
 }
 
+/**
+ *
+ */
 void show_stats_table() { // TODO: validate functions result
     char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], * row_sep_half, * row_sep, * race_car_state_str;
     shared_memory_t * shm_cpy = NULL;
@@ -128,12 +166,22 @@ void show_stats_table() { // TODO: validate functions result
     free(race_cars);
 }
 
+/**
+ *
+ * @param car1
+ * @param car2
+ */
 static void swap_car(race_car_t * car1, race_car_t * car2) {
     race_car_t temp = * car1;
     * car1 = * car2;
     * car2 = temp;
 }
 
+/**
+ *
+ * @param race_cars
+ * @param size
+ */
 static void bubble_sort_race_cars(race_car_t * race_cars, int size) {
     int i, j;
 
@@ -146,6 +194,10 @@ static void bubble_sort_race_cars(race_car_t * race_cars, int size) {
     }
 }
 
+/**
+ *
+ * @return
+ */
 static int get_team_name_max_len() {
     int max_len = -1, i = 0, len;
 
@@ -161,6 +213,10 @@ static int get_team_name_max_len() {
     return max_len;
 }
 
+/**
+ *
+ * @return
+ */
 static int get_car_name_max_len() {
     int max_len, len, i, j;
     race_team_t * team = NULL;
@@ -191,6 +247,11 @@ static int get_car_name_max_len() {
     return max_len;
 }
 
+/**
+ *
+ * @param shm_cpy
+ * @return
+ */
 static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     int i, j, k;
     race_car_t * cars = NULL;
@@ -213,6 +274,8 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
 
     return cars;
 }
+
+//region unitary test
 
 /**int main() {
     srand(time(NULL));
@@ -272,3 +335,5 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     show_stats_table();
 
 }*/
+
+//endregion unitary test
