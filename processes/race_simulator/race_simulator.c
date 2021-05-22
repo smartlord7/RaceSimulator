@@ -84,7 +84,7 @@ shared_memory_t * shm = NULL;
  */
 
 int main() {
-    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR)
+    DEBUG_MSG(PROCESS_RUN, EVENT, RACE_SIMULATOR)
 
     signal(SIGSEGV, signal_handler);
     signal(SIGINT, signal_handler);
@@ -245,7 +245,6 @@ static void init_global_clock() {
         DEBUG_MSG(GLOBAL_CLOCK_VALLEY, TIME, "");
 
         ms_sleep((uint) interval_ms);
-        show_stats_table();
 
         generate_log_entry(CLOCK, NULL, NULL);
 
