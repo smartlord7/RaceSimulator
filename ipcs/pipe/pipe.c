@@ -1,6 +1,14 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 18/05/2021
+*/
+
 #include "mqueue.h"
 #include "assert.h"
-#include "errno.h"
 #include "unistd.h"
 #include "sys/stat.h"
 #include "pipe.h"
