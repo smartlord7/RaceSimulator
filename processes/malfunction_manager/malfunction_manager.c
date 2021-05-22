@@ -45,6 +45,7 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 void malfunction_manager(){
     DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER)
 
+    signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
 
@@ -63,7 +64,9 @@ static void generate_malfunctions(void) {
     race_car_t * car;
     malfunction_t msg;
 
-    wait_race_start();
+    if (!wait_race_start()) {
+        return;
+    }
 
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
@@ -91,19 +94,14 @@ static void generate_malfunctions(void) {
         sync_sleep(config.malfunction_interval);
 
         if (!shm->sync_s.race_running) {
-            return;
-        }
-
-        if (shm->sync_s.race_interrupted) { // gets trapped here when it realizes the race has been suddenly interrupted.
-            SYNC
-            while (shm->sync_s.race_running) {
-                wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
+            if (shm->sync_s.race_loop) {
+                if (!wait_race_start()) {
+                    return;
+                }
+            } else {
+                return;
             }
-            END_SYNC
-
-            return;
         }
-
     }
 }
 

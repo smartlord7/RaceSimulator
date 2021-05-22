@@ -49,7 +49,7 @@ extern char * append_f(char * first, const char * fmt, ...);
 extern char * trim_string(char * buffer, int size);
 extern int starts_with(char * string, char * string2);
 extern int starts_with_ignore_case(char * string, char * string2);
-extern char * repeat_str(char * str, int times);
+extern char * repeat_str(const char * str, int times);
 
 // region public functions prototypes
 

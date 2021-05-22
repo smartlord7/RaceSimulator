@@ -116,6 +116,7 @@ void set_state(race_car_t * race_car, race_car_state state) {
     switch (state) {
 
         case RACE:
+            race_car->current_pos = 0;
             race_car->current_speed = race_car->speed;
             race_car->current_consumption = race_car->consumption;
 

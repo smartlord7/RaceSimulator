@@ -13,6 +13,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o"
   "CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o"
   "CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o"
+  "CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o"
   "CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o"
   "CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o"
   "CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o"

@@ -23,11 +23,13 @@ typedef enum log_msg_type {
     ERROR_TOO_MANY_TEAMS,
     ERROR_TOO_MANY_CARS,
     ERROR_UNIQUE_CONSTRAINT_VIOLATED,
+    EXIT_PROGRAM,
     SIMULATION_START,
     SIMULATION_END,
     CLOCK,
     RACE_START,
     RACE_FINISH,
+    RACE_NOT_STARTED,
     RACE_CANNOT_START,
     COMMAND_RECEIVE,
     COMMAND_REJECT,
@@ -54,7 +56,7 @@ typedef enum log_msg_type {
 #define FACTOR 4
 #define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n\n"
 #define TIMESTAMP_DELIMITER " "
-#define OF_TIMESTAMP " OF TIMESTAMP"
+#define OF_TIMESTAMP "OF TIMESTAMP"
 #define NUM_TIMESTAMP_FIELDS 3
 #define true 1
 #define false 0

@@ -64,7 +64,6 @@
 #define LARGE_SIZE 256
 #define XLARGE_SIZE 512
 #define LARGEST_SIZE 1024
-#define X_FACTOR 10
 
 // endregion constants
 
@@ -80,9 +79,11 @@ extern char * mmap;
 // region global variables
 
 extern void sync_sleep(int time_units);
-extern void wait_race_start();
+extern int wait_race_start();
 extern void notify_race_end();
 extern void signal_handler(int signum);
+extern void pause_and_restart_clock();
+extern void unpause_clock();
 extern void end_clock();
 
 // endregion global variables

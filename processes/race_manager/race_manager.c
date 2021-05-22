@@ -33,40 +33,95 @@ static void initialize_team_slots(int num_teams);
 static void handle_named_pipe();
 static void handle_all_pipes();
 static void notify_race_start();
+static void notify_sim_end();
 static void register_car(race_car_t * car, int team_id);
+static void reset_race();
+static void restart_teams();
+static int check_race_end();
 
-int pipe_fds[MAX_NUM_TEAMS + 1];
+int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
 
+    signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
+    signal(SIGUSR1, signal_handler);
+    initialize_team_slots(config.num_teams);
 
-    int num_teams = config.num_teams;
-    num_registered_teams = 0;
+    do {
+        handle_named_pipe();
 
-    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
-    initialize_team_slots(num_teams);
-    handle_named_pipe();
-    notify_race_start();
-    handle_all_pipes();
+        if (shm->sync_s.simulation_ended) {
+            end_clock();
+            notify_sim_end();
+            wait_procs();
 
-    wait_procs();
+            break;
+        }
+
+        if (shm->sync_s.race_loop) {
+            shm->sync_s.race_loop = false;
+            shm->sync_s.race_interrupted = false;
+            restart_teams();
+        }
+        unpause_clock();
+        notify_race_start();
+        handle_all_pipes();
+        wait_procs();
+        reset_race();
+
+    } while(shm->sync_s.race_loop);
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER)
 }
 
-void handle_named_pipe() {
-    int n, end_read = false;
-    char buffer[LARGEST_SIZE * X_FACTOR], buffer2[LARGEST_SIZE * X_FACTOR], * aux, * aux2;
-    race_car_t car_data;
-    int result, team_id;
+void notify_race_start() {
+    SYNC
+    shm->sync_s.race_running = true;
+    notify_cond_all(&shm->sync_s.cond);
+    END_SYNC
+}
 
-    while (!end_read) {
+void create_new_team(char * team_name, int * team_id) {
+    int i;
+    race_team_t * team = NULL;
+
+    i = 0;
+
+    while (i < config.num_teams) {
+        if (shm->race_teams[i].team_id >= 0) {
+            i++;
+            continue;
+        }
+        break;
+    }
+
+    team = &shm->race_teams[i];
+
+    strcpy(team->team_name, team_name);
+    team->team_id = i;
+    *team_id = i;
+    num_registered_teams++;
+
+    create_unn_pipe(unn_pipe_fds);
+    pipe_fds[i + 1] = unn_pipe_fds[0];
+
+    create_process(TEAM_MANAGER, team_manager, (void *) team);
+    close_fd(unn_pipe_fds[1]);
+}
+
+static void handle_named_pipe() {
+    int n, result, team_id;
+    char buffer[LARGEST_SIZE * 3], buffer2[LARGEST_SIZE * 3], * aux, * aux2;
+    race_car_t car_data;
+    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
+
+    while (true) {
         do {
-            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * X_FACTOR * sizeof(char));
+            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 3 * sizeof(char));
 
             if (n > 0) {
                 buffer[n - 1]= '\0';
@@ -86,22 +141,27 @@ void handle_named_pipe() {
                             break;
                         case RESULT_BEGIN_RACE:
                             generate_log_entry(RACE_START, NULL, NULL);
-                            end_read = true;
-                            break;
+                            return;
                         case RESULT_CANNOT_START_RACE:
                             generate_log_entry(RACE_CANNOT_START, buffer2, NULL);
                             break;
+                        case RESULT_EXIT:
+                            generate_log_entry(EXIT_PROGRAM, NULL, NULL);
+                            shm->sync_s.simulation_ended = true;
+                            return;
                         default:
                             generate_log_entry(COMMAND_REJECT, buffer2, NULL);
                             break;
                     }
                 } while ((aux = strtok_r(NULL, DELIM_3, &aux2)) != NULL);
             }
-        } while (n > 0 && !end_read);
+        } while (n > 0);
     }
 }
 
-void handle_all_pipes() {
+// region private functions
+
+static void handle_all_pipes() {
     fd_set read_set;
     int i, n, race_winner = false;
     char buffer[LARGE_SIZE];
@@ -109,6 +169,8 @@ void handle_all_pipes() {
     race_car_t * car = NULL;
     race_team_t * team = NULL;
     race_box_t * box = NULL;
+
+    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
 
     while (true) {
         FD_ZERO(&read_set);
@@ -183,8 +245,7 @@ void handle_all_pipes() {
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
-                                if (++shm->num_finished_cars == shm->total_num_cars) {
-                                    notify_race_end();
+                                if (check_race_end()) {
                                     return;
                                 }
 
@@ -212,12 +273,8 @@ void handle_all_pipes() {
                                     race_winner = true;
                                 }
 
-                                if (++shm->num_finished_cars == shm->total_num_cars) {
-                                    notify_race_end();
-                                    end_clock();
-                                    show_stats_table();
+                                if (check_race_end()) {
                                     return;
-
                                 }
 
                                 break;
@@ -229,6 +286,31 @@ void handle_all_pipes() {
     }
 }
 
+static void notify_sim_end() {
+    SYNC
+    shm->sync_s.simulation_ended = true;
+    notify_cond_all(&shm->sync_s.cond);
+    END_SYNC
+}
+
+static int check_race_end() {
+    if (++shm->num_finished_cars == shm->total_num_cars) {
+        notify_race_end();
+
+        if (shm->sync_s.race_loop) {
+            pause_and_restart_clock();
+        } else {
+            end_clock();
+        }
+        generate_log_entry(RACE_FINISH, NULL, NULL);
+        show_stats_table();
+
+        return true;
+    }
+
+    return false;
+}
+
 static void initialize_team_slots(int num_teams) {
     int i;
 
@@ -237,42 +319,24 @@ static void initialize_team_slots(int num_teams) {
     }
 }
 
-void notify_race_start() {
-    SYNC
-    shm->sync_s.race_running = true;
-    notify_cond_all(&shm->sync_s.cond);
-    END_SYNC
-}
-
-void create_team(char * team_name, int * team_id) {
-    int i;
-    race_team_t * team = NULL;
-
-    i = 0;
+static void restart_teams() {
+    int i = 0;
+    race_team_t  * team = NULL;
 
     while (i < config.num_teams) {
-        if (shm->race_teams[i].team_id >= 0) {
-            i++;
-            continue;
-        }
-        break;
+        create_unn_pipe(unn_pipe_fds);
+        pipe_fds[i + 1] = unn_pipe_fds[0];
+
+        team = &shm->race_teams[i];
+
+        create_process(TEAM_MANAGER, team_manager, (void *) team);
+        close_fd(unn_pipe_fds[1]);
+
+        i++;
     }
-
-    team = &shm->race_teams[i];
-
-    strcpy(team->team_name, team_name);
-    team->team_id = i;
-    *team_id = i;
-    num_registered_teams++;
-
-    create_unn_pipe(unn_pipe_fds);
-    pipe_fds[i + 1] = unn_pipe_fds[0];
-
-    create_process(TEAM_MANAGER, team_manager, (void *) team);
-    close_fd(unn_pipe_fds[1]);
 }
 
-void register_car(race_car_t * car, int team_id) {
+static void register_car(race_car_t * car, int team_id) {
     init_mutex(&car->access_mutex, true);
     init_mutex(&car->cond_mutex, true);
     init_cond(&car->cond, true);
@@ -283,4 +347,37 @@ void register_car(race_car_t * car, int team_id) {
     shm->race_cars[team_id][car->team->num_cars - 1] = * car;
 }
 
-// endregion public functions
+static void reset_race() {
+    int i, j;
+    race_team_t * team = NULL;
+    race_car_t  * car = NULL;
+
+    i = 0;
+
+    shm->num_finished_cars = 0;
+    shm->num_cars_on_track = shm->total_num_cars;
+    shm->num_refuels = 0;
+    shm->num_malfunctions = 0;
+
+    while (i < config.num_teams) {
+        j = 0;
+        team = &shm->race_teams[i];
+
+        while (j < team->num_cars) {
+            car = &shm->race_cars[i][j];
+
+
+            car->completed_laps = 0;
+            car->remaining_fuel = config.fuel_tank_capacity;
+            car->num_malfunctions = 0;
+            car->num_refuels = 0;
+            car->num_box_stops = 0;
+
+            j++;
+        }
+
+        i++;
+    }
+}
+
+// endregion private functions

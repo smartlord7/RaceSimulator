@@ -125,8 +125,8 @@ void show_stats_table() { // TODO: validate functions result
     row_width = 7 * (NUM_COLS - 1) + MAX_DIGITS + max_car_name_col_width +
                 team_id_col_width + max_team_name_col_width + car_laps_col_width +
                 car_box_stops_col_width + MAX_STATE_LENGTH ;
-    row_sep_half = repeat_str(HORIZONTAL_DELIM, (row_width - title_length) / 2);
     row_sep = repeat_str(HORIZONTAL_DELIM, row_width);
+    row_sep_half = repeat_str(HORIZONTAL_DELIM, (row_width - title_length) / 2);
     shm_cpy = (shared_memory_t *) malloc(sizeof(shared_memory_t));
 
     //copy the data on the shared memory region
@@ -214,6 +214,10 @@ static void bubble_sort_race_cars(race_car_t * race_cars, int size) {
         for (j = 0; j < size - i - 1; j++) {
             if (race_cars[j].completed_laps < race_cars[j + 1].completed_laps) {
                 swap_car(&race_cars[j], &race_cars[j + 1]);
+            } else if (race_cars[j].completed_laps == race_cars[j + 1].completed_laps) {
+                if (race_cars[j].current_pos < race_cars[j].current_pos) {
+                    swap_car(&race_cars[j], &race_cars[j + 1]);
+                }
             }
         }
     }

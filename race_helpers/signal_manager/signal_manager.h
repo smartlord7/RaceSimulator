@@ -1,0 +1,8 @@
+#ifndef RACE_HELPERS_SIGNAL_MANAGER_H
+#define RACE_HELPERS_SIGNAL_MANAGER_H
+
+extern void signal_handler(int signum);
+
+#define SIGNAL_IGNORE "SIGNAL IGNORED"
+
+#endif //RACE_HELPERS_SIGNAL_MANAGER_H

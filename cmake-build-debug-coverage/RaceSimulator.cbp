@@ -195,6 +195,12 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
