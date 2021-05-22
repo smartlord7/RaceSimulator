@@ -34,10 +34,9 @@
  *
  */
 static void manage_box(race_box_t *box);
-
 static void * race_car_worker(void *data);
-
 static void simulate_car(race_car_t *car);
+static void wait_race_end();
 
 // endregion private functions prototypes
 
@@ -88,12 +87,21 @@ void team_manager(void *data) {
     wait_threads(team->num_cars, car_threads);
 
     close_fd(unn_pipe_fds[1]);
+    wait_race_end();
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, team->team_name)
 }
 // endregion public functions
 
 // region private functions
+
+void wait_race_end() {
+    SYNC
+    while (shm->state != FINISHED) {
+        wait_cond(&shm->cond, &shm->mutex);
+    }
+    END_SYNC
+}
 
 void manage_box(race_box_t *box) {
     // declare the needed variables
