@@ -1,3 +1,12 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 31/03/2021
+*/
+
 #ifndef RACESIMULATOR_C_TO_FLOAT_H
 #define RACESIMULATOR_C_TO_FLOAT_H
 
