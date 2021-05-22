@@ -20,8 +20,8 @@
 
 // region public functions
 
-race_config_t * race_config(float time_units_per_sec, float lap_distance, float malfunction_interval, float min_repair_time,
-                          float max_repair_time, float fuel_tank_capacity, int laps_per_race, int num_teams, int max_cars_per_team) {
+race_config_t * race_config(int time_units_per_sec, float lap_distance, int malfunction_interval, int min_repair_time,
+                            int max_repair_time, float fuel_tank_capacity, int laps_per_race, int num_teams, int max_cars_per_team) {
 
     race_config_t * new = NULL;
 

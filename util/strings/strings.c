@@ -143,21 +143,23 @@ int get_max_str_length(char ** strings, int size) {
     return max_len;
 }
 
-char * repeat_str(char * str, int times) {
+char * repeat_str(const char * str, int times) {
     assert(str != NULL && times > 0);
 
     char * buffer;
     int i;
 
-    buffer = string(times);
+    buffer = string(times + 1);
     strcpy(buffer, str);
     i = 0;
 
-    while (i < times - 1) {
-        buffer = strcat(buffer, str);
+    while (i < times - 2) {
+         strcat(buffer, str);
 
         i++;
     }
+
+    buffer = strcat(buffer, str);
 
     return buffer;
 }

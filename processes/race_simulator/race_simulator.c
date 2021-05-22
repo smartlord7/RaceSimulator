@@ -89,6 +89,7 @@ int main() {
 
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
+    signal(SIGUSR1, SIG_IGN);
     signal(SIGSEGV, signal_handler);
 
     //initialize debugging and exception handling mechanisms
@@ -164,10 +165,14 @@ void signal_handler(int signum) {
             break;
         case SIGINT:
             generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGINT, NULL);
+
             shm->sync_s.race_interrupted = true;
+            shm->sync_s.race_loop = false;
             break;
         case SIGUSR1:
             generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGUSR1, NULL);
+            shm->sync_s.race_interrupted = true;
+            shm->sync_s.race_loop = true;
             break;
         default:
             snprintf(buffer, SMALLEST_SIZE, "%d", signum);
@@ -209,9 +214,25 @@ void notify_race_end() {
     }
 }
 
-void end_clock() {
-    shm->sync_s.clock_active = false;
+void pause_and_restart_clock() {
+    shm->sync_s.clock_paused = true;
     shm->sync_s.global_time = 0;
+
+    SYNC_CLOCK_RISE
+    notify_cond_all(&shm->sync_s.clock_rise_cond);
+    END_SYNC_CLOCK_RISE
+}
+
+void unpause_clock() {
+    shm->sync_s.clock_paused = false;
+
+    SYNC_CLOCK_VALLEY
+    notify_cond(&shm->sync_s.clock_valley_cond);
+    END_SYNC_CLOCK_VALLEY
+}
+
+void end_clock() {
+    shm->sync_s.clock_on = false;
 
     SYNC_CLOCK_VALLEY
     notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
@@ -224,7 +245,8 @@ void end_clock() {
 
 static void init_global_clock() {
 
-    shm->sync_s.clock_active = true;
+    shm->sync_s.clock_on = true;
+    shm->sync_s.clock_paused = false;
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
@@ -232,14 +254,14 @@ static void init_global_clock() {
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
-        while (shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.clock_active) {
+        while ((shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.clock_on) || shm->sync_s.clock_paused) {
             DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->sync_s.num_clock_waiters,
                       (shm->num_cars_on_track + 1) - shm->sync_s.num_clock_waiters);
             wait_cond(&shm->sync_s.clock_valley_cond, &shm->sync_s.clock_valley_mutex);
         }
         END_SYNC_CLOCK_VALLEY
 
-        if (!shm->sync_s.clock_active) {
+        if (!shm->sync_s.clock_on) {
             return;
         }
 
@@ -274,12 +296,12 @@ void sync_sleep(int time_units) {
         DEBUG_MSG(GLOBAL_CLOCK_WAITERS, TIME, shm->sync_s.num_clock_waiters + 1);
 
         SYNC_CLOCK_RISE
-        while (prev_time == shm->sync_s.global_time && shm->sync_s.clock_active) {
+        while (prev_time == shm->sync_s.global_time && shm->sync_s.clock_on && !shm->sync_s.clock_paused) {
             wait_cond(&shm->sync_s.clock_rise_cond, &shm->sync_s.clock_rise_mutex);
         }
         END_SYNC_CLOCK_RISE
 
-        if (!shm->sync_s.clock_active) {
+        if (!shm->sync_s.clock_on || shm->sync_s.clock_paused) {
             return;
         }
 
@@ -296,8 +318,9 @@ void sync_sleep(int time_units) {
 
 void shm_init() {
     shm->sync_s.race_running = false;
-    shm->sync_s.clock_active = false;
+    shm->sync_s.clock_on = false;
     shm->sync_s.race_interrupted = false;
+    shm->sync_s.race_loop = false;
     shm->sync_s.num_clock_waiters = 0;
     shm->sync_s.global_time = 0;
     shm->total_num_cars = 0;
@@ -361,13 +384,14 @@ static void destroy_ipcs(){
 static void segfault_handler() {
     printf("WELL... THAT ESCALATED QUICKLY...\n");
     printf("proc %ul\n", getpid());
-    sleep(3090);
 }
 
 static void terminate() {
     if (ipcs_created) {
         destroy_ipcs();
     }
+
+    terminate_proc_grp(getpgrp());
 
     exit(EXIT_FAILURE);
 

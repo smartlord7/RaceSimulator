@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <malloc.h>
 #include "string.h"
 #include "assert.h"
 #include "cmd_validator.h"
@@ -68,6 +69,7 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     float speed, consumption, reliability;
     char * token, car_name[LARGE_SIZE], aux[LARGEST_SIZE];
     race_team_t team;
+    race_car_t * temp = NULL;
     int return_flag;
 
     // validate team name
@@ -123,12 +125,15 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
         return false;
     }
     strcpy(aux, token);
-    if (!validate_number_attr(aux, RELIABILITY, &reliability) || reliability <= 0 || reliability > 100) {
+    if (!validate_number_attr(aux, RELIABILITY, &reliability) || reliability < 0 || reliability > 100) {
         return false;
     }
 
     * team_id = team.team_id;
-    * car = * race_car(&team, car_name, -1, consumption, speed, reliability / 100, config.fuel_tank_capacity); // ATTENTION: I
+    temp = race_car(&team, car_name, -1, consumption, speed, reliability / 100, config.fuel_tank_capacity);
+    * car = * temp;
+    free(temp);
+
     return true;
 }
 
@@ -160,7 +165,7 @@ static int validate_team(char * buffer, race_team_t * team, int * return_flag) {
             }
 
             if (team_id == NEW_TEAM && num_registered_teams < config.num_teams) {
-                create_team(team_name, &team_id);
+                create_new_team(team_name, &team_id);
                 *return_flag = NEW_TEAM;
             }
 
