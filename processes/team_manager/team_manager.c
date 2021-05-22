@@ -262,6 +262,9 @@ void simulate_car(race_car_t *car) {
                 return;
             }
 
+            // reset the car's position to 0.
+            car->current_pos = 0;
+
             // the car reached the box and now changed its state to IN_BOX.
             CHANGE_CAR_STATE(IN_BOX);
 
@@ -284,23 +287,27 @@ void simulate_car(race_car_t *car) {
 
             unlock_mutex(&box->available);
 
-            // the car is now ready to race again
-            car->remaining_fuel = config.fuel_tank_capacity;
-
-            car->num_refuels++;
-
-            CHANGE_CAR_STATE(RACE);
-
             if (!shm->sync_s.race_running || shm->sync_s.race_interrupted) {
                 CHANGE_CAR_STATE(FINISH);
                 generate_log_entry(CAR_FINISH, car, NULL);
                 exit_thread();
             }
 
+            // the car is now ready to race again
+            car->remaining_fuel = config.fuel_tank_capacity;
+
+            car->num_refuels++;
+
             // the car is now ready to race again;
             car->remaining_fuel = config.fuel_tank_capacity;
 
             CHANGE_CAR_STATE(RACE);
+
+            SYNC
+            car->completed_laps++;
+            END_SYNC
+
+            generate_log_entry(CAR_COMPLETE_LAP, car, NULL);
 
             // the car needs the box no more.
             box_needed = false;
