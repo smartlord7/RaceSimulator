@@ -190,39 +190,39 @@ void notify_race_end() {
 }
 
 void pause_and_restart_clock() {
-    shm->sync_s.clock_paused = true;
-    shm->sync_s.global_time = 0;
+    shm->thread_clock.clock_paused = true;
+    shm->thread_clock.global_time = 0;
 
     SYNC_CLOCK_RISE
-    notify_cond_all(&shm->sync_s.clock_rise_cond);
+    notify_cond_all(&shm->thread_clock.clock_rise_cond);
     END_SYNC_CLOCK_RISE
 }
 
 void unpause_clock() {
-    shm->sync_s.clock_paused = false;
+    shm->thread_clock.clock_paused = false;
 
     SYNC_CLOCK_VALLEY
-    notify_cond(&shm->sync_s.clock_valley_cond);
+    notify_cond(&shm->thread_clock.clock_valley_cond);
     END_SYNC_CLOCK_VALLEY
 }
 
 void end_clock() {
-    shm->sync_s.clock_on = false;
-    shm->sync_s.clock_paused = false;
+    shm->thread_clock.clock_on = false;
+    shm->thread_clock.clock_paused = false;
 
     SYNC_CLOCK_VALLEY
-    notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
+    notify_cond(&shm->thread_clock.clock_valley_cond); // notify the clock that the race is over.
     END_SYNC_CLOCK_VALLEY
 
     SYNC_CLOCK_RISE
-    notify_cond_all(&shm->sync_s.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
+    notify_cond_all(&shm->thread_clock.clock_rise_cond); // notify all the threads waiting for the next clock that the race is over.
     END_SYNC_CLOCK_RISE
 }
 
 static void init_global_clock() {
 
-    shm->sync_s.clock_on = true;
-    shm->sync_s.clock_paused = false;
+    shm->thread_clock.clock_on = true;
+    shm->thread_clock.clock_paused = false;
 
     DEBUG_MSG(GLOBAL_CLOCK_START, TIME, "")
 
@@ -230,14 +230,14 @@ static void init_global_clock() {
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
-        while ((shm->sync_s.num_clock_waiters < shm->num_cars_on_track + 1 && shm->sync_s.clock_on) || shm->sync_s.clock_paused) {
-            DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->sync_s.num_clock_waiters,
-                      (shm->num_cars_on_track + 1) - shm->sync_s.num_clock_waiters);
-            wait_cond(&shm->sync_s.clock_valley_cond, &shm->sync_s.clock_valley_mutex);
+        while ((shm->thread_clock.num_clock_waiters < shm->num_cars_on_track + 1 && shm->thread_clock.clock_on) || shm->thread_clock.clock_paused) {
+            DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->thread_clock.num_clock_waiters,
+                      (shm->num_cars_on_track + 1) - shm->thread_clock.num_clock_waiters);
+            wait_cond(&shm->thread_clock.clock_valley_cond, &shm->thread_clock.clock_valley_mutex);
         }
         END_SYNC_CLOCK_VALLEY
 
-        if (!shm->sync_s.clock_on) {
+        if (!shm->thread_clock.clock_on) {
             return;
         }
 
@@ -245,15 +245,16 @@ static void init_global_clock() {
         DEBUG_MSG(GLOBAL_CLOCK_VALLEY, TIME, "");
 
         ms_sleep((uint) interval_ms);
+        show_stats_table();
 
         generate_log_entry(CLOCK, NULL, NULL);
 
         DEBUG_MSG(GLOBAL_CLOCK_RISE, TIME, "")
 
         SYNC_CLOCK_RISE
-        shm->sync_s.global_time++;
-        DEBUG_MSG(GLOBAL_CLOCK_TIME, TIME, shm->sync_s.global_time)
-        notify_cond_all(&shm->sync_s.clock_rise_cond);
+        shm->thread_clock.global_time++;
+        DEBUG_MSG(GLOBAL_CLOCK_TIME, TIME, shm->thread_clock.global_time)
+        notify_cond_all(&shm->thread_clock.clock_rise_cond);
         END_SYNC_CLOCK_RISE
 
         DEBUG_MSG(GLOBAL_CLOCK_RELEASE, TIME, "");
@@ -261,32 +262,32 @@ static void init_global_clock() {
 }
 
 void sync_sleep(int time_units) {
-    int time_counted = 0, prev_time = shm->sync_s.global_time;
+    int time_counted = 0, prev_time = shm->thread_clock.global_time;
 
     while (time_counted < time_units) {
         SYNC_CLOCK_VALLEY
-        shm->sync_s.num_clock_waiters++;
-        notify_cond(&shm->sync_s.clock_valley_cond);
+        shm->thread_clock.num_clock_waiters++;
+        notify_cond(&shm->thread_clock.clock_valley_cond);
         END_SYNC_CLOCK_VALLEY
 
-        DEBUG_MSG(GLOBAL_CLOCK_WAITERS, TIME, shm->sync_s.num_clock_waiters + 1);
+        DEBUG_MSG(GLOBAL_CLOCK_WAITERS, TIME, shm->thread_clock.num_clock_waiters + 1);
 
         SYNC_CLOCK_RISE
-        while (prev_time == shm->sync_s.global_time && shm->sync_s.clock_on && !shm->sync_s.clock_paused) {
-            wait_cond(&shm->sync_s.clock_rise_cond, &shm->sync_s.clock_rise_mutex);
+        while (prev_time == shm->thread_clock.global_time && shm->thread_clock.clock_on && !shm->thread_clock.clock_paused) {
+            wait_cond(&shm->thread_clock.clock_rise_cond, &shm->thread_clock.clock_rise_mutex);
         }
         END_SYNC_CLOCK_RISE
 
-        if (!shm->sync_s.clock_on || shm->sync_s.clock_paused) {
+        if (!shm->thread_clock.clock_on || shm->thread_clock.clock_paused) {
             return;
         }
 
         SYNC_CLOCK_VALLEY
-        shm->sync_s.num_clock_waiters--;
-        notify_cond(&shm->sync_s.clock_valley_cond);
+        shm->thread_clock.num_clock_waiters--;
+        notify_cond(&shm->thread_clock.clock_valley_cond);
         END_SYNC_CLOCK_VALLEY
 
-        prev_time = shm->sync_s.global_time;
+        prev_time = shm->thread_clock.global_time;
 
         time_counted++;
     }
@@ -294,10 +295,10 @@ void sync_sleep(int time_units) {
 
 void shm_init() {
     shm->state = NOT_STARTED;
-    shm->sync_s.clock_on = false;
+    shm->thread_clock.clock_on = false;
     shm->hold_on_end = false;
-    shm->sync_s.num_clock_waiters = 0;
-    shm->sync_s.global_time = 0;
+    shm->thread_clock.num_clock_waiters = 0;
+    shm->thread_clock.global_time = 0;
     shm->total_num_cars = 0;
     shm->num_cars_on_track = 0;
     shm->num_finished_cars = 0;
@@ -313,10 +314,10 @@ static void create_ipcs(){
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
     init_cond(&shm->cond, true);
     init_mutex(&shm->mutex, true);
-    init_cond(&shm->sync_s.clock_valley_cond, true);
-    init_mutex(&shm->sync_s.clock_valley_mutex, true);
-    init_mutex(&shm->sync_s.clock_rise_mutex, true);
-    init_cond(&shm->sync_s.clock_rise_cond, true);
+    init_cond(&shm->thread_clock.clock_valley_cond, true);
+    init_mutex(&shm->thread_clock.clock_valley_mutex, true);
+    init_mutex(&shm->thread_clock.clock_rise_mutex, true);
+    init_cond(&shm->thread_clock.clock_rise_cond, true);
     create_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     malfunction_q_id = create_msg_queue();
 }

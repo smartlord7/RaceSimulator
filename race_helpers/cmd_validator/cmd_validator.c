@@ -9,6 +9,7 @@
 
 // region dependencies
 
+#include <malloc.h>
 #include "string.h"
 #include "assert.h"
 #include "cmd_validator.h"
@@ -193,8 +194,10 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     assert(buffer != NULL);
 
     float speed, consumption, reliability;
-    char * token, car_name[LARGE_SIZE], aux[LARGEST_SIZE];
+    char * token = NULL, car_name[LARGE_SIZE], aux[LARGEST_SIZE];
     race_team_t team;
+    race_car_t * temp = NULL;
+
     int return_flag;
 
     // validate team name
@@ -256,7 +259,9 @@ static int validate_car(char * buffer, race_car_t * car, int * team_id) {
     }
 
     * team_id = team.team_id;
-    * car = * race_car(&team, car_name, -1, consumption, speed, reliability / 100, config.fuel_tank_capacity);
+    temp = race_car(&team, car_name, -1, consumption, speed, reliability / 100, config.fuel_tank_capacity);
+    * car = * temp;
+    free(temp);
 
     return true;
 }

@@ -92,20 +92,23 @@ void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * m
 }
 
 void show_stats_table() { // TODO: validate functions result
-    char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], * row_sep_half, * row_sep, * race_car_state_str;
+    char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], aux2[BUFFER_SIZE / 4], * row_sep_half, * row_sep, * race_car_state_str;
     shared_memory_t * shm_cpy = NULL;
     race_car_t * race_cars = NULL, * car = NULL;
     int i, pos, num_table_cars, max_team_name_len, max_car_name_len,
             max_car_name_col_width, max_team_name_col_width, row_width, title_length,
-            team_id_col_width, car_laps_col_width, car_box_stops_col_width;
+            team_id_col_width, car_laps_col_width, car_box_stops_col_width,
+            car_pos_col_width, car_finish_time_col_width;
 
-    max_team_name_len = get_team_name_max_len(); // TODO: replace by config
+    max_team_name_len = get_team_name_max_len();
     max_car_name_len = get_car_name_max_len();
     num_table_cars = NUM_TOP_CARS + 1;
     title_length = (int) strlen(RACE_STATISTICS);
     team_id_col_width = (int) strlen(CAR_TEAM_ID);
     car_laps_col_width = (int) strlen(CAR_NUM_COMPLETED_LAPS);
     car_box_stops_col_width = (int) strlen(CAR_NUM_BOX_STOPS);
+    car_pos_col_width = (int) strlen(CAR_POS);
+    car_finish_time_col_width = (int) strlen(CAR_FINISH_TIME);
     max_car_name_col_width = (int) strlen(CAR_NAME);
     max_team_name_col_width = (int) strlen(CAR_TEAM_NAME);
 
@@ -122,11 +125,12 @@ void show_stats_table() { // TODO: validate functions result
         max_team_name_col_width = max_team_name_len;
     }
 
-    row_width = 7 * (NUM_COLS - 1) + MAX_DIGITS + max_car_name_col_width +
+    row_width = 5 * (NUM_COLS - 1) + MAX_DIGITS + max_car_name_col_width +
                 team_id_col_width + max_team_name_col_width + car_laps_col_width +
-                car_box_stops_col_width + MAX_STATE_LENGTH ;
-    row_sep = repeat_str(HORIZONTAL_DELIM, row_width);
-    row_sep_half = repeat_str(HORIZONTAL_DELIM, (row_width - title_length) / 2);
+                car_pos_col_width + car_box_stops_col_width + MAX_STATE_LENGTH +
+                car_finish_time_col_width;
+    row_sep = repeat_str(HORIZONTAL_DELIM, row_width + 1);
+    row_sep_half = repeat_str(HORIZONTAL_DELIM, (row_width - title_length) / 2 + 1);
     shm_cpy = (shared_memory_t *) malloc(sizeof(shared_memory_t));
 
     //copy the data on the shared memory region
@@ -143,15 +147,17 @@ void show_stats_table() { // TODO: validate functions result
     //fill the table entries
     snprintf(buffer, BUFFER_SIZE,
              "\n\n%sRACE STATISTICS%s\n"
-             " %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
+             " %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
              "%s\n",
              row_sep_half, row_sep_half,
              -MAX_DIGITS, CAR_RACE_POS,
              -MAX_DIGITS, CAR_ID, -max_car_name_col_width, CAR_NAME,
              -team_id_col_width, CAR_TEAM_ID, -max_team_name_col_width, CAR_TEAM_NAME,
              car_laps_col_width, CAR_NUM_COMPLETED_LAPS,
+             car_pos_col_width, CAR_POS,
              car_box_stops_col_width, CAR_NUM_BOX_STOPS,
-             5, CAR_STATE,
+             -MAX_STATE_LENGTH, CAR_STATE,
+             -car_finish_time_col_width, CAR_FINISH_TIME,
              row_sep);
 
     i = 0;
@@ -167,18 +173,31 @@ void show_stats_table() { // TODO: validate functions result
             car = &race_cars[i];
         }
 
+        if (car->state == DISQUALIFIED) {
+            continue;
+        }
+
+        if (car->state == FINISH) {
+            snprintf(aux2, BUFFER_SIZE, "%d", car->finish_time);
+        } else {
+            strcpy(aux2, "---");
+        }
+
         race_car_state_str = race_car_state_to_string(car->state);
 
-        snprintf(aux, BUFFER_SIZE, " %*d | %*d | %*s | %*d | %*s | %*d | %*d | %*s\n",
+
+        snprintf(aux, BUFFER_SIZE, " %*d | %*d | %*s | %*d | %*s | %*d | %*.2f | %*d | %*s | %*s\n",
                  -MAX_DIGITS, pos,
                  -MAX_DIGITS, car->car_id, -max_car_name_col_width,  car->name,
                  -team_id_col_width, car->team->team_id, -max_team_name_col_width,  car->team->team_name,
-                 -car_laps_col_width, car->completed_laps, -car_box_stops_col_width,  car->num_box_stops,
-                 -MAX_STATE_LENGTH, race_car_state_str);
+                 -car_laps_col_width, car->completed_laps, -car_pos_col_width, car->current_pos,
+                 -car_box_stops_col_width,  car->num_box_stops, -MAX_STATE_LENGTH, race_car_state_str,
+                 -car_finish_time_col_width, aux2);
+
         strcat(buffer, aux);
-        i++;
 
         free(race_car_state_str);
+        i++;
     }
 
     snprintf(aux, BUFFER_SIZE, "%s\n", row_sep);
@@ -208,17 +227,18 @@ static void swap_car(race_car_t * car1, race_car_t * car2) {
 }
 
 static void bubble_sort_race_cars(race_car_t * race_cars, int size) {
-    int i, j;
+    int i, j, swapped = false;
 
     for (i = 0; i < size; i++) {
         for (j = 0; j < size - i - 1; j++) {
-            if (race_cars[j].completed_laps < race_cars[j + 1].completed_laps) {
+            if (race_car_compare(&race_cars[j], &race_cars[j + 1]) == 1) {
                 swap_car(&race_cars[j], &race_cars[j + 1]);
-            } else if (race_cars[j].completed_laps == race_cars[j + 1].completed_laps) {
-                if (race_cars[j].current_pos < race_cars[j].current_pos) {
-                    swap_car(&race_cars[j], &race_cars[j + 1]);
-                }
+                swapped = true;
             }
+        }
+
+        if (!swapped) {
+            return;
         }
     }
 }

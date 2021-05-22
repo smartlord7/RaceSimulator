@@ -27,6 +27,8 @@
 #define CAR_STATE "STATE"
 #define CAR_NUM_COMPLETED_LAPS "LAPS"
 #define CAR_NUM_BOX_STOPS "BOX STOPS"
+#define CAR_POS "POSITION (m)"
+#define CAR_FINISH_TIME "FINISH TIME (tu)"
 #define CAR_RACE_POS "#"
 #define RACE_NUM_MALFUNCTIONS "MALFUNCTIONS: "
 #define RACE_NUM_REFUELS "REFUELS: "
@@ -36,7 +38,7 @@
 #define NUM_TOP_CARS 15
 #define MAX_DIGITS 3
 #define NUM_COLS 7
-#define MAX_STATE_LENGTH 5
+#define MAX_STATE_LENGTH 10
 #define HORIZONTAL_DELIM "-"
 
 //endregion constants

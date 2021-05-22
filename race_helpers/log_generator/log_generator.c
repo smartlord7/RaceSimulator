@@ -116,13 +116,13 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 append(entry, "ENDING SIMULATION...");
                 break;
             case CLOCK:
-                append_f(entry, "-------------------[GLOBAL CLOCK] %d tu-------------------", shm->sync_s.global_time);
+                append_f(entry, "-------------------[GLOBAL CLOCK] %d tu-------------------", shm->thread_clock.global_time);
                 break;
             case RACE_START:
                 append_f(entry, "THE RACE HAS STARTED!");
                 break;
             case RACE_FINISH:
-                append_f(entry, "THE RACE HAS FINISHED AT %d tu!", shm->sync_s.global_time);
+                append_f(entry, "THE RACE HAS FINISHED AT %d tu!", shm->thread_clock.global_time);
                 break;
             case RACE_NOT_STARTED:
                 append_f(entry, "%s! RACE HAS NOT STARTED!", (char *) main_data);
@@ -166,7 +166,7 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 break;
             case CAR_RACE_WIN:
                 append_f(entry, "CAR %s FROM TEAM %s WON THE RACE AT %d tu!", car->name, car->team->team_name,
-                         shm->sync_s.global_time);
+                         shm->thread_clock.global_time);
                 break;
             case CAR_OUT_OF_FUEL:
                 append_f(entry, "CAR %s FROM TEAM %s RAN OUT OF FUEL!", car->name, car->team->team_name);
@@ -176,7 +176,7 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 break;
             case CAR_FINISH:
                 append_f(entry, "CAR %s FROM TEAM %s HAS FINISHED THE RACE AT %d tu!", car->name, car->team->team_name,
-                         shm->sync_s.global_time);
+                         shm->thread_clock.global_time);
                 break;
             default:
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);

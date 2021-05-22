@@ -408,9 +408,8 @@ void simulate_car(race_car_t *car) {
         }
 
         // to simulate the car's step.
-        sync_sleep(1);
+        sync_sleep(TIME_UNIT);
     }
-
 }
 
 // endregion private functions

@@ -24,10 +24,10 @@
 #define true 1
 #define false 0
 
-#define SYNC_CLOCK_RISE lock_mutex(&shm->sync_s.clock_rise_mutex);
-#define END_SYNC_CLOCK_RISE unlock_mutex(&shm->sync_s.clock_rise_mutex);
-#define SYNC_CLOCK_VALLEY lock_mutex(&shm->sync_s.clock_valley_mutex);
-#define END_SYNC_CLOCK_VALLEY unlock_mutex(&shm->sync_s.clock_valley_mutex);
+#define SYNC_CLOCK_RISE lock_mutex(&shm->thread_clock.clock_rise_mutex);
+#define END_SYNC_CLOCK_RISE unlock_mutex(&shm->thread_clock.clock_rise_mutex);
+#define SYNC_CLOCK_VALLEY lock_mutex(&shm->thread_clock.clock_valley_mutex);
+#define END_SYNC_CLOCK_VALLEY unlock_mutex(&shm->thread_clock.clock_valley_mutex);
 #define SYNC lock_mutex(&shm->mutex);
 #define END_SYNC unlock_mutex(&shm->mutex);
 #define SYNC_CAR lock_mutex(&car->access_mutex);
