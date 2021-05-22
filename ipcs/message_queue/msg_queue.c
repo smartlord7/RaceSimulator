@@ -1,3 +1,12 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 18/05/2021
+*/
+
 #include <stdio.h>
 #include "stdlib.h"
 #include "sys/msg.h"

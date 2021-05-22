@@ -50,6 +50,8 @@ typedef struct race_team_t {
 
 // endregion structures
 
+//region functions prototypes
+
 /**
  * @def race_team
  * @brief Function that creates a new race team (constructor)
@@ -76,6 +78,10 @@ extern race_team_t * race_team(int team_id, const char * team_name);
  *
  */
 extern char * race_team_to_string(race_team_t * team);
+
+
 extern char * race_box_state_to_string(box_state_t state);
+
+//endregion functions prototypes
 
 #endif //RACESIMULATOR_C_RACE_TEAM_H

@@ -1,3 +1,14 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 22/05/2021
+*/
+
+// region dependencies
+
 #include <assert.h>
 #include "malloc.h"
 #include "stdlib.h"
@@ -5,15 +16,72 @@
 #include "stats_helper.h"
 #include "../../util/strings/strings.h"
 
+// endregion dependencies
+
+// region global variables
+
 race_config_t * conf = NULL;
 shared_memory_t * sha_mem = NULL;
 mutex_t * mutex = NULL;
 
+// endregion global variables
+
+// region private function prototypes
+
+/**
+ * @def swap_car
+ * @brief Function that swaps two cars.
+ *
+ * @param car1
+ * First car.
+ *
+ * @param car2
+ * Second car.
+ *
+ */
 static void swap_car(race_car_t * car1, race_car_t * car2);
+
+/**
+ * @def bubble_sort_race_cars
+ * @brief Function that sorts the race cars.
+ *
+ * @param race_cars
+ * Set of cars to be sorted.
+ *
+ * @param size
+ * Size of the set.
+ *
+ */
 static void bubble_sort_race_cars(race_car_t * race_cars, int size);
+
+/**
+ * @def get_team_name_max_len
+ * @brief Function that obtains the maximum race team name length.
+ *
+ * @return Maximum length of a race team name.
+ */
 static int get_team_name_max_len();
+
+/**
+ * @def get_car_name_max_len
+ * @brief Function that obtains the maximum race car name length.
+ *
+ * @return Maximum length of a race car name.
+ */
 static int get_car_name_max_len();
+
+/**
+ * @def get_all_cars
+ * @brief Function that retrieves all of the cars from a shared memory copy.
+ *
+ * @param shm_cpy
+ * Copy of the shared memory region.
+ *
+ * @return Array with all of the cars retrieved.
+ */
 static race_car_t * get_all_cars(shared_memory_t * shm_cpy);
+
+// endregion private function prototypes
 
 void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * mtx) {
     assert(cfg != NULL && shmem != NULL && mtx != NULL);
@@ -41,6 +109,7 @@ void show_stats_table() { // TODO: validate functions result
     max_car_name_col_width =  strlen(CAR_NAME);
     max_team_name_col_width =  strlen(CAR_TEAM_NAME);
 
+    // construct the table structure
     if (sha_mem->total_num_cars < num_table_cars) {
         num_table_cars = sha_mem->total_num_cars;
     }
@@ -60,14 +129,18 @@ void show_stats_table() { // TODO: validate functions result
     row_sep_half = repeat_str(HORIZONTAL_DELIM, (row_width - title_length) / 2);
     shm_cpy = (shared_memory_t *) malloc(sizeof(shared_memory_t));
 
+    //copy the data on the shared memory region
     lock_mutex(mutex);
     memcpy(shm_cpy, sha_mem, sizeof(shared_memory_t));
     unlock_mutex(mutex);
 
+    //obtain all of the race cars
     race_cars = get_all_cars(shm_cpy);
 
+    //sort the car positions on the table
     bubble_sort_race_cars(race_cars, shm_cpy->total_num_cars); // TODO: give last place to disqualified cars
 
+    //fill the table entries
     snprintf(buffer, BUFFER_SIZE,
              "\n\n%sRACE STATISTICS%s\n"
              " %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
@@ -218,6 +291,8 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     return cars;
 }
 
+//region unitary test
+
 /**int main() {
     srand(time(NULL));
     int i = 0;
@@ -276,3 +351,5 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     show_stats_table();
 
 }*/
+
+//endregion unitary test

@@ -175,6 +175,16 @@ extern char * race_car_to_string(race_car_t * race_car);
  *
  */
 extern void set_state(race_car_t * race_car, race_car_state state);
+
+/**
+ * @def race_car_state_to_string
+ * @brief Function that converts the current race car state to a string.
+ *
+ * @param state
+ * Current car state.
+ *
+ * @return String of the current car state.
+ */
 extern char * race_car_state_to_string(race_car_state state);
 
 // endregion public functions prototypes
