@@ -1,3 +1,14 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 22/05/2021
+*/
+
+//region dependencies
+
 #include "unistd.h"
 #include "errno.h"
 #include "stdio.h"
@@ -6,6 +17,8 @@
 #include "file.h"
 #include "../exception_handler/exception_handler.h"
 #include "../debug/debug.h"
+
+//endregion dependencies
 
 int open_file(const char * file_name, int mode) {
     assert(file_name != NULL);
