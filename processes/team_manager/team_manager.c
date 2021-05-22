@@ -51,9 +51,6 @@ void team_manager(void *data) {
     race_team_t *team = (race_team_t *) data;
     DEBUG_MSG(PROCESS_RUN, ENTRY, team->team_name)
 
-    signal(SIGINT, SIG_IGN);
-    signal(SIGTSTP, SIG_IGN);
-
     init_mutex(&team->team_box.mutex, true);
     init_mutex(&team->team_box.available, true);
     init_mutex(&team->pipe_mutex, true);

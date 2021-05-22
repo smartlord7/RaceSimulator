@@ -165,7 +165,7 @@ static int validate_team(char * buffer, race_team_t * team, int * return_flag) {
             }
 
             if (team_id == NEW_TEAM && num_registered_teams < config.num_teams) {
-                create_team(team_name, &team_id);
+                create_new_team(team_name, &team_id);
                 *return_flag = NEW_TEAM;
             }
 

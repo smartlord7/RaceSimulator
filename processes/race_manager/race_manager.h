@@ -37,7 +37,7 @@ extern int unn_pipe_fds[2];
  */
 extern void race_manager();
 
-extern void create_team(char * team_name, int * team_id);
+extern void create_new_team(char * team_name, int * team_id);
 
 // endregion public functions prototypes
 
