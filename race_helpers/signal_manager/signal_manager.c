@@ -1,3 +1,14 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 22/05/2021
+*/
+
+//region dependencies
+
 #include "stdio.h"
 #include "unistd.h"
 #include "fcntl.h"
@@ -9,11 +20,49 @@
 #include "../../util/file/file.h"
 #include "../cmd_validator/cmd_validator.h"
 
+//endregion dependencies
+
+//region private functions prototypes
+
+/**
+ * @def segfault_handler
+ * @brief Function that handles the response to a segmentation fault signal.
+ *
+ */
 static void segfault_handler();
+
+/**
+ * @def sigtstp_handler
+ * @brief Function that handles the response to a sigtstp signal.
+ *
+ */
 static void sigtstp_handler();
+
+/**
+ * @def sigint_handler
+ * @brief Function that handles the response to a sigint signal.
+ *
+ */
 static void sigint_handler();
+
+/**
+ * @def sigusr1_handler
+ * @brief Function that handles the response to a sigusr1 signal.
+ *
+ */
 static void sigusr1_handler();
+
+/**
+ * @def sigint_handler
+ * @brief Function that handles the response to a signal by default.
+ *
+ * @param signum
+ * Signal received.
+ *
+ */
 static void default_sig_handler(int signum);
+
+//endregion private functions prototypes
 
 void signal_handler(int signum) {
     switch (signum) {
