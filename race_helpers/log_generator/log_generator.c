@@ -75,7 +75,7 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
     char entry[LARGE_SIZE], * aux = NULL;
     snprintf(entry, LARGE_SIZE, "%s => ", get_curr_time_as_str());
 
-    if (mode < SIMULATION_START) {
+    if (mode < EXIT_PROGRAM) {
         switch (mode) {
             case ERROR_MISSING_CAR_ATTR:
                 append_f(entry, "ERROR: MISSING CAR ATTRIBUTE NAMED '%s'!", (char *) main_data);
@@ -107,6 +107,9 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
         }
     } else if (mode < CAR_LOAD) {
         switch (mode) {
+            case EXIT_PROGRAM:
+                append(entry, "SIMULATION CLOSED BY USER! EXITING...");
+                break;
             case SIMULATION_START:
                 append(entry, "STARTING SIMULATION...");
                 break;
@@ -121,6 +124,9 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 break;
             case RACE_FINISH:
                 append_f(entry, "THE RACE HAS FINISHED AT %d tu!", shm->sync_s.global_time);
+                break;
+            case RACE_NOT_STARTED:
+                append_f(entry, "%s! RACE HAS NOT STARTED!", (char *) main_data);
                 break;
             case RACE_CANNOT_START:
                 append_f(entry, "THE RACE CANNOT START!");

@@ -51,6 +51,11 @@ void team_manager(void *data) {
     race_team_t *team = (race_team_t *) data;
     DEBUG_MSG(PROCESS_RUN, ENTRY, team->team_name)
 
+    signal(SIGSEGV, SIG_IGN);
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+    signal(SIGUSR1, SIG_IGN);
+
     init_mutex(&team->team_box.mutex, true);
     init_mutex(&team->team_box.available, true);
     init_mutex(&team->pipe_mutex, true);
@@ -63,7 +68,12 @@ void team_manager(void *data) {
     pthread_t car_threads[MAX_MAX_CARS_PER_TEAM];
     int i;
     // wait for the race to start.
-    wait_race_start();
+    if (!wait_race_start()) {
+        close_fd(unn_pipe_fds[1]);
+        DEBUG_MSG(PROCESS_EXIT, ENTRY, team->team_name)
+
+        return;
+    }
 
     i = 0;
     while (i < team->num_cars) {

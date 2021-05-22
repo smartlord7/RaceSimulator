@@ -5,20 +5,23 @@
 
 #define DELIM_1 ","
 #define DELIM_2 ":"
-#define ADDCAR "ADDCAR"
 
 #define RESULT_INVALID_COMMAND 1
 #define RESULT_NEW_CAR 2
 #define RESULT_INVALID_CAR 3
 #define RESULT_BEGIN_RACE 4
 #define RESULT_CANNOT_START_RACE 5
+#define RESULT_EXIT 6
 
 #define CAR "CAR"
 #define TEAM "TEAM"
 #define SPEED "SPEED"
 #define CONSUMPTION "CONSUMPTION"
 #define RELIABILITY "RELIABILITY"
+
 #define START_RACE "START RACE!"
+#define ADDCAR "ADDCAR"
+#define EXIT_SIMULATION "EXIT"
 
 #define NEW_TEAM (-1)
 #define NO_TEAM_SLOT (-2)

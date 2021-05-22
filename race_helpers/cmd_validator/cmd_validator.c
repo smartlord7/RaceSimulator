@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <malloc.h>
 #include "string.h"
 #include "assert.h"
@@ -29,6 +28,8 @@ int interpret_command(char * buffer, race_car_t * car, int * team_id) {
         } else {
             return RESULT_INVALID_CAR;
         }
+    } else if (strcasecmp(buffer, EXIT_SIMULATION) == 0) {
+        return RESULT_EXIT;
     }
     return RESULT_INVALID_COMMAND;
 }

@@ -45,6 +45,10 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 void malfunction_manager(){
     DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER)
 
+    signal(SIGSEGV, SIG_IGN);
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+
     generate_malfunctions();
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, MALFUNCTION_MANAGER)
@@ -60,7 +64,9 @@ static void generate_malfunctions(void) {
     race_car_t * car;
     malfunction_t msg;
 
-    wait_race_start();
+    if (!wait_race_start()) {
+        return;
+    }
 
     while (true) {
         for (i = 0; i < config.num_teams; i++) {
@@ -89,7 +95,9 @@ static void generate_malfunctions(void) {
 
         if (!shm->sync_s.race_running) {
             if (shm->sync_s.race_loop) {
-                wait_race_start();
+                if (!wait_race_start()) {
+                    return;
+                }
             } else {
                 return;
             }

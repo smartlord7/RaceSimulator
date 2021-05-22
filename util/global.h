@@ -79,7 +79,7 @@ extern char * mmap;
 // region global variables
 
 extern void sync_sleep(int time_units);
-extern void wait_race_start();
+extern int wait_race_start();
 extern void notify_race_end();
 extern void signal_handler(int signum);
 extern void pause_and_restart_clock();
