@@ -9,8 +9,8 @@
 
 // region dependencies
 
-#include <stdarg.h>
-#include <stdio.h>
+#include "stdarg.h"
+#include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
 #include "assert.h"
@@ -162,6 +162,25 @@ char * repeat_str(const char * str, int times) {
     buffer = strcat(buffer, str);
 
     return buffer;
+}
+
+int is_number(const char * str) {
+    int i = 0, is_decimal = false;
+    char c;
+
+    if (str[0] == '-') {
+        i++;
+    }
+
+    while ((c = str[i++]) != '\0') {
+        if (!is_decimal && c == '.') {
+            is_decimal = true;
+        } else if (!isdigit((int) c)) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 // endregion public functions
