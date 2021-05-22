@@ -165,6 +165,7 @@ void signal_handler(int signum) {
             break;
         case SIGINT:
             generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGINT, NULL);
+
             shm->sync_s.race_interrupted = true;
             shm->sync_s.race_loop = false;
             break;

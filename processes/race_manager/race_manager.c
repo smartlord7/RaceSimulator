@@ -47,8 +47,6 @@ void race_manager(){
     int num_teams = config.num_teams;
     num_registered_teams = 0;
 
-    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
-
     initialize_team_slots(num_teams);
 
     do {
@@ -74,6 +72,7 @@ void handle_named_pipe() {
     char buffer[LARGEST_SIZE * 3], buffer2[LARGEST_SIZE * 3], * aux, * aux2;
     race_car_t car_data;
     int result, team_id;
+    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
 
     while (!end_read) {
         do {
@@ -120,6 +119,8 @@ void handle_all_pipes() {
     race_car_t * car = NULL;
     race_team_t * team = NULL;
     race_box_t * box = NULL;
+
+    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
 
     while (true) {
         FD_ZERO(&read_set);
