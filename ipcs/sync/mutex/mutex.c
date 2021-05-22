@@ -1,10 +1,18 @@
+/** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
+*
+* @author
+*  - Joao Filipe Guiomar Artur, 2019217853
+*  - Sancho Amaral Simoes, 2019217590
+*
+* @date 22/05/2021
+*/
+
 #include <stdio.h>
 #include <errno.h>
 #include "assert.h"
 #include "pthread.h"
 #include "../../../util/exception_handler/exception_handler.h"
 #include "mutex.h"
-#include "../../../util/debug/debug.h"
 
 void init_mutex(mutex_t * mutex, int proc_shared) {
     if (proc_shared) {
@@ -29,16 +37,12 @@ void destroy_mutex(mutex_t * mutex) {
 void lock_mutex(mutex_t * mutex) {
     assert(mutex != NULL);
 
-    int ret = pthread_mutex_lock(mutex);
-
-    throw_if_exit(ret != 0, MUTEX_LOCK_EXCEPTION, "");
+    throw_if_exit(pthread_mutex_lock(mutex) != 0, MUTEX_LOCK_EXCEPTION, "");
 }
 
 void unlock_mutex(mutex_t * mutex) {
     assert(mutex != NULL);
 
-    int ret = pthread_mutex_unlock(mutex);
-
-    throw_if_exit(ret != 0, MUTEX_UNLOCK_EXCEPTION, "");
+    throw_if_exit(pthread_mutex_unlock(mutex) != 0, MUTEX_UNLOCK_EXCEPTION, "");
 }
 

@@ -9,10 +9,9 @@
 
 // region dependencies
 
-#include "stdio.h"
 #include "stdlib.h"
-#include "unistd.h"
 #include "signal.h"
+#include "unistd.h"
 #include "../../util/global.h"
 #include "../../race_helpers//log_generator/log_generator.h"
 #include "../../race_helpers//race_config_reader/race_config_reader.h"
@@ -25,6 +24,7 @@
 #include "../../ipcs/pipe/pipe.h"
 #include "../../util/numbers/numbers.h"
 #include "../../race_helpers/stats_helper/stats_helper.h"
+#include "../../util/file/file.h"
 
 // endregion dependencies
 
@@ -64,7 +64,6 @@ static void destroy_ipcs();
  */
 
 static void terminate();
-static void segfault_handler();
 static void init_global_clock();
 static void shm_init();
 
@@ -87,14 +86,14 @@ shared_memory_t * shm = NULL;
 int main() {
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR)
 
-    signal(SIGINT, SIG_IGN);
-    signal(SIGTSTP, SIG_IGN);
-    signal(SIGUSR1, SIG_IGN);
     signal(SIGSEGV, signal_handler);
+    signal(SIGINT, signal_handler);
+    signal(SIGTSTP, signal_handler);
+    signal(SIGUSR1, SIG_IGN);
 
     //initialize debugging and exception handling mechanisms
-    exc_handler_init(terminate, NULL);
-    debug_init(EVENT, false);
+    exc_handler_init((void (*)(void *)) terminate, NULL);
+    debug_init(ENTRY, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -108,24 +107,23 @@ int main() {
     free(cfg);
 
     //create interprocess communication mechanisms
-    create_ipcs(config.num_teams);
+    create_ipcs();
     shm_init();
 
-    stats_helper_init(&config, shm, &shm->sync_s.access_mutex);
+    stats_helper_init(&config, shm, &shm->mutex);
 
     log_init(LOG_FILE_NAME);
     generate_log_entry(SIMULATION_START, NULL, NULL);
 
     //create race manager process
-    create_process(RACE_MANAGER, race_manager, NULL);
+    create_process(RACE_MANAGER, (void (*)(void *)) race_manager, NULL);
 
     //create malfunction_q_id manager process
-    create_process(MALFUNCTION_MANAGER, malfunction_manager, NULL);
+    create_process(MALFUNCTION_MANAGER, (void (*)(void *)) malfunction_manager, NULL);
 
-    wait_race_start();
-    signal(SIGTSTP, signal_handler);
-    signal(SIGINT, signal_handler);
-    init_global_clock(); // TODO: Move to where the race actually begins
+    if (wait_race_start()) {
+        init_global_clock();
+    }
 
     // handle SIGINT
 
@@ -143,41 +141,18 @@ int main() {
     return EXIT_SUCCESS;
 }
 
-void wait_race_start() {
+int wait_race_start() {
     SYNC
-    while (!shm->sync_s.race_running) {
-        wait_cond(&shm->sync_s.cond, &shm->sync_s.access_mutex);
+    while (shm->state == NOT_STARTED) {
+        wait_cond(&shm->cond, &shm->mutex);
     }
     END_SYNC
-}
 
-void signal_handler(int signum) {
-    char buffer[SMALLEST_SIZE];
-
-    switch (signum) {
-        case SIGSEGV:
-            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGSEGV, NULL);
-            segfault_handler(signum);
-            break;
-        case SIGTSTP:
-            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGTSTP, NULL);
-            show_stats_table();
-            break;
-        case SIGINT:
-            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGINT, NULL);
-
-            shm->sync_s.race_interrupted = true;
-            shm->sync_s.race_loop = false;
-            break;
-        case SIGUSR1:
-            generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGUSR1, NULL);
-            shm->sync_s.race_interrupted = true;
-            shm->sync_s.race_loop = true;
-            break;
-        default:
-            snprintf(buffer, SMALLEST_SIZE, "%d", signum);
-            generate_log_entry(SIGNAL_RECEIVE, (void *) buffer, NULL);
+    if (shm->state == STARTED) {
+        return true;
     }
+
+    return false;
 }
 
 void notify_race_end() {
@@ -188,7 +163,7 @@ void notify_race_end() {
 
     j = 0;
 
-    shm->sync_s.race_running = false;
+    shm->state = FINISHED;
 
     while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
         team = &shm->race_teams[j];
@@ -233,6 +208,7 @@ void unpause_clock() {
 
 void end_clock() {
     shm->sync_s.clock_on = false;
+    shm->sync_s.clock_paused = false;
 
     SYNC_CLOCK_VALLEY
     notify_cond(&shm->sync_s.clock_valley_cond); // notify the clock that the race is over.
@@ -268,7 +244,7 @@ static void init_global_clock() {
         DEBUG_MSG(GLOBAL_CLOCK_READY, TIME, "")
         DEBUG_MSG(GLOBAL_CLOCK_VALLEY, TIME, "");
 
-        ms_sleep(interval_ms);
+        ms_sleep((uint) interval_ms);
 
         generate_log_entry(CLOCK, NULL, NULL);
 
@@ -317,10 +293,9 @@ void sync_sleep(int time_units) {
 }
 
 void shm_init() {
-    shm->sync_s.race_running = false;
+    shm->state = NOT_STARTED;
     shm->sync_s.clock_on = false;
-    shm->sync_s.race_interrupted = false;
-    shm->sync_s.race_loop = false;
+    shm->hold_on_end = false;
     shm->sync_s.num_clock_waiters = 0;
     shm->sync_s.global_time = 0;
     shm->total_num_cars = 0;
@@ -336,8 +311,8 @@ static void create_ipcs(){
     ipcs_created = true;
 
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
-    init_cond(&shm->sync_s.cond, true);
-    init_mutex(&shm->sync_s.access_mutex, true);
+    init_cond(&shm->cond, true);
+    init_mutex(&shm->mutex, true);
     init_cond(&shm->sync_s.clock_valley_cond, true);
     init_mutex(&shm->sync_s.clock_valley_mutex, true);
     init_mutex(&shm->sync_s.clock_rise_mutex, true);
@@ -356,8 +331,8 @@ static void destroy_ipcs(){
 
     destroy_msg_queue(malfunction_q_id);
     destroy_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
-    destroy_mutex(&shm->sync_s.access_mutex);
-    destroy_cond(&shm->sync_s.cond);
+    destroy_mutex(&shm->mutex);
+    destroy_cond(&shm->cond);
 
     for (i = 0; i < config.num_teams; i++) {
 
@@ -379,11 +354,6 @@ static void destroy_ipcs(){
 
     destroy_shm(shm_id, shm);
     log_close();
-}
-
-static void segfault_handler() {
-    printf("WELL... THAT ESCALATED QUICKLY...\n");
-    printf("proc %ul\n", getpid());
 }
 
 static void terminate() {

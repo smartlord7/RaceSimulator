@@ -15,7 +15,7 @@ int random_uniform_event(float probability) {
 }
 
 void ms_sleep(uint ms) {
-    int result = 0;
+    int result;
     struct timespec ts_remaining = {ms / 1000, (ms % 1000) * 1000000L};
 
     do {

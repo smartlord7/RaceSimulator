@@ -9,11 +9,11 @@
 
 int main() {
     int fd;
-    char buffer[LARGEST_SIZE * X_FACTOR];
+    char buffer[LARGEST_SIZE * 2];
 
     fd = open_file(RACE_SIMULATOR_NAMED_PIPE, O_WRONLY);
 
-    while (fgets(buffer, LARGEST_SIZE * X_FACTOR, stdin) != NULL) {
+    while (fgets(buffer, LARGEST_SIZE * 2, stdin) != NULL) {
         if (write(fd, buffer, sizeof(buffer)) < 0) throw_and_exit(PIPE_FAILED_WRITE_EXCEPTION, RACE_SIMULATOR_NAMED_PIPE);
     }
 

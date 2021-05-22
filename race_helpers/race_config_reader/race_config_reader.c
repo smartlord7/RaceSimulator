@@ -19,6 +19,7 @@
 #include "../../util/read_line/read_line.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "race_config_reader.h"
+#include "../../util/strings/strings.h"
 
 // endregion dependencies
 
@@ -108,13 +109,8 @@ race_config_t * read_race_config() {
     current_line = 0;
 
     char buffer[MAX_CONFIG_FILE_LINE_SIZE], * token = NULL;
-    float time_units_per_sec,
-            lap_distance,
-            malfunction_interval,
-            min_repair_time,
-            max_repair_time,
-            fuel_tank_capacity;
-    int num_teams, laps_per_race, max_cars_per_team;
+    float lap_distance, fuel_tank_capacity;
+    int time_units_per_sec, malfunction_interval, min_repair_time, max_repair_time, num_teams, laps_per_race, max_cars_per_team;
 
    while (current_line < CONFIG_FILE_NUM_LINES) {
        int read_feedback = read_line(buffer, config_file, MAX_CONFIG_FILE_LINE_SIZE);
@@ -127,16 +123,22 @@ race_config_t * read_race_config() {
 
        switch(current_line) {
            case 0:
-               if (!(time_units_per_sec = atoi(buffer))) {
+               if (!is_number(buffer)) {
                    error_at_line(INT_CONVERSION_EXCEPTION, TIME_UNITS_PER_SEC);
                }
 
-               validate_interval(time_units_per_sec, TIME_UNITS_PER_SEC, MIN_TIME_UNITS_PER_SEC, MAX_TIME_UNITS_PER_SEC);
+               time_units_per_sec = atoi(buffer);
+
+               validate_interval((float) time_units_per_sec, TIME_UNITS_PER_SEC, MIN_TIME_UNITS_PER_SEC, MAX_TIME_UNITS_PER_SEC);
 
                break;
            case 1:
                if ((token = strtok(buffer, FIELD_DELIMITER)) == NULL) {
                    error_at_line(TOKENIZE_EXCEPTION, LAP_DISTANCE);
+               }
+
+               if (!is_number(token)) {
+                   error_at_line(FLOAT_CONVERSION_EXCEPTION, LAP_DISTANCE);
                }
 
                to_float_wrapper(to_float(token, &lap_distance), LAP_DISTANCE);
@@ -147,35 +149,43 @@ race_config_t * read_race_config() {
                    error_at_line(TOKENIZE_EXCEPTION, LAPS_PER_RACE);
                }
 
-               if (!(laps_per_race = atoi(token))) {
+               if (!is_number(token)) {
                    error_at_line(INT_CONVERSION_EXCEPTION, LAPS_PER_RACE);
                }
+
+               laps_per_race = atoi(token);
 
                validate_interval((float) laps_per_race, LAPS_PER_RACE, MIN_LAPS_PER_RACE, MAX_LAPS_PER_RACE);
 
                break;
            case 2:
-               if (!(num_teams = atoi(buffer))) {
+               if (!is_number(buffer)) {
                    error_at_line(INT_CONVERSION_EXCEPTION, NUM_TEAMS);
                }
+
+               num_teams = atoi(buffer);
 
                validate_interval((float) num_teams, NUM_TEAMS, MIN_NUM_TEAMS, MAX_NUM_TEAMS);
 
                break;
            case 3:
-               if (!(max_cars_per_team = atoi(buffer))) {
+               if (!is_number(buffer)) {
                    error_at_line(INT_CONVERSION_EXCEPTION, MAX_CARS_PER_TEAM);
                }
+
+               max_cars_per_team = atoi(buffer);
 
                validate_interval((float) max_cars_per_team, MAX_CARS_PER_TEAM, MIN_MAX_CARS_PER_TEAM, MAX_MAX_CARS_PER_TEAM);
 
                break;
            case 4:
-               if (!(malfunction_interval = atoi(buffer))) {
+               if (!is_number(buffer)) {
                    error_at_line(INT_CONVERSION_EXCEPTION, MALFUNCTION_INTERVAL);
                }
 
-               validate_interval(malfunction_interval, MALFUNCTION_INTERVAL, MIN_MALFUNCTION_TIME, MAX_MALFUNCTION_TIME);
+               malfunction_interval = atoi(buffer);
+
+               validate_interval((float) malfunction_interval, MALFUNCTION_INTERVAL, MIN_MALFUNCTION_TIME, MAX_MALFUNCTION_TIME);
 
                break;
            case 5:
@@ -183,30 +193,40 @@ race_config_t * read_race_config() {
                    error_at_line(TOKENIZE_EXCEPTION, MIN_REPAIR_TIME);
                }
 
-               if (!(min_repair_time = atoi(token))) {
+               if (!is_number(token)) {
                    error_at_line(INT_CONVERSION_EXCEPTION, MIN_REPAIR_TIME);
                }
 
-               validate_interval(min_repair_time, MIN_REPAIR_TIME, MIN_MIN_REPAIR_TIME, MAX_MIN_REPAIR_TIME);
+               min_repair_time = atoi(token);
+
+               validate_interval((float) min_repair_time, MIN_REPAIR_TIME, MIN_MIN_REPAIR_TIME, MAX_MIN_REPAIR_TIME);
 
                if ((token = strtok(NULL, FIELD_DELIMITER)) == NULL) {
                    error_at_line(TOKENIZE_EXCEPTION, MAX_REPAIR_TIME);
                }
 
-               if (!(max_repair_time = atoi(token))) {
+               if (!is_number(token)) {
                    error_at_line(INT_CONVERSION_EXCEPTION, MAX_REPAIR_TIME);
                }
 
-               validate_interval(max_repair_time, MAX_REPAIR_TIME, MIN_MAX_REPAIR_TIME, MAX_MAX_REPAIR_TIME);
+               max_repair_time = atoi(token);
 
-               validate_interval(min_repair_time, MIN_REPAIR_TIME, min_repair_time, max_repair_time);
+               validate_interval((float) max_repair_time, MAX_REPAIR_TIME, MIN_MAX_REPAIR_TIME, MAX_MAX_REPAIR_TIME);
+
+               validate_interval((float) min_repair_time, MIN_REPAIR_TIME, (float) min_repair_time, (float) max_repair_time);
 
                break;
            case 6:
+               if (!is_number(buffer)) {
+                   error_at_line(FLOAT_CONVERSION_EXCEPTION, FUEL_TANK_CAPACITY);
+               }
+
                to_float_wrapper(to_float(buffer, &fuel_tank_capacity), FUEL_TANK_CAPACITY);
 
                validate_interval(fuel_tank_capacity, FUEL_TANK_CAPACITY, MIN_FUEL_TANK_CAPACITY, MAX_FUEL_TANK_CAPACITY);
 
+               break;
+           default:
                break;
        }
 

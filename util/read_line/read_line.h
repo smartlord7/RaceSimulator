@@ -18,7 +18,7 @@
 
 // region constants
 
-#define BUFFER_SIZE_EXCEEDED -2
+#define BUFFER_SIZE_EXCEEDED (-2)
 #define LINE_READ_SUCCESSFULLY 1
 
 // endregion constants

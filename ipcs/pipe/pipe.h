@@ -13,6 +13,8 @@
 #define true 1
 #define false 0
 
+// region public functions prototypes
+
 /**
  * @def create_unn_pipe
  * @brief Function that creates an unnamed pipe.
@@ -46,5 +48,7 @@ extern void create_named_pipe(const char * pipe_name);
  *
  */
 extern void destroy_named_pipe(const char * pipe_name);
+
+// endregion public functions prototypes
 
 #endif //IPCS_NAMED_PIPE_H

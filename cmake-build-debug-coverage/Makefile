@@ -533,6 +533,33 @@ race_helpers/race_config_reader/race_config_reader.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s
 .PHONY : race_helpers/race_config_reader/race_config_reader.c.s
 
+race_helpers/signal_manager/signal_manager.o: race_helpers/signal_manager/signal_manager.c.o
+
+.PHONY : race_helpers/signal_manager/signal_manager.o
+
+# target to build an object file
+race_helpers/signal_manager/signal_manager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o
+.PHONY : race_helpers/signal_manager/signal_manager.c.o
+
+race_helpers/signal_manager/signal_manager.i: race_helpers/signal_manager/signal_manager.c.i
+
+.PHONY : race_helpers/signal_manager/signal_manager.i
+
+# target to preprocess a source file
+race_helpers/signal_manager/signal_manager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.i
+.PHONY : race_helpers/signal_manager/signal_manager.c.i
+
+race_helpers/signal_manager/signal_manager.s: race_helpers/signal_manager/signal_manager.c.s
+
+.PHONY : race_helpers/signal_manager/signal_manager.s
+
+# target to generate assembly for a file
+race_helpers/signal_manager/signal_manager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.s
+.PHONY : race_helpers/signal_manager/signal_manager.c.s
+
 race_helpers/stats_helper/stats_helper.o: race_helpers/stats_helper/stats_helper.c.o
 
 .PHONY : race_helpers/stats_helper/stats_helper.o
@@ -945,6 +972,9 @@ help:
 	@echo "... race_helpers/race_config_reader/race_config_reader.o"
 	@echo "... race_helpers/race_config_reader/race_config_reader.i"
 	@echo "... race_helpers/race_config_reader/race_config_reader.s"
+	@echo "... race_helpers/signal_manager/signal_manager.o"
+	@echo "... race_helpers/signal_manager/signal_manager.i"
+	@echo "... race_helpers/signal_manager/signal_manager.s"
 	@echo "... race_helpers/stats_helper/stats_helper.o"
 	@echo "... race_helpers/stats_helper/stats_helper.i"
 	@echo "... race_helpers/stats_helper/stats_helper.s"

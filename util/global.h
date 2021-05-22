@@ -28,10 +28,8 @@
 #define END_SYNC_CLOCK_RISE unlock_mutex(&shm->sync_s.clock_rise_mutex);
 #define SYNC_CLOCK_VALLEY lock_mutex(&shm->sync_s.clock_valley_mutex);
 #define END_SYNC_CLOCK_VALLEY unlock_mutex(&shm->sync_s.clock_valley_mutex);
-#define SYNC lock_mutex(&shm->sync_s.access_mutex);
-#define END_SYNC unlock_mutex(&shm->sync_s.access_mutex);
-#define SYNC lock_mutex(&shm->sync_s.access_mutex);
-#define END_SYNC unlock_mutex(&shm->sync_s.access_mutex);
+#define SYNC lock_mutex(&shm->mutex);
+#define END_SYNC unlock_mutex(&shm->mutex);
 #define SYNC_CAR lock_mutex(&car->access_mutex);
 #define END_SYNC_CAR unlock_mutex(&car->access_mutex);
 #define SYNC_CAR_COND lock_mutex(&car->cond_mutex);
@@ -79,7 +77,7 @@ extern char * mmap;
 // region global variables
 
 extern void sync_sleep(int time_units);
-extern void wait_race_start();
+extern int wait_race_start();
 extern void notify_race_end();
 extern void signal_handler(int signum);
 extern void pause_and_restart_clock();
