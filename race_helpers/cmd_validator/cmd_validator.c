@@ -154,6 +154,8 @@ int interpret_command(char * buffer, race_car_t * car, int * team_id) {
         }
     } else if (strcasecmp(buffer, EXIT_SIMULATION) == 0) {
         return RESULT_EXIT;
+    } else if (strcasecmp(buffer, HELP_REQ) == 0) {
+        return RESULT_HELP;
     }
     return RESULT_INVALID_COMMAND;
 }

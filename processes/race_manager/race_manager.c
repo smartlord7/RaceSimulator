@@ -149,6 +149,9 @@ static void handle_named_pipe() {
                             generate_log_entry(EXIT_PROGRAM, NULL, NULL);
                             shm->sync_s.simulation_ended = true;
                             return;
+                        case RESULT_HELP:
+                            printf("%s\n", COMMANDS_HELP);
+                            break;
                         default:
                             generate_log_entry(COMMAND_REJECT, buffer2, NULL);
                             break;
