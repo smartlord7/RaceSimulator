@@ -91,7 +91,7 @@ static void segfault_handler() {
 static void sigtstp_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGTSTP, NULL);
 
-    if (shm->state == STARTED) {
+    if (shm->state == RUNNING || shm->state == INTERRUPTED) {
         show_stats_table();
     } else {
         generate_log_entry(RACE_NOT_STARTED, (void *) SIGNAL_IGNORE, NULL);
@@ -109,17 +109,19 @@ static void sigint_handler() {
         close_fd(named_pipe_fd);
 
     } else {
-        shm->state = INTERRUPTED;
         shm->hold_on_end = false;
+        shm->state = INTERRUPTED;
+        notify_race_state_change();
     }
 }
 
 static void sigusr1_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGUSR1, NULL);
 
-    if (shm->state == STARTED) {
-        shm->state = INTERRUPTED;
+    if (shm->state == RUNNING) {
         shm->hold_on_end = true;
+        shm->state = INTERRUPTED;
+        notify_race_state_change();
     } else {
         generate_log_entry(RACE_NOT_STARTED, (void *) SIGNAL_IGNORE, NULL);
     }

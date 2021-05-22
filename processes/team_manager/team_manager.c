@@ -9,6 +9,7 @@
 
 // region dependencies
 
+#include <unistd.h>
 #include "signal.h"
 #include "stdlib.h"
 #include "string.h"
@@ -46,7 +47,7 @@ int unn_pipe_fds[2];
 
 void team_manager(void *data) {
     race_team_t *team = (race_team_t *) data;
-    DEBUG_MSG(PROCESS_RUN, ENTRY, team->team_name)
+    DEBUG_MSG(PROCESS_RUN, ENTRY, team->team_name, getpid())
 
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -86,10 +87,10 @@ void team_manager(void *data) {
 
     wait_threads(team->num_cars, car_threads);
 
-    close_fd(unn_pipe_fds[1]);
     wait_race_end();
+    close_fd(unn_pipe_fds[1]);
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, team->team_name)
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, team->team_name, getpid())
 }
 // endregion public functions
 
@@ -121,15 +122,23 @@ void manage_box(race_box_t *box) {
 
         // waits for an incoming car or for the number of cars in SAFETY mode to be different of 0.
         SYNC_BOX_COND
-        while (shm->state == STARTED && team->num_cars_safety == 0 && box->current_car == NULL) {
+        while (shm->state == RUNNING && team->num_cars_safety == 0 && box->current_car == NULL) {
             wait_cond(&box->cond, &box->mutex);
         }
 
-        if (shm->state != STARTED) {
+        END_SYNC_BOX_COND
+
+        if (shm->state != RUNNING) {
+            if (box->current_car != NULL) {
+                SYNC_CAR_COND
+                box->car_dispatched = true;
+                notify_cond(&car->cond);
+                END_SYNC_CAR_COND
+            }
+
             END_SYNC_BOX_COND
             return;
         }
-        END_SYNC_BOX_COND
 
         if (team->num_cars_safety > 0) {
 
@@ -138,16 +147,16 @@ void manage_box(race_box_t *box) {
 
             while (true) {
                 SYNC_BOX_COND
-                while (shm->state == STARTED && team->num_cars_safety > 0 && box->current_car == NULL) {
+                while (shm->state == RUNNING && team->num_cars_safety > 0 && box->current_car == NULL) {
                     wait_cond(&box->cond, &box->mutex);
                 }
+                END_SYNC_BOX_COND
                 if (team->num_cars_safety == 0) {
                     END_SYNC_BOX_COND
                     break;
                 }
-                END_SYNC_BOX_COND
 
-                if (shm->state != STARTED) {
+                if (shm->state != RUNNING) {
                     if (shm->state == INTERRUPTED && box->current_car != NULL) {
                         SYNC_CAR_COND
                         box->car_dispatched = true;
@@ -164,7 +173,7 @@ void manage_box(race_box_t *box) {
                 generate_log_entry(BOX_FIX, box, NULL);
                 sync_sleep(repair_time);
 
-                if (shm->state != STARTED) {
+                if (shm->state == INTERRUPTED) {
 
                     SYNC_CAR_COND
                     box->car_dispatched = true;
@@ -246,8 +255,8 @@ void simulate_car(race_car_t *car) {
         // - it is one step or less closer of the position = 0m (where the box is located).
         // - if the box is reserved and the car is in safety mode or the box is free.
         // - if the car can gain access to the box's lock.
-        if (shm->state == STARTED && box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box &&
-                ((box->state == RESERVED && car->state == SAFETY) || box->state == FREE) && pthread_mutex_trylock(&box->available) == 0) {
+        if (shm->state == RUNNING && box_needed && car->completed_laps != config.laps_per_race - 1 && car_close_to_box &&
+            ((box->state == RESERVED && car->state == SAFETY) || box->state == FREE) && pthread_mutex_trylock(&box->available) == 0) {
 
             // spend the needed fuel to reach the box. If the car's position = 0 then the spent fuel is also 0.
             if (car->current_pos != 0) {

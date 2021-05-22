@@ -10,6 +10,7 @@
 // region dependencies
 
 #include <signal.h>
+#include <unistd.h>
 #include "stdio.h"
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../ipcs/message_queue/msg_queue.h"
@@ -43,7 +44,7 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 // region public functions
 
 void malfunction_manager(){
-    DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER)
+    DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER, getpid())
 
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -51,7 +52,7 @@ void malfunction_manager(){
 
     generate_malfunctions();
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, MALFUNCTION_MANAGER)
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, MALFUNCTION_MANAGER, getpid())
 }
 
 // endregion public functions
@@ -93,12 +94,14 @@ static void generate_malfunctions(void) {
 
         sync_sleep(config.malfunction_interval);
 
-        if (shm->state == FINISHED) {
+        if (shm->state == FINISHED || shm->state == CLOSED) {
             if (shm->hold_on_end) {
+                HERE("left 1")
                 if (!wait_race_start()) {
                     return;
                 }
             } else {
+                HERE("left 2")
                 return;
             }
         }

@@ -78,7 +78,7 @@ extern char * mmap;
 
 extern void sync_sleep(int time_units);
 extern int wait_race_start();
-extern void notify_race_end();
+extern void notify_race_state_change();
 extern void signal_handler(int signum);
 extern void pause_and_restart_clock();
 extern void unpause_clock();

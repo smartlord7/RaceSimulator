@@ -43,7 +43,7 @@ int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
 
 void race_manager(){
 
-    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER, getpid());
 
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -52,7 +52,9 @@ void race_manager(){
     initialize_team_slots(config.num_teams);
 
     do {
+        shm->state = NOT_STARTED;
         handle_named_pipe();
+        shm->hold_on_end = false;
 
         if (shm->state == CLOSED) {
             end_clock();
@@ -63,8 +65,6 @@ void race_manager(){
         }
 
         if (shm->hold_on_end) {
-            shm->hold_on_end = false;
-            shm->state = NOT_STARTED;
             restart_teams();
             unpause_clock();
             reset_race();
@@ -76,12 +76,12 @@ void race_manager(){
 
     } while(shm->hold_on_end);
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER)
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER, getpid())
 }
 
 void notify_race_start() {
     SYNC
-    shm->state = STARTED;
+    shm->state = RUNNING;
     notify_cond_all(&shm->cond);
     END_SYNC
 }
@@ -189,7 +189,6 @@ static void handle_all_pipes() {
                     if (i == NAMED_PIPE_INDEX) {
                         do {
                             n = (int) read(pipe_fds[i], buffer, LARGE_SIZE);
-
                             if (n > 0) {
                                 buffer[n - 1] = '\0';
                                 generate_log_entry(COMMAND_REJECT2, (void *) buffer, NULL);
@@ -301,7 +300,8 @@ static void notify_sim_end() {
 
 static int check_race_end() {
     if (++shm->num_finished_cars == shm->total_num_cars) {
-        notify_race_end();
+        shm->state = FINISHED;
+        notify_race_state_change();
 
         if (shm->hold_on_end) {
             pause_and_restart_clock();

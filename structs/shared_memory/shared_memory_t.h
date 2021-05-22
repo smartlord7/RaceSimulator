@@ -28,7 +28,7 @@
 // region structures
 
 typedef enum simulation_state {
-    NOT_STARTED, STARTED, INTERRUPTED, FINISHED, CLOSED
+    NOT_STARTED, RUNNING, INTERRUPTED, FINISHED, CLOSED
 } simulation_state;
 
 /**

@@ -84,7 +84,7 @@ shared_memory_t * shm = NULL;
  */
 
 int main() {
-    DEBUG_MSG(PROCESS_RUN, EVENT, RACE_SIMULATOR)
+    DEBUG_MSG(PROCESS_RUN, EVENT, RACE_SIMULATOR, getpid())
 
     signal(SIGSEGV, signal_handler);
     signal(SIGINT, signal_handler);
@@ -93,7 +93,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init((void (*)(void *)) terminate, NULL);
-    debug_init(EVENT, false);
+    debug_init(ENTRY, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe
@@ -136,34 +136,35 @@ int main() {
     //destroy interprocess communication mechanisms
     destroy_ipcs();
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_SIMULATOR)
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_SIMULATOR, getpid())
 
     return EXIT_SUCCESS;
 }
 
 int wait_race_start() {
     SYNC
-    while (shm->state == NOT_STARTED) {
+    while (shm->state != RUNNING && shm->state != CLOSED) {
         wait_cond(&shm->cond, &shm->mutex);
     }
     END_SYNC
 
-    if (shm->state == STARTED) {
+    if (shm->state == RUNNING) {
         return true;
     }
 
     return false;
 }
 
-void notify_race_end() {
-    int j, k;
+void notify_race_state_change() {
+    int j;
     race_box_t * box = NULL;
     race_team_t * team = NULL;
-    race_car_t * car = NULL;
 
     j = 0;
 
-    shm->state = FINISHED;
+    SYNC
+    notify_cond_all(&shm->cond);
+    END_SYNC
 
     while (j < config.num_teams) { // notify all the boxes that are waiting for a new car/reservation that the race has finished.
         team = &shm->race_teams[j];
@@ -172,19 +173,6 @@ void notify_race_end() {
         SYNC_BOX_COND
         notify_cond_all(&box->cond);
         END_SYNC_BOX_COND
-
-        k = 0;
-
-        while (k < team->num_cars) {
-            car = &shm->race_cars[j][k];
-
-            SYNC_CAR
-            notify_cond_all(&car->cond);
-            END_SYNC_CAR
-
-            k++;
-        }
-
         j++;
     }
 }
@@ -230,7 +218,7 @@ static void init_global_clock() {
 
     while (true) {
         SYNC_CLOCK_VALLEY // wait for all the car threads and malfunction manager to arrive and wait for the next clock
-        while ((shm->thread_clock.num_clock_waiters < shm->num_cars_on_track + 1 && shm->thread_clock.clock_on) || shm->thread_clock.clock_paused) {
+        while ((shm->thread_clock.num_clock_waiters < shm->num_cars_on_track + 1 || shm->thread_clock.clock_paused) && shm->thread_clock.clock_on) {
             DEBUG_MSG(GLOBAL_CLOCK_RECEIVED, TIME, shm->thread_clock.num_clock_waiters,
                       (shm->num_cars_on_track + 1) - shm->thread_clock.num_clock_waiters);
             wait_cond(&shm->thread_clock.clock_valley_cond, &shm->thread_clock.clock_valley_mutex);
@@ -293,7 +281,6 @@ void sync_sleep(int time_units) {
 }
 
 void shm_init() {
-    shm->state = NOT_STARTED;
     shm->thread_clock.clock_on = false;
     shm->hold_on_end = false;
     shm->thread_clock.num_clock_waiters = 0;
