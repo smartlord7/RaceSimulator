@@ -28,28 +28,61 @@ mutex_t * mutex = NULL;
 
 // region private function prototypes
 
+/**
+ * @def swap_car
+ * @brief Function that swaps two cars.
+ *
+ * @param car1
+ * First car.
+ *
+ * @param car2
+ * Second car.
+ *
+ */
 static void swap_car(race_car_t * car1, race_car_t * car2);
+
+/**
+ * @def bubble_sort_race_cars
+ * @brief Function that sorts the race cars.
+ *
+ * @param race_cars
+ * Set of cars to be sorted.
+ *
+ * @param size
+ * Size of the set.
+ *
+ */
 static void bubble_sort_race_cars(race_car_t * race_cars, int size);
+
+/**
+ * @def get_team_name_max_len
+ * @brief Function that obtains the maximum race team name length.
+ *
+ * @return Maximum length of a race team name.
+ */
 static int get_team_name_max_len();
+
+/**
+ * @def get_car_name_max_len
+ * @brief Function that obtains the maximum race car name length.
+ *
+ * @return Maximum length of a race car name.
+ */
 static int get_car_name_max_len();
+
+/**
+ * @def get_all_cars
+ * @brief Function that retrieves all of the cars from a shared memory copy.
+ *
+ * @param shm_cpy
+ * Copy of the shared memory region.
+ *
+ * @return Array with all of the cars retrieved.
+ */
 static race_car_t * get_all_cars(shared_memory_t * shm_cpy);
 
 // endregion private function prototypes
 
-/**
- * @def stats_helper_init
- * @brief Function that initializes the functionality to capture race statistics.
- *
- * @param cfg
- * Race configurations.
- *
- * @param shmem
- * Shared memory containing data about the race.
- *
- * @param mtx
- * Pthread mutex associated with the functionality.
- *
- */
 void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * mtx) {
     assert(cfg != NULL && shmem != NULL && mtx != NULL);
 
@@ -58,9 +91,6 @@ void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * m
     mutex = mtx;
 }
 
-/**
- *
- */
 void show_stats_table() { // TODO: validate functions result
     char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], * row_sep_half, * row_sep, * race_car_state_str;
     shared_memory_t * shm_cpy = NULL;
@@ -79,6 +109,7 @@ void show_stats_table() { // TODO: validate functions result
     max_car_name_col_width =  strlen(CAR_NAME);
     max_team_name_col_width =  strlen(CAR_TEAM_NAME);
 
+    // construct the table structure
     if (sha_mem->total_num_cars < num_table_cars) {
         num_table_cars = sha_mem->total_num_cars;
     }
@@ -98,14 +129,18 @@ void show_stats_table() { // TODO: validate functions result
     row_sep = repeat_str(HORIZONTAL_DELIM, row_width);
     shm_cpy = (shared_memory_t *) malloc(sizeof(shared_memory_t));
 
+    //copy the data on the shared memory region
     lock_mutex(mutex);
     memcpy(shm_cpy, sha_mem, sizeof(shared_memory_t));
     unlock_mutex(mutex);
 
+    //obtain all of the race cars
     race_cars = get_all_cars(shm_cpy);
 
+    //sort the car positions on the table
     bubble_sort_race_cars(race_cars, shm_cpy->total_num_cars); // TODO: give last place to disqualified cars
 
+    //fill the table entries
     snprintf(buffer, BUFFER_SIZE,
              "\n\n%sRACE STATISTICS%s\n"
              " %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
@@ -166,22 +201,12 @@ void show_stats_table() { // TODO: validate functions result
     free(race_cars);
 }
 
-/**
- *
- * @param car1
- * @param car2
- */
 static void swap_car(race_car_t * car1, race_car_t * car2) {
     race_car_t temp = * car1;
     * car1 = * car2;
     * car2 = temp;
 }
 
-/**
- *
- * @param race_cars
- * @param size
- */
 static void bubble_sort_race_cars(race_car_t * race_cars, int size) {
     int i, j;
 
@@ -194,10 +219,6 @@ static void bubble_sort_race_cars(race_car_t * race_cars, int size) {
     }
 }
 
-/**
- *
- * @return
- */
 static int get_team_name_max_len() {
     int max_len = -1, i = 0, len;
 
@@ -213,10 +234,6 @@ static int get_team_name_max_len() {
     return max_len;
 }
 
-/**
- *
- * @return
- */
 static int get_car_name_max_len() {
     int max_len, len, i, j;
     race_team_t * team = NULL;
@@ -247,11 +264,6 @@ static int get_car_name_max_len() {
     return max_len;
 }
 
-/**
- *
- * @param shm_cpy
- * @return
- */
 static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     int i, j, k;
     race_car_t * cars = NULL;

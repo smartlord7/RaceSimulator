@@ -7,7 +7,6 @@
 * @date 22/05/2021
 */
 
-
 // region dependencies
 
 #include <stdio.h>
