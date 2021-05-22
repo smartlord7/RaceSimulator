@@ -36,18 +36,16 @@ static void notify_race_start();
 static void register_car(race_car_t * car, int team_id);
 static void reset_race();
 static void restart_teams();
+static int check_race_end();
 
-int pipe_fds[MAX_NUM_TEAMS + 1];
+int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
 
     signal(SIGUSR1, signal_handler);
-    int num_teams = config.num_teams;
-    num_registered_teams = 0;
-
-    initialize_team_slots(num_teams);
+    initialize_team_slots(config.num_teams);
 
     do {
         handle_named_pipe();
@@ -68,13 +66,12 @@ void race_manager(){
 }
 
 void handle_named_pipe() {
-    int n, end_read = false;
+    int n, result, team_id;
     char buffer[LARGEST_SIZE * 3], buffer2[LARGEST_SIZE * 3], * aux, * aux2;
     race_car_t car_data;
-    int result, team_id;
     pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
 
-    while (!end_read) {
+    while (true) {
         do {
             n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 3 * sizeof(char));
 
@@ -96,7 +93,7 @@ void handle_named_pipe() {
                             break;
                         case RESULT_BEGIN_RACE:
                             generate_log_entry(RACE_START, NULL, NULL);
-                            end_read = true;
+                            return;
                             break;
                         case RESULT_CANNOT_START_RACE:
                             generate_log_entry(RACE_CANNOT_START, buffer2, NULL);
@@ -107,7 +104,7 @@ void handle_named_pipe() {
                     }
                 } while ((aux = strtok_r(NULL, DELIM_3, &aux2)) != NULL);
             }
-        } while (n > 0 && !end_read);
+        } while (n > 0);
     }
 }
 
@@ -195,8 +192,7 @@ void handle_all_pipes() {
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
-                                if (++shm->num_finished_cars == shm->total_num_cars) {
-                                    notify_race_end();
+                                if (check_race_end()) {
                                     return;
                                 }
 
@@ -224,18 +220,8 @@ void handle_all_pipes() {
                                     race_winner = true;
                                 }
 
-                                if (++shm->num_finished_cars == shm->total_num_cars) {
-                                    notify_race_end();
-
-                                    if (shm->sync_s.race_loop) {
-                                        pause_and_restart_clock();
-                                    } else {
-                                        end_clock();
-                                    }
-                                    generate_log_entry(RACE_FINISH, NULL, NULL);
-                                    show_stats_table();
+                                if (check_race_end()) {
                                     return;
-
                                 }
 
                                 break;
@@ -245,6 +231,24 @@ void handle_all_pipes() {
             }
         }
     }
+}
+
+static int check_race_end() {
+    if (++shm->num_finished_cars == shm->total_num_cars) {
+        notify_race_end();
+
+        if (shm->sync_s.race_loop) {
+            pause_and_restart_clock();
+        } else {
+            end_clock();
+        }
+        generate_log_entry(RACE_FINISH, NULL, NULL);
+        show_stats_table();
+
+        return true;
+    }
+
+    return false;
 }
 
 static void initialize_team_slots(int num_teams) {

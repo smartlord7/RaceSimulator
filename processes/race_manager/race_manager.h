@@ -17,10 +17,6 @@
 #define DELIM_3 "\n"
 
 #define RACE_MANAGER "RACE_MANAGER"
-#define RACE_MANAGER_SAY "[RACE MANAGER] "
-#define CAR_CHANGE RACE_MANAGER_SAY "CAR %d CHANGED ITS STATE TO %d!"
-#define RACE_END "THE RACE HAS ENDED!"
-#define CAR_WIN "THE CAR %d FROM TEAM %d HAS WON THE RACE AT %d tu!"
 
 #define COMMAND_PREVIEW_SIZE 7
 
@@ -36,7 +32,6 @@ extern int unn_pipe_fds[2];
  *
  */
 extern void race_manager();
-
 extern void create_new_team(char * team_name, int * team_id);
 
 // endregion public functions prototypes
