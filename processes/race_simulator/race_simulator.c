@@ -93,7 +93,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init((void (*)(void *)) terminate, NULL);
-    debug_init(ENTRY, false);
+    debug_init(EVENT, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe

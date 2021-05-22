@@ -48,7 +48,7 @@ int log_fd;
 
 void log_init(const char * lg_file_path) {
 
-    log_fd = open(lg_file_path, O_RDWR | O_CREAT, 0600);
+    log_fd = open(lg_file_path, O_WRONLY | O_CREAT, 0600);
     throw_if_exit(log_fd == -1, FILE_OPEN_EXCEPTION, lg_file_path);
 
     lseek(log_fd, FACTOR * LARGEST_SIZE - 1, SEEK_SET);
