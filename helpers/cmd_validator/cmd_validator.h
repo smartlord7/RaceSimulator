@@ -10,12 +10,19 @@
 #ifndef RACE_HELPERS_CMD_VALIDATOR_H
 #define RACE_HELPERS_CMD_VALIDATOR_H
 
-// region constants
+// region dependencies
 
 #include "../../structs/race_car/race_car_t.h"
 
+// endregion dependencies
+
+
+// region constants
+
 #define DELIM_1 ","
 #define DELIM_2 ":"
+
+// region cmd parsing results
 
 #define RESULT_INVALID_COMMAND 1
 #define RESULT_NEW_CAR 2
@@ -25,21 +32,36 @@
 #define RESULT_EXIT 6
 #define RESULT_HELP 7
 
+// endregion cmd parsing results
+
+// region car properties
+
 #define CAR "CAR"
 #define TEAM "TEAM"
 #define SPEED "SPEED"
 #define CONSUMPTION "CONSUMPTION"
 #define RELIABILITY "RELIABILITY"
 
+// endregion car properties
+
+// region available commands
+
 #define START_RACE "START RACE!"
 #define ADDCAR "ADDCAR"
 #define EXIT_SIMULATION "EXIT"
 #define HELP_REQ "HELP"
 
+// endregion available commands
+
+// region car/team parsing results
+
 #define NEW_TEAM (-1)
 #define NO_TEAM_SLOT (-2)
 #define MISSING_ATTR (-3)
 #define NO_CAR_SLOT (-4)
+
+// endregion car/team parsing results
+
 
 // endregion constants
 
@@ -53,10 +75,10 @@
  * Command to be interpreted.
  *
  * @param car
- * Struct to store data about a car if the command is to add a new car and is valid.
+ * Car buffer that will holde the car data if the command is ADDCAR and is valid.
  *
  * @param team_id
- * Team ID of a car if the command is to add a new car and is valid.
+ * Internal team ID that owns the car if the command is to add a new car and is valid.
  *
  * @return RESULT_CANNOT_START_RACE if the command is to start the race and the last one does not fill the required conditions to start.
  *         RESULT_BEGIN_RACE if the command is to start the race and this one fills all of the required conditions to be started.
@@ -68,6 +90,10 @@ extern int interpret_command(char * buffer, race_car_t * car, int * team_id);
 
 // endregion public functions prototypes
 
+// region global variables
+
 extern int num_registered_teams;
+
+// endregion global variables
 
 #endif //RACE_HELPERS_CMD_VALIDATOR_H
