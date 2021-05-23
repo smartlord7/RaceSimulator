@@ -54,6 +54,7 @@ void race_manager(){
     pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
 
     do {
+        shm->state = NOT_STARTED;
         handle_named_pipe();
 
         if (shm->state == CLOSED) {
@@ -358,7 +359,6 @@ static void reset_race() {
 
     i = 0;
 
-    shm->state = NOT_STARTED;
     shm->num_finished_cars = 0;
     shm->num_cars_on_track = shm->total_num_cars;
     shm->num_refuels = 0;
