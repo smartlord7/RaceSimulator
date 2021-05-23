@@ -1,25 +1,25 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* Authors:
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
-* Date of creation: 01/04/2021
+* @date 01/04/2021
 */
 
 // region dependencies
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include <assert.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+#include "stdarg.h"
+#include "assert.h"
 #include "../../util/global.h"
 #include "../../util/to_float/to_float.h"
 #include "../../util/read_line/read_line.h"
 #include "../../util/exception_handler/exception_handler.h"
-#include "race_config_reader.h"
 #include "../../util/strings/strings.h"
+#include "race_config_reader.h"
 
 // endregion dependencies
 
