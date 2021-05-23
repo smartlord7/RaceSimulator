@@ -24,10 +24,10 @@
 #define true 1
 #define false 0
 
-#define SYNC_CLOCK_RISE lock_mutex(&shm->sync_s.clock_rise_mutex);
-#define END_SYNC_CLOCK_RISE unlock_mutex(&shm->sync_s.clock_rise_mutex);
-#define SYNC_CLOCK_VALLEY lock_mutex(&shm->sync_s.clock_valley_mutex);
-#define END_SYNC_CLOCK_VALLEY unlock_mutex(&shm->sync_s.clock_valley_mutex);
+#define SYNC_CLOCK_RISE lock_mutex(&shm->thread_clock.clock_rise_mutex);
+#define END_SYNC_CLOCK_RISE unlock_mutex(&shm->thread_clock.clock_rise_mutex);
+#define SYNC_CLOCK_VALLEY lock_mutex(&shm->thread_clock.clock_valley_mutex);
+#define END_SYNC_CLOCK_VALLEY unlock_mutex(&shm->thread_clock.clock_valley_mutex);
 #define SYNC lock_mutex(&shm->mutex);
 #define END_SYNC unlock_mutex(&shm->mutex);
 #define SYNC_CAR lock_mutex(&car->access_mutex);
@@ -76,13 +76,53 @@ extern char * mmap;
 
 // region global variables
 
+/**
+ * @def sync_sleep
+ * @brief Function that allows the synchronization of a thread trying to enter a sleep state.
+ *
+ * @param time_units
+ * Duration of the sleep in time units.
+ *
+ */
 extern void sync_sleep(int time_units);
+
+/**
+ * @def wait_race_start
+ * @brief Function that allows to wait for a signal about the race start and if it has began.
+ *
+ * @return false if the race has not began.
+ *         true if the race has began.
+ */
 extern int wait_race_start();
+
+/**
+ * @def notify_race_end
+ * @brief Function that notifies all threads and processes that the race reached its end.
+ */
 extern void notify_race_end();
+
+
 extern void signal_handler(int signum);
+
+/**
+ * @def pause_and_restart_clock
+ * @brief Function that pauses and restarts the clock.
+ */
 extern void pause_and_restart_clock();
+
+/**
+ * @def unpause_clock
+ * @brief Function that unpauses the clock.
+ */
 extern void unpause_clock();
+
+/**
+ * @def end_clock
+ * @brief Function that signals the clock to end.
+ */
 extern void end_clock();
+
+extern void notify_race_state_change();
 
 // endregion global variables
 

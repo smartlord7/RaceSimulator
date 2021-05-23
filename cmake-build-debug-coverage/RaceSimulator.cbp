@@ -114,6 +114,36 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/cmd_validator/cmd_validator.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/cmd_validator/cmd_validator.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/log_generator/log_generator.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/log_generator/log_generator.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/race_config_reader/race_config_reader.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/race_config_reader/race_config_reader.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/signal_manager/signal_manager.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/signal_manager/signal_manager.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/stats_helper/stats_helper.c">
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/stats_helper/stats_helper.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -177,36 +207,6 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/race_simulator_cmd.c">
 			<Option target="cmd"/>
 		</Unit>
@@ -240,7 +240,7 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/sync_t/sync_t.h">
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/sync_t/thread_clock_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.c">

@@ -43,6 +43,18 @@ extern int unn_pipe_fds[2];
  *
  */
 extern void race_manager();
+
+/**
+ * @def create_new_team
+ * @brief Function that creates a new race team.
+ *
+ * @param team_name
+ * Name to be assigned to the team.
+ *
+ * @param team_id
+ * Used to store the ID assigned to the team.
+ *
+ */
 extern void create_new_team(char * team_name, int * team_id);
 
 // endregion public functions prototypes

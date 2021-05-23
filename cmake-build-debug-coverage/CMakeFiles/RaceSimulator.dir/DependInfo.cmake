@@ -4,6 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/home/sancho/Documents/GitRepos/RaceSimulator/helpers/cmd_validator/cmd_validator.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o"
+  "/home/sancho/Documents/GitRepos/RaceSimulator/helpers/log_generator/log_generator.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o"
+  "/home/sancho/Documents/GitRepos/RaceSimulator/helpers/race_config_reader/race_config_reader.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o"
+  "/home/sancho/Documents/GitRepos/RaceSimulator/helpers/signal_manager/signal_manager.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o"
+  "/home/sancho/Documents/GitRepos/RaceSimulator/helpers/stats_helper/stats_helper.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/message_queue/msg_queue.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/pipe/pipe.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o"
@@ -15,11 +20,6 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_manager/race_manager.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/processes/race_simulator/race_simulator.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simulator.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/processes/team_manager/team_manager.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o"
-  "/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o"
-  "/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o"
-  "/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o"
-  "/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o"
-  "/home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_car/race_car_t.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_config/race_config_t.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o"
   "/home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.c" "/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o"

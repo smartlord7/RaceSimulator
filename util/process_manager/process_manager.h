@@ -96,6 +96,10 @@ extern void create_thread(const char * thread_name, pthread_t * thread, void * (
  */
 extern void wait_threads(int num_threads, pthread_t * threads);
 
+/**
+ * @def exit_thread
+ * @brief Function that allows a thread to exit.
+ */
 extern void exit_thread();
 
 // endregion public functions prototypes

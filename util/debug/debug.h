@@ -53,9 +53,9 @@ typedef enum debug_level {
 
 // region proc/threads/functions debug msgs
 
-#define PROCESS_RUN "RUNNING PROCESS %s..."
+#define PROCESS_RUN "RUNNING PROCESS %s (%u)..."
 #define THREAD_RUN "RUNNING THREAD %s..."
-#define PROCESS_EXIT "EXITING PROCESS %s..."
+#define PROCESS_EXIT "EXITING PROCESS %s (%u)..."
 #define THREAD_EXIT "EXITING THREAD %s..."
 #define FUNCTION_RUN "RUNNING FUNCTION %s..."
 #define FUNCTION_EXIT "EXITING FUNCTION %s..."

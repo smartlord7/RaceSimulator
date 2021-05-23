@@ -21,8 +21,7 @@
 
 // region public functions
 
-race_car_t *
-race_car(race_team_t * team, char * car_name, int car_id, float consumption, float speed, float reliability, float initial_fuel) {
+race_car_t * race_car(race_team_t * team, char * car_name, int car_id, float consumption, float speed, float reliability, float initial_fuel) {
     race_car_t *new = NULL;
 
     if ((new = (race_car_t *) calloc(1, sizeof(race_car_t))) == NULL) {
@@ -134,6 +133,15 @@ void set_state(race_car_t * race_car, race_car_state state) {
         default:
             return;
     }
+}
+
+int race_car_compare(race_car_t * first, race_car_t * second) {
+    return first->completed_laps < second->completed_laps ? 1 :
+                first->completed_laps > second->completed_laps ? -1 :
+                first->current_pos < second->current_pos ? 1 :
+                first->current_pos > second->current_pos ? -1 :
+                first->finish_time > second->finish_time ? 1 :
+                first->finish_time < second->finish_time ? -1 : 0;
 }
 
 // endregion public functions

@@ -10,6 +10,7 @@
 // region dependencies
 
 #include <signal.h>
+#include <unistd.h>
 #include "stdio.h"
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../ipcs/message_queue/msg_queue.h"
@@ -20,6 +21,10 @@
 
 // region private functions prototypes
 
+/**
+ * @def generate_malfunctions
+ * @brief Function that generates malfunctions for the cars on the race.
+ */
 static void generate_malfunctions(void);
 
 // endregion private functions prototypes
@@ -43,7 +48,7 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 // region public functions
 
 void malfunction_manager(){
-    DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER)
+    DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER, getpid())
 
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -51,7 +56,7 @@ void malfunction_manager(){
 
     generate_malfunctions();
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, MALFUNCTION_MANAGER)
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, MALFUNCTION_MANAGER, getpid())
 }
 
 // endregion public functions
@@ -64,6 +69,7 @@ static void generate_malfunctions(void) {
     race_car_t * car;
     malfunction_t msg;
 
+    //wait for the beginning of the race
     if (!wait_race_start()) {
         return;
     }
@@ -73,6 +79,7 @@ static void generate_malfunctions(void) {
             for (j = 0; j < shm->race_teams[i].num_cars; j++) {
                 car = &shm->race_cars[i][j];
 
+                //check if the car can receive a malfunction
                 SYNC_CAR
                 if (car->state != RACE) {
                     END_SYNC_CAR
@@ -81,6 +88,7 @@ static void generate_malfunctions(void) {
 
                 prob_malfunction = 1 - car->reliability;
 
+                //generate a random malfunction and notify the car affected by it
                 if (random_uniform_event(prob_malfunction)) {
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.description, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->name);
@@ -91,9 +99,11 @@ static void generate_malfunctions(void) {
             }
         }
 
+        //sleep until next clock rise
         sync_sleep(config.malfunction_interval);
 
-        if (shm->state == FINISHED) {
+        if (shm->state == FINISHED || shm->state == CLOSED) {
+        //verify if the race has ended
             if (shm->hold_on_end) {
                 if (!wait_race_start()) {
                     return;

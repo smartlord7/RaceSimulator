@@ -108,7 +108,8 @@ typedef struct race_car_t{
             completed_laps,
             num_box_stops,
             num_malfunctions,
-            num_refuels;
+            num_refuels,
+            finish_time;
     float remaining_fuel,
             consumption,
             current_consumption,
@@ -186,6 +187,8 @@ extern void set_state(race_car_t * race_car, race_car_state state);
  * @return String of the current car state.
  */
 extern char * race_car_state_to_string(race_car_state state);
+
+extern int race_car_compare(race_car_t * first, race_car_t * second);
 
 // endregion public functions prototypes
 

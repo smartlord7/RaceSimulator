@@ -128,18 +128,18 @@ CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/processes/malfunction_manager/malfunction_manager.c -o CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.s
 
-CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o: ../race_helpers/race_config_reader/race_config_reader.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.c
+CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o: ../helpers/race_config_reader/race_config_reader.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/helpers/race_config_reader/race_config_reader.c
 
-CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.c > CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.i
+CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/helpers/race_config_reader/race_config_reader.c > CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.i
 
-CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/race_config_reader/race_config_reader.c -o CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s
+CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/helpers/race_config_reader/race_config_reader.c -o CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.s
 
 CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o: ../util/exception_handler/exception_handler.c
@@ -245,18 +245,18 @@ CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/structs/race_team/race_team_t.c -o CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.s
 
-CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o: ../race_helpers/log_generator/log_generator.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.c
+CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o: ../helpers/log_generator/log_generator.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/helpers/log_generator/log_generator.c
 
-CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.c > CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.i
+CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/helpers/log_generator/log_generator.c > CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.i
 
-CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/log_generator/log_generator.c -o CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.s
+CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/helpers/log_generator/log_generator.c -o CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.s
 
 CMakeFiles/RaceSimulator.dir/util/strings/strings.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/util/strings/strings.c.o: ../util/strings/strings.c
@@ -375,18 +375,18 @@ CMakeFiles/RaceSimulator.dir/util/file/file.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/util/file/file.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/util/file/file.c -o CMakeFiles/RaceSimulator.dir/util/file/file.c.s
 
-CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o: ../race_helpers/stats_helper/stats_helper.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c
+CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o: ../helpers/stats_helper/stats_helper.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/helpers/stats_helper/stats_helper.c
 
-CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c > CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.i
+CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/helpers/stats_helper/stats_helper.c > CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.i
 
-CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/stats_helper/stats_helper.c -o CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.s
+CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/helpers/stats_helper/stats_helper.c -o CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.s
 
 CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o: CMakeFiles/RaceSimulator.dir/flags.make
 CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o: ../ipcs/memory_mapped_file/memory_mapped_file.c
@@ -401,31 +401,31 @@ CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.s: cma
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.c -o CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.s
 
-CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o: ../race_helpers/cmd_validator/cmd_validator.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.c
+CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o: ../helpers/cmd_validator/cmd_validator.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/helpers/cmd_validator/cmd_validator.c
 
-CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.c > CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.i
+CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/helpers/cmd_validator/cmd_validator.c > CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.i
 
-CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/cmd_validator/cmd_validator.c -o CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.s
+CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/helpers/cmd_validator/cmd_validator.c -o CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.s
 
-CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o: CMakeFiles/RaceSimulator.dir/flags.make
-CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o: ../race_helpers/signal_manager/signal_manager.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.c
+CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o: CMakeFiles/RaceSimulator.dir/flags.make
+CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o: ../helpers/signal_manager/signal_manager.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o -c /home/sancho/Documents/GitRepos/RaceSimulator/helpers/signal_manager/signal_manager.c
 
-CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.c > CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.i
+CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sancho/Documents/GitRepos/RaceSimulator/helpers/signal_manager/signal_manager.c > CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.i
 
-CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/race_helpers/signal_manager/signal_manager.c -o CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.s
+CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sancho/Documents/GitRepos/RaceSimulator/helpers/signal_manager/signal_manager.c -o CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.s
 
 # Object files for target RaceSimulator
 RaceSimulator_OBJECTS = \
@@ -433,7 +433,7 @@ RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o" \
 "CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o" \
 "CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o" \
-"CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o" \
+"CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/to_float/to_float.c.o" \
@@ -442,7 +442,7 @@ RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o" \
 "CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o" \
-"CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o" \
+"CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/strings/strings.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o" \
@@ -452,10 +452,10 @@ RaceSimulator_OBJECTS = \
 "CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o" \
 "CMakeFiles/RaceSimulator.dir/util/file/file.c.o" \
-"CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o" \
+"CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o" \
 "CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o" \
-"CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o" \
-"CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o"
+"CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o" \
+"CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o"
 
 # External object files for target RaceSimulator
 RaceSimulator_EXTERNAL_OBJECTS =
@@ -464,7 +464,7 @@ RaceSimulator: CMakeFiles/RaceSimulator.dir/processes/race_simulator/race_simula
 RaceSimulator: CMakeFiles/RaceSimulator.dir/processes/race_manager/race_manager.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/processes/malfunction_manager/malfunction_manager.c.o
-RaceSimulator: CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o
+RaceSimulator: CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/exception_handler/exception_handler.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/read_line/read_line.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/to_float/to_float.c.o
@@ -473,7 +473,7 @@ RaceSimulator: CMakeFiles/RaceSimulator.dir/structs/race_car/race_car_t.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/structs/race_config/race_config_t.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/process_manager/process_manager.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/structs/race_team/race_team_t.c.o
-RaceSimulator: CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o
+RaceSimulator: CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/strings/strings.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o
@@ -483,10 +483,10 @@ RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/sync/semaphore/sem.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/numbers/numbers.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/sync/cond_var/cond_var.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/util/file/file.c.o
-RaceSimulator: CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o
+RaceSimulator: CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o
-RaceSimulator: CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o
-RaceSimulator: CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o
+RaceSimulator: CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o
+RaceSimulator: CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o
 RaceSimulator: CMakeFiles/RaceSimulator.dir/build.make
 RaceSimulator: CMakeFiles/RaceSimulator.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sancho/Documents/GitRepos/RaceSimulator/cmake-build-debug-coverage/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Linking C executable RaceSimulator"

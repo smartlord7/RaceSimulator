@@ -14,7 +14,7 @@
 
 #include "../race_car/race_car_t.h"
 #include "../race_config/race_config_t.h"
-#include "../sync_t/sync_t.h"
+#include "../sync_t/thread_clock_t.h"
 
 // endregion dependencies
 
@@ -28,7 +28,7 @@
 // region structures
 
 typedef enum simulation_state {
-    NOT_STARTED, STARTED, INTERRUPTED, FINISHED, CLOSED
+    NOT_STARTED, RUNNING, INTERRUPTED, FINISHED, CLOSED
 } simulation_state;
 
 /**
@@ -49,7 +49,7 @@ typedef enum simulation_state {
 typedef struct shared_memory_t {
     race_team_t race_teams[MAX_NUM_TEAMS];
     race_car_t race_cars[MAX_NUM_TEAMS][MAX_MAX_CARS_PER_TEAM];
-    sync_t sync_s;
+    thread_clock_t thread_clock;
     simulation_state state;
     int hold_on_end,
         num_cars_on_track,
@@ -58,7 +58,7 @@ typedef struct shared_memory_t {
         num_malfunctions,
         num_refuels;
     cond_t cond;
-    mutex_t mutex;
+    mutex_t mutex, stdout_mutex, log_mutex;
 } shared_memory_t;
 
 // endregion structures
