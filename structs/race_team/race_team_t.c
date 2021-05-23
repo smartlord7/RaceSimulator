@@ -18,15 +18,6 @@
 
 // endregion dependencies
 
-// region constants
-
-#define RACE_CONFIG "RACE_TEAM"
-#define true 1
-#define false 0
-#define NULL_STR_SIZE 5
-
-// endregion constants
-
 // region public functions
 
 race_team_t * race_team(int team_id, const char * team_name) {

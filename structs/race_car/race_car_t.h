@@ -7,8 +7,8 @@
 * @date 31/03/2021
 */
 
-#ifndef RACESIMULATOR_C_RACE_CAR_H
-#define RACESIMULATOR_C_RACE_CAR_H
+#ifndef STRUCTS_RACE_CAR_H
+#define STRUCTS_RACE_CAR_H
 
 // region dependencies
 
@@ -189,8 +189,22 @@ extern void set_state(race_car_t * race_car, race_car_state state);
  */
 extern char * race_car_state_to_string(race_car_state state);
 
+
+/**
+ * @def race_car_compare
+ * @brief Function that compares two cars based on their completed laps,
+ * current position and finish time. Used when sorting an array of cares.
+ *
+ * @param first
+ * The first car to be compared.
+ *
+ * @param second
+ * The second car to be compared.
+ *
+ * @return an integer specifying the order between the given cars (1, -1 or 0).
+ */
 extern int race_car_compare(race_car_t * first, race_car_t * second);
 
 // endregion public functions prototypes
 
-#endif //RACESIMULATOR_C_RACE_CAR_H
+#endif //STRUCTS_RACE_CAR_H

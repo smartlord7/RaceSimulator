@@ -7,8 +7,8 @@
 * @date 31/03/2021
 */
 
-#ifndef RACESIMULATOR_C_RACE_TEAM_H
-#define RACESIMULATOR_C_RACE_TEAM_H
+#ifndef STRUCTS_RACE_TEAM_H
+#define STRUCTS_RACE_TEAM_H
 
 // region dependencies
 
@@ -18,6 +18,10 @@
 // endregion dependencies
 
 // region constants
+
+#define true 1
+#define false 0
+#define NULL_STR_SIZE 5
 
 #define MAX_TEAM_NAME_SIZE 50
 
@@ -79,9 +83,17 @@ extern race_team_t * race_team(int team_id, const char * team_name);
  */
 extern char * race_team_to_string(race_team_t * team);
 
-
+/**
+ * @def race_box_state_to_string
+ * @brief Function that converts the state of the team's box to a legible string.
+ *
+ * @param state
+ * The box state.
+ *
+ * @return A string representation of the box state.
+ */
 extern char * race_box_state_to_string(box_state_t state);
 
-//endregion functions prototypes
+// endregion functions prototypes
 
-#endif //RACESIMULATOR_C_RACE_TEAM_H
+#endif //STRUCTS_RACE_TEAM_H

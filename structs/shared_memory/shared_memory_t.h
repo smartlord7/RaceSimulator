@@ -7,8 +7,8 @@
 * @date 31/03/2021
 */
 
-#ifndef RACESIMULATOR_C_SHARED_MEMORY_H
-#define RACESIMULATOR_C_SHARED_MEMORY_H
+#ifndef STRUCTS_SHARED_MEMORY_H
+#define STRUCTS_SHARED_MEMORY_H
 
 // region dependencies
 
@@ -54,7 +54,7 @@ typedef struct shared_memory_t {
     int hold_on_end,
         num_cars_on_track,
         total_num_cars,
-        num_finished_cars, // TODO: Integrate in a stats struct.
+        num_finished_cars,
         num_malfunctions,
         num_refuels;
     cond_t cond;
@@ -63,4 +63,4 @@ typedef struct shared_memory_t {
 
 // endregion structures
 
-#endif //RACESIMULATOR_C_SHARED_MEMORY_H
+#endif //STRUCTS_SHARED_MEMORY_H

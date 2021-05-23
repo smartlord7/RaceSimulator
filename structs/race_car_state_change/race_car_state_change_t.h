@@ -10,13 +10,13 @@
 #ifndef STRUCTS_RACE_CAR_STATE_CHANGE_T_H
 #define STRUCTS_RACE_CAR_STATE_CHANGE_T_H
 
-//region dependencies
+// region dependencies
 
 #include "../race_car/race_car_t.h"
 
-//endregion dependencies
+// endregion dependencies
 
-//region structures
+// region structures
 
 /**
  * @struct race_car_state_change_t
@@ -42,6 +42,6 @@ typedef struct race_car_state_change_t {
     int car_team_index, team_id, prev_state, new_state, malfunctioning : 1;
 } race_car_state_change_t;
 
-//endregion structures
+// endregion structures
 
 #endif //STRUCTS_RACE_CAR_STATE_CHANGE_T_H
