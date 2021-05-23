@@ -9,6 +9,8 @@
 
 //region dependencies
 
+#include <stdlib.h>
+#include <errno.h>
 #include "stdio.h"
 #include "unistd.h"
 #include "fcntl.h"
@@ -86,6 +88,7 @@ void signal_handler(int signum) {
 static void segfault_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGSEGV, NULL);
     printf("[%ul] WELL... THAT ESCALATED QUICKLY...\n", getpid());
+    exit(EXIT_FAILURE);
 }
 
 static void sigtstp_handler() {
