@@ -9,8 +9,7 @@
 
 // region dependencies
 
-#include <signal.h>
-#include <errno.h>
+#include "signal.h"
 #include "stdio.h"
 #include "string.h"
 #include "fcntl.h"
@@ -20,12 +19,12 @@
 #include "../../util/file/file.h"
 #include "../../ipcs/pipe/pipe.h"
 #include "../../helpers//log_generator/log_generator.h"
-#include "../team_manager/team_manager.h"
-#include "race_manager.h"
 #include "../../helpers/cmd_validator/cmd_validator.h"
 #include "../../helpers/stats_helper/stats_helper.h"
 #include "../../ipcs/sync/semaphore/sem.h"
 #include "../../helpers/signal_manager/signal_manager.h"
+#include "../team_manager/team_manager.h"
+#include "race_manager.h"
 
 // endregion dependencies
 
@@ -33,80 +32,87 @@
 
 /**
  * @def initialize_team_slots
- * @brief Function that initializes all of the team slots.
+ * @brief Function that initializes all the team slots.
  *
  * @param num_teams
  * Number of team slots.
  *
  */
-static void initialize_team_slots(int num_teams);
+static void initialize_team_slots();
 
 /**
  * @def handle_named_pipe
- * @brief Function that allows the handling of the named pipe before the start of the race.
+ * @brief Function that handles the named pipe before the race starts.
  */
 static void handle_named_pipe();
 
 /**
  * @def handle_all_pipes
- * @brief Function that allows the management of all of the pipes after the race has started.
+ * @brief Function that manages all pipes after the race has started.
  */
 static void handle_all_pipes();
 
 /**
  * @def notify_race_start
- * @brief Functions that signals the start of the race.
+ * @brief Function that signals that the race has started.
  */
 static void notify_race_start();
 
 /**
  * @def notify_sim_end
- * @brief Function that notifies that the simulation is to end.
+ * @brief Function that notifies the simulation end.
  */
 static void notify_sim_end();
 
 /**
  * @def register_car
- * @brief Function that registers a new race car on the shared memory region.
+ * @brief Function that registers a new race car in the shared memory region.
  *
  * @param car
- * Car to registered.
+ * Car to be registered.
  *
  * @param team_id
- * Team ID assigned to the car.
+ * The ID of the team that owns the car.
  *
  */
 static void register_car(race_car_t * car, int team_id);
 
 /**
  * @def reset_race
- * @brief Function that resets the race.
+ * @brief Function that resets the race (general properties and the cars' properties).
  */
 static void reset_race();
 
 /**
  * @def restart_teams
- * @brief Function that restarts the race teams.
+ * @brief Function that restarts the team manager processes.
  */
 static void restart_teams();
 
 /**
  * @def check_race_end
- * @brief Function that check if the race has ended.
+ * @brief Function that checks if the race has ended.
  *
  * @return false if the race has not ended.
  *         true if the race has ended.
  */
 static int check_race_end();
 
-//endregion public functions prototypes
+// endregion public functions prototypes
+
+// region global variables
 
 int pipe_fds[MAX_NUM_TEAMS + 1];
+
+// endregion global variables
+
+// region public functions
 
 void race_manager(){
 
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER_SAYS, getpid());
 
+    // ignore all signals captured by the race simulator.
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
@@ -116,10 +122,10 @@ void race_manager(){
 
     do {
         shm->state = NOT_STARTED;
-        //handle the named pipe to receive the commands
+        // handle the named pipe to receive the commands
         handle_named_pipe();
 
-        //check if the simulation is to end before starting the race
+        // check if the simulation has ended by the user's initiative, before starting the race.
         if (shm->state == CLOSED) {
             end_clock();
             notify_sim_end();
@@ -128,7 +134,8 @@ void race_manager(){
             break;
         }
 
-        // TODO: finish this comment
+        // if a SIGUSR1 has been received, then the flag hold_on_end is reset,
+        // the team processes are restarted, the clock is resumed and the race reset.
         if (shm->hold_on_end) {
             shm->hold_on_end = false;
             restart_teams();
@@ -159,7 +166,7 @@ void create_new_team(char * team_name, int * team_id) {
 
     i = 0;
 
-    //find the slot for the team
+    // find the slot for the team
     while (i < config.num_teams) {
         if (shm->race_teams[i].team_id >= 0) {
             i++;
@@ -172,16 +179,18 @@ void create_new_team(char * team_name, int * team_id) {
 
     strcpy(team->team_name, team_name);
     team->team_id = i;
-    *team_id = i;
+    * team_id = i;
     num_registered_teams++;
 
-    //create unnamed pipe for communication between team and race manager
+    // create unnamed pipe for communication between the teams and the race manager
     create_unn_pipe(unn_pipe_fds);
     pipe_fds[i + 1] = unn_pipe_fds[0];
 
     create_process(TEAM_MANAGER, (void (*)(void *)) team_manager, (void *) team);
     close_fd(unn_pipe_fds[1]);
 }
+
+// endregion public functions
 
 static void handle_named_pipe() {
     int n, result, team_id;
@@ -190,7 +199,7 @@ static void handle_named_pipe() {
 
     while (true) {
         do {
-            //read the command or sequence of commands
+            // read the command or sequence of commands
             n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 4 * sizeof(char));
 
             if (n > 0) {
@@ -201,7 +210,7 @@ static void handle_named_pipe() {
                     strcpy(buffer2, aux);
                     result = interpret_command(aux, &car_data, &team_id);
 
-                    //generate a response for the interpretation of the command
+                    // generate a response for the interpretation of the command
                     switch (result) {
                         case RESULT_NEW_CAR:
                             register_car(&car_data, team_id);
@@ -227,6 +236,7 @@ static void handle_named_pipe() {
                             generate_log_entry(COMMAND_REJECT, buffer2, NULL);
                             break;
                     }
+                // split the given commands by \n.
                 } while ((aux = strtok_r(NULL, DELIM_3, &aux2)) != NULL);
             }
         } while (n > 0);
@@ -251,7 +261,7 @@ static void handle_all_pipes() {
             FD_SET(pipe_fds[i], &read_set);
         }
 
-        //select the pipe to read
+        // select the pipe to read.
         if (select(pipe_fds[config.num_teams] + 1, &read_set, NULL, NULL, NULL) > 0) {
             for (i = 0; i < config.num_teams + 1; i++) {
                 if (FD_ISSET(pipe_fds[i], &read_set)) {
@@ -260,6 +270,7 @@ static void handle_all_pipes() {
                             n = (int) read(pipe_fds[i], buffer,4 * LARGE_SIZE);
                             if (n > 0) {
                                 buffer[n - 1] = '\0';
+                                // reject the command since the race has already started.
                                 generate_log_entry(COMMAND_REJECT2, (void *) buffer, NULL);
                             }
                         } while (n > 0);
@@ -274,10 +285,10 @@ static void handle_all_pipes() {
 
                         generate_log_entry(CAR_STATE_CHANGE, car, NULL);
 
-                        //handle the race cars state changes
+                        // handle the race cars state changes.
                         switch (car_state_change.new_state) {
                             case RACE:
-                                //everytime a car goes to the box it gets its fuel deposit filled
+                                // everytime a car goes to the box it gets its fuel deposit filled.
                                 if (car_state_change.prev_state == IN_BOX) {
                                     SYNC
                                     shm->num_refuels++;
@@ -286,13 +297,13 @@ static void handle_all_pipes() {
 
                                 break;
                             case SAFETY:
-                                //notify the team box that another car is on safety mode
+                                // notify the team box that another car is in safety mode.
                                 SYNC_BOX_COND
                                 team->num_cars_safety++;
                                 notify_cond(&box->cond);
                                 END_SYNC_BOX_COND
 
-                                //register that a malfunction has occurred
+                                // register that a malfunction has occurred.
                                 if (car_state_change.malfunctioning) {
                                     SYNC
                                     shm->num_malfunctions++;
@@ -307,7 +318,7 @@ static void handle_all_pipes() {
                                 }
                                 break;
                             case DISQUALIFIED:
-                                //notify that box that is not needed anymore
+                                // notify that box that is not needed anymore
                                 if (car_state_change.prev_state == SAFETY) {
                                     SYNC_BOX_COND
                                     team->num_cars_safety--;
@@ -329,7 +340,7 @@ static void handle_all_pipes() {
                                 break;
                             case FINISH:
 
-                                //notify that the box is not needed anymore
+                                // notify that the box is not needed anymore
                                 if (car_state_change.prev_state == SAFETY) {
                                     SYNC_BOX_COND
                                     team->num_cars_safety--;
@@ -344,7 +355,7 @@ static void handle_all_pipes() {
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
-                                //check if it won the race
+                                // check if a car has won the race.
                                 if (!race_winner) {
                                     generate_log_entry(CAR_RACE_WIN, car, NULL);
 
@@ -394,10 +405,10 @@ static int check_race_end() {
     return false;
 }
 
-static void initialize_team_slots(int num_teams) {
+static void initialize_team_slots() {
     int i;
 
-    for(i = 0; i < num_teams; i++) {
+    for(i = 0; i < config.num_teams; i++) {
         shm->race_teams[i].team_id = -1;
     }
 }

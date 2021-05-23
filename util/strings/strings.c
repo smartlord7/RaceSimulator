@@ -28,7 +28,7 @@
 
 // endregion constants
 
-//region private functions prototypes
+// region private functions prototypes
 
 /**
  * @def get_max_str_length

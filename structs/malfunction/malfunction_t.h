@@ -10,18 +10,17 @@
 #ifndef STRUCTS_MALFUNCTION_MSG_T_H
 #define STRUCTS_MALFUNCTION_MSG_T_H
 
-//region dependencies
+// region dependencies
 
 #include "../../util/global.h"
 
-//endregion dependencies
+// endregion dependencies
 
-//region structures
-typedef struct malfunction_t malfunction_t;
+// region structures
 
 /**
- * @struct
- * @brief
+ * @struct malfunction_t
+ * @brief struct that holds the information of a malfunction assigned random car.
  *
  * @var malfunction_t::car_id
  * ID of the car affected by the malfunction.
@@ -30,10 +29,10 @@ typedef struct malfunction_t malfunction_t;
  * Description of the malfunction.
  *
  */
-struct malfunction_t {
+typedef struct malfunction_t {
     long car_id;
     char description[LARGE_SIZE + MAX_LABEL_SIZE];
-};
+} malfunction_t;
 
 //endregion structures
 

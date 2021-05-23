@@ -12,17 +12,16 @@
 #include "stdlib.h"
 #include "signal.h"
 #include "unistd.h"
+#include "../race_manager/race_manager.h"
+#include "../malfunction_manager/malfunction_manager.h"
 #include "../../util/global.h"
 #include "../../helpers//log_generator/log_generator.h"
 #include "../../helpers//race_config_reader/race_config_reader.h"
-#include "../race_manager/race_manager.h"
-#include "../malfunction_manager/malfunction_manager.h"
 #include "../../util/process_manager/process_manager.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "../../ipcs/shared_memory/shm.h"
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../ipcs/pipe/pipe.h"
-#include "../../util/numbers/numbers.h"
 #include "../../helpers/stats_helper/stats_helper.h"
 #include "../../util/file/file.h"
 #include "../../helpers/signal_manager/signal_manager.h"
@@ -40,7 +39,8 @@
 
 /**
  * @def create_ipcs
- * @brief Function that creates the required IPCs for the application execution. Includes the creation of shared memory zone and POSIX named semaphore.
+ * @brief Function that creates the required IPCs for the application execution.
+ * Includes the creation of a shared memory zone, pthread mutexes and cond. variables, message queue and named pipe.
  *
  * @param num_teams
  * The number of teams competing in the race.
@@ -60,7 +60,7 @@ static void destroy_ipcs();
 
 /**
  * @def terminate
- * @brief Function that terminates the current process tree.
+ * @brief Function that kills all the processes in the current proc. group in case of abrupt termination.
  *
  */
 static void terminate();
@@ -70,15 +70,6 @@ static void terminate();
  * @brief Function that initializes variables in the shared memory region.
  */
 static void shm_init();
-
-/**
- * @def wait_race_start
- * @brief Function that allows to wait for a signal about the race start and if it has began.
- *
- * @return false if the race has not began.
- *         true if the race has began.
- */
-extern int wait_race_start();
 
 // endregion private functions prototypes
 
@@ -91,26 +82,25 @@ shared_memory_t * shm = NULL;
 // endregion global variables
 
 /**
- * Main function of the application. Simulates the behavior of a race simulator.
+ * Main function of the application. Simulates the behavior of a race.
  *
  * @return the exit value.
  */
 int main() {
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR_PROCESS, getpid())
 
+    // redirect all signals to be handled to specified function.
     signal(SIGSEGV, signal_handler);
     signal(SIGINT, signal_handler);
     signal(SIGTSTP, signal_handler);
+    // ignore this signal since is handled by the race manager.
     signal(SIGUSR1, SIG_IGN);
 
-    //initialize debugging and exception handling mechanisms
+    // initialize debugging and exception handling mechanisms.
     exc_handler_init((void (*)(void *)) terminate, NULL);
     debug_init(EVENT, false);
 
-    // TODO: signal before race starts
-    // TODO: handle multiple access in named pipe
-
-    //initialize and read configuration file.
+    // initialize and read configuration file.
     race_config_reader_init(CONFIG_FILE_NAME);
     race_config_t * cfg = read_race_config();
 
@@ -118,7 +108,7 @@ int main() {
 
     free(cfg);
 
-    //create interprocess communication mechanisms
+    //create interprocess communication mechanisms.
     create_ipcs();
     shm_init();
 
@@ -127,25 +117,25 @@ int main() {
     log_init(LOG_FILE_NAME);
     generate_log_entry(SIMULATION_START, NULL, NULL);
 
-    //create race manager process
+    // create race manager process.
     create_process(RACE_MANAGER, (void (*)(void *)) race_manager, NULL);
 
-    //create malfunction_q_id manager process
+    // create malfunction manager process.
     create_process(MALFUNCTION_MANAGER, (void (*)(void *)) malfunction_manager, NULL);
 
     if (wait_race_start()) {
         init_global_clock();
     }
 
-    // handle SIGINT
-
-    //wait for all of the child processes
+    //wait for all of the child processes.
     wait_procs();
+
+    // close the clock.
     end_clock();
 
     generate_log_entry(SIMULATION_END, NULL, NULL);
 
-    //destroy interprocess communication mechanisms
+    //destroy interprocess communication mechanisms.
     destroy_ipcs();
 
     DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_SIMULATOR_PROCESS, getpid())
@@ -264,8 +254,6 @@ static void terminate() {
     terminate_proc_grp(getpgrp());
 
     exit(EXIT_FAILURE);
-
-    // TODO Remove IPCs on abrupt termination.
 }
 
 // endregion private functions

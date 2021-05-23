@@ -7,8 +7,8 @@
 * @date 31/03/2021
 */
 
-#ifndef RACESIMULATOR_C_GLOBAL_H
-#define RACESIMULATOR_C_GLOBAL_H
+#ifndef UTIL_GLOBAL_H
+#define UTIL_GLOBAL_H
 
 // region dependencies
 
@@ -70,15 +70,27 @@
 extern int shm_id, malfunction_q_id;
 extern shared_memory_t * shm;
 extern race_config_t config;
-extern char * mmap_f;
 
 // endregion global variables
 
 // region global variables
 
+/**
+ * @def notify_race_state_change
+ * @brief Function that notifies that the race has changed state.
+ *
+ */
 extern void notify_race_state_change();
+
+/**
+ * @def wait_race_start
+ * @brief Function that allows to wait for a signal about the race start and if it has began.
+ *
+ * @return false if the race has not began.
+ *         true if the race has began.
+ */
 extern int wait_race_start();
 
 // endregion global variables
 
-#endif // RACESIMULATOR_C_GLOBAL_H
+#endif // UTIL_GLOBAL_H

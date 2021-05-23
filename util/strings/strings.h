@@ -10,11 +10,11 @@
 #ifndef RACE_SIMULATOR_C_STRINGS_H
 #define RACE_SIMULATOR_C_STRINGS_H
 
-//region constants
+// region constants
 
 #define BUF_SIZE 512
 
-//endregion constants
+// endregion constants
 
 // region public functions prototypes
 

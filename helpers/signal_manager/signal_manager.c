@@ -101,7 +101,7 @@ static void segfault_handler() {
 static void sigtstp_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGTSTP, NULL);
 
-    if (shm->state == RUNNING || shm->state == INTERRUPTED) { // if the race is still running or it has been interrupted by a SIGINT or SIGUSR1 (but actually, it is still running till all cars cross the finish line)
+    if (shm->state == RUNNING || shm->state == INTERRUPTED) {
         show_stats_table();
     } else { // ignore the signal since the race isn't running.
         generate_log_entry(RACE_NOT_STARTED, (void *) SIGNAL_IGNORE, NULL);
@@ -130,7 +130,9 @@ static void sigusr1_handler() {
 
     if ((shm->state == RUNNING || shm->state == INTERRUPTED) && !shm->hold_on_end) { // if the race is running or was interrupted by a SIGINT.
         shm->hold_on_end = true; // at the end of the race, the program will wait for the user feedback: start the race again or simply close the simulator.
-        shm->state = INTERRUPTED; // if a SIGINT has been previously signalled, the program will proceed to its overriding. This is useful if you, for example, press Ctrl + z but then regret of it :-).
+        // if a SIGINT has been previously signalled, the program will proceed to its overriding.
+        // This is useful if you, for example, press Ctrl + z but then regret of it :-).
+        shm->state = INTERRUPTED;
         notify_race_state_change(); // notify all entities waiting for the correspondent condition to change that the race has been interrupted.
     } else {
         generate_log_entry(RACE_NOT_STARTED, (void *) SIGNAL_IGNORE, NULL);
