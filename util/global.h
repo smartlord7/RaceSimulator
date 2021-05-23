@@ -77,6 +77,7 @@ extern char * mmap_f;
 // region global variables
 
 extern void notify_race_state_change();
+extern int wait_race_start();
 
 // endregion global variables
 
