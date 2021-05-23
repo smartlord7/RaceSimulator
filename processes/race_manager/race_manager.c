@@ -19,11 +19,11 @@
 #include "../../util/global.h"
 #include "../../util/file/file.h"
 #include "../../ipcs/pipe/pipe.h"
-#include "../../race_helpers//log_generator/log_generator.h"
+#include "../../helpers//log_generator/log_generator.h"
 #include "../team_manager/team_manager.h"
 #include "race_manager.h"
-#include "../../race_helpers/cmd_validator/cmd_validator.h"
-#include "../../race_helpers/stats_helper/stats_helper.h"
+#include "../../helpers/cmd_validator/cmd_validator.h"
+#include "../../helpers/stats_helper/stats_helper.h"
 #include "../../ipcs/sync/semaphore/sem.h"
 
 // endregion dependencies

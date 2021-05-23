@@ -19,7 +19,7 @@
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../util/numbers/numbers.h"
 #include "../../util/file/file.h"
-#include "../../race_helpers/log_generator/log_generator.h"
+#include "../../helpers/log_generator/log_generator.h"
 #include "team_manager.h"
 
 // endregion dependencies

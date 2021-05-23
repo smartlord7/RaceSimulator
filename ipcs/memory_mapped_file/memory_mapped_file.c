@@ -22,7 +22,6 @@
 
 #define true 1
 #define false 0
-#define MMAP_OFFSET 0
 
 struct stat stat_buf;
 size_t mmap_size;

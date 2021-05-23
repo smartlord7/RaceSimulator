@@ -13,8 +13,8 @@
 #include "signal.h"
 #include "unistd.h"
 #include "../../util/global.h"
-#include "../../race_helpers//log_generator/log_generator.h"
-#include "../../race_helpers//race_config_reader/race_config_reader.h"
+#include "../../helpers//log_generator/log_generator.h"
+#include "../../helpers//race_config_reader/race_config_reader.h"
 #include "../race_manager/race_manager.h"
 #include "../malfunction_manager/malfunction_manager.h"
 #include "../../util/process_manager/process_manager.h"
@@ -23,7 +23,7 @@
 #include "../../ipcs/message_queue/msg_queue.h"
 #include "../../ipcs/pipe/pipe.h"
 #include "../../util/numbers/numbers.h"
-#include "../../race_helpers/stats_helper/stats_helper.h"
+#include "../../helpers/stats_helper/stats_helper.h"
 #include "../../util/file/file.h"
 
 // endregion dependencies
