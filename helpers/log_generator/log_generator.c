@@ -58,13 +58,10 @@ void log_init(const char * lg_file_path) {
 
     write_stream(log_fd, LOG_FILE_HEADER, sizeof(LOG_FILE_HEADER) - sizeof(char));
 
-    //mmap_f = create_mmap_file(log_fd, &log_file_size);
-
     log_file_path = lg_file_path;
 }
 
 void log_close(){
-    //destroy_mmap_file(mmap_f, log_fd, log_file_size);
 
     if (close(log_fd) < 0){
         throw_and_exit(FILE_CLOSE_EXCEPTION, log_file_path);
