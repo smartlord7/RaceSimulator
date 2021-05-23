@@ -22,7 +22,7 @@
 #define true 1
 #define false 0
 #define NULL_STR_SIZE 5
-
+#define RACE_TEAM "RACE TEAM"
 #define MAX_TEAM_NAME_SIZE 50
 
 // endregion constants

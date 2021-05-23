@@ -336,13 +336,15 @@ void simulate_car(race_car_t * car) {
                 exit_thread();
             }
 
-            // reset the car's position to 0.
-            car->current_pos = 0;
 
             // the car reached the box and now changed its state to IN_BOX.
             CHANGE_CAR_STATE(IN_BOX);
 
+            SYNC
+            // reset the car's position to 0.
+            car->current_pos = 0;
             car->num_box_stops++;
+            END_SYNC
 
             // notify the box that a new car has arrived.
             SYNC_BOX_COND
@@ -373,7 +375,9 @@ void simulate_car(race_car_t * car) {
             // the car is now ready to race again.
             CHANGE_CAR_STATE(RACE);
 
+            SYNC
             car->completed_laps++;
+            END_SYNC
 
             generate_log_entry(CAR_COMPLETE_LAP, car, NULL);
 
@@ -416,10 +420,12 @@ void simulate_car(race_car_t * car) {
                 exit_thread();
             }
 
+            SYNC
             // increase the number of completed laps.
             car->completed_laps++;
             // reset the car's position to 0.
             car->current_pos = 0;
+            END_SYNC
 
             generate_log_entry(CAR_COMPLETE_LAP, car, NULL);
 
@@ -446,7 +452,9 @@ void simulate_car(race_car_t * car) {
         // spend the needed fuel.
         car->remaining_fuel -= car->current_consumption;
         // do a discrete spatial step :-).
+        SYNC
         car->current_pos += car->current_speed;
+        END_SYNC
 
         DEBUG_MSG(CAR_MOVE, EVENT, car->name, car->current_pos)
 

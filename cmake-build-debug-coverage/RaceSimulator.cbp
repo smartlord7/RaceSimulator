@@ -145,7 +145,6 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/thread_clock/thread_clock_t.c">
-			<Option target="cmd"/>
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/thread_clock/thread_clock_t.h">

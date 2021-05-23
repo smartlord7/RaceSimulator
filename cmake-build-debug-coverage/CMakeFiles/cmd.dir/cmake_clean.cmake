@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cmd.dir/helpers/thread_clock/thread_clock_t.c.o"
   "CMakeFiles/cmd.dir/race_simulator_cmd.c.o"
   "CMakeFiles/cmd.dir/util/exception_handler/exception_handler.c.o"
   "CMakeFiles/cmd.dir/util/file/file.c.o"

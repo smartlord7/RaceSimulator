@@ -24,7 +24,7 @@ race_team_t * race_team(int team_id, const char * team_name) {
     race_team_t * new;
 
     if ((new = (race_team_t *) calloc(1, sizeof(race_team_t))) == NULL) {
-        throw_and_exit(MEMORY_ALLOCATE_EXCEPTION, RACE_CONFIG);
+        throw_and_exit(MEMORY_ALLOCATE_EXCEPTION, RACE_TEAM);
     }
 
     strcpy(new->team_name, team_name);

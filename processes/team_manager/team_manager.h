@@ -24,19 +24,22 @@
 
 #define car_close_to_box (car->current_pos == 0 || (car->current_pos <= config.lap_distance && car->current_pos + car->current_speed >= config.lap_distance))
 #define CHANGE_CAR_STATE(new_car_state) \
-                                        \
 car_state_change.prev_state = car->state; \
 car_state_change.new_state = new_car_state; \
 car_state_change.team_id = car->team->team_id; \
 if ((new_car_state) == FINISH || (new_car_state) == DISQUALIFIED) { \
+     SYNC                                   \
      car->finish_time = shm->thread_clock.global_time; \
+     END_SYNC \
 }                                        \
 if (car_state_change.malfunctioning) { \
 generate_log_entry(CAR_MALFUNCTION, (void *) car, (void *) &malfunction.description); \
 } \
+SYNC \
 SYNC_CAR \
 set_state(car, new_car_state); \
 END_SYNC_CAR \
+END_SYNC \
 lock_mutex(&team->pipe_mutex);  \
 write_stream(unn_pipe_fds[1], &car_state_change, sizeof(race_car_state_change_t));\
 unlock_mutex(&team->pipe_mutex)

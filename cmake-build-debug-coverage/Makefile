@@ -296,7 +296,6 @@ helpers/thread_clock/thread_clock_t.o: helpers/thread_clock/thread_clock_t.c.o
 
 # target to build an object file
 helpers/thread_clock/thread_clock_t.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/helpers/thread_clock/thread_clock_t.c.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/thread_clock/thread_clock_t.c.o
 .PHONY : helpers/thread_clock/thread_clock_t.c.o
 
@@ -306,7 +305,6 @@ helpers/thread_clock/thread_clock_t.i: helpers/thread_clock/thread_clock_t.c.i
 
 # target to preprocess a source file
 helpers/thread_clock/thread_clock_t.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/helpers/thread_clock/thread_clock_t.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/thread_clock/thread_clock_t.c.i
 .PHONY : helpers/thread_clock/thread_clock_t.c.i
 
@@ -316,7 +314,6 @@ helpers/thread_clock/thread_clock_t.s: helpers/thread_clock/thread_clock_t.c.s
 
 # target to generate assembly for a file
 helpers/thread_clock/thread_clock_t.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/helpers/thread_clock/thread_clock_t.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/thread_clock/thread_clock_t.c.s
 .PHONY : helpers/thread_clock/thread_clock_t.c.s
 
