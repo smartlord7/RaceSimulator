@@ -1,6 +1,6 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* @author
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
@@ -108,6 +108,7 @@ typedef struct race_car_t{
             completed_laps,
             num_box_stops,
             num_malfunctions,
+            malfunctioning,
             num_refuels,
             finish_time;
     float remaining_fuel,

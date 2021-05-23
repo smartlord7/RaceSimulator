@@ -1,6 +1,6 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* @author
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
@@ -25,6 +25,7 @@
 #include "../../helpers/cmd_validator/cmd_validator.h"
 #include "../../helpers/stats_helper/stats_helper.h"
 #include "../../ipcs/sync/semaphore/sem.h"
+#include "../../helpers/signal_manager/signal_manager.h"
 
 // endregion dependencies
 
@@ -104,7 +105,7 @@ int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
 
 void race_manager(){
 
-    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER, getpid());
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER_SAYS, getpid());
 
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -142,7 +143,7 @@ void race_manager(){
 
     } while(shm->hold_on_end);
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER, getpid())
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER_SAYS, getpid())
 }
 
 void notify_race_start() {

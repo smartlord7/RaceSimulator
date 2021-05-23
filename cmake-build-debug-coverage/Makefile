@@ -290,6 +290,36 @@ helpers/stats_helper/stats_helper.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.s
 .PHONY : helpers/stats_helper/stats_helper.c.s
 
+helpers/thread_clock/thread_clock_t.o: helpers/thread_clock/thread_clock_t.c.o
+
+.PHONY : helpers/thread_clock/thread_clock_t.o
+
+# target to build an object file
+helpers/thread_clock/thread_clock_t.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/helpers/thread_clock/thread_clock_t.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/thread_clock/thread_clock_t.c.o
+.PHONY : helpers/thread_clock/thread_clock_t.c.o
+
+helpers/thread_clock/thread_clock_t.i: helpers/thread_clock/thread_clock_t.c.i
+
+.PHONY : helpers/thread_clock/thread_clock_t.i
+
+# target to preprocess a source file
+helpers/thread_clock/thread_clock_t.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/helpers/thread_clock/thread_clock_t.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/thread_clock/thread_clock_t.c.i
+.PHONY : helpers/thread_clock/thread_clock_t.c.i
+
+helpers/thread_clock/thread_clock_t.s: helpers/thread_clock/thread_clock_t.c.s
+
+.PHONY : helpers/thread_clock/thread_clock_t.s
+
+# target to generate assembly for a file
+helpers/thread_clock/thread_clock_t.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmd.dir/build.make CMakeFiles/cmd.dir/helpers/thread_clock/thread_clock_t.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/thread_clock/thread_clock_t.c.s
+.PHONY : helpers/thread_clock/thread_clock_t.c.s
+
 ipcs/memory_mapped_file/memory_mapped_file.o: ipcs/memory_mapped_file/memory_mapped_file.c.o
 
 .PHONY : ipcs/memory_mapped_file/memory_mapped_file.o
@@ -945,6 +975,9 @@ help:
 	@echo "... helpers/stats_helper/stats_helper.o"
 	@echo "... helpers/stats_helper/stats_helper.i"
 	@echo "... helpers/stats_helper/stats_helper.s"
+	@echo "... helpers/thread_clock/thread_clock_t.o"
+	@echo "... helpers/thread_clock/thread_clock_t.i"
+	@echo "... helpers/thread_clock/thread_clock_t.s"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.o"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.i"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.s"
