@@ -10,6 +10,7 @@
 // region dependencies
 
 #include <signal.h>
+#include <errno.h>
 #include "stdio.h"
 #include "string.h"
 #include "fcntl.h"
@@ -18,11 +19,11 @@
 #include "../../util/global.h"
 #include "../../util/file/file.h"
 #include "../../ipcs/pipe/pipe.h"
-#include "../../race_helpers//log_generator/log_generator.h"
+#include "../../helpers//log_generator/log_generator.h"
 #include "../team_manager/team_manager.h"
 #include "race_manager.h"
-#include "../../race_helpers/cmd_validator/cmd_validator.h"
-#include "../../race_helpers/stats_helper/stats_helper.h"
+#include "../../helpers/cmd_validator/cmd_validator.h"
+#include "../../helpers/stats_helper/stats_helper.h"
 #include "../../ipcs/sync/semaphore/sem.h"
 
 // endregion dependencies
@@ -103,15 +104,17 @@ int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
 
 void race_manager(){
 
-    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER);
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER, getpid());
 
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
     signal(SIGUSR1, signal_handler);
     initialize_team_slots(config.num_teams);
+    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
 
     do {
+        shm->state = NOT_STARTED;
         //handle the named pipe to receive the commands
         handle_named_pipe();
 
@@ -127,7 +130,6 @@ void race_manager(){
         // TODO: finish this comment
         if (shm->hold_on_end) {
             shm->hold_on_end = false;
-            shm->state = NOT_STARTED;
             restart_teams();
             unpause_clock();
             reset_race();
@@ -140,12 +142,12 @@ void race_manager(){
 
     } while(shm->hold_on_end);
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER)
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER, getpid())
 }
 
 void notify_race_start() {
     SYNC
-    shm->state = STARTED;
+    shm->state = RUNNING;
     notify_cond_all(&shm->cond);
     END_SYNC
 }
@@ -182,14 +184,13 @@ void create_new_team(char * team_name, int * team_id) {
 
 static void handle_named_pipe() {
     int n, result, team_id;
-    char buffer[LARGEST_SIZE * 3], buffer2[LARGEST_SIZE * 3], * aux, * aux2;
+    char buffer[LARGEST_SIZE * 4], buffer2[LARGEST_SIZE * 4], * aux, * aux2;
     race_car_t car_data;
-    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY);
 
     while (true) {
         do {
             //read the command or sequence of commands
-            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 3 * sizeof(char));
+            n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 4 * sizeof(char));
 
             if (n > 0) {
                 buffer[n - 1]= '\0';
@@ -236,13 +237,11 @@ static void handle_named_pipe() {
 static void handle_all_pipes() {
     fd_set read_set;
     int i, n, race_winner = false;
-    char buffer[LARGE_SIZE];
+    char buffer[4 * LARGEST_SIZE];
     race_car_state_change_t car_state_change = {0};
     race_car_t * car = NULL;
     race_team_t * team = NULL;
     race_box_t * box = NULL;
-
-    pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
 
     while (true) {
         FD_ZERO(&read_set);
@@ -257,8 +256,7 @@ static void handle_all_pipes() {
                 if (FD_ISSET(pipe_fds[i], &read_set)) {
                     if (i == NAMED_PIPE_INDEX) {
                         do {
-                            n = (int) read(pipe_fds[i], buffer, LARGE_SIZE);
-
+                            n = (int) read(pipe_fds[i], buffer,4 * LARGE_SIZE);
                             if (n > 0) {
                                 buffer[n - 1] = '\0';
                                 generate_log_entry(COMMAND_REJECT2, (void *) buffer, NULL);
@@ -266,7 +264,7 @@ static void handle_all_pipes() {
                         } while (n > 0);
 
                         close(pipe_fds[i]);
-                        pipe_fds[i] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY|O_NONBLOCK);
+                        pipe_fds[NAMED_PIPE_INDEX] = open_file(RACE_SIMULATOR_NAMED_PIPE, O_RDONLY | O_NONBLOCK);
                     } else {
                         read_stream(pipe_fds[i], (void *) &car_state_change, sizeof(race_car_state_change_t));
                         car = &shm->race_cars[car_state_change.team_id][car_state_change.car_team_index];
@@ -338,14 +336,12 @@ static void handle_all_pipes() {
                                     END_SYNC_BOX_COND
                                 }
 
-                                if (car_state_change.prev_state != FINISH) {
-                                    SYNC
-                                    SYNC_CLOCK_VALLEY
-                                    shm->num_cars_on_track--;
-                                    notify_cond(&shm->thread_clock.clock_valley_cond);
-                                    END_SYNC_CLOCK_VALLEY
-                                    END_SYNC
-                                }
+                                SYNC
+                                SYNC_CLOCK_VALLEY
+                                shm->num_cars_on_track--;
+                                notify_cond(&shm->thread_clock.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
+                                END_SYNC
 
                                 //check if it won the race
                                 if (!race_winner) {
@@ -378,7 +374,8 @@ static void notify_sim_end() {
 
 static int check_race_end() {
     if (++shm->num_finished_cars == shm->total_num_cars) {
-        notify_race_end();
+        shm->state = FINISHED;
+        notify_race_state_change();
 
         //check if the race is to be restarted later
         if (shm->hold_on_end) {

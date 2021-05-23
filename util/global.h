@@ -122,6 +122,8 @@ extern void unpause_clock();
  */
 extern void end_clock();
 
+extern void notify_race_state_change();
+
 // endregion global variables
 
 #endif // RACESIMULATOR_C_GLOBAL_H

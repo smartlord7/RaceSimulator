@@ -155,6 +155,141 @@ RaceSimulator/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/build
 .PHONY : RaceSimulator/fast
 
+helpers/cmd_validator/cmd_validator.o: helpers/cmd_validator/cmd_validator.c.o
+
+.PHONY : helpers/cmd_validator/cmd_validator.o
+
+# target to build an object file
+helpers/cmd_validator/cmd_validator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.o
+.PHONY : helpers/cmd_validator/cmd_validator.c.o
+
+helpers/cmd_validator/cmd_validator.i: helpers/cmd_validator/cmd_validator.c.i
+
+.PHONY : helpers/cmd_validator/cmd_validator.i
+
+# target to preprocess a source file
+helpers/cmd_validator/cmd_validator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.i
+.PHONY : helpers/cmd_validator/cmd_validator.c.i
+
+helpers/cmd_validator/cmd_validator.s: helpers/cmd_validator/cmd_validator.c.s
+
+.PHONY : helpers/cmd_validator/cmd_validator.s
+
+# target to generate assembly for a file
+helpers/cmd_validator/cmd_validator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/cmd_validator/cmd_validator.c.s
+.PHONY : helpers/cmd_validator/cmd_validator.c.s
+
+helpers/log_generator/log_generator.o: helpers/log_generator/log_generator.c.o
+
+.PHONY : helpers/log_generator/log_generator.o
+
+# target to build an object file
+helpers/log_generator/log_generator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.o
+.PHONY : helpers/log_generator/log_generator.c.o
+
+helpers/log_generator/log_generator.i: helpers/log_generator/log_generator.c.i
+
+.PHONY : helpers/log_generator/log_generator.i
+
+# target to preprocess a source file
+helpers/log_generator/log_generator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.i
+.PHONY : helpers/log_generator/log_generator.c.i
+
+helpers/log_generator/log_generator.s: helpers/log_generator/log_generator.c.s
+
+.PHONY : helpers/log_generator/log_generator.s
+
+# target to generate assembly for a file
+helpers/log_generator/log_generator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/log_generator/log_generator.c.s
+.PHONY : helpers/log_generator/log_generator.c.s
+
+helpers/race_config_reader/race_config_reader.o: helpers/race_config_reader/race_config_reader.c.o
+
+.PHONY : helpers/race_config_reader/race_config_reader.o
+
+# target to build an object file
+helpers/race_config_reader/race_config_reader.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o
+.PHONY : helpers/race_config_reader/race_config_reader.c.o
+
+helpers/race_config_reader/race_config_reader.i: helpers/race_config_reader/race_config_reader.c.i
+
+.PHONY : helpers/race_config_reader/race_config_reader.i
+
+# target to preprocess a source file
+helpers/race_config_reader/race_config_reader.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.i
+.PHONY : helpers/race_config_reader/race_config_reader.c.i
+
+helpers/race_config_reader/race_config_reader.s: helpers/race_config_reader/race_config_reader.c.s
+
+.PHONY : helpers/race_config_reader/race_config_reader.s
+
+# target to generate assembly for a file
+helpers/race_config_reader/race_config_reader.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.s
+.PHONY : helpers/race_config_reader/race_config_reader.c.s
+
+helpers/signal_manager/signal_manager.o: helpers/signal_manager/signal_manager.c.o
+
+.PHONY : helpers/signal_manager/signal_manager.o
+
+# target to build an object file
+helpers/signal_manager/signal_manager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o
+.PHONY : helpers/signal_manager/signal_manager.c.o
+
+helpers/signal_manager/signal_manager.i: helpers/signal_manager/signal_manager.c.i
+
+.PHONY : helpers/signal_manager/signal_manager.i
+
+# target to preprocess a source file
+helpers/signal_manager/signal_manager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.i
+.PHONY : helpers/signal_manager/signal_manager.c.i
+
+helpers/signal_manager/signal_manager.s: helpers/signal_manager/signal_manager.c.s
+
+.PHONY : helpers/signal_manager/signal_manager.s
+
+# target to generate assembly for a file
+helpers/signal_manager/signal_manager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.s
+.PHONY : helpers/signal_manager/signal_manager.c.s
+
+helpers/stats_helper/stats_helper.o: helpers/stats_helper/stats_helper.c.o
+
+.PHONY : helpers/stats_helper/stats_helper.o
+
+# target to build an object file
+helpers/stats_helper/stats_helper.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o
+.PHONY : helpers/stats_helper/stats_helper.c.o
+
+helpers/stats_helper/stats_helper.i: helpers/stats_helper/stats_helper.c.i
+
+.PHONY : helpers/stats_helper/stats_helper.i
+
+# target to preprocess a source file
+helpers/stats_helper/stats_helper.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.i
+.PHONY : helpers/stats_helper/stats_helper.c.i
+
+helpers/stats_helper/stats_helper.s: helpers/stats_helper/stats_helper.c.s
+
+.PHONY : helpers/stats_helper/stats_helper.s
+
+# target to generate assembly for a file
+helpers/stats_helper/stats_helper.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.s
+.PHONY : helpers/stats_helper/stats_helper.c.s
+
 ipcs/memory_mapped_file/memory_mapped_file.o: ipcs/memory_mapped_file/memory_mapped_file.c.o
 
 .PHONY : ipcs/memory_mapped_file/memory_mapped_file.o
@@ -451,141 +586,6 @@ processes/team_manager/team_manager.s: processes/team_manager/team_manager.c.s
 processes/team_manager/team_manager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/processes/team_manager/team_manager.c.s
 .PHONY : processes/team_manager/team_manager.c.s
-
-race_helpers/cmd_validator/cmd_validator.o: race_helpers/cmd_validator/cmd_validator.c.o
-
-.PHONY : race_helpers/cmd_validator/cmd_validator.o
-
-# target to build an object file
-race_helpers/cmd_validator/cmd_validator.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.o
-.PHONY : race_helpers/cmd_validator/cmd_validator.c.o
-
-race_helpers/cmd_validator/cmd_validator.i: race_helpers/cmd_validator/cmd_validator.c.i
-
-.PHONY : race_helpers/cmd_validator/cmd_validator.i
-
-# target to preprocess a source file
-race_helpers/cmd_validator/cmd_validator.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.i
-.PHONY : race_helpers/cmd_validator/cmd_validator.c.i
-
-race_helpers/cmd_validator/cmd_validator.s: race_helpers/cmd_validator/cmd_validator.c.s
-
-.PHONY : race_helpers/cmd_validator/cmd_validator.s
-
-# target to generate assembly for a file
-race_helpers/cmd_validator/cmd_validator.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/cmd_validator/cmd_validator.c.s
-.PHONY : race_helpers/cmd_validator/cmd_validator.c.s
-
-race_helpers/log_generator/log_generator.o: race_helpers/log_generator/log_generator.c.o
-
-.PHONY : race_helpers/log_generator/log_generator.o
-
-# target to build an object file
-race_helpers/log_generator/log_generator.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.o
-.PHONY : race_helpers/log_generator/log_generator.c.o
-
-race_helpers/log_generator/log_generator.i: race_helpers/log_generator/log_generator.c.i
-
-.PHONY : race_helpers/log_generator/log_generator.i
-
-# target to preprocess a source file
-race_helpers/log_generator/log_generator.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.i
-.PHONY : race_helpers/log_generator/log_generator.c.i
-
-race_helpers/log_generator/log_generator.s: race_helpers/log_generator/log_generator.c.s
-
-.PHONY : race_helpers/log_generator/log_generator.s
-
-# target to generate assembly for a file
-race_helpers/log_generator/log_generator.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/log_generator/log_generator.c.s
-.PHONY : race_helpers/log_generator/log_generator.c.s
-
-race_helpers/race_config_reader/race_config_reader.o: race_helpers/race_config_reader/race_config_reader.c.o
-
-.PHONY : race_helpers/race_config_reader/race_config_reader.o
-
-# target to build an object file
-race_helpers/race_config_reader/race_config_reader.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.o
-.PHONY : race_helpers/race_config_reader/race_config_reader.c.o
-
-race_helpers/race_config_reader/race_config_reader.i: race_helpers/race_config_reader/race_config_reader.c.i
-
-.PHONY : race_helpers/race_config_reader/race_config_reader.i
-
-# target to preprocess a source file
-race_helpers/race_config_reader/race_config_reader.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.i
-.PHONY : race_helpers/race_config_reader/race_config_reader.c.i
-
-race_helpers/race_config_reader/race_config_reader.s: race_helpers/race_config_reader/race_config_reader.c.s
-
-.PHONY : race_helpers/race_config_reader/race_config_reader.s
-
-# target to generate assembly for a file
-race_helpers/race_config_reader/race_config_reader.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/race_config_reader/race_config_reader.c.s
-.PHONY : race_helpers/race_config_reader/race_config_reader.c.s
-
-race_helpers/signal_manager/signal_manager.o: race_helpers/signal_manager/signal_manager.c.o
-
-.PHONY : race_helpers/signal_manager/signal_manager.o
-
-# target to build an object file
-race_helpers/signal_manager/signal_manager.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.o
-.PHONY : race_helpers/signal_manager/signal_manager.c.o
-
-race_helpers/signal_manager/signal_manager.i: race_helpers/signal_manager/signal_manager.c.i
-
-.PHONY : race_helpers/signal_manager/signal_manager.i
-
-# target to preprocess a source file
-race_helpers/signal_manager/signal_manager.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.i
-.PHONY : race_helpers/signal_manager/signal_manager.c.i
-
-race_helpers/signal_manager/signal_manager.s: race_helpers/signal_manager/signal_manager.c.s
-
-.PHONY : race_helpers/signal_manager/signal_manager.s
-
-# target to generate assembly for a file
-race_helpers/signal_manager/signal_manager.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/signal_manager/signal_manager.c.s
-.PHONY : race_helpers/signal_manager/signal_manager.c.s
-
-race_helpers/stats_helper/stats_helper.o: race_helpers/stats_helper/stats_helper.c.o
-
-.PHONY : race_helpers/stats_helper/stats_helper.o
-
-# target to build an object file
-race_helpers/stats_helper/stats_helper.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.o
-.PHONY : race_helpers/stats_helper/stats_helper.c.o
-
-race_helpers/stats_helper/stats_helper.i: race_helpers/stats_helper/stats_helper.c.i
-
-.PHONY : race_helpers/stats_helper/stats_helper.i
-
-# target to preprocess a source file
-race_helpers/stats_helper/stats_helper.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.i
-.PHONY : race_helpers/stats_helper/stats_helper.c.i
-
-race_helpers/stats_helper/stats_helper.s: race_helpers/stats_helper/stats_helper.c.s
-
-.PHONY : race_helpers/stats_helper/stats_helper.s
-
-# target to generate assembly for a file
-race_helpers/stats_helper/stats_helper.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/RaceSimulator.dir/build.make CMakeFiles/RaceSimulator.dir/race_helpers/stats_helper/stats_helper.c.s
-.PHONY : race_helpers/stats_helper/stats_helper.c.s
 
 race_simulator_cmd.o: race_simulator_cmd.c.o
 
@@ -930,6 +930,21 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... RaceSimulator"
 	@echo "... cmd"
+	@echo "... helpers/cmd_validator/cmd_validator.o"
+	@echo "... helpers/cmd_validator/cmd_validator.i"
+	@echo "... helpers/cmd_validator/cmd_validator.s"
+	@echo "... helpers/log_generator/log_generator.o"
+	@echo "... helpers/log_generator/log_generator.i"
+	@echo "... helpers/log_generator/log_generator.s"
+	@echo "... helpers/race_config_reader/race_config_reader.o"
+	@echo "... helpers/race_config_reader/race_config_reader.i"
+	@echo "... helpers/race_config_reader/race_config_reader.s"
+	@echo "... helpers/signal_manager/signal_manager.o"
+	@echo "... helpers/signal_manager/signal_manager.i"
+	@echo "... helpers/signal_manager/signal_manager.s"
+	@echo "... helpers/stats_helper/stats_helper.o"
+	@echo "... helpers/stats_helper/stats_helper.i"
+	@echo "... helpers/stats_helper/stats_helper.s"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.o"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.i"
 	@echo "... ipcs/memory_mapped_file/memory_mapped_file.s"
@@ -963,21 +978,6 @@ help:
 	@echo "... processes/team_manager/team_manager.o"
 	@echo "... processes/team_manager/team_manager.i"
 	@echo "... processes/team_manager/team_manager.s"
-	@echo "... race_helpers/cmd_validator/cmd_validator.o"
-	@echo "... race_helpers/cmd_validator/cmd_validator.i"
-	@echo "... race_helpers/cmd_validator/cmd_validator.s"
-	@echo "... race_helpers/log_generator/log_generator.o"
-	@echo "... race_helpers/log_generator/log_generator.i"
-	@echo "... race_helpers/log_generator/log_generator.s"
-	@echo "... race_helpers/race_config_reader/race_config_reader.o"
-	@echo "... race_helpers/race_config_reader/race_config_reader.i"
-	@echo "... race_helpers/race_config_reader/race_config_reader.s"
-	@echo "... race_helpers/signal_manager/signal_manager.o"
-	@echo "... race_helpers/signal_manager/signal_manager.i"
-	@echo "... race_helpers/signal_manager/signal_manager.s"
-	@echo "... race_helpers/stats_helper/stats_helper.o"
-	@echo "... race_helpers/stats_helper/stats_helper.i"
-	@echo "... race_helpers/stats_helper/stats_helper.s"
 	@echo "... race_simulator_cmd.o"
 	@echo "... race_simulator_cmd.i"
 	@echo "... race_simulator_cmd.s"
