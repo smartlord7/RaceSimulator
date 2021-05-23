@@ -39,9 +39,7 @@ char * get_curr_time_as_str();
 // region global variables
 
 const char * log_file_path = NULL;
-char * mmap_f;
 static int log_fd;
-static size_t log_file_size;
 
 // endregion global variables
 
