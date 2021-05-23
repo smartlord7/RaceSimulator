@@ -7,12 +7,18 @@
 * @date 18/05/2021
 */
 
+// region dependencies
+
 #include "mqueue.h"
 #include "assert.h"
 #include "unistd.h"
 #include "sys/stat.h"
 #include "pipe.h"
 #include "../../util/exception_handler/exception_handler.h"
+
+// endregion dependencies
+
+// region public functions
 
 void create_unn_pipe(int fds[2]){
     assert(fds != NULL);
@@ -33,3 +39,5 @@ void destroy_named_pipe(const char * pipe_name) {
 
     unlink(pipe_name);
 }
+
+// endregion public functions

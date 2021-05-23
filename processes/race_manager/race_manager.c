@@ -101,7 +101,7 @@ static int check_race_end();
 
 //endregion public functions prototypes
 
-int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
+int pipe_fds[MAX_NUM_TEAMS + 1];
 
 void race_manager(){
 

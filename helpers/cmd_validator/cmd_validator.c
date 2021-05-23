@@ -141,7 +141,7 @@ static int validate_string_attr(char * buffer, const char * expected_attr, char 
 
 // region global variables
 
-int num_registered_teams;
+int num_registered_teams = 0;
 
 // endregion global variables
 
