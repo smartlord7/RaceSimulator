@@ -92,7 +92,7 @@ shared_memory_t * shm = NULL;
  * @return the exit value.
  */
 int main() {
-    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR, getpid())
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR_PROCESS, getpid())
 
     signal(SIGSEGV, signal_handler);
     signal(SIGINT, signal_handler);
@@ -144,7 +144,7 @@ int main() {
     //destroy interprocess communication mechanisms
     destroy_ipcs();
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_SIMULATOR, getpid())
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_SIMULATOR_PROCESS, getpid())
 
     return EXIT_SUCCESS;
 }

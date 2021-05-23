@@ -161,8 +161,6 @@ void show_stats_table() { // TODO: validate functions result
              -car_finish_time_col_width, CAR_FINISH_TIME,
              row_sep);
 
-    HERE("1")
-
     i = 0;
 
     while (i < num_table_cars) {
@@ -170,7 +168,6 @@ void show_stats_table() { // TODO: validate functions result
             pos = sha_mem->total_num_cars;
             car = &race_cars[sha_mem->total_num_cars - 1];
             snprintf(aux, XLARGE_SIZE,"%s\n", row_sep);
-            HERE("2")
             strcat(buffer, aux);
         } else {
             pos = i + 1;
@@ -193,7 +190,6 @@ void show_stats_table() { // TODO: validate functions result
                  -car_laps_col_width, car->completed_laps, -car_pos_col_width, car->current_pos,
                  -car_box_stops_col_width,  car->num_box_stops, -MAX_STATE_LENGTH, race_car_state_str,
                  -car_finish_time_col_width, aux2);
-        HERE("3")
 
         strcat(buffer, aux);
 
@@ -210,12 +206,8 @@ void show_stats_table() { // TODO: validate functions result
              RACE_NUM_CARS_ON_TRACK, shm_cpy->num_cars_on_track);
     strcat(buffer, aux);
 
-    HERE("4")
-
     snprintf(aux, XLARGE_SIZE, "%s\n\n", row_sep);
     strcat(buffer, aux);
-
-    HERE("5")
 
     printf("%s\n", buffer);
 

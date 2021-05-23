@@ -22,7 +22,7 @@
 #define RACE_CAR_SAY "[RACE CAR %s] "
 #define CAR_MOVE RACE_CAR_SAY "RAN %.2fm!"
 
-#define car_close_to_box (car->current_pos == 0 || (car->current_pos <= config.lap_distance && car->current_pos + car->current_speed * config.time_units_per_sec >= config.lap_distance))
+#define car_close_to_box (car->current_pos == 0 || (car->current_pos <= config.lap_distance && car->current_pos + car->current_speed >= config.lap_distance))
 #define CHANGE_CAR_STATE(new_car_state) \
                                         \
 car_state_change.prev_state = car->state; \

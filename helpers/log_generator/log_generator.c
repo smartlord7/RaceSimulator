@@ -22,6 +22,7 @@
 #include "../../util/strings/strings.h"
 #include "log_generator.h"
 #include "../../ipcs/memory_mapped_file/memory_mapped_file.h"
+#include "../../processes/team_manager/team_manager.h"
 
 // endregion dependencies
 
@@ -58,13 +59,13 @@ void log_init(const char * lg_file_path) {
 
     write_stream(log_fd, HEADER, sizeof(HEADER) - sizeof(char));
 
-    mmap_f = create_mmap_file(log_fd, &log_file_size);
+    //mmap_f = create_mmap_file(log_fd, &log_file_size);
 
     log_file_path = lg_file_path;
 }
 
 void log_close(){
-    destroy_mmap_file(mmap_f, log_fd, log_file_size);
+    //destroy_mmap_file(mmap_f, log_fd, log_file_size);
 
     if (close(log_fd) < 0){
         throw_and_exit(FILE_CLOSE_EXCEPTION, log_file_path);
@@ -79,28 +80,28 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
     if (mode < EXIT_PROGRAM) {
         switch (mode) {
             case ERROR_MISSING_CAR_ATTR:
-                append_f(entry, "ERROR: MISSING CAR ATTRIBUTE NAMED '%s'!", (char *) main_data);
+                append_f(entry, MISSING_CAR_ATTR_, (char *) main_data);
                 break;
             case ERROR_INVALID_CAR_ATTR:
-                append_f("ERROR: CAR HAS NO ATTRIBUTE NAMED '%s'!", (char *) main_data);
+                append_f(NO_CAR_ATTR_, (char *) main_data);
                 break;
             case ERROR_MISSING_CAR_ATTR_VALUE:
-                append_f(entry, "ERROR: MISSING VALUE OF CAR ATTRIBUTE '%s'!", (char *) main_data);
+                append_f(entry, MISSING_CAR_ATTR_VALUE_, (char *) main_data);
                 break;
             case ERROR_INVALID_CAR_ATTR_VALUE:
-                append_f(entry, "ERROR: INVALID VALUE '%s' FOR CAR ATTRIBUTE '%s'!", (char *) main_data, (char *) sec_data);
+                append_f(entry, INVALID_CAR_ATTR_VALUE_, (char *) main_data, (char *) sec_data);
                 break;
             case ERROR_NOT_ENOUGH_TEAMS:
-                append_f(entry, "ERROR: NOT ENOUGH TEAMS! THE NEEDED NUMBER IS %d!", config.num_teams);
+                append_f(entry, NOT_ENOUGH_TEAMS_, config.num_teams);
                 break;
             case ERROR_TOO_MANY_TEAMS:
-                append_f(entry, "ERROR: TOO MANY TEAMS! THE MAXIMUM NUMBER IS %d!", config.num_teams);
+                append_f(entry, TOO_MANY_TEAMS_, config.num_teams);
                 break;
             case ERROR_TOO_MANY_CARS:
-                append_f(entry, "ERROR: TOO MANY CARS IN TEAM! THE MAXIMUM NUMBER IS %d!", config.max_cars_per_team);
+                append_f(entry, TOO_MANY_CARS_, config.max_cars_per_team);
                 break;
             case ERROR_UNIQUE_CONSTRAINT_VIOLATED:
-                append_f(entry, "ERROR: CAR PARAM '%s' WITH VALUE '%s' ALREADY EXISTS!", (char *) main_data, (char *) sec_data);
+                append_f(entry, UNIQUE_CONSTRAINT_VIOLATED_, (char *) main_data, (char *) sec_data);
                 break;
             default:
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
@@ -109,43 +110,43 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
     } else if (mode < CAR_LOAD) {
         switch (mode) {
             case EXIT_PROGRAM:
-                append(entry, "SIMULATION CLOSED BY USER! EXITING...");
+                append(entry, SIMULATION_CLOSE_);
                 break;
             case SIMULATION_START:
-                append(entry, "STARTING SIMULATION...");
+                append(entry, SIMULATION_START_);
                 break;
             case SIMULATION_END:
-                append(entry, "ENDING SIMULATION...");
+                append(entry, SIMULATION_END_);
                 break;
             case CLOCK:
-                append_f(entry, "-------------------[GLOBAL CLOCK] %d tu-------------------", shm->thread_clock.global_time);
+                append_f(entry, CLOCK_, shm->thread_clock.global_time);
                 break;
             case RACE_START:
-                append_f(entry, "THE RACE HAS STARTED!");
+                append_f(entry, RACE_START_);
                 break;
             case RACE_FINISH:
-                append_f(entry, "THE RACE HAS FINISHED AT %d tu!", shm->thread_clock.global_time);
+                append_f(entry, RACE_FINISH_, shm->thread_clock.global_time);
                 break;
             case RACE_NOT_STARTED:
-                append_f(entry, "%s! RACE HAS NOT STARTED!", (char *) main_data);
+                append_f(entry, RACE_NOT_STARTED_, (char *) main_data);
                 break;
             case RACE_CANNOT_START:
-                append_f(entry, "THE RACE CANNOT START!");
+                append_f(entry, RACE_CANNOT_START_);
                 break;
             case COMMAND_RECEIVE:
-                append_f(entry, "COMMAND RECEIVED: \n '%s'", (char *) main_data);
+                append_f(entry, COMMAND_RECEIVE_, (char *) main_data);
                 break;
             case COMMAND_REJECT:
-                append_f(entry, "COMMAND REJECTED: \n'%s'", (char *) main_data);
+                append_f(entry, COMMAND_REJECT_, (char *) main_data);
                 break;
             case COMMAND_REJECT2:
-                append_f(entry, "THE RACE HAS ALREADY BEGAN! COMMAND REJECTED:\n'%s'", (char *) main_data);
+                append_f(entry, COMMAND_REJECT2_, (char *) main_data);
                 break;
             case SIGNAL_RECEIVE:
-                append_f(entry, "SIGNAL %s RECEIVED!", (char *) main_data);
+                append_f(entry, SIGNAL_RECEIVE_, (char *) main_data);
                 break;
             case CAR_REJECT:
-                append_f(entry, "CAR REJECTED: \n%s", (char *) main_data);
+                append_f(entry, CAR_REJECT_, (char *) main_data);
                 break;
             default:
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
@@ -156,29 +157,32 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
 
         switch (mode) {
             case CAR_LOAD:
-                append_f(entry, "CAR %s FROM TEAM '%s' LOADED", car->name, car->team->team_name);
+                append_f(entry, CAR_LOADED_, car->name);
                 break;
             case CAR_MALFUNCTION:
-                append_f(entry, "CAR %s FROM TEAM %s IS MALFUNCTIONING!\n"
-                                "MALFUNCTION DESCRIPTION: %s", car->name, car->team->team_name, (char *) sec_data);
+                append_f(entry, CAR_MALFUNCTION_, car->name, (char *) sec_data);
                 break;
             case CAR_STATE_CHANGE:
                 aux = race_car_state_to_string(car->state);
-                append_f(entry, "CAR %s CHANGED TO STATE TO '%s'!", car->name, aux);
+                append_f(entry, CAR_STATE_CHANGE_, car->name, aux);
                 break;
             case CAR_RACE_WIN:
-                append_f(entry, "CAR %s FROM TEAM %s WON THE RACE AT %d tu!", car->name, car->team->team_name,
-                         shm->thread_clock.global_time);
+                append_f(entry, CAR_RACE_WIN_, car->name, shm->thread_clock.global_time);
+                break;
+            case CAR_MIN_FUEL1_REACHED:
+                append_f(entry, CAR_MIN_FUEL1_REACHED_, car->name, REFUEL_MIN_LAPS1);
+                break;
+            case CAR_MIN_FUEL2_REACHED:
+                append_f(entry, CAR_MIN_FUEL2_REACHED_, car->name);
                 break;
             case CAR_OUT_OF_FUEL:
-                append_f(entry, "CAR %s FROM TEAM %s RAN OUT OF FUEL!", car->name, car->team->team_name);
+                append_f(entry, CAR_OUT_OF_FUEL_, car->name);
                 break;
             case CAR_COMPLETE_LAP:
-                append_f(entry, "CAR %s HAS COMPLETED %d LAPS!", car->name, car->completed_laps);
+                append_f(entry, CAR_COMPLETE_LAP_, car->name, car->completed_laps);
                 break;
             case CAR_FINISH:
-                append_f(entry, "CAR %s FROM TEAM %s HAS FINISHED THE RACE AT %d tu!", car->name, car->team->team_name,
-                         shm->thread_clock.global_time);
+                append_f(entry, CAR_FINISH_, car->name, shm->thread_clock.global_time);
                 break;
             default:
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
@@ -190,22 +194,22 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
         switch (mode) {
             case BOX_STATE_CHANGE:
                 aux = race_box_state_to_string(box->state);
-                append_f(entry, "BOX FROM TEAM %s HAS CHANGED TO STATE '%s'!", box->team->team_name, aux);
+                append_f(entry, BOX_STATE_CHANGE_, box->team->team_name, aux);
                 break;
             case BOX_REFUEL_ENTER:
-                append_f(entry, "CAR %s ENTERED TEAM BOX FOR REFUELLING!", box->current_car->name);
+                append_f(entry, BOX_REFUEL_ENTER_, box->team->team_name, box->current_car->name);
                 break;
             case BOX_MALFUNCTION_ENTER:
-                append_f(entry, "CAR %s ENTERED TEAM BOX DUE TO MALFUNCTION!", box->current_car->name);
+                append_f(entry, BOX_MALFUNCTION_ENTER_, box->team->team_name, box->current_car->name);
                 break;
-            case BOX_FIX:
-                append_f(entry, "FIXING CAR %s...", box->current_car->name);
+            case BOX_REPAIR:
+                append_f(entry, BOX_REPAIR_, box->team->team_name, box->current_car->name);
                 break;
             case BOX_REFUEL:
-                append_f(entry, "REFUELING CAR %s...", box->current_car->name);
+                append_f(entry, BOX_REFUEL_, box->team->team_name, box->current_car->name);
                 break;
             case BOX_LEAVE:
-                append_f(entry, "CAR %s LEFT TEAM BOX AND IS NOW READY TO RACE!", box->current_car->name);
+                append_f(entry, BOX_LEAVE_, box->team->team_name, box->current_car->name);
                 break;
             default:
                 throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);

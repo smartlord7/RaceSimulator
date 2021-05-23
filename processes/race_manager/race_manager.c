@@ -104,7 +104,7 @@ int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
 
 void race_manager(){
 
-    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER, getpid());
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_MANAGER_SAYS, getpid());
 
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -142,7 +142,7 @@ void race_manager(){
 
     } while(shm->hold_on_end);
 
-    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER, getpid())
+    DEBUG_MSG(PROCESS_EXIT, ENTRY, RACE_MANAGER_SAYS, getpid())
 }
 
 void notify_race_start() {

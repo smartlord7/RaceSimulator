@@ -108,6 +108,7 @@ typedef struct race_car_t{
             completed_laps,
             num_box_stops,
             num_malfunctions,
+            malfunctioning,
             num_refuels,
             finish_time;
     float remaining_fuel,
