@@ -7,12 +7,18 @@
 * @date 22/05/2021
 */
 
+// region dependencies
+
 #include "stdlib.h"
 #include "assert.h"
-#include <sys/shm.h>
+#include "sys/shm.h"
 #include "../../util/debug/debug.h"
 #include "../../util/exception_handler/exception_handler.h"
 #include "shm.h"
+
+// endregion dependencies
+
+// region public functions
 
 void * create_shm(size_t size, int * shm_id_p) {
     assert(size != 0 && shm_id_p != NULL);
@@ -52,3 +58,5 @@ void destroy_shm(int shm_id, void * shared_mem) {
 
     DEBUG_MSG(SHM_REMOVED, SETUP, shm_id)
 }
+
+// endregion public functions

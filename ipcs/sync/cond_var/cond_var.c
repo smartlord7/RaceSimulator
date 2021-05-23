@@ -7,10 +7,16 @@
 * @date 18/05/2021
 */
 
+// region dependencies
+
 #include "assert.h"
 #include "pthread.h"
 #include "cond_var.h"
 #include "../../../util/exception_handler/exception_handler.h"
+
+// endregion dependencies
+
+// region public functions
 
 void wait_cond(cond_t * cond, mutex_t * mutex) {
     assert(cond != NULL && mutex != NULL);
@@ -48,3 +54,5 @@ void notify_cond(cond_t * cond) {
 
     throw_if_exit(pthread_cond_signal(cond) != 0, COND_VAR_SIGNAL_EXCEPTION, "");
 }
+
+// endregion public functions

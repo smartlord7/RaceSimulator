@@ -7,12 +7,18 @@
 * @date 22/05/2021
 */
 
-#include <stdio.h>
-#include <errno.h>
+// region dependencies
+
+#include "stdio.h"
+#include "errno.h"
 #include "assert.h"
 #include "pthread.h"
 #include "../../../util/exception_handler/exception_handler.h"
 #include "mutex.h"
+
+// endregion dependencies
+
+// region public functions
 
 void init_mutex(mutex_t * mutex, int proc_shared) {
     if (proc_shared) {
@@ -46,3 +52,4 @@ void unlock_mutex(mutex_t * mutex) {
     throw_if_exit(pthread_mutex_unlock(mutex) != 0, MUTEX_UNLOCK_EXCEPTION, "");
 }
 
+// endregion public functions

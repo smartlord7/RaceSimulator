@@ -10,10 +10,18 @@
 #ifndef IPCS_MUTEX_H
 #define IPCS_MUTEX_H
 
+// region constants
+
 #define true 1
 #define false 0
 
+// endregion constants
+
+// region forward declarations
+
 typedef pthread_mutex_t mutex_t;
+
+// endregion forward declarations
 
 // region public functions prototypes
 
@@ -22,10 +30,10 @@ typedef pthread_mutex_t mutex_t;
  * @brief Function that initializes a given pthread mutex.
  *
  * @param mutex
- * Pthread mutex to be initialized.
+ * pthread mutex to be initialized.
  *
  * @param proc_shared
- * Flag to indicate if the pthread is to be shared between processes.
+ * Flag that indicates if the mutex is to be shared between processes.
  *
  * @throws MutexShareException if it is not possible to share the mutex between processes.
  *         MutexInitializeException if it is not possible to initialize the mutex.
@@ -37,7 +45,7 @@ extern void init_mutex(mutex_t * mutex, int proc_shared);
  * @brief Function that destroys a given pthread mutex.
  *
  * @param mutex
- * Pthread mutex to be destroyed.
+ * pthread mutex to be destroyed.
  *
  * @throws MutexCloseException if it is not possble to destroy the mutex.
  */
@@ -48,9 +56,9 @@ extern void destroy_mutex(mutex_t * mutex);
  * @brief Function that locks a given pthread mutex.
  *
  * @param mutex
- * Pthread mutex to be locked.
+ * pthread mutex to be locked.
  *
- * @throws MutexLockException if an error occurred when locking the mutex.
+ * @throws MutexLockException if an error occurred whilst locking the mutex.
  */
 extern void lock_mutex(mutex_t * mutex);
 
@@ -59,9 +67,9 @@ extern void lock_mutex(mutex_t * mutex);
  * @brief Function that unlocks a given pthread mutex.
  *
  * @param mutex
- * Pthread mutex to be unlocked.
+ * pthread mutex to be unlocked.
  *
- * @throws MutexUnlockException if it an error occurred when unlocking the mutex.
+ * @throws MutexUnlockException if an error occurred whilst unlocking the mutex.
  */
 extern void unlock_mutex(mutex_t * mutex);
 

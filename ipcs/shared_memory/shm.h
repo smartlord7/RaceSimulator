@@ -10,9 +10,13 @@
 #ifndef IPCS_SHM_H
 #define IPCS_SHM_H
 
+// region constants
+
 #define true 1
 #define false 0
 #define ALL_PERMS_RW 0666
+
+// endregion constants
 
 // region public functions prototypes
 

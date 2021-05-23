@@ -19,9 +19,8 @@
 #include "../../util/global.h"
 #include "../../util/file/file.h"
 #include "../../util/strings/strings.h"
-#include "log_generator.h"
-#include "../../ipcs/memory_mapped_file/memory_mapped_file.h"
 #include "../../processes/team_manager/team_manager.h"
+#include "log_generator.h"
 
 // endregion dependencies
 
