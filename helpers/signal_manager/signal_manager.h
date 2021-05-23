@@ -10,7 +10,7 @@
 #ifndef RACE_HELPERS_SIGNAL_MANAGER_H
 #define RACE_HELPERS_SIGNAL_MANAGER_H
 
-//region public functions prototypes
+// region public functions prototypes
 
 /**
  * @def signal_handler
@@ -22,12 +22,12 @@
  */
 extern void signal_handler(int signum);
 
-//endregion public functions prototypes
+// endregion public functions prototypes
 
-//region constants
+// region constants
 
 #define SIGNAL_IGNORE "SIGNAL IGNORED"
 
-//endregion constants
+// endregion constants
 
 #endif //RACE_HELPERS_SIGNAL_MANAGER_H
