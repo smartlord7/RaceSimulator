@@ -1,6 +1,6 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* @author
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
@@ -37,17 +37,17 @@
 #define SYNC_BOX_COND lock_mutex(&box->mutex);
 #define END_SYNC_BOX_COND unlock_mutex(&box->mutex);
 
-#define GLOBAL_CLOCK_SAYS "[GLOBAL_CLOCK] "
-#define GLOBAL_CLOCK_TIME GLOBAL_CLOCK_SAYS "%d tu"
-#define GLOBAL_CLOCK_WAITERS GLOBAL_CLOCK_SAYS "WAITERS: %d"
-#define GLOBAL_CLOCK_START GLOBAL_CLOCK_SAYS "STARTED..."
-#define GLOBAL_CLOCK_RECEIVED GLOBAL_CLOCK_SAYS "RECEIVED %d THREADS, NEEDING %d MORE!"
-#define GLOBAL_CLOCK_READY GLOBAL_CLOCK_SAYS "ALL THREADS RECEIVED!"
-#define GLOBAL_CLOCK_VALLEY GLOBAL_CLOCK_SAYS "CLOCK VALLEY!"
-#define GLOBAL_CLOCK_RISE GLOBAL_CLOCK_SAYS "CLOCK RISE!"
-#define GLOBAL_CLOCK_RELEASE GLOBAL_CLOCK_SAYS "RELEASE ALL THREADS!"
+#define GLOBAL_CLOCK "[GLOBAL_CLOCK_SAYS] "
+#define GLOBAL_CLOCK_TIME GLOBAL_CLOCK "%d tu"
+#define GLOBAL_CLOCK_WAITERS GLOBAL_CLOCK "WAITERS: %d"
+#define GLOBAL_CLOCK_START GLOBAL_CLOCK "STARTED..."
+#define GLOBAL_CLOCK_RECEIVED GLOBAL_CLOCK "RECEIVED %d THREADS, NEEDING %d MORE!"
+#define GLOBAL_CLOCK_READY GLOBAL_CLOCK "ALL THREADS RECEIVED!"
+#define GLOBAL_CLOCK_VALLEY GLOBAL_CLOCK "CLOCK VALLEY!"
+#define GLOBAL_CLOCK_RISE GLOBAL_CLOCK "CLOCK RISE!"
+#define GLOBAL_CLOCK_RELEASE GLOBAL_CLOCK "RELEASE ALL THREADS!"
 
-#define RACE_SIMULATOR "RACE_SIMULATOR"
+#define RACE_SIMULATOR_PROCESS "RACE_SIMULATOR"
 #define RACE_SIMULATOR_NAMED_PIPE "RACE_SIMULATOR_NAMED_PIPE"
 #define NAMED_PIPE_INDEX 0
 #define SIGNAL_SIGINT "SIGINT"
@@ -76,47 +76,8 @@ extern char * mmap_f;
 
 // region global variables
 
-/**
- * @def sync_sleep
- * @brief Function that allows the synchronization of a thread trying to enter a sleep state.
- *
- * @param time_units
- * Duration of the sleep in time units.
- *
- */
-extern void sync_sleep(int time_units);
-
-/**
- * @def wait_race_start
- * @brief Function that allows to wait for a signal about the race start and if it has began.
- *
- * @return false if the race has not began.
- *         true if the race has began.
- */
-extern int wait_race_start();
-
-
-extern void signal_handler(int signum);
-
-/**
- * @def pause_and_restart_clock
- * @brief Function that pauses and restarts the clock.
- */
-extern void pause_and_restart_clock();
-
-/**
- * @def unpause_clock
- * @brief Function that unpauses the clock.
- */
-extern void unpause_clock();
-
-/**
- * @def end_clock
- * @brief Function that signals the clock to end.
- */
-extern void end_clock();
-
 extern void notify_race_state_change();
+extern int wait_race_start();
 
 // endregion global variables
 

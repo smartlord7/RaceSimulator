@@ -1,6 +1,6 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* @author
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
@@ -14,7 +14,7 @@
 
 #include "../race_car/race_car_t.h"
 #include "../race_config/race_config_t.h"
-#include "../sync_t/thread_clock_t.h"
+#include "../../helpers/thread_clock/thread_clock_t.h"
 
 // endregion dependencies
 

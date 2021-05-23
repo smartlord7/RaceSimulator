@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RaceSimulator.dir/helpers/race_config_reader/race_config_reader.c.o"
   "CMakeFiles/RaceSimulator.dir/helpers/signal_manager/signal_manager.c.o"
   "CMakeFiles/RaceSimulator.dir/helpers/stats_helper/stats_helper.c.o"
+  "CMakeFiles/RaceSimulator.dir/helpers/thread_clock/thread_clock_t.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/memory_mapped_file/memory_mapped_file.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/message_queue/msg_queue.c.o"
   "CMakeFiles/RaceSimulator.dir/ipcs/pipe/pipe.c.o"

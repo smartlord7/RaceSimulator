@@ -1,6 +1,6 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* @author
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
@@ -28,14 +28,14 @@
 #define CONFIG_FILE_NUM_LINES 7
 
 #define MIN_TIME_UNITS_PER_SEC 1
-#define MAX_TIME_UNITS_PER_SEC 1000
+#define MAX_TIME_UNITS_PER_SEC 10000 // this constraint valid given the CPU bottleneck. After 10000, no time difference will be detected.
 #define MIN_LAP_DISTANCE 500
 #define MIN_LAPS_PER_RACE 1
-#define MIN_NUM_TEAMS 1
+#define MIN_NUM_TEAMS 3
 #define MIN_MAX_CARS_PER_TEAM 1
 #define MIN_MIN_REPAIR_TIME 1
-#define MIN_MAX_REPAIR_TIME 5
-#define MIN_FUEL_TANK_CAPACITY 30
+#define MIN_MAX_REPAIR_TIME 4
+#define MIN_FUEL_TANK_CAPACITY 20
 #define MAX_LAP_DISTANCE 50000
 #define MAX_LAPS_PER_RACE 25
 #define MIN_MALFUNCTION_TIME 1

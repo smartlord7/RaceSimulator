@@ -1,6 +1,6 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* @author
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
@@ -78,7 +78,7 @@ extern char * append_f(char * first, const char * fmt, ...);
  *
  * @return trimmed string.
  */
-extern char * trim_string(char * buffer, int size);
+extern char * trim_string(char *buffer);
 
 /**
  * @def starts_with

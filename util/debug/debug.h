@@ -1,6 +1,6 @@
 /** Project RaceSimulator - LEI, University of Coimbra, 2nd year, 2nd semester - Operating Systems
 *
-* @author
+* @authors
 *  - Joao Filipe Guiomar Artur, 2019217853
 *  - Sancho Amaral Simoes, 2019217590
 *
@@ -19,7 +19,7 @@
 // region constants
 
 
-#define DEBUG 1
+#define DEBUG 0
 
 typedef enum debug_level {
     SETUP = 0,

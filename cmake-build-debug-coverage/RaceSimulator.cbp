@@ -144,6 +144,13 @@
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/stats_helper/stats_helper.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/thread_clock/thread_clock_t.c">
+			<Option target="cmd"/>
+			<Option target="RaceSimulator"/>
+		</Unit>
+		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/helpers/thread_clock/thread_clock_t.h">
+			<Option target="RaceSimulator"/>
+		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/ipcs/memory_mapped_file/memory_mapped_file.c">
 			<Option target="RaceSimulator"/>
 		</Unit>
@@ -238,9 +245,6 @@
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/shared_memory/shared_memory_t.h">
-			<Option target="RaceSimulator"/>
-		</Unit>
-		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/structs/sync_t/thread_clock_t.h">
 			<Option target="RaceSimulator"/>
 		</Unit>
 		<Unit filename="/home/sancho/Documents/GitRepos/RaceSimulator/util/debug/debug.c">
