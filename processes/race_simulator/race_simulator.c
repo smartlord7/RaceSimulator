@@ -25,6 +25,7 @@
 #include "../../util/numbers/numbers.h"
 #include "../../helpers/stats_helper/stats_helper.h"
 #include "../../util/file/file.h"
+#include "../../helpers/signal_manager/signal_manager.h"
 
 // endregion dependencies
 
@@ -69,6 +70,15 @@ static void terminate();
  * @brief Function that initializes variables in the shared memory region.
  */
 static void shm_init();
+
+/**
+ * @def wait_race_start
+ * @brief Function that allows to wait for a signal about the race start and if it has began.
+ *
+ * @return false if the race has not began.
+ *         true if the race has began.
+ */
+extern int wait_race_start();
 
 // endregion private functions prototypes
 

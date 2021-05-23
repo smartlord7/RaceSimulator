@@ -7,66 +7,50 @@
 * @date 22/05/2021
 */
 
-#ifndef RACESIMULATOR_C_SYNC_T_H
-#define RACESIMULATOR_C_SYNC_T_H
+#ifndef RACE_HELPERS_THREAD_CLOCK_H
+#define RACE_HELPERS_THREAD_CLOCK_H
 
-//region dependencies
+// region dependencies
 
-#include <pthread.h>
 #include "../../ipcs/sync/mutex/mutex.h"
 #include "../../ipcs/sync/cond_var/cond_var.h"
 
-//endregion dependencies
+// endregion dependencies
 
-//region structures
+// region structures
 
 typedef struct thread_clock_t thread_clock_t;
 
 /**
  * @struct thread_clock
- * @brief Structure that contains all of the synchronization mechanisms and variables used on the race synchronization.
- *
- * @var thread_clock::simulation_ended
- * Flag to check if the simulation is to end.
- *
- * @var thread_clock::race_running
- * Flag to check if the race is in a running state.
- *
- * @var thread_clock::race_interrupted
- * Flag to check if the race has been interrupted.
- *
- * @var thread_clock::race_loop
- * Flag to check if the race has been interrupted but can be restarted later.
+ * @brief Structure that contains the data needed to asynchronously synchronize the threads :-).
  *
  * @var thread_clock::clock_on
- * Flag to check if the clock is active.
+ * Flag that specifies if the clock is active or not.
  *
  * @var thread_clock::clock_paused
  * Flag to check if the clock is paused.
  *
  * @var thread_clock::num_clock_waiters
- * Counter for the number of threads waiting for the clock.
+ * The current number of threads waiting for the clock.
  *
  * @var thread_clock::global_time
- * Counter to the global time units.
- *
- * @var thread_clock::access_mutex
- * Pthread mutex used in accesses to the shared memory region.
+ * Counter that indicates the global time in time units.
  *
  * @var thread_clock::clock_rise_mutex
- * Pthread mutex used to control the clock state change to rise.
+ * pthread mutex used to control the clock state change to rise.
  *
  * @var thread_clock::clock_valley_mutex
- * Pthread mutex used to control the clock state change to valley.
+ * pthread mutex used to control the clock state change to valley.
  *
  * @var thread_clock::cond
- * Condition variable used to synchronize threads.
+ * Condition variable used to synchronize the clock usage.
  *
  * @var thread_clock::clock_rise_cond
- * Condition variable used to signal/broadcast that the clock is on a rise state.
+ * Condition variable used to signal/broadcast that the clock is on a rise state or that the threads should check their sync_sleep loop conditions.
  *
  * @var thread_clock::clock_valley_cond
- * Condition variable used to signal/broadcast that the clock is on a valley state.
+ * Condition variable used to signal/broadcast that the clock is on a valley state or that it should check its loop conditions.
  *
  */
 typedef struct thread_clock_t {
@@ -81,14 +65,13 @@ typedef struct thread_clock_t {
 
 /**
  * @def init_global_clock
- * @brief Function that initializes the intern global clock.
+ * @brief Function that initializes the internal global clock.
  */
 extern void init_global_clock();
 
-
 /**
  * @def sync_sleep
- * @brief Function that allows the synchronization of a thread trying to enter a sleep state.
+ * @brief Function that allows the synchronization of a set threads trying to enter a sleep state.
  *
  * @param time_units
  * Duration of the sleep in time units.
@@ -96,21 +79,10 @@ extern void init_global_clock();
  */
 extern void sync_sleep(int time_units);
 
-/**
- * @def wait_race_start
- * @brief Function that allows to wait for a signal about the race start and if it has began.
- *
- * @return false if the race has not began.
- *         true if the race has began.
- */
-extern int wait_race_start();
-
-
-extern void signal_handler(int signum);
 
 /**
  * @def pause_and_restart_clock
- * @brief Function that pauses and restarts the clock.
+ * @brief Function that pauses and restarts the clock global time.
  */
 extern void pause_and_restart_clock();
 
@@ -128,4 +100,4 @@ extern void end_clock();
 
 // endregion public function prototypes.
 
-#endif //RACESIMULATOR_C_SYNC_T_H
+#endif //RACE_HELPERS_THREAD_CLOCK_H

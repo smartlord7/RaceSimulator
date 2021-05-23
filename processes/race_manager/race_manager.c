@@ -25,6 +25,7 @@
 #include "../../helpers/cmd_validator/cmd_validator.h"
 #include "../../helpers/stats_helper/stats_helper.h"
 #include "../../ipcs/sync/semaphore/sem.h"
+#include "../../helpers/signal_manager/signal_manager.h"
 
 // endregion dependencies
 
