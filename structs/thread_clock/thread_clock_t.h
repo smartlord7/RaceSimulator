@@ -23,49 +23,49 @@
 typedef struct thread_clock_t thread_clock_t;
 
 /**
- * @struct sync_t
+ * @struct thread_clock
  * @brief Structure that contains all of the synchronization mechanisms and variables used on the race synchronization.
  *
- * @var sync_t::simulation_ended
+ * @var thread_clock::simulation_ended
  * Flag to check if the simulation is to end.
  *
- * @var sync_t::race_running
+ * @var thread_clock::race_running
  * Flag to check if the race is in a running state.
  *
- * @var sync_t::race_interrupted
+ * @var thread_clock::race_interrupted
  * Flag to check if the race has been interrupted.
  *
- * @var sync_t::race_loop
+ * @var thread_clock::race_loop
  * Flag to check if the race has been interrupted but can be restarted later.
  *
- * @var sync_t::clock_on
+ * @var thread_clock::clock_on
  * Flag to check if the clock is active.
  *
- * @var sync_t::clock_paused
+ * @var thread_clock::clock_paused
  * Flag to check if the clock is paused.
  *
- * @var sync_t::num_clock_waiters
+ * @var thread_clock::num_clock_waiters
  * Counter for the number of threads waiting for the clock.
  *
- * @var sync_t::global_time
+ * @var thread_clock::global_time
  * Counter to the global time units.
  *
- * @var sync_t::access_mutex
+ * @var thread_clock::access_mutex
  * Pthread mutex used in accesses to the shared memory region.
  *
- * @var sync_t::clock_rise_mutex
+ * @var thread_clock::clock_rise_mutex
  * Pthread mutex used to control the clock state change to rise.
  *
- * @var sync_t::clock_valley_mutex
+ * @var thread_clock::clock_valley_mutex
  * Pthread mutex used to control the clock state change to valley.
  *
- * @var sync_t::cond
+ * @var thread_clock::cond
  * Condition variable used to synchronize threads.
  *
- * @var sync_t::clock_rise_cond
+ * @var thread_clock::clock_rise_cond
  * Condition variable used to signal/broadcast that the clock is on a rise state.
  *
- * @var sync_t::clock_valley_cond
+ * @var thread_clock::clock_valley_cond
  * Condition variable used to signal/broadcast that the clock is on a valley state.
  *
  */

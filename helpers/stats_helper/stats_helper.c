@@ -9,13 +9,13 @@
 
 // region dependencies
 
-#include <assert.h>
-#include "malloc.h"
 #include "stdlib.h"
 #include "string.h"
-#include "stats_helper.h"
+#include "assert.h"
+#include "malloc.h"
 #include "../../util/strings/strings.h"
 #include "../../util/global.h"
+#include "stats_helper.h"
 
 // endregion dependencies
 
@@ -34,23 +34,23 @@ mutex_t * mutex = NULL;
  * @brief Function that swaps two cars.
  *
  * @param car1
- * First car.
+ * A pointer to the first car.
  *
  * @param car2
- * Second car.
+ * A pointer to the second car.
  *
  */
 static void swap_car(race_car_t * car1, race_car_t * car2);
 
 /**
  * @def bubble_sort_race_cars
- * @brief Function that sorts the race cars.
+ * @brief Function that sorts the race cars based on their compare function (Avg. O(N²) time complexity).
  *
  * @param race_cars
- * Set of cars to be sorted.
+ * The set of cars to be sorted.
  *
  * @param size
- * Size of the set.
+ * The number of cars to be sorted.
  *
  */
 static void bubble_sort_race_cars(race_car_t * race_cars, int size);
@@ -59,7 +59,7 @@ static void bubble_sort_race_cars(race_car_t * race_cars, int size);
  * @def get_team_name_max_len
  * @brief Function that obtains the maximum race team name length.
  *
- * @return Maximum length of a race team name.
+ * @return Maximum race team name length encountered.
  */
 static int get_team_name_max_len();
 
@@ -67,22 +67,24 @@ static int get_team_name_max_len();
  * @def get_car_name_max_len
  * @brief Function that obtains the maximum race car name length.
  *
- * @return Maximum length of a race car name.
+ * @return Maximum race car name length encountered.
  */
 static int get_car_name_max_len();
 
 /**
  * @def get_all_cars
- * @brief Function that retrieves all of the cars from a shared memory copy.
+ * @brief Function that retrieves all the cars from a shared memory copy.
  *
  * @param shm_cpy
  * Copy of the shared memory region.
  *
- * @return Array with all of the cars retrieved.
+ * @return Array with all the retrieved cars.
  */
 static race_car_t * get_all_cars(shared_memory_t * shm_cpy);
 
 // endregion private function prototypes
+
+// region public functions
 
 void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * mtx) {
     assert(cfg != NULL && shmem != NULL && mtx != NULL);
@@ -93,6 +95,7 @@ void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * m
 }
 
 void show_stats_table() { // TODO: validate functions result
+    // declare the needed variables (a lot of them :-)).
     char buffer[8 * LARGEST_SIZE], aux[XLARGE_SIZE], aux2[LARGEST_SIZE / 4], * row_sep_half, * row_sep, * race_car_state_str;
     shared_memory_t * shm_cpy = NULL;
     race_car_t * race_cars = NULL, * car = NULL;
@@ -101,6 +104,7 @@ void show_stats_table() { // TODO: validate functions result
             team_id_col_width, car_laps_col_width, car_box_stops_col_width,
             car_pos_col_width, car_finish_time_col_width;
 
+    // initialization of the variables independent of the shared memory sync.
     max_team_name_len = get_team_name_max_len();
     max_car_name_len = get_car_name_max_len();
     num_table_cars = NUM_TOP_CARS + 1;
@@ -113,7 +117,7 @@ void show_stats_table() { // TODO: validate functions result
     max_car_name_col_width = (int) strlen(CAR_NAME);
     max_team_name_col_width = (int) strlen(CAR_TEAM_NAME);
 
-    // construct the table structure
+    // assign the proper widths to each column.
     if (sha_mem->total_num_cars < num_table_cars) {
         num_table_cars = sha_mem->total_num_cars;
     }
@@ -126,26 +130,31 @@ void show_stats_table() { // TODO: validate functions result
         max_team_name_col_width = max_team_name_len;
     }
 
+    // calculate an approximation of the total row width.
     row_width = 5 * (NUM_COLS - 1) + MAX_DIGITS + max_car_name_col_width +
                 team_id_col_width + max_team_name_col_width + car_laps_col_width +
                 car_pos_col_width + car_box_stops_col_width + MAX_STATE_LENGTH +
                 car_finish_time_col_width;
+
+    // build the row separators.
     row_sep = repeat_str(HORIZONTAL_DELIM, row_width + 1);
     row_sep_half = repeat_str(HORIZONTAL_DELIM, (row_width - title_length) / 2 + 1);
+
+    // dynamically allocate the shm structure copy.
     shm_cpy = (shared_memory_t *) malloc(sizeof(shared_memory_t));
 
-    //copy the data on the shared memory region
+    // copy the data on the shared memory region synchronously.
     lock_mutex(mutex);
     memcpy(shm_cpy, sha_mem, sizeof(shared_memory_t));
     unlock_mutex(mutex);
 
-    //obtain all of the race cars
+    // obtain all the race cars from the shm copy.
     race_cars = get_all_cars(shm_cpy);
 
-    //sort the car positions on the table
+    // sort the car positions on the table
     bubble_sort_race_cars(race_cars, shm_cpy->total_num_cars); // TODO: give last place to disqualified cars
 
-    //fill the table entries
+    // fill the table first row.
     snprintf(buffer, LARGEST_SIZE,
              "\n\n%sRACE STATISTICS%s\n"
              " %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
@@ -163,7 +172,9 @@ void show_stats_table() { // TODO: validate functions result
 
     i = 0;
 
+    // fill all the table entries
     while (i < num_table_cars) {
+        // if it's the last car, a separator is before inserted.
         if (i == num_table_cars - 1) {
             pos = sha_mem->total_num_cars;
             car = &race_cars[sha_mem->total_num_cars - 1];
@@ -174,15 +185,17 @@ void show_stats_table() { // TODO: validate functions result
             car = &race_cars[i];
         }
 
+        // format the 'finished time' column based on the car's state.
         if (car->state == FINISH) {
             snprintf(aux2, XLARGE_SIZE / 4, "%d", car->finish_time);
         } else {
             strcpy(aux2, "---");
         }
 
+        // get the string correspondent to the current car state.
         race_car_state_str = race_car_state_to_string(car->state);
 
-
+        // build the table entry based on the car properties.
         snprintf(aux, XLARGE_SIZE, " %*d | %*d | %*s | %*d | %*s | %*d | %*.2f | %*d | %*s | %*s\n",
                  -MAX_DIGITS, pos,
                  -MAX_DIGITS, car->car_id, -max_car_name_col_width,  car->name,
@@ -191,31 +204,41 @@ void show_stats_table() { // TODO: validate functions result
                  -car_box_stops_col_width,  car->num_box_stops, -MAX_STATE_LENGTH, race_car_state_str,
                  -car_finish_time_col_width, aux2);
 
+        // append the entry to the table.
         strcat(buffer, aux);
 
         free(race_car_state_str);
         i++;
     }
 
+    // add a separator the divides the car entries and the race general stats.
     snprintf(aux, XLARGE_SIZE, "%s\n", row_sep);
     strcat(buffer, aux);
 
+    // build the race general stats region.
     snprintf(aux, XLARGE_SIZE, "   %s%d\n   %s%d\n   %s%d\n",
              RACE_NUM_MALFUNCTIONS, shm_cpy->num_malfunctions,
              RACE_NUM_REFUELS, shm_cpy->num_refuels,
              RACE_NUM_CARS_ON_TRACK, shm_cpy->num_cars_on_track);
     strcat(buffer, aux);
 
+    // add a final separator
     snprintf(aux, XLARGE_SIZE, "%s\n\n", row_sep);
     strcat(buffer, aux);
 
+    // print the built table atomically (one printf instead of multiple printf's).
     printf("%s\n", buffer);
 
+    // free the allocated resources.
     free(row_sep_half);
     free(row_sep);
     free(shm_cpy);
     free(race_cars);
 }
+
+// region public functions
+
+// region private functions
 
 static void swap_car(race_car_t * car1, race_car_t * car2) {
     race_car_t temp = * car1;
@@ -294,7 +317,7 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     i = 0;
     k = 0;
 
-    while (i < conf->num_teams) { //TODO: replace by config
+    while (i < conf->num_teams) {
         j = 0;
         team = &sha_mem->race_teams[i];
 
@@ -308,7 +331,9 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     return cars;
 }
 
-//region unitary test
+// endregion private functions
+
+// region unitary test
 
 /**int main() {
     srand(time(NULL));
@@ -369,4 +394,4 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
 
 }*/
 
-//endregion unitary test
+// endregion unitary test

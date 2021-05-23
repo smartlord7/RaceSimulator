@@ -7,8 +7,8 @@
 * @date 22/05/2021
 */
 
-#ifndef STATS_HELPER_STATS_HELPER_H
-#define STATS_HELPER_STATS_HELPER_H
+#ifndef RACE_HELPERS_STATS_HELPER_H
+#define RACE_HELPERS_STATS_HELPER_H
 
 //region dependencies
 
@@ -19,7 +19,10 @@
 
 //region constants
 
+// region table columns
+
 #define RACE_STATISTICS "RACE STATISTICS"
+#define CAR_RACE_POS "#"
 #define CAR_ID "ID"
 #define CAR_TEAM_ID "TEAM ID"
 #define CAR_NAME "CAR"
@@ -29,10 +32,11 @@
 #define CAR_NUM_BOX_STOPS "BOX STOPS"
 #define CAR_POS "POSITION (m)"
 #define CAR_FINISH_TIME "FINISH TIME (tu)"
-#define CAR_RACE_POS "#"
 #define RACE_NUM_MALFUNCTIONS "MALFUNCTIONS: "
 #define RACE_NUM_REFUELS "REFUELS: "
 #define RACE_NUM_CARS_ON_TRACK "CARS ON TRACK: "
+
+// endregion table columns
 
 #define NUM_TOP_CARS 5
 #define MAX_DIGITS 3
@@ -40,41 +44,41 @@
 #define MAX_STATE_LENGTH 12
 #define HORIZONTAL_DELIM "-"
 
-//endregion constants
+// endregion constants
 
-//region public function prototypes
+// region public function prototypes
 
 /**
  * @def stats_helper_init
  * @brief Function that initializes the functionality to capture race statistics.
  *
  * @param cfg
- * Race configurations.
+ * The race configuration.
  *
  * @param shmem
- * Shared memory containing data about the race.
+ * Shared memory containing the race's data.
  *
  * @param mtx
- * Pthread mutex associated with the functionality.
+ * pthread mutex associated stats capture synchronization.
  *
  */
 extern void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * mtx);
 
 /**
  * @def show_stats_table
- * @brief Function that shows a statistics table about the current state of the race.
+ * @brief Function that shows the statistics table about the race.
  *
  */
 extern void show_stats_table();
 
-//endregion public function prototypes
+// endregion public function prototypes
 
-//region global variables
+// region global variables
 
 extern race_config_t * conf;
-extern shared_memory_t * sha_mem ;
+extern shared_memory_t * sha_mem;
 extern mutex_t * mutex;
 
-//endregion global variables
+// endregion global variables
 
-#endif //STATS_HELPER_STATS_HELPER_H
+#endif //RACE_HELPERS_STATS_HELPER_H
