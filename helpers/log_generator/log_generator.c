@@ -7,7 +7,6 @@
 * @date 31/03/2021
 */
 
-
 // region dependencies
 
 #include "stdio.h"
@@ -57,7 +56,7 @@ void log_init(const char * lg_file_path) {
     lseek(log_fd, MMAP_FILE_INITIAL_SEEK_FACTOR * LARGEST_SIZE - 1, SEEK_SET);
     lseek(log_fd, 0, SEEK_SET);
 
-    write_stream(log_fd, HEADER, sizeof(HEADER) - sizeof(char));
+    write_stream(log_fd, LOG_FILE_HEADER, sizeof(LOG_FILE_HEADER) - sizeof(char));
 
     //mmap_f = create_mmap_file(log_fd, &log_file_size);
 
@@ -73,12 +72,17 @@ void log_close(){
 
 }
 
-void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
+void generate_log_entry(log_msg_type type, void * main_data, void * sec_data) {
     char entry[4 * LARGEST_SIZE], * aux = NULL;
+
+    // put the current time in the buffer.
     snprintf(entry, LARGE_SIZE, "%s => ", get_curr_time_as_str());
 
-    if (mode < EXIT_PROGRAM) {
-        switch (mode) {
+    // filter the log type.
+
+    // parsing related log type.
+    if (type < EXIT_PROGRAM) {
+        switch (type) {
             case ERROR_MISSING_CAR_ATTR:
                 append_f(entry, MISSING_CAR_ATTR_, (char *) main_data);
                 break;
@@ -104,11 +108,13 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 append_f(entry, UNIQUE_CONSTRAINT_VIOLATED_, (char *) main_data, (char *) sec_data);
                 break;
             default:
-                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
+                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, type);
                 break;
         }
-    } else if (mode < CAR_LOAD) {
-        switch (mode) {
+
+    // general log type.
+    } else if (type < CAR_LOAD) {
+        switch (type) {
             case EXIT_PROGRAM:
                 append(entry, SIMULATION_CLOSE_);
                 break;
@@ -149,13 +155,15 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 append_f(entry, CAR_REJECT_, (char *) main_data);
                 break;
             default:
-                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
+                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, type);
                 break;
         }
-    } else if (mode < BOX_STATE_CHANGE){
+
+    // car related log type.
+    } else if (type < BOX_STATE_CHANGE){
         race_car_t * car = (race_car_t *) main_data;
 
-        switch (mode) {
+        switch (type) {
             case CAR_LOAD:
                 append_f(entry, CAR_LOADED_, car->name, car->team->team_id);
                 break;
@@ -185,13 +193,15 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 append_f(entry, CAR_FINISH_, car->name, shm->thread_clock.global_time);
                 break;
             default:
-                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
+                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, type);
                 break;
         }
+
+    // team manager/box related log type.
     } else {
         race_box_t * box = (race_box_t *) main_data;
 
-        switch (mode) {
+        switch (type) {
             case BOX_STATE_CHANGE:
                 aux = race_box_state_to_string(box->state);
                 append_f(entry, BOX_STATE_CHANGE_, box->team->team_name, aux);
@@ -212,7 +222,7 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
                 append_f(entry, BOX_LEAVE_, box->team->team_name, box->current_car->name);
                 break;
             default:
-                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, mode);
+                throw_and_stay(LOG_MODE_NOT_SUPPORTED_EXCEPTION, type);
                 break;
         }
      }
@@ -221,6 +231,7 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
         free(aux);
     }
 
+    // synchronously write the log entry into the log file and stdout.
     append(entry, "\n");
     lock_mutex(&shm->stdout_mutex);
     printf("%s", entry);
