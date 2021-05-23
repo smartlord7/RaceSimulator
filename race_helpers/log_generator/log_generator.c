@@ -71,7 +71,7 @@ void log_close(){
 }
 
 void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
-    char entry[LARGE_SIZE], * aux = NULL;
+    char entry[4 * LARGEST_SIZE], * aux = NULL;
     snprintf(entry, LARGE_SIZE, "%s => ", get_curr_time_as_str());
 
     if (mode < EXIT_PROGRAM) {

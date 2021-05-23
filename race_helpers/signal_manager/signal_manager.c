@@ -118,7 +118,7 @@ static void sigint_handler() {
 static void sigusr1_handler() {
     generate_log_entry(SIGNAL_RECEIVE, (void *) SIGNAL_SIGUSR1, NULL);
 
-    if (shm->state == RUNNING) {
+    if (shm->state == RUNNING || shm->state == INTERRUPTED) {
         shm->hold_on_end = true;
         shm->state = INTERRUPTED;
         notify_race_state_change();

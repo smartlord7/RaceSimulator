@@ -96,12 +96,10 @@ static void generate_malfunctions(void) {
 
         if (shm->state == FINISHED || shm->state == CLOSED) {
             if (shm->hold_on_end) {
-                HERE("left 1")
                 if (!wait_race_start()) {
                     return;
                 }
             } else {
-                HERE("left 2")
                 return;
             }
         }

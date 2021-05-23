@@ -38,7 +38,7 @@
 #define NUM_TOP_CARS 15
 #define MAX_DIGITS 3
 #define NUM_COLS 7
-#define MAX_STATE_LENGTH 23
+#define MAX_STATE_LENGTH 10
 #define HORIZONTAL_DELIM "-"
 
 //endregion constants
