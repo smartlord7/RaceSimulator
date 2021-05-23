@@ -12,20 +12,23 @@
 CC		= gcc
 FLAGS 	= -Wall -Wextra -pthread
 PROG 	= main.exe
-OBJS 	= race_simulator.o race_manager.o malfunction_manager.o team_manager.o race_config_reader.o log_generator.o ipc_manager.o process_manager.o exception_handler.o debug.o strings.o read_line.o to_float.o race_config_t.o race_team_t.o race_car_t.o
+DIRS	= $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c)
+OBJDIR	= obj
+OBJS 	= $(patsubst ./%.c, $(OBJDIR)/%.o, $(DIRS))
 
 # GENERIC
 
 all:		${PROG}
 
-DEPS	 = 	${patsubst %.o,%.d,${OBJS}}
+DEPS	 = 	${patsubst $(OBJDIR)/%.o,$(OBJDIR)/%.d,${OBJS}}
 -include 	${DEPS}
 DEPFLAGS = -MMD -F ${@:.o=.d}
 
 ${PROG}:	${OBJS}
 			${CC} ${FLAGS} ${OBJS} -lm -o $@
 
-%.o: %.c
+$(OBJDIR)/%.o: %.c
+			rsync -a --include='*/' --exclude='*' $(SRC)/ $(OBJDIR)/
 			${CC} ${FLAGS} -c $< ${DEPFLAGS}
 
 clean:
