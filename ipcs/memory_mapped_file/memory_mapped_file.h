@@ -10,6 +10,10 @@
 #ifndef MESSAGE_QEUE_C_MEMORY_MAPPED_FILE_H
 #define MESSAGE_QEUE_C_MEMORY_MAPPED_FILE_H
 
+#define true 1
+#define false 0
+#define MMAP_FILE_RESIZE_FACTOR 2
+
 // region public functions prototypes
 
 /**
@@ -51,10 +55,10 @@ extern char * create_mmap_file(int fd, size_t * size);
  * @throws FileTruncateException if it is not possible to truncate the memory mapped file when expanding the needed size.
  *         MemoryMapRemapException if it is not possible to remap the current memory mapped file.
  */
-extern int write_mmap(char * mmap_addr, char * buffer, int fd, size_t * file_size);
+int write_mmap(char * mmap_addr, size_t * curr_size, size_t * max_size, int fd,  char * buffer, size_t buf_size) ;
 
 /**
- * @def destroy_mmap
+ * @def destroy_mmap_file
  * @brief Function that destroys a memory mapped file.
  *
  * @param mmap
@@ -71,7 +75,7 @@ extern int write_mmap(char * mmap_addr, char * buffer, int fd, size_t * file_siz
  * @throws MemoryMapException if it is not possible to unmap the memory mapped file.
  *         FileTruncateException if it is not possible to truncate the file size to the real needed size.
  */
-extern int destroy_mmap(char * mmap, int fd, size_t file_size);
+extern int destroy_mmap_file(char * mmap, int fd, size_t file_size);
 
 // endregion public functions prototypes
 
