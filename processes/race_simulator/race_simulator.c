@@ -84,7 +84,7 @@ shared_memory_t * shm = NULL;
  */
 
 int main() {
-    DEBUG_MSG(PROCESS_RUN, EVENT, RACE_SIMULATOR, getpid())
+    DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR, getpid())
 
     signal(SIGSEGV, signal_handler);
     signal(SIGINT, signal_handler);
@@ -93,7 +93,7 @@ int main() {
 
     //initialize debugging and exception handling mechanisms
     exc_handler_init((void (*)(void *)) terminate, NULL);
-    debug_init(ENTRY, false);
+    debug_init(EVENT, false);
 
     // TODO: signal before race starts
     // TODO: handle multiple access in named pipe

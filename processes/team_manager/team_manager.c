@@ -186,6 +186,8 @@ void manage_box(race_box_t *box) {
                 generate_log_entry(BOX_REFUEL, box, NULL);
                 sync_sleep(REFUEL_TIME);
 
+                car->remaining_fuel = config.fuel_tank_capacity;
+
                 SYNC_CAR_COND
                 box->car_dispatched = true;
                 notify_cond(&car->cond);
@@ -202,6 +204,8 @@ void manage_box(race_box_t *box) {
 
             generate_log_entry(BOX_REFUEL, box, NULL);
             sync_sleep(REFUEL_TIME);
+
+            car->remaining_fuel = config.fuel_tank_capacity;
 
             SYNC_CAR_COND
             box->car_dispatched = true;
@@ -283,9 +287,9 @@ void simulate_car(race_car_t *car) {
             // the car reached the box and now changed its state to IN_BOX.
             CHANGE_CAR_STATE(IN_BOX);
 
-            SYNC
+            //SYNC
             car->num_box_stops++;
-            END_SYNC
+            //END_SYNC
 
             // notify the box that a new car has arrived.
             SYNC_BOX_COND
@@ -313,14 +317,11 @@ void simulate_car(race_car_t *car) {
 
             car->num_refuels++;
 
-            // the car is now ready to race again;
-            car->remaining_fuel = config.fuel_tank_capacity;
-
             CHANGE_CAR_STATE(RACE);
 
-            SYNC
+            //SYNC
             car->completed_laps++;
-            END_SYNC
+            //END_SYNC
 
             generate_log_entry(CAR_COMPLETE_LAP, car, NULL);
 
@@ -363,9 +364,9 @@ void simulate_car(race_car_t *car) {
             }
 
             // increase the number of completed laps.
-            SYNC
+            //SYNC
             car->completed_laps++;
-            END_SYNC
+            //END_SYNC
             // reset the car's position to 0.
             car->current_pos = 0;
 
@@ -409,7 +410,7 @@ void simulate_car(race_car_t *car) {
 
         // check if the car has fuel to at least run for 4 more laps.
         if (!box_needed && car->remaining_fuel <= min_fuel1) {
-
+            // TODO include in log gen
             // the car needs to be refueled since it has insufficient fuel for more 4 laps.
             box_needed = true;
         }

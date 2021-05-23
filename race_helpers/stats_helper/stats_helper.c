@@ -15,6 +15,7 @@
 #include "string.h"
 #include "stats_helper.h"
 #include "../../util/strings/strings.h"
+#include "../../util/global.h"
 
 // endregion dependencies
 
@@ -92,7 +93,7 @@ void stats_helper_init(race_config_t * cfg, shared_memory_t * shmem, mutex_t * m
 }
 
 void show_stats_table() { // TODO: validate functions result
-    char buffer[BUFFER_SIZE], aux[BUFFER_SIZE], aux2[BUFFER_SIZE / 4], * row_sep_half, * row_sep, * race_car_state_str;
+    char buffer[8 * LARGEST_SIZE], aux[XLARGE_SIZE], aux2[LARGEST_SIZE / 4], * row_sep_half, * row_sep, * race_car_state_str;
     shared_memory_t * shm_cpy = NULL;
     race_car_t * race_cars = NULL, * car = NULL;
     int i, pos, num_table_cars, max_team_name_len, max_car_name_len,
@@ -145,7 +146,7 @@ void show_stats_table() { // TODO: validate functions result
     bubble_sort_race_cars(race_cars, shm_cpy->total_num_cars); // TODO: give last place to disqualified cars
 
     //fill the table entries
-    snprintf(buffer, BUFFER_SIZE,
+    snprintf(buffer, LARGEST_SIZE,
              "\n\n%sRACE STATISTICS%s\n"
              " %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s | %*s\n"
              "%s\n",
@@ -160,25 +161,24 @@ void show_stats_table() { // TODO: validate functions result
              -car_finish_time_col_width, CAR_FINISH_TIME,
              row_sep);
 
+    HERE("1")
+
     i = 0;
 
     while (i < num_table_cars) {
         if (i == num_table_cars - 1) {
             pos = sha_mem->total_num_cars;
             car = &race_cars[sha_mem->total_num_cars - 1];
-            snprintf(aux, BUFFER_SIZE,"%s\n", row_sep);
+            snprintf(aux, XLARGE_SIZE,"%s\n", row_sep);
+            HERE("2")
             strcat(buffer, aux);
         } else {
             pos = i + 1;
             car = &race_cars[i];
         }
 
-        if (car->state == DISQUALIFIED) {
-            continue;
-        }
-
         if (car->state == FINISH) {
-            snprintf(aux2, BUFFER_SIZE / 4, "%d", car->finish_time);
+            snprintf(aux2, XLARGE_SIZE / 4, "%d", car->finish_time);
         } else {
             strcpy(aux2, "---");
         }
@@ -186,13 +186,14 @@ void show_stats_table() { // TODO: validate functions result
         race_car_state_str = race_car_state_to_string(car->state);
 
 
-        snprintf(aux, BUFFER_SIZE, " %*d | %*d | %*s | %*d | %*s | %*d | %*.2f | %*d | %*s | %*s\n",
+        snprintf(aux, XLARGE_SIZE, " %*d | %*d | %*s | %*d | %*s | %*d | %*.2f | %*d | %*s | %*s\n",
                  -MAX_DIGITS, pos,
                  -MAX_DIGITS, car->car_id, -max_car_name_col_width,  car->name,
                  -team_id_col_width, car->team->team_id, -max_team_name_col_width,  car->team->team_name,
                  -car_laps_col_width, car->completed_laps, -car_pos_col_width, car->current_pos,
                  -car_box_stops_col_width,  car->num_box_stops, -MAX_STATE_LENGTH, race_car_state_str,
                  -car_finish_time_col_width, aux2);
+        HERE("3")
 
         strcat(buffer, aux);
 
@@ -200,17 +201,21 @@ void show_stats_table() { // TODO: validate functions result
         i++;
     }
 
-    snprintf(aux, BUFFER_SIZE, "%s\n", row_sep);
+    snprintf(aux, XLARGE_SIZE, "%s\n", row_sep);
     strcat(buffer, aux);
 
-    snprintf(aux, BUFFER_SIZE, "   %s%d\n   %s%d\n   %s%d\n",
+    snprintf(aux, XLARGE_SIZE, "   %s%d\n   %s%d\n   %s%d\n",
              RACE_NUM_MALFUNCTIONS, shm_cpy->num_malfunctions,
              RACE_NUM_REFUELS, shm_cpy->num_refuels,
              RACE_NUM_CARS_ON_TRACK, shm_cpy->num_cars_on_track);
     strcat(buffer, aux);
 
-    snprintf(aux, BUFFER_SIZE, "%s\n\n", row_sep);
+    HERE("4")
+
+    snprintf(aux, XLARGE_SIZE, "%s\n\n", row_sep);
     strcat(buffer, aux);
+
+    HERE("5")
 
     printf("%s\n", buffer);
 
@@ -338,7 +343,7 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
     }
 
     srand(time(NULL));
-    char buffer[BUFFER_SIZE];
+    char buffer[LARGEST_SIZE];
     int i = 0, team_index;
     race_config_t cfg = {1, 800, 5, 1, 3, 40, 8, 1, 25};
     shared_memory_t shmem;
@@ -355,7 +360,7 @@ static race_car_t * get_all_cars(shared_memory_t * shm_cpy) {
 
     while (i < shmem.total_num_cars) {
         car.team = &team;
-        snprintf(buffer, BUFFER_SIZE, "CAR %d", ((int) rand() % 25));
+        snprintf(buffer, LARGEST_SIZE, "CAR %d", ((int) rand() % 25));
         strcpy(car.name, buffer);
         car.car_id = (int) rand() % 25;
         car.state = (int) rand() % 4;

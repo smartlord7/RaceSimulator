@@ -260,14 +260,12 @@ static void handle_all_pipes() {
                                     END_SYNC_BOX_COND
                                 }
 
-                                if (car_state_change.prev_state != FINISH) {
-                                    SYNC
-                                    SYNC_CLOCK_VALLEY
-                                    shm->num_cars_on_track--;
-                                    notify_cond(&shm->thread_clock.clock_valley_cond);
-                                    END_SYNC_CLOCK_VALLEY
-                                    END_SYNC
-                                }
+                                SYNC
+                                SYNC_CLOCK_VALLEY
+                                shm->num_cars_on_track--;
+                                notify_cond(&shm->thread_clock.clock_valley_cond);
+                                END_SYNC_CLOCK_VALLEY
+                                END_SYNC
 
                                 if (!race_winner) {
                                     generate_log_entry(CAR_RACE_WIN, car, NULL);

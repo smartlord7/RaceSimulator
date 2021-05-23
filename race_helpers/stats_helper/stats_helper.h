@@ -34,11 +34,10 @@
 #define RACE_NUM_REFUELS "REFUELS: "
 #define RACE_NUM_CARS_ON_TRACK "CARS ON TRACK: "
 
-#define BUFFER_SIZE 4096
-#define NUM_TOP_CARS 15
+#define NUM_TOP_CARS 5
 #define MAX_DIGITS 3
 #define NUM_COLS 7
-#define MAX_STATE_LENGTH 11
+#define MAX_STATE_LENGTH 12
 #define HORIZONTAL_DELIM "-"
 
 //endregion constants

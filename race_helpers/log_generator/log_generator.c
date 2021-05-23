@@ -231,20 +231,16 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
 
 char * get_curr_time_as_str(){
     time_t current_time;
-    char * buffer, * token, * result;
+    char * buffer = NULL, * token = NULL, * result = NULL;
     int i;
 
     current_time = time(NULL);
     buffer = asctime(localtime(&current_time));
 
-    if ((token = strtok_r(buffer, TIMESTAMP_DELIMITER, &buffer)) == NULL) {
-        throw_and_exit(TOKENIZE_EXCEPTION, OF_TIMESTAMP);
-    }
+    token = strtok_r(buffer, TIMESTAMP_DELIMITER, &buffer);
 
     for(i = 0; i < NUM_TIMESTAMP_FIELDS; i++){
-        if ((token = strtok_r(NULL, TIMESTAMP_DELIMITER, &buffer)) == NULL) {
-            throw_and_exit(TOKENIZE_EXCEPTION, OF_TIMESTAMP);
-        }
+        token = strtok_r(NULL, TIMESTAMP_DELIMITER, &buffer);
     }
 
     result = token;
