@@ -7,12 +7,16 @@
 * @date 22/05/2021
 */
 
-#ifndef MESSAGE_QEUE_C_MEMORY_MAPPED_FILE_H
-#define MESSAGE_QEUE_C_MEMORY_MAPPED_FILE_H
+#ifndef IPCS_MAPPED_FILE_H
+#define IPCS_MAPPED_FILE_H
+
+// region constants
 
 #define true 1
 #define false 0
 #define MMAP_FILE_RESIZE_FACTOR 2
+
+// endregion constants
 
 // region public functions prototypes
 
@@ -24,19 +28,19 @@
  * File descriptor to the file to be mapped into memory.
  *
  * @param size
- * Size of the file. It is obtained in this function.
+ * Pointer to the size of the file. It is obtained in this function.
  *
  * @return
- * Pointer to the location of the mapping if the mapping is successful.
+ * Pointer to the location of the file mapping if successful.
  *
- * @throws FileStatsException if it is not possible to obtain data about the file to be mapped.
+ * @throws FileStatsException if it is not possible to obtain the data about the file to be mapped.
  *         MemoryMapCreateException if it is not possible to map the file into memory.
  */
 extern char * create_mmap_file(int fd, size_t * size);
 
 /**
  * @def write_mmap
- * @brief Function that writes on memory mapped file.
+ * @brief Function that writes on a memory mapped file.
  *
  * @param mmap_addr
  * Pointer to the location of the memory mapped file.
@@ -50,12 +54,10 @@ extern char * create_mmap_file(int fd, size_t * size);
  * @param file_size
  * Size of the file. It is obtained in this function.
  *
- * @return EXIT_SUCCESS if the writing operation was successful.
- *
- * @throws FileTruncateException if it is not possible to truncate the memory mapped file when expanding the needed size.
+ * @throws FileTruncateException if it is not possible to truncate the memory mapped file when expanding to the needed.
  *         MemoryMapRemapException if it is not possible to remap the current memory mapped file.
  */
-int write_mmap(char * mmap_addr, size_t * curr_size, size_t * max_size, int fd,  char * buffer, size_t buf_size) ;
+void write_mmap(char * mmap_addr, size_t * curr_size, size_t * max_size, int fd,  char * buffer, size_t buf_size) ;
 
 /**
  * @def destroy_mmap_file
@@ -70,13 +72,11 @@ int write_mmap(char * mmap_addr, size_t * curr_size, size_t * max_size, int fd, 
  * @param file_size
  * Size of the memory mapping and needed for the physical file.
  *
- * @return EXIT_SUCESS if the unmmaping is successful.
- *
  * @throws MemoryMapException if it is not possible to unmap the memory mapped file.
  *         FileTruncateException if it is not possible to truncate the file size to the real needed size.
  */
-extern int destroy_mmap_file(char * mmap, int fd, size_t file_size);
+extern void destroy_mmap_file(char * mmap, int fd, size_t file_size);
 
 // endregion public functions prototypes
 
-#endif //MESSAGE_QEUE_C_MEMORY_MAPPED_FILE_H
+#endif //IPCS_MAPPED_FILE_H
