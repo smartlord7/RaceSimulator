@@ -10,8 +10,12 @@
 #ifndef IPCS_MSG_QUEUE_H
 #define IPCS_MSG_QUEUE_H
 
+// region constants
+
 #define true 1
 #define false 0
+
+// endregion constants
 
 // region public functions prototypes
 
@@ -19,7 +23,7 @@
  * @def create_msq_queue
  * @brief Function that creates a message queue.
  *
- * @return identifier to the message queue created.
+ * @return a system identifier of the created message queue.
  *
  * @throws MsgQueueCreationException if it is not possible to create the message queue.
  */
@@ -27,13 +31,13 @@ extern int create_msg_queue();
 
 /**
  * @def rec_msg
- * @brief Function that reads a message off the the selected message queue.
+ * @brief Function that reads a message of the message queue specified by the identifier.
  *
  * @param msgq_id
- * Identifier to the message queue that contains the message.
+ * Identifier of the message queue that contains the message.
  *
  * @param msg
- * Pointer to store the received message.
+ * Pointer to the buffer that will store the received message.
  *
  * @param msg_size
  * Size of the message to be received.
@@ -41,7 +45,7 @@ extern int create_msg_queue();
  * @param type
  * Type of the message to be received.
  *
- * @return number of bytes read from message queue.
+ * @return the number of bytes read from message queue.
  *
  * @throws MsgQueueReceiveException if it is not possible to correctly received the message.
  */
@@ -49,13 +53,13 @@ extern int rcv_msg(int msgq_id, void * msg, size_t msg_size, long type);
 
 /**
  * @def snd_msg
- * @brief Function that sends a message through a message queue.
+ * @brief Function that sends a message through the message queue specified by the identifier.
  *
  * @param msgq_id
  * Identifier of the message queue.
  *
  * @param msg
- * Pointer to store the message to be sent.
+ * A pointer to a buffer that stores the message to be sent.
  *
  * @param msg_size
  * Size of the message.

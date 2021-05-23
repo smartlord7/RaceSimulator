@@ -7,13 +7,19 @@
 * @date 18/05/2021
 */
 
-#include <stdio.h>
+// region dependencies
+
+#include "stdio.h"
 #include "stdlib.h"
-#include "sys/msg.h"
 #include "assert.h"
 #include "errno.h"
+#include "sys/msg.h"
 #include "msg_queue.h"
 #include "../../util/exception_handler/exception_handler.h"
+
+// endregion dependencies
+
+// region public functions
 
 int create_msg_queue() {
     int msgq_id;
@@ -46,3 +52,5 @@ void destroy_msg_queue(int msgq_id) {
 
     throw_if_exit(msgctl(msgq_id, IPC_RMID, NULL) == -1, MSG_QUEUE_DESTROY_EXCEPTION, msgq_id);
 }
+
+// endregion public functions
