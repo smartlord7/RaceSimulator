@@ -157,7 +157,7 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
 
         switch (mode) {
             case CAR_LOAD:
-                append_f(entry, CAR_LOADED_, car->name);
+                append_f(entry, CAR_LOADED_, car->name, car->team->team_id);
                 break;
             case CAR_MALFUNCTION:
                 append_f(entry, CAR_MALFUNCTION_, car->name, (char *) sec_data);

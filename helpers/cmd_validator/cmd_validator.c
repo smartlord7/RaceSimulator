@@ -276,7 +276,7 @@ static int validate_team(char * buffer, race_team_t * team, int * return_flag) {
         *return_flag = MISSING_ATTR;
         return false;
     } else {
-        car_attr = trim_string(car_attr, (int) strlen(car_attr));
+        car_attr = trim_string(car_attr);
         //check if the command field is what is expected
         if (strcasecmp(car_attr, TEAM) == 0) {
 
@@ -286,7 +286,7 @@ static int validate_team(char * buffer, race_team_t * team, int * return_flag) {
                 *return_flag = MISSING_ATTR;
                 return false;
             }
-            team_name = trim_string(team_name, (int) strlen(team_name));
+            team_name = trim_string(team_name);
 
             //check if a team already has that name
             team_id = get_team_id_by_name(team_name);
@@ -332,7 +332,7 @@ static int validate_number_attr(char * buffer, const char * expected_attr, float
 
         return false;
     }
-    cmd_field = trim_string(cmd_field, (int) strlen(cmd_field));
+    cmd_field = trim_string(cmd_field);
 
     //check if it is what is expected
     if (!strcasecmp(cmd_field, expected_attr)) {
@@ -342,7 +342,7 @@ static int validate_number_attr(char * buffer, const char * expected_attr, float
             return false;
         }
 
-        field_value = trim_string(field_value, (int) strlen(field_value));
+        field_value = trim_string(field_value);
 
         // convert the numerical value to a float
         if (to_float(field_value, &value) == FLOAT_CONVERSION_FAILURE || value <= 0) {
@@ -386,7 +386,7 @@ int validate_string_attr(char * buffer, const char * expected_attr, char * resul
 
         return false;
     }
-    cmd_field = trim_string(cmd_field, (int) strlen(cmd_field));
+    cmd_field = trim_string(cmd_field);
 
     //check if it is what is expected
     if (!strcasecmp(cmd_field, expected_attr)) {
@@ -396,7 +396,7 @@ int validate_string_attr(char * buffer, const char * expected_attr, char * resul
             return false;
         }
 
-        field_value = trim_string(field_value, (int) strlen(field_value));
+        field_value = trim_string(field_value);
 
         strcpy(result, field_value);
 

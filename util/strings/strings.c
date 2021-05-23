@@ -86,27 +86,16 @@ char * append_f(char * first, const char * fmt, ...) {
     return first;
 }
 
-char * trim_string(char * buffer, int size){
-    assert(buffer != NULL && size > 0);
+char * trim_string(char * s){
+    assert(s != NULL);
 
-    int i, j;
+    int i;
 
-    // cleanup any white spaces before
-    i = 0;
-    while (i < size && isspace(*buffer)){
-        i++;
-        buffer++;
-    }
+    while (isspace (*s)) s++;   // skip left side white spaces
+    for (i = (int) strlen (s) - 1; (isspace (s[i])); i--) ;   // skip right side white spaces
+    s[i + 1] = '\0';
 
-    // cleanup any whitespace after
-    j = 0;
-    while (i < size && !isspace(buffer[j])){
-        j++;
-        i++;
-    }
-    buffer[j] = '\0';
-
-    return buffer;
+    return s;
 }
 
 int starts_with(char * string, char * string2) {

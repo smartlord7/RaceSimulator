@@ -78,7 +78,7 @@ extern char * append_f(char * first, const char * fmt, ...);
  *
  * @return trimmed string.
  */
-extern char * trim_string(char * buffer, int size);
+extern char * trim_string(char *buffer);
 
 /**
  * @def starts_with
