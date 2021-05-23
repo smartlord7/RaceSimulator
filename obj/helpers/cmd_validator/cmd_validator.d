@@ -1,0 +1,28 @@
+obj/helpers/cmd_validator/cmd_validator.o: \
+ code/helpers/cmd_validator/cmd_validator.c \
+ code/helpers/cmd_validator/../log_generator/log_generator.h \
+ code/helpers/cmd_validator/../../util/global.h \
+ code/helpers/cmd_validator/../../util/debug/debug.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/shared_memory_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/race_car_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/race_team_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/../race_box/race_box_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/../race_box/../race_team/race_team_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/../race_box/../race_car/race_car_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/../race_box/../../ipcs/sync/mutex/mutex.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/../race_box/../../ipcs/sync/cond_var/cond_var.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/../race_box/../../ipcs/sync/cond_var/../mutex/mutex.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_team/../../ipcs/sync/mutex/mutex.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_car_state_change/race_car_state_change_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../race_car_state_change/../race_car/race_car_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../../ipcs/sync/cond_var/cond_var.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_car/../../ipcs/sync/mutex/mutex.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../race_config/race_config_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../../helpers/thread_clock/thread_clock_t.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../../helpers/thread_clock/../../ipcs/sync/mutex/mutex.h \
+ code/helpers/cmd_validator/../../util/../structs/shared_memory/../../helpers/thread_clock/../../ipcs/sync/cond_var/cond_var.h \
+ code/helpers/cmd_validator/../../util/strings/strings.h \
+ code/helpers/cmd_validator/../../util/to_float/to_float.h \
+ code/helpers/cmd_validator/../../processes/race_manager/race_manager.h \
+ code/helpers/cmd_validator/cmd_validator.h \
+ code/helpers/cmd_validator/../../structs/race_car/race_car_t.h

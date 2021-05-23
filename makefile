@@ -9,12 +9,13 @@
 
 # VARIABLES
 
-CC		= gcc
+CC	= gcc
 FLAGS 	= -Wall -Wextra -pthread
 PROG 	= main.exe
-DIRS	= $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c)
+CODE	= code
+DIRS	= $(wildcard $(CODE)/*.c) $(wildcard $(CODE)/*/*.c) $(wildcard $(CODE)/*/*/*.c) $(wildcard $(CODE)/*/*/*/*.c)
 OBJDIR	= obj
-OBJS 	= $(patsubst ./%.c, $(OBJDIR)/%.o, $(DIRS))
+OBJS 	= $(patsubst $(CODE)/%.c, $(OBJDIR)/%.o, $(DIRS))
 
 # GENERIC
 
@@ -22,17 +23,18 @@ all:		${PROG}
 
 DEPS	 = 	${patsubst $(OBJDIR)/%.o,$(OBJDIR)/%.d,${OBJS}}
 -include 	${DEPS}
-DEPFLAGS = -MMD -F ${@:.o=.d}
+DEPFLAGS = 	-MMD -F ${@:.o=.d}
 
 ${PROG}:	${OBJS}
 			${CC} ${FLAGS} ${OBJS} -lm -o $@
 
-$(OBJDIR)/%.o: %.c
-			rsync -a --include='*/' --exclude='*' $(SRC)/ $(OBJDIR)/
-			${CC} ${FLAGS} -c $< ${DEPFLAGS}
+$(OBJDIR)/%.o: $(CODE)/%.c
+			rsync -a --include='*/' --exclude='*' $(CODE)/ $(OBJDIR)/
+			${CC} ${FLAGS} -c $< -o $@ ${DEPFLAGS}
 
 clean:
 			rm -f ${OBJS} ${PROG} ${DEPS}
+			rm -rf ${OBJDIR}
 
 ####################################
 
