@@ -178,7 +178,7 @@ void show_stats_table() { // TODO: validate functions result
         }
 
         if (car->state == FINISH) {
-            snprintf(aux2, BUFFER_SIZE, "%d", car->finish_time);
+            snprintf(aux2, BUFFER_SIZE / 4, "%d", car->finish_time);
         } else {
             strcpy(aux2, "---");
         }

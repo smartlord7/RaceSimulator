@@ -300,6 +300,8 @@ static void create_ipcs(){
     shm = (shared_memory_t *) create_shm(sizeof(shared_memory_t), &shm_id);
     init_cond(&shm->cond, true);
     init_mutex(&shm->mutex, true);
+    init_mutex(&shm->stdout_mutex, true);
+    init_mutex(&shm->log_mutex, true);
     init_cond(&shm->thread_clock.clock_valley_cond, true);
     init_mutex(&shm->thread_clock.clock_valley_mutex, true);
     init_mutex(&shm->thread_clock.clock_rise_mutex, true);
@@ -320,6 +322,8 @@ static void destroy_ipcs(){
     destroy_named_pipe(RACE_SIMULATOR_NAMED_PIPE);
     destroy_mutex(&shm->mutex);
     destroy_cond(&shm->cond);
+    destroy_mutex(&shm->stdout_mutex);
+    destroy_mutex(&shm->log_mutex);
 
     for (i = 0; i < config.num_teams; i++) {
 

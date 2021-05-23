@@ -58,7 +58,7 @@ typedef struct shared_memory_t {
         num_malfunctions,
         num_refuels;
     cond_t cond;
-    mutex_t mutex;
+    mutex_t mutex, stdout_mutex, log_mutex;
 } shared_memory_t;
 
 // endregion structures

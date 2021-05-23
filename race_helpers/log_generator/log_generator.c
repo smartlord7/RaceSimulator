@@ -216,8 +216,13 @@ void generate_log_entry(log_msg_type mode, void * main_data, void * sec_data) {
     }
 
     append(entry, "\n");
+    lock_mutex(&shm->stdout_mutex);
     printf("%s", entry);
+    unlock_mutex(&shm->stdout_mutex);
+
+    lock_mutex(&shm->log_mutex);
     write_stream(log_fd, entry, strlen(entry));
+    unlock_mutex(&shm->log_mutex);
 }
 
 // endregion public functions
