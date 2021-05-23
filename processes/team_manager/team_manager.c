@@ -35,7 +35,25 @@
  *
  */
 static void manage_box(race_box_t *box);
+
+/**
+ * @def race_car_worker
+ * @brief Function responsible for starting the car behavior simulation.
+ *
+ * @param data
+ * Data about the car.
+ *
+ */
 static void * race_car_worker(void *data);
+
+/**
+ * @def simulate_car
+ * @brief Function that simulates the behavior of a race car.
+ *
+ * @param car
+ * Race car to simulate.
+ *
+ */
 static void simulate_car(race_car_t *car);
 static void wait_race_end();
 
@@ -145,6 +163,7 @@ void manage_box(race_box_t *box) {
             box->state = RESERVED;
             generate_log_entry(BOX_STATE_CHANGE, box, NULL);
 
+            //wait for the reception of a car in safety mode
             while (true) {
                 SYNC_BOX_COND
                 while (shm->state == RUNNING && team->num_cars_safety > 0 && box->current_car == NULL) {
@@ -156,6 +175,7 @@ void manage_box(race_box_t *box) {
                     break;
                 }
 
+                //dispatch the car on the box since race has been interrupted
                 if (shm->state != RUNNING) {
                     if (shm->state == INTERRUPTED && box->current_car != NULL) {
                         SYNC_CAR_COND
@@ -173,6 +193,7 @@ void manage_box(race_box_t *box) {
                 generate_log_entry(BOX_FIX, box, NULL);
                 sync_sleep(repair_time);
 
+                //notify the car that it is dispatched due to an early race stoppage
                 if (shm->state == INTERRUPTED) {
 
                     SYNC_CAR_COND
@@ -188,6 +209,7 @@ void manage_box(race_box_t *box) {
 
                 car->remaining_fuel = config.fuel_tank_capacity;
 
+                //notify the car that has been dispatched
                 SYNC_CAR_COND
                 box->car_dispatched = true;
                 notify_cond(&car->cond);
@@ -197,6 +219,7 @@ void manage_box(race_box_t *box) {
                 box->current_car = NULL;
             }
         } else if (box->current_car != NULL) {
+            //receive the first car in non safety that tries to enter the box
             car = box->current_car;
 
             box->state = OCCUPIED;
@@ -205,8 +228,7 @@ void manage_box(race_box_t *box) {
             generate_log_entry(BOX_REFUEL, box, NULL);
             sync_sleep(REFUEL_TIME);
 
-            car->remaining_fuel = config.fuel_tank_capacity;
-
+            //notify the car that has been dispatched
             SYNC_CAR_COND
             box->car_dispatched = true;
             notify_cond(&car->cond);

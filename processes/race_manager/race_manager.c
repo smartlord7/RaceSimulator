@@ -30,15 +30,75 @@
 
 // region public functions
 
+/**
+ * @def initialize_team_slots
+ * @brief Function that initializes all of the team slots.
+ *
+ * @param num_teams
+ * Number of team slots.
+ *
+ */
 static void initialize_team_slots(int num_teams);
+
+/**
+ * @def handle_named_pipe
+ * @brief Function that allows the handling of the named pipe before the start of the race.
+ */
 static void handle_named_pipe();
+
+/**
+ * @def handle_all_pipes
+ * @brief Function that allows the management of all of the pipes after the race has started.
+ */
 static void handle_all_pipes();
+
+/**
+ * @def notify_race_start
+ * @brief Functions that signals the start of the race.
+ */
 static void notify_race_start();
+
+/**
+ * @def notify_sim_end
+ * @brief Function that notifies that the simulation is to end.
+ */
 static void notify_sim_end();
+
+/**
+ * @def register_car
+ * @brief Function that registers a new race car on the shared memory region.
+ *
+ * @param car
+ * Car to registered.
+ *
+ * @param team_id
+ * Team ID assigned to the car.
+ *
+ */
 static void register_car(race_car_t * car, int team_id);
+
+/**
+ * @def reset_race
+ * @brief Function that resets the race.
+ */
 static void reset_race();
+
+/**
+ * @def restart_teams
+ * @brief Function that restarts the race teams.
+ */
 static void restart_teams();
+
+/**
+ * @def check_race_end
+ * @brief Function that check if the race has ended.
+ *
+ * @return false if the race has not ended.
+ *         true if the race has ended.
+ */
 static int check_race_end();
+
+//endregion public functions prototypes
 
 int pipe_fds[MAX_NUM_TEAMS + 1], num_registered_teams = 0;
 
@@ -55,8 +115,10 @@ void race_manager(){
 
     do {
         shm->state = NOT_STARTED;
+        //handle the named pipe to receive the commands
         handle_named_pipe();
 
+        //check if the simulation is to end before starting the race
         if (shm->state == CLOSED) {
             end_clock();
             notify_sim_end();
@@ -65,6 +127,7 @@ void race_manager(){
             break;
         }
 
+        // TODO: finish this comment
         if (shm->hold_on_end) {
             shm->hold_on_end = false;
             restart_teams();
@@ -74,6 +137,7 @@ void race_manager(){
 
         notify_race_start();
         handle_all_pipes();
+
         wait_procs();
 
     } while(shm->hold_on_end);
@@ -94,6 +158,7 @@ void create_new_team(char * team_name, int * team_id) {
 
     i = 0;
 
+    //find the slot for the team
     while (i < config.num_teams) {
         if (shm->race_teams[i].team_id >= 0) {
             i++;
@@ -109,6 +174,7 @@ void create_new_team(char * team_name, int * team_id) {
     *team_id = i;
     num_registered_teams++;
 
+    //create unnamed pipe for communication between team and race manager
     create_unn_pipe(unn_pipe_fds);
     pipe_fds[i + 1] = unn_pipe_fds[0];
 
@@ -123,6 +189,7 @@ static void handle_named_pipe() {
 
     while (true) {
         do {
+            //read the command or sequence of commands
             n = (int) read(pipe_fds[NAMED_PIPE_INDEX], buffer, LARGEST_SIZE * 4 * sizeof(char));
 
             if (n > 0) {
@@ -133,6 +200,7 @@ static void handle_named_pipe() {
                     strcpy(buffer2, aux);
                     result = interpret_command(aux, &car_data, &team_id);
 
+                    //generate a response for the interpretation of the command
                     switch (result) {
                         case RESULT_NEW_CAR:
                             register_car(&car_data, team_id);
@@ -182,6 +250,7 @@ static void handle_all_pipes() {
             FD_SET(pipe_fds[i], &read_set);
         }
 
+        //select the pipe to read
         if (select(pipe_fds[config.num_teams] + 1, &read_set, NULL, NULL, NULL) > 0) {
             for (i = 0; i < config.num_teams + 1; i++) {
                 if (FD_ISSET(pipe_fds[i], &read_set)) {
@@ -204,8 +273,10 @@ static void handle_all_pipes() {
 
                         generate_log_entry(CAR_STATE_CHANGE, car, NULL);
 
+                        //handle the race cars state changes
                         switch (car_state_change.new_state) {
                             case RACE:
+                                //everytime a car goes to the box it gets its fuel deposit filled
                                 if (car_state_change.prev_state == IN_BOX) {
                                     SYNC
                                     shm->num_refuels++;
@@ -214,11 +285,13 @@ static void handle_all_pipes() {
 
                                 break;
                             case SAFETY:
+                                //notify the team box that another car is on safety mode
                                 SYNC_BOX_COND
                                 team->num_cars_safety++;
                                 notify_cond(&box->cond);
                                 END_SYNC_BOX_COND
 
+                                //register that a malfunction has occurred
                                 if (car_state_change.malfunctioning) {
                                     SYNC
                                     shm->num_malfunctions++;
@@ -233,6 +306,7 @@ static void handle_all_pipes() {
                                 }
                                 break;
                             case DISQUALIFIED:
+                                //notify that box that is not needed anymore
                                 if (car_state_change.prev_state == SAFETY) {
                                     SYNC_BOX_COND
                                     team->num_cars_safety--;
@@ -253,6 +327,8 @@ static void handle_all_pipes() {
 
                                 break;
                             case FINISH:
+
+                                //notify that the box is not needed anymore
                                 if (car_state_change.prev_state == SAFETY) {
                                     SYNC_BOX_COND
                                     team->num_cars_safety--;
@@ -267,6 +343,7 @@ static void handle_all_pipes() {
                                 END_SYNC_CLOCK_VALLEY
                                 END_SYNC
 
+                                //check if it won the race
                                 if (!race_winner) {
                                     generate_log_entry(CAR_RACE_WIN, car, NULL);
 
@@ -300,11 +377,13 @@ static int check_race_end() {
         shm->state = FINISHED;
         notify_race_state_change();
 
+        //check if the race is to be restarted later
         if (shm->hold_on_end) {
             pause_and_restart_clock();
         } else {
             end_clock();
         }
+
         generate_log_entry(RACE_FINISH, NULL, NULL);
         show_stats_table();
 

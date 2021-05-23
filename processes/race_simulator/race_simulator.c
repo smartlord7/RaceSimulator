@@ -62,9 +62,18 @@ static void destroy_ipcs();
  * @brief Function that terminates the current process tree.
  *
  */
-
 static void terminate();
+
+/**
+ * @def init_global_clock
+ * @brief Function that initializes the intern global clock.
+ */
 static void init_global_clock();
+
+/**
+ * @def shm_init
+ * @brief Function that initializes variables in the shared memory region.
+ */
 static void shm_init();
 
 // endregion private functions prototypes
@@ -79,10 +88,9 @@ shared_memory_t * shm = NULL;
 
 /**
  * Main function of the application. Simulates the behavior of a race simulator.
- * @return the exit value.
  *
+ * @return the exit value.
  */
-
 int main() {
     DEBUG_MSG(PROCESS_RUN, ENTRY, RACE_SIMULATOR, getpid())
 
@@ -225,6 +233,7 @@ static void init_global_clock() {
         }
         END_SYNC_CLOCK_VALLEY
 
+        //check if the clock is supposed to be active
         if (!shm->thread_clock.clock_on) {
             return;
         }
@@ -238,6 +247,7 @@ static void init_global_clock() {
 
         DEBUG_MSG(GLOBAL_CLOCK_RISE, TIME, "")
 
+        // start next clock period and notify all of the threads waiting for the next clock rise
         SYNC_CLOCK_RISE
         shm->thread_clock.global_time++;
         DEBUG_MSG(GLOBAL_CLOCK_TIME, TIME, shm->thread_clock.global_time)
@@ -252,6 +262,8 @@ void sync_sleep(int time_units) {
     int time_counted = 0, prev_time = shm->thread_clock.global_time;
 
     while (time_counted < time_units) {
+
+        //notify the clock
         SYNC_CLOCK_VALLEY
         shm->thread_clock.num_clock_waiters++;
         notify_cond(&shm->thread_clock.clock_valley_cond);
@@ -259,16 +271,19 @@ void sync_sleep(int time_units) {
 
         DEBUG_MSG(GLOBAL_CLOCK_WAITERS, TIME, shm->thread_clock.num_clock_waiters + 1);
 
+        //wait for the next clock rise
         SYNC_CLOCK_RISE
         while (prev_time == shm->thread_clock.global_time && shm->thread_clock.clock_on && !shm->thread_clock.clock_paused) {
             wait_cond(&shm->thread_clock.clock_rise_cond, &shm->thread_clock.clock_rise_mutex);
         }
         END_SYNC_CLOCK_RISE
 
+        //check if the clock is deactivated or paused.
         if (!shm->thread_clock.clock_on || shm->thread_clock.clock_paused) {
             return;
         }
 
+        //notify the clock
         SYNC_CLOCK_VALLEY
         shm->thread_clock.num_clock_waiters--;
         notify_cond(&shm->thread_clock.clock_valley_cond);
