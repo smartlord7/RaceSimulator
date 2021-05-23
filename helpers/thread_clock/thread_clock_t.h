@@ -77,4 +77,55 @@ typedef struct thread_clock_t {
 
 //endregion structures
 
+// region public function prototypes
+
+/**
+ * @def init_global_clock
+ * @brief Function that initializes the intern global clock.
+ */
+extern void init_global_clock();
+
+
+/**
+ * @def sync_sleep
+ * @brief Function that allows the synchronization of a thread trying to enter a sleep state.
+ *
+ * @param time_units
+ * Duration of the sleep in time units.
+ *
+ */
+extern void sync_sleep(int time_units);
+
+/**
+ * @def wait_race_start
+ * @brief Function that allows to wait for a signal about the race start and if it has began.
+ *
+ * @return false if the race has not began.
+ *         true if the race has began.
+ */
+extern int wait_race_start();
+
+
+extern void signal_handler(int signum);
+
+/**
+ * @def pause_and_restart_clock
+ * @brief Function that pauses and restarts the clock.
+ */
+extern void pause_and_restart_clock();
+
+/**
+ * @def unpause_clock
+ * @brief Function that unpauses the clock.
+ */
+extern void unpause_clock();
+
+/**
+ * @def end_clock
+ * @brief Function that signals the clock to end.
+ */
+extern void end_clock();
+
+// endregion public function prototypes.
+
 #endif //RACESIMULATOR_C_SYNC_T_H

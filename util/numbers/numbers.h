@@ -45,15 +45,6 @@ extern int random_int(int min, int max);
  */
 extern int random_uniform_event(float probability);
 
-/**
- * @def ms_sleep
- * @brief Function that puts a process or thread on a sleep state.
- *
- * @param ms
- * Duration of the sleep in milliseconds.
- *
- */
-extern void ms_sleep(uint ms);
 
 //endregion public functions prototypes
 

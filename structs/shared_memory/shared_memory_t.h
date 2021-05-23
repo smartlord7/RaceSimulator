@@ -14,7 +14,7 @@
 
 #include "../race_car/race_car_t.h"
 #include "../race_config/race_config_t.h"
-#include "../thread_clock/thread_clock_t.h"
+#include "../../helpers/thread_clock/thread_clock_t.h"
 
 // endregion dependencies
 
