@@ -1,4 +1,6 @@
-#include <errno.h>
+// region dependencies
+
+#include "errno.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "assert.h"
@@ -7,6 +9,10 @@
 #include "../../../util/exception_handler/exception_handler.h"
 #include "../../../util/debug/debug.h"
 #include "sem.h"
+
+// endregion dependencies
+
+// region public functions
 
 sem_t * create_sem(const char * sem_name, int initial_value) {
     assert(sem_name != NULL && initial_value >= 0);
@@ -82,3 +88,5 @@ void post_sem(sem_t * sem, const char * sem_name) {
 
     throw_if_exit(sem_post(sem) == -1, SEM_POST_EXCEPTION, sem_name);
 }
+
+// endregion public functions

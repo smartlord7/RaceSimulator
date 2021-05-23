@@ -9,8 +9,8 @@
 
 // region dependencies
 
-#include <signal.h>
-#include <unistd.h>
+#include "signal.h"
+#include "unistd.h"
 #include "stdio.h"
 #include "../../structs/malfunction/malfunction_t.h"
 #include "../../ipcs/message_queue/msg_queue.h"
@@ -23,7 +23,7 @@
 
 /**
  * @def generate_malfunctions
- * @brief Function that generates malfunctions for the cars on the race.
+ * @brief Function that randomly generates malfunctions for the race cars.
  */
 static void generate_malfunctions(void);
 
@@ -50,6 +50,7 @@ char malfunction_msgs[NUM_MALFUNCTIONS][LARGE_SIZE] = {
 void malfunction_manager(){
     DEBUG_MSG(PROCESS_RUN, ENTRY, MALFUNCTION_MANAGER, getpid())
 
+    // ignore all signals captured by the race simulator.
     signal(SIGSEGV, SIG_IGN);
     signal(SIGINT, SIG_IGN);
     signal(SIGTSTP, SIG_IGN);
@@ -69,7 +70,7 @@ static void generate_malfunctions(void) {
     race_car_t * car;
     malfunction_t msg;
 
-    //wait for the beginning of the race
+    // wait for the beginning of the race.
     if (!wait_race_start()) {
         return;
     }
@@ -88,7 +89,7 @@ static void generate_malfunctions(void) {
 
                 prob_malfunction = 1 - car->reliability;
 
-                //generate a random malfunction and notify the car affected by it
+                // generate a random malfunction and notify the car affected by it.
                 if (random_uniform_event(prob_malfunction)) {
                     rdm_index = random_int(0, NUM_MALFUNCTIONS - 1);
                     snprintf(msg.description, LARGE_SIZE + MAX_LABEL_SIZE, malfunction_msgs[rdm_index], car->name);
@@ -99,11 +100,11 @@ static void generate_malfunctions(void) {
             }
         }
 
-        //sleep until next clock rise
+        // sleep until next clock rise.
         sync_sleep(config.malfunction_interval);
 
         if (shm->state == FINISHED || shm->state == CLOSED) {
-        //verify if the race has ended
+        // verify if the race has ended or if it may repeat.
             if (shm->hold_on_end) {
                 if (!wait_race_start()) {
                     return;

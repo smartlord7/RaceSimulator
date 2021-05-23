@@ -10,11 +10,15 @@
 #ifndef IPCS_SEM_H
 #define IPCS_SEM_H
 
+// region constants
+
 #define true 1
 #define false 0
 #define MAX_SEM_LABEL_SIZE 64
 #define SEM_ARRAY "SEM_ARRAY"
 #define USER_PERMS_ALL 0700
+
+// endregion constants
 
 // region public functions prototypes
 
@@ -33,7 +37,7 @@
  * @throws SemCreationException if the POSIX named semaphore can't be created.
  *
  */
-sem_t * create_sem(const char * sem_name, int initial_value);
+extern sem_t * create_sem(const char * sem_name, int initial_value);
 
 /**
  * @def destroy_sem
@@ -49,7 +53,7 @@ sem_t * create_sem(const char * sem_name, int initial_value);
  *         SemUnlinkException if the POSIX named semaphore can't be unlinked.
  *
  */
-void destroy_sem(const char * sem_name, sem_t * sem);
+extern void destroy_sem(const char * sem_name, sem_t * sem);
 
 /**
  * @def create_sem_array
@@ -69,7 +73,7 @@ void destroy_sem(const char * sem_name, sem_t * sem);
  * @throws SemCreationException if a POSIX named semaphore can't be created.
  *
  */
-sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_value);
+extern sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_value);
 
 /**
  * @def destroy_sem_array
@@ -88,7 +92,7 @@ sem_t ** create_sem_array(int num, const char * sem_name_prefix, int initial_val
  * @throws SemUnlinkException if a POSIX named semaphore can't be unlinked.
  *
  */
-void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix);
+extern void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix);
 
 /**
  * @def wait_sem
@@ -103,7 +107,7 @@ void destroy_sem_array(sem_t ** sem_array, int num, const char * sem_name_prefix
  * @throws SemWaitException given the impossibility of waiting for the POSIX named semaphore.
  *
  */
-void wait_sem(sem_t * sem, const char * sem_name);
+extern void wait_sem(sem_t * sem, const char * sem_name);
 
 /**
  * @def post_sem
@@ -118,7 +122,7 @@ void wait_sem(sem_t * sem, const char * sem_name);
  * @throws SemPostException given the impossibility of posting the POSIX named semaphore.
  *
  */
-void post_sem(sem_t * sem, const char * sem_name);
+extern void post_sem(sem_t * sem, const char * sem_name);
 
 // endregion public functions prototypes
 
