@@ -53,10 +53,9 @@ typedef enum log_msg_type {
 
 // endregion log_gen input modes
 
-#define FACTOR 4
+#define MMAP_FILE_INITIAL_SEEK_FACTOR 4
 #define HEADER " ----- Race Simulator -----\nDevelopers:\n - Joao Filipe Guiomar Artur, 2019217853\n - Sancho Amaral Simoes, 2019217590\nOperating Systems, LEI, FCTUC, 2020/2021\n\n"
 #define TIMESTAMP_DELIMITER " "
-#define OF_TIMESTAMP "OF TIMESTAMP"
 #define NUM_TIMESTAMP_FIELDS 3
 #define true 1
 #define false 0
@@ -76,7 +75,7 @@ typedef enum log_msg_type {
  * Additional data needed for some cases.
  *
  */
-void generate_log_entry(log_msg_type mode, void *main_data, void *sec_data);
+extern void generate_log_entry(log_msg_type mode, void *main_data, void *sec_data);
 
 /**
  * @def log_init
@@ -89,13 +88,13 @@ void generate_log_entry(log_msg_type mode, void *main_data, void *sec_data);
  * A pointer to a POSIX named semaphore that allows a synchronized output.
  *
  */
-void log_init(const char * lg_file_path);
+extern void log_init(const char * lg_file_path);
 
 /**
  * @def log_init
  * @brief Function that closes the log file.
  */
-void log_close();
+extern void log_close();
 
 // endregion public functions prototypes
 

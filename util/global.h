@@ -70,7 +70,7 @@
 extern int shm_id, malfunction_q_id;
 extern shared_memory_t * shm;
 extern race_config_t config;
-extern char * mmap;
+extern char * mmap_f;
 
 // endregion global variables
 
@@ -94,12 +94,6 @@ extern void sync_sleep(int time_units);
  *         true if the race has began.
  */
 extern int wait_race_start();
-
-/**
- * @def notify_race_end
- * @brief Function that notifies all threads and processes that the race reached its end.
- */
-extern void notify_race_end();
 
 
 extern void signal_handler(int signum);

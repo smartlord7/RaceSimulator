@@ -21,6 +21,7 @@
 #include "../../util/file/file.h"
 #include "../../util/strings/strings.h"
 #include "log_generator.h"
+#include "../../ipcs/memory_mapped_file/memory_mapped_file.h"
 
 // endregion dependencies
 
@@ -39,8 +40,9 @@ char * get_curr_time_as_str();
 // region global variables
 
 const char * log_file_path = NULL;
-char * mmap;
-int log_fd;
+char * mmap_f;
+static int log_fd;
+static size_t log_file_size;
 
 // endregion global variables
 
@@ -48,21 +50,21 @@ int log_fd;
 
 void log_init(const char * lg_file_path) {
 
-    log_fd = open(lg_file_path, O_WRONLY | O_CREAT, 0600);
+    log_fd = open(lg_file_path, O_RDWR | O_CREAT, 0600);
     throw_if_exit(log_fd == -1, FILE_OPEN_EXCEPTION, lg_file_path);
 
-    lseek(log_fd, FACTOR * LARGEST_SIZE - 1, SEEK_SET);
+    lseek(log_fd, MMAP_FILE_INITIAL_SEEK_FACTOR * LARGEST_SIZE - 1, SEEK_SET);
     lseek(log_fd, 0, SEEK_SET);
 
     write_stream(log_fd, HEADER, sizeof(HEADER) - sizeof(char));
 
-    //mmap = create_mmap_file(log_fd, &file_size);
+    mmap_f = create_mmap_file(log_fd, &log_file_size);
 
     log_file_path = lg_file_path;
 }
 
 void log_close(){
-    //destroy_mmap(mmap, log_fd, file_size);
+    destroy_mmap_file(mmap_f, log_fd, log_file_size);
 
     if (close(log_fd) < 0){
         throw_and_exit(FILE_CLOSE_EXCEPTION, log_file_path);

@@ -19,59 +19,54 @@
 #include <stdlib.h>
 #include "memory_mapped_file.h"
 #include "../../util/exception_handler/exception_handler.h"
+#include "../../util/global.h"
 
-#define true 1
-#define false 0
-
-struct stat stat_buf;
-size_t mmap_size;
 
 char * create_mmap_file(int fd, size_t * size) {
-    char * mmap_file;
+    char * mmap_file = NULL;
+    struct stat stat_buf = {0};
 
     if (fstat(fd, &stat_buf)) {
         throw_and_exit(FILE_STATS_EXCEPTION, "");
     }
 
-    *size = (size_t) stat_buf.st_size;
-    mmap_size = (size_t) stat_buf.st_size;
+    * size = (size_t) stat_buf.st_size;
 
-    if ((mmap_file = mmap(NULL, (size_t) stat_buf.st_size, PROT_WRITE , MAP_SHARED, fd, 0)) == (caddr_t) - 1) {
+    if ((mmap_file = mmap(0, (size_t) stat_buf.st_size, PROT_WRITE , MAP_SHARED, fd, 0)) == (caddr_t) - 1) {
         throw_and_exit(MMAP_CREATE_EXCEPTION,"");
     }
 
     return mmap_file;
 }
 
-int write_mmap(char * mmap_addr, char * buffer, int fd, size_t * file_size) {
-    size_t old_size = *file_size;
-    size_t old_mmap_size = mmap_size;
+int write_mmap(char * mmap_addr, size_t * curr_size, size_t * max_size, int fd, char * buffer, size_t buf_size) {
+    size_t old_size = * curr_size;
 
     // check if there is enough space on the current mapping to store the data to be written
-    if (*file_size + strlen(buffer) >= mmap_size) {
+    if (* curr_size + buf_size >= * max_size) {
         //duplicate the memory mapping space
-        mmap_size *= 2;
+        * max_size *= MMAP_FILE_RESIZE_FACTOR;
 
-        //expand the file size to the actual space that is going to needed when performing sync or unmap operations.
-        if (ftruncate(fd, (off_t) mmap_size) != 0) {
+        //expand the file size to the actual space that is going to be needed when performing sync or unmap operations.
+        if (ftruncate(fd, (off_t) max_size) != 0) {
             throw_and_exit(FILE_TRUNC_EXCEPTION, NULL);
         }
 
         //remap the current memory mapping
-        if ((mmap_addr = mremap(mmap_addr, old_mmap_size, mmap_size, MREMAP_MAYMOVE)) == MAP_FAILED) {
+        if ((mmap_addr = mremap(mmap_addr, old_size, * max_size, MREMAP_MAYMOVE)) == MAP_FAILED) {
             throw_and_exit(MMAP_REMAP_EXCEPTION, NULL);
         }
     }
     //register the increase of the file size
-    *file_size += strlen(buffer);
+    * curr_size += buf_size;
 
     //write the contents on the memory mapped file
-    memcpy(mmap_addr + old_size, buffer, *file_size - old_size);
+    memcpy(mmap_addr + old_size, buffer, * curr_size - old_size);
 
     return EXIT_SUCCESS;
 }
 
-int destroy_mmap(char * mmap, int fd, size_t file_size) {
+int destroy_mmap_file(char * mmap, int fd, size_t file_size) {
 
     if (munmap(mmap, file_size) < 0) {
         throw_and_exit(MMAP_DESTROY_EXCEPTION, NULL);
